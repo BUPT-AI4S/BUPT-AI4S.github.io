@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科学智能原理与实践 | 北京邮电大学</title>
+  <meta name="description" content="北京邮电大学课程《科学智能原理与实践》（AI for Science: Principles and Practice）。面向研究生与高年级本科生的科学智能通识课程。">
+  <meta name="keywords" content="AI4S, AI for Science, 科学智能, 北京邮电大学, 科学基础模型, 科学智能体">
+  <meta property="og:title" content="科学智能原理与实践 | 北京邮电大学">
+  <meta property="og:description" content="AI for Science: Principles and Practice — BUPT course homepage.">
+  <meta property="og:image" content="static/images/og-banner.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>
+    (function () {
+      try {
+        var query = new URLSearchParams(location.search).get("theme");
+        var theme = (query === "dark" || query === "light") ? query : localStorage.getItem("ai4s-theme");
+        if (theme === "dark" || theme === "light") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/700.css">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+  <a class="skip-link" href="#about">
+    <span class="lang-zh">跳到正文</span>
+    <span class="lang-en">Skip to content</span>
+  </a>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <img class="brand-mark" src="static/images/favicon.svg" alt="">
+        <span class="brand-copy">
+          <strong>AI4S</strong>
+          <span>BUPT</span>
+        </span>
+      </a>
+      <nav class="nav-menu" id="nav-menu" aria-label="Primary">
+        <a href="#about"><span class="lang-zh">简介</span><span class="lang-en">About</span></a>
+        <a href="#goals"><span class="lang-zh">目标</span><span class="lang-en">Goals</span></a>
+        <a href="#curriculum"><span class="lang-zh">大纲</span><span class="lang-en">Curriculum</span></a>
+        <a href="#domains"><span class="lang-zh">方向</span><span class="lang-en">Domains</span></a>
+        <a href="#team"><span class="lang-zh">团队</span><span class="lang-en">Team</span></a>
+        <a href="#assessment"><span class="lang-zh">考核</span><span class="lang-en">Assessment</span></a>
+        <a href="#resources"><span class="lang-zh">资料</span><span class="lang-en">Resources</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="切换到夜间模式">
+          <span class="theme-to-dark"><span class="lang-zh">夜间</span><span class="lang-en">Night</span></span>
+          <span class="theme-to-light"><span class="lang-zh">白天</span><span class="lang-en">Day</span></span>
+        </button>
+        <button class="lang-toggle" type="button" aria-label="切换到英文">EN</button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="wrap hero-inner">
+        <p class="kicker">BUPT · AI for Science</p>
+        <h1>
+          <span class="lang-zh">科学智能原理与实践</span>
+          <span class="lang-en">AI for Science: Principles and Practice</span>
+        </h1>
+        <p class="lede">
+          <span class="lang-zh">面向全校研究生与高年级本科生的科学智能通识课程。从数据治理、统一表征与基础模型，走到交叉领域实践与自主发现闭环。</span>
+          <span class="lang-en">A scientific-intelligence course for graduate and senior undergraduate students across disciplines — from data governance and foundation models to cross-domain practice and autonomous discovery.</span>
+        </p>
+        <div class="meta-row">
+          <span class="chip"><strong class="lang-zh">秋季 2026</strong><strong class="lang-en">Fall 2026</strong></span>
+          <span class="chip"><span class="lang-zh">32 学时 · 2 学分</span><span class="lang-en">32 hours · 2 credits</span></span>
+          <span class="chip"><span class="lang-zh">考查：过程 + 实践 + 报告</span><span class="lang-en">Assessment: process + practice + report</span></span>
+        </div>
+        <p class="leads">
+          <span class="lang-zh">课程负责人：徐坤、鄂海红 · 北京邮电大学</span>
+          <span class="lang-en">Course leads: Kun Xu, Haihong E · Beijing University of Posts and Telecommunications</span>
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#curriculum">
+            <span class="lang-zh">查看课程大纲</span>
+            <span class="lang-en">View curriculum</span>
+          </a>
+          <a class="btn btn-ghost" href="syllabus/AI4S科学智能原理与实践-北京邮电大学20260914.docx">
+            <span class="lang-zh">下载教学大纲</span>
+            <span class="lang-en">Download syllabus</span>
+          </a>
+        </div>
+        <div class="loop" aria-hidden="true">
+          <div class="loop-item"><span>01</span><strong class="lang-zh">数据</strong><strong class="lang-en">Data</strong></div>
+          <div class="loop-item"><span>02</span><strong class="lang-zh">模型</strong><strong class="lang-en">Model</strong></div>
+          <div class="loop-item"><span>03</span><strong class="lang-zh">推理</strong><strong class="lang-en">Reason</strong></div>
+          <div class="loop-item"><span>04</span><strong class="lang-zh">验证</strong><strong class="lang-en">Verify</strong></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>32</b><span class="lang-zh">学时</span><span class="lang-en">Hours</span></div>
+          <div class="stat"><b>3</b><span class="lang-zh">部分</span><span class="lang-en">Parts</span></div>
+          <div class="stat"><b>6</b><span class="lang-zh">交叉方向</span><span class="lang-en">Domains</span></div>
+          <div class="stat"><b>2</b><span class="lang-zh">学分</span><span class="lang-en">Credits</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">课程简介</span><span class="lang-en">About the course</span></span>
+          <h2>
+            <span class="lang-zh">让人工智能成为科学发现的方法，而不只是分析工具</span>
+            <span class="lang-en">Make AI a method of scientific discovery, not merely an analysis tool</span>
+          </h2>
+        </div>
+        <div class="prose">
+          <p class="lang-zh">本课程面向人工智能驱动科学研究（AI for Science，AI4S）的前沿发展，是全校研究生与高年级本科生的关键科学智能通识课程。课程按“基础—领域—实践”三段式组织：第一部分为科学智能导论与基础技术，系统讲授科研范式变革、科学数据治理与 AI Ready、跨模态跨尺度科学数据统一表征、科学机器学习与科学基础模型、科学推理大模型与科学智能体等贯通各学科的共性技术；第二部分为典型领域 AI4S 实践与发展趋势，围绕 AI+通信、AI+数理、AI+安全、AI+医学、AI+光电等方向展示深度交叉的研究范式与前沿趋势；第三部分为科学智能实践与科学伦理，邀请书生等自主科学发现平台团队授课并组织学生上机探索实践，同时贯彻科研诚信与科学伦理教育。课程期间穿插大师讲堂（根据受邀专家灵活安排、不预设固定学时）。</p>
+          <p class="lang-en">This course addresses the frontier of Artificial Intelligence for Science (AI4S) and serves as a key general course on scientific intelligence for graduate and senior undergraduate students across all disciplines. It is organized in three parts. Part I, Introduction and Foundational Technologies, systematically covers the transformation of scientific paradigms and the cross-disciplinary common techniques of AI4S, including scientific data governance and AI-readiness, unified cross-modal and cross-scale representation of scientific data, scientific machine learning and foundation models for science, and scientific reasoning models and agents. Part II, Domain Practices and Trends, presents deep AI-discipline integration in communications, mathematics and physical sciences, security, medicine, and optoelectronics. Part III, Practice and Research Ethics, invites the teams of autonomous scientific-discovery platforms to teach and to guide hands-on exploratory practice, while embedding research integrity and ethics. Distinguished Scholar Lectures are interspersed and scheduled flexibly.</p>
+          <p class="lang-zh">通过学习，学生能够建立系统的科学智能知识体系，掌握科学数据治理、统一表征、科学基础模型、科学推理与智能体等共性技术，理解 AI 由数据分析工具向科学建模、科学推理与自主发现主体演进的基本逻辑；能够结合本学科的科学对象、数据特征与机理知识分析 AI4S 问题，在真实科研平台上完成“数据—模型—推理—验证”闭环的探索实践，并树立严谨求证、负责任创新的科研价值观。</p>
+          <p class="lang-en">Upon completion, students will master the common enabling technologies of AI4S, understand the evolution of AI from a data-analysis tool toward an agent for scientific modeling, reasoning, and autonomous discovery, and complete a reproducible closed-loop practice on real research platforms.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="goals">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">课程目标</span><span class="lang-en">Learning goals</span></span>
+          <h2>
+            <span class="lang-zh">知识、方法与科学责任同步建立</span>
+            <span class="lang-en">Knowledge, method, and scientific responsibility together</span>
+          </h2>
+        </div>
+        <div class="goal-grid">
+          <article class="card">
+            <span class="index-pill">01</span>
+            <h3 class="lang-zh">知识与技能</h3>
+            <h3 class="lang-en">Knowledge and skills</h3>
+            <p class="lang-zh">掌握 AI4S 的基本概念与主要研究范式，重点掌握科学数据治理与 AI-Ready 数据集构建、跨模态跨尺度统一表征、科学机器学习与科学基础模型、科学推理大模型与科学智能体等共性技术；了解 AI4 通信、数理、安全、医学、光电等交叉方向的典型科学问题与前沿趋势。</p>
+            <p class="lang-en">Master the core concepts and paradigms of AI4S, especially data governance and AI-ready datasets, unified cross-modal representation, scientific machine learning and foundation models, and scientific reasoning models and agents; understand representative problems and trends across the course domains.</p>
+          </article>
+          <article class="card">
+            <span class="index-pill">02</span>
+            <h3 class="lang-zh">过程与方法</h3>
+            <h3 class="lang-en">Process and methods</h3>
+            <p class="lang-zh">培养从科学问题出发分析和设计 AI 研究方案的能力，能够结合科学数据、领域知识与机理规律进行问题建模；能够在书生等真实科研平台上完成数据准备、建模计算与假设验证的闭环实践。</p>
+            <p class="lang-en">Learn to start from a scientific question, design an AI research plan, and complete a closed loop of data preparation, modeling, and hypothesis validation on real research platforms such as InternLM / ShuSheng.</p>
+          </article>
+          <article class="card">
+            <span class="index-pill">03</span>
+            <h3 class="lang-zh">情感态度与价值观</h3>
+            <h3 class="lang-en">Values and responsibility</h3>
+            <p class="lang-zh">树立“AI 生成 ≠ 科学发现、模型预测 ≠ 科学事实、计算结果须经证据与实验检验”的科研意识，正确认识 AI 能力边界及其安全、伦理与社会责任。</p>
+            <p class="lang-en">Internalize that AI generation is not scientific discovery, model prediction is not scientific fact, and computed results must be tested by evidence and experiment — with clear awareness of safety, ethics, and social responsibility.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="curriculum">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">教学内容</span><span class="lang-en">Curriculum</span></span>
+          <h2>
+            <span class="lang-zh">基础 — 领域 — 实践，三十二学时贯通</span>
+            <span class="lang-en">Foundations, domains, and practice across 32 hours</span>
+          </h2>
+          <p class="lang-zh">第一部分 8 学时，第二部分 20 学时，第三部分 4 学时。大师讲堂结合课程内容穿插安排，学时不预先固定。</p>
+          <p class="lang-en">Part I: 8 hours. Part II: 20 hours. Part III: 4 hours. Distinguished Scholar Lectures are scheduled flexibly and are not assigned a fixed hour budget in advance.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="part">
+            <div class="part-meta">
+              <span class="part-label">Part I · 8h</span>
+              <h3 class="lang-zh">科学智能的原理与共性技术</h3>
+              <h3 class="lang-en">Principles and common techniques</h3>
+              <p class="lang-zh">建立统一方法论，打通数据、表征、模型与智能体。</p>
+              <p class="lang-en">Build a shared methodology across data, representation, models, and agents.</p>
+            </div>
+            <div>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">1.1 科学智能导论：科研范式变革与 AI4S 总体框架</h4>
+                  <h4 class="lang-en">1.1 Introduction: paradigm shift and the AI4S framework</h4>
+                  <span class="hours">2h</span>
+                </div>
+                <p class="lang-zh">AI4S 发展背景与国家级战略布局；科学发现范式演进（实验—理论—计算—数据—智能）；数据驱动、知识驱动与机理驱动的科学建模；“科学假设—计算推演—实验验证—反馈修正”闭环；AI4S 区别于通用 AI 应用的核心特征。</p>
+                <p class="lang-en">National strategies and the AI4S landscape; the evolution of discovery paradigms; data-, knowledge-, and mechanism-driven modeling; the hypothesis–computation–experiment–feedback loop; what distinguishes AI4S from generic AI applications.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">1.2 AI Ready 科学数据</h4>
+                  <h4 class="lang-en">1.2 AI-ready scientific data</h4>
+                  <span class="hours">2h</span>
+                </div>
+                <p class="lang-zh">科学数据的多源、异构、高维、稀缺与含噪特性；采集、清洗、标注、质量控制与标准化；FAIR 原则与科学数据基座；AI-Ready 数据集的构建与共享；偏差、可追溯性与可复现性。</p>
+                <p class="lang-en">Heterogeneous, high-dimensional, scarce, and noisy scientific data; collection, cleaning, annotation, and quality control; FAIR principles; building and sharing AI-ready datasets; bias, provenance, and reproducibility.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">1.3 跨模态、跨尺度统一表征与科学基础模型</h4>
+                  <h4 class="lang-en">1.3 Unified representation and foundation models for science</h4>
+                  <span class="hours">2h</span>
+                </div>
+                <p class="lang-zh">序列、图、图像、光谱与结构等科学数据表征；token 化与统一表征空间；PINN、神经算子与代理模型；科学基础模型的构建范式与迁移。</p>
+                <p class="lang-en">Representing sequences, graphs, images, spectra, and structures; tokenization and a unified latent space; PINNs, neural operators, and surrogate models; construction and transfer of scientific foundation models.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">1.4 科学推理大模型与科学智能体</h4>
+                  <h4 class="lang-en">1.4 Scientific reasoning models and agents</h4>
+                  <span class="hours">2h</span>
+                </div>
+                <p class="lang-zh">思维链推理、科学推理评测与推理专用大模型；规划、工具调用、记忆与多智能体协作；AI co-scientist 与自主科学发现；自主实验室与“干湿闭环”。</p>
+                <p class="lang-en">Chain-of-thought reasoning and science-specific evaluation; planning, tool use, memory, and multi-agent collaboration; AI co-scientists; autonomous labs and the dry–wet experimental loop.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="part">
+            <div class="part-meta">
+              <span class="part-label">Part II · 20h</span>
+              <h3 class="lang-zh">典型学科的 AI4S 范式与前沿</h3>
+              <h3 class="lang-en">Domain paradigms and frontiers</h3>
+              <p class="lang-zh">根据技术前沿，每学期开课模块可灵活调整。</p>
+              <p class="lang-en">Offered modules may shift each term with the research frontier.</p>
+            </div>
+            <div>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">2.1 AI4 通信：6G 智能 AI 原生通信</h4>
+                  <h4 class="lang-en">2.1 AI4 Communications: 6G AI-native systems</h4>
+                  <span class="hours">4h</span>
+                </div>
+                <p class="lang-zh">6G AI-native 架构；物理层智能与端到端智能通信；网络规划与资源调度；信道大模型、网络数字孪生、通感算智一体化。</p>
+                <p class="lang-en">6G AI-native architecture; physical-layer intelligence and end-to-end learned communications; network planning and scheduling; channel foundation models, digital twins, and integrated sensing–communication–computing.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">2.2 AI4 数理：科学机器学习与可验证数学推理</h4>
+                  <h4 class="lang-en">2.2 AI4 Math &amp; Physics: scientific ML and verifiable reasoning</h4>
+                  <span class="hours">4h</span>
+                </div>
+                <p class="lang-zh">PINN、DeepONet 与傅里叶神经算子；正/逆问题与不确定性量化；自动定理证明、Lean 与神经符号推理。</p>
+                <p class="lang-en">PINNs, DeepONet, and Fourier neural operators; forward/inverse problems and uncertainty quantification; automated theorem proving, Lean, and neuro-symbolic reasoning.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">2.3 AI4 安全：智能安全分析与可信协议验证</h4>
+                  <h4 class="lang-en">2.3 AI4 Security: intelligent analysis and trustworthy verification</h4>
+                  <span class="hours">4h</span>
+                </div>
+                <p class="lang-zh">异常检测与安全缺陷发现；大语言模型分析安全协议的能力与局限；形式化建模与自动验证；AI 与形式化方法的结合。</p>
+                <p class="lang-en">Anomaly detection and vulnerability discovery; capabilities and limits of LLMs on security protocols; formal modeling and automated verification; combining AI with formal methods.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">2.4 AI4 医学：多尺度生命健康建模与智能科学发现</h4>
+                  <h4 class="lang-en">2.4 AI4 Medicine: multi-scale health modeling and discovery</h4>
+                  <span class="hours">4h</span>
+                </div>
+                <p class="lang-zh">多模态医学基础模型；疾病进程与治疗响应建模；单细胞与多组学；蛋白质结构预测与生成式药物设计。</p>
+                <p class="lang-en">Multimodal medical foundation models; disease progression and treatment-response modeling; single-cell and multi-omics; protein structure prediction and generative molecular design.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">2.5 AI4 材料：材料与纳电子器件智能设计</h4>
+                  <h4 class="lang-en">2.5 AI4 Materials: intelligent materials and nanoelectronics design</h4>
+                  <span class="hours">4h</span>
+                </div>
+                <p class="lang-zh">结构表征、结构—性质预测与机器学习势函数；纳电子器件正向建模与逆向设计。</p>
+                <p class="lang-en">Structure characterization, structure–property prediction, and machine-learning potentials; forward modeling and inverse design of nanoelectronic devices.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">2.6 AI4 芯片：人工智能驱动的集成电路与 EDA</h4>
+                  <h4 class="lang-en">2.6 AI4 Chips: AI-driven IC and EDA design</h4>
+                  <span class="hours">4h</span>
+                </div>
+                <p class="lang-zh">集成电路及 EDA 流程；大模型与智能体驱动的数字芯片前端设计；后端智能优化；产业落地与趋势。</p>
+                <p class="lang-en">IC and EDA workflows; LLM- and agent-driven digital front-end design; AI-assisted back-end optimization; industrial adoption and outlook.</p>
+              </article>
+              <p class="note lang-zh">第二部分合计 20 学时，六个方向每学期不必全部开设，开课模块随前沿发展调整。</p>
+              <p class="note lang-en">Part II totals 20 hours. Not every domain module is offered every term; the mix follows the research frontier.</p>
+            </div>
+          </div>
+
+          <div class="part">
+            <div class="part-meta">
+              <span class="part-label">Part III · 4h</span>
+              <h3 class="lang-zh">自主发现平台实践与科研伦理</h3>
+              <h3 class="lang-en">Platform practice and research ethics</h3>
+              <p class="lang-zh">把课堂学习转成可复现的科研实践，并守住责任边界。</p>
+              <p class="lang-en">Turn classroom learning into reproducible practice, with a clear responsibility boundary.</p>
+            </div>
+            <div>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">3.1 自主科学发现平台探索实践</h4>
+                  <h4 class="lang-en">3.1 Hands-on practice on discovery platforms</h4>
+                  <span class="hours">2h</span>
+                </div>
+                <p class="lang-zh">邀请书生·端砚科学发现平台（上海人工智能实验室）等介绍工具链；学生分组选题，完成数据准备、建模计算、假设验证，形成可展示、可复现的实践作品。</p>
+                <p class="lang-en">Teams from platforms such as ShuSheng DuanYan (Shanghai AI Laboratory) introduce the toolchain. Students work in groups through data preparation, modeling, and hypothesis validation, and produce a shareable, reproducible artifact.</p>
+              </article>
+              <article class="module">
+                <div class="module-top">
+                  <h4 class="lang-zh">3.2 科学智能研究中的科研诚信与科学伦理</h4>
+                  <h4 class="lang-en">3.2 Research integrity and scientific ethics in AI4S</h4>
+                  <span class="hours">2h</span>
+                </div>
+                <p class="lang-zh">诚信规范与责任边界；数据、模型、实验与成果的真实性、可追溯性与可复现性；幻觉、虚假引用、伪造与知识产权；生命健康、AI 安全、双重用途与负责任创新。</p>
+                <p class="lang-en">Integrity norms and responsibility boundaries; authenticity, provenance, and reproducibility; hallucination, fabricated citations, fraud, and intellectual property; biosafety, AI safety, dual use, and responsible innovation.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="domains">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">交叉方向</span><span class="lang-en">Domains</span></span>
+          <h2>
+            <span class="lang-zh">六条通往科学问题的 AI 路径</span>
+            <span class="lang-en">Six AI paths into scientific problems</span>
+          </h2>
+        </div>
+        <div class="domain-grid">
+          <article class="card domain-card">
+            <svg class="domain-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 30c8-10 24-10 32 0" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="14" cy="18" r="3" fill="currentColor"/><circle cx="34" cy="18" r="3" fill="currentColor"/><path d="M14 21v9M34 21v9M8 34h32" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <h3>AI4 Communications</h3>
+            <p class="lang-zh">6G 智能 AI 原生通信，从物理层到网络数字孪生。</p>
+            <p class="lang-en">6G AI-native communications, from the physical layer to network digital twins.</p>
+          </article>
+          <article class="card domain-card">
+            <svg class="domain-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 36c8-16 10-8 16-20 6 12 8 4 16 20" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="12" r="3" fill="currentColor"/></svg>
+            <h3>AI4 Math &amp; Physics</h3>
+            <p class="lang-zh">科学机器学习、神经算子与可验证数学推理。</p>
+            <p class="lang-en">Scientific ML, neural operators, and verifiable mathematical reasoning.</p>
+          </article>
+          <article class="card domain-card">
+            <svg class="domain-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 8l14 8v16l-14 8-14-8V16z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M18 24l4 4 8-10" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <h3>AI4 Security</h3>
+            <p class="lang-zh">智能安全分析、协议理解与形式化验证。</p>
+            <p class="lang-en">Intelligent security analysis, protocol understanding, and formal verification.</p>
+          </article>
+          <article class="card domain-card">
+            <svg class="domain-icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="14" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 4"/></svg>
+            <h3>AI4 Medicine</h3>
+            <p class="lang-zh">从患者到分子的多尺度生命健康建模。</p>
+            <p class="lang-en">Multi-scale modeling of life and health, from patients to molecules.</p>
+          </article>
+          <article class="card domain-card">
+            <svg class="domain-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 36V12h6l10 12V12h6v24h-6L22 24v12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <h3>AI4 Materials</h3>
+            <p class="lang-zh">材料性质预测、势函数与纳电子器件逆向设计。</p>
+            <p class="lang-en">Property prediction, ML potentials, and inverse design of nanoelectronic devices.</p>
+          </article>
+          <article class="card domain-card">
+            <svg class="domain-icon" viewBox="0 0 48 48" aria-hidden="true"><rect x="10" y="14" width="28" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 20h16M16 26h10" stroke="currentColor" stroke-width="2"/></svg>
+            <h3>AI4 Chips</h3>
+            <p class="lang-zh">大模型与智能体驱动的集成电路与 EDA 设计。</p>
+            <p class="lang-en">LLM- and agent-driven integrated-circuit and EDA design.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="team">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">教学团队</span><span class="lang-en">Teaching team</span></span>
+          <h2>
+            <span class="lang-zh">跨学院协同，平台与大师讲堂并行</span>
+            <span class="lang-en">Cross-school teaching, platforms, and distinguished lectures</span>
+          </h2>
+          <p class="lang-zh">教学团队为拟定名单，具体授课人与增聘教师由各学院推荐后确定。</p>
+          <p class="lang-en">The roster below is provisional. Instructors will be confirmed after school-level nominations.</p>
+        </div>
+        <div class="team-grid">
+          <article class="card team-card">
+            <span class="index-pill">Part I</span>
+            <h3 class="lang-zh">原理与共性技术</h3>
+            <h3 class="lang-en">Principles and common techniques</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">徐坤</span><span class="lang-en">Kun Xu</span></span>
+              <span class="person"><span class="lang-zh">鄂海红</span><span class="lang-en">Haihong E</span></span>
+              <span class="person"><span class="lang-zh">协同校外专家</span><span class="lang-en">External scholars</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">AI4 Communications</span>
+            <h3 class="lang-zh">AI4 通信</h3>
+            <h3 class="lang-en">AI4 Communications</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">张宇翔</span><span class="lang-en">Yuxiang Zhang</span></span>
+              <span class="person"><span class="lang-zh">于力</span><span class="lang-en">Li Yu</span></span>
+              <span class="person"><span class="lang-zh">张建华</span><span class="lang-en">Jianhua Zhang</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">AI4 Math &amp; Physics</span>
+            <h3 class="lang-zh">AI4 数理</h3>
+            <h3 class="lang-en">AI4 Math &amp; Physics</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">袁健华</span><span class="lang-en">Jianhua Yuan</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">AI4 Security</span>
+            <h3 class="lang-zh">AI4 安全</h3>
+            <h3 class="lang-en">AI4 Security</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">李晖</span><span class="lang-en">Hui Li</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">AI4 Medicine</span>
+            <h3 class="lang-zh">AI4 医学</h3>
+            <h3 class="lang-en">AI4 Medicine</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">石川</span><span class="lang-en">Chuan Shi</span></span>
+              <span class="person"><span class="lang-zh">王光宇</span><span class="lang-en">Guangyu Wang</span></span>
+              <span class="person"><span class="lang-zh">刘勇</span><span class="lang-en">Yong Liu</span></span>
+              <span class="person"><span class="lang-zh">徐士彪</span><span class="lang-en">Shibiao Xu</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">AI4 Materials</span>
+            <h3 class="lang-zh">AI4 材料</h3>
+            <h3 class="lang-en">AI4 Materials</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">屈贺如歌</span><span class="lang-en">Heruge Qu</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">AI4 Chips</span>
+            <h3 class="lang-zh">AI4 芯片</h3>
+            <h3 class="lang-en">AI4 Chips</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">翟建旺</span><span class="lang-en">Jianwang Zhai</span></span>
+            </div>
+          </article>
+          <article class="card team-card">
+            <span class="index-pill">Part III</span>
+            <h3 class="lang-zh">平台实践与科研伦理</h3>
+            <h3 class="lang-en">Practice and ethics</h3>
+            <div class="people">
+              <span class="person"><span class="lang-zh">课程组 + 书生等平台团队</span><span class="lang-en">Course group + platform teams</span></span>
+              <span class="person"><span class="lang-zh">科研伦理：鄂海红</span><span class="lang-en">Ethics: Haihong E</span></span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="assessment">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">考核方式</span><span class="lang-en">Assessment</span></span>
+          <h2>
+            <span class="lang-zh">不设闭卷考试，评价科学问题与可复现实践</span>
+            <span class="lang-en">No closed-book exam — we evaluate scientific questions and reproducible practice</span>
+          </h2>
+          <p class="lang-zh">过程考核 40% + 期末考核 60%。本科生可按创新学分或本研贯通研究生学分认定。</p>
+          <p class="lang-en">Process 40% + final 60%. Undergraduates may count the course toward innovation credits or integrated bachelor–master graduate credits.</p>
+        </div>
+        <div class="assess-grid">
+          <article class="card">
+            <h3 class="lang-zh">成绩结构</h3>
+            <h3 class="lang-en">Grade structure</h3>
+            <div class="bar" aria-hidden="true"><span></span><span></span></div>
+            <p class="legend"><span><i class="dot blue"></i><span class="lang-zh">过程 40%</span><span class="lang-en">Process 40%</span></span><span><i class="dot cyan"></i><span class="lang-zh">期末 60%</span><span class="lang-en">Final 60%</span></span></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><span class="lang-zh">项目</span><span class="lang-en">Item</span></th>
+                  <th><span class="lang-zh">要求</span><span class="lang-en">Requirement</span></th>
+                  <th>%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="lang-zh">考勤与课堂参与</span><span class="lang-en">Attendance and participation</span></td>
+                  <td><span class="lang-zh">出勤、专题讨论、大师讲堂与随堂学习</span><span class="lang-en">Attendance, seminars, distinguished lectures, in-class work</span></td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td><span class="lang-zh">基础技术与专题学习</span><span class="lang-en">Foundations and topic study</span></td>
+                  <td><span class="lang-zh">跨专业组队选题、文献调研与开题设计报告</span><span class="lang-en">Cross-major teams: literature review and a project proposal</span></td>
+                  <td>30%</td>
+                </tr>
+                <tr>
+                  <td><span class="lang-zh">AI4S 创新实践与报告</span><span class="lang-en">AI4S practice and report</span></td>
+                  <td><span class="lang-zh">完整实践报告与作品（呈现形式不限）</span><span class="lang-en">Full practice report and artifact (format unrestricted)</span></td>
+                  <td>60%</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="card">
+            <h3 class="lang-zh">评价重点</h3>
+            <h3 class="lang-en">What we value</h3>
+            <ul>
+              <li class="lang-zh">科学问题的重要性与清晰度</li>
+              <li class="lang-en">Importance and clarity of the scientific question</li>
+              <li class="lang-zh">文献调研的充分性</li>
+              <li class="lang-en">Depth of the literature review</li>
+              <li class="lang-zh">技术路线的合理性</li>
+              <li class="lang-en">Soundness of the technical plan</li>
+              <li class="lang-zh">验证方案的严谨性与创新潜力</li>
+              <li class="lang-en">Rigor of validation and potential for innovation</li>
+            </ul>
+            <p class="muted lang-zh">鼓励将优秀成果发展为科研项目或学位论文选题。</p>
+            <p class="muted lang-en">Outstanding work is encouraged to grow into a research project or thesis topic.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resources">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow"><span class="lang-zh">课程资料</span><span class="lang-en">Resources</span></span>
+          <h2>
+            <span class="lang-zh">大纲已上线，讲义与作业将随课更新</span>
+            <span class="lang-en">The syllabus is online; lectures and assignments will follow</span>
+          </h2>
+        </div>
+        <div class="resource-grid">
+          <article class="card resource-card">
+            <span class="index-pill">Syllabus</span>
+            <h3 class="lang-zh">教学大纲</h3>
+            <h3 class="lang-en">Course syllabus</h3>
+            <p class="lang-zh">2026-09-14 版本，含教学目标、学时安排、团队与考核细则。</p>
+            <p class="lang-en">Version 2026-09-14, including goals, hours, teaching team, and assessment details.</p>
+            <a class="btn btn-primary" href="syllabus/AI4S科学智能原理与实践-北京邮电大学20260914.docx">
+              <span class="lang-zh">下载 Word 大纲</span>
+              <span class="lang-en">Download Word syllabus</span>
+            </a>
+          </article>
+          <article class="card resource-card">
+            <span class="index-pill">Lectures</span>
+            <h3 class="lang-zh">课程讲义</h3>
+            <h3 class="lang-en">Lecture notes</h3>
+            <p class="lang-zh">自编讲义与平台实践指导将放入 lectures/ 目录。</p>
+            <p class="lang-en">In-house notes and platform guides will be added under lectures/.</p>
+            <p class="muted lang-zh">即将更新</p>
+            <p class="muted lang-en">Coming soon</p>
+          </article>
+          <article class="card resource-card">
+            <span class="index-pill">Assignments</span>
+            <h3 class="lang-zh">作业与实践</h3>
+            <h3 class="lang-en">Assignments and practice</h3>
+            <p class="lang-zh">开题设计、平台实践与期末报告模板将放入 assignments/ 目录。</p>
+            <p class="lang-en">Proposal, platform practice, and report templates will be added under assignments/.</p>
+            <p class="muted lang-zh">即将更新</p>
+            <p class="muted lang-en">Coming soon</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong class="lang-zh">北京邮电大学 · 科学智能原理与实践课程组</strong>
+        <strong class="lang-en">BUPT · AI for Science course group</strong>
+        <p class="lang-zh">秋季 2026 · 执笔日期 2026-09-04</p>
+        <p class="lang-en">Fall 2026 · syllabus dated 2026-09-04</p>
+      </div>
+      <p class="lang-zh">课程资料与主页托管于本仓库，后续可通过 GitHub Pages 发布。</p>
+      <p class="lang-en">Course materials and this homepage live in the same repository and can be published via GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <script src="static/js/index.js"></script>
+</body>
+</html>

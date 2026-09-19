@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="AI for Science: Principles and Practice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070b14"/>
+      <stop offset="55%" stop-color="#0c1730"/>
+      <stop offset="100%" stop-color="#071820"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="78%" cy="20%" r="45%">
+      <stop offset="0%" stop-color="#4ee1c6" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#4ee1c6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <g fill="none" stroke="#4ee1c6" stroke-opacity="0.18" stroke-width="1">
+    <path d="M80 520 L280 220 L520 470 L780 160 L1120 430"/>
+    <path d="M160 180 L400 360 L700 240 L980 500"/>
+  </g>
+  <circle cx="280" cy="220" r="7" fill="#4ee1c6"/>
+  <circle cx="520" cy="470" r="6" fill="#6b8cff"/>
+  <circle cx="780" cy="160" r="8" fill="#4ee1c6"/>
+  <circle cx="700" cy="240" r="5" fill="#f0b429"/>
+  <text x="88" y="168" fill="#8b9bb4" font-family="Segoe UI, Helvetica, sans-serif" font-size="28" letter-spacing="4">BUPT · AI4S</text>
+  <text x="88" y="270" fill="#e8eef8" font-family="Segoe UI, Helvetica, sans-serif" font-size="54" font-weight="700">ÑfzýŸžõ</text>
+  <text x="88" y="340" fill="#4ee1c6" font-family="Segoe UI, Helvetica, sans-serif" font-size="32">AI for Science: Principles and Practice</text>
+  <text x="88" y="430" fill="#c5d0e0" font-family="Segoe UI, Helvetica, sans-serif" font-size="24">Beijing University of Posts and Telecommunications</text>
+  <text x="88" y="478" fill="#8b9bb4" font-family="Segoe UI, Helvetica, sans-serif" font-size="20">Fall 2026 · 32 hours · 2 credits</text>
+</svg>
