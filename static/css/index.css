@@ -562,7 +562,8 @@ html[lang="en"] .hero h1 {
 .goal-grid,
 .domain-grid,
 .team-grid,
-.resource-grid {
+.resource-grid,
+.lecture-grid {
   display: grid;
   gap: 16px;
 }
@@ -818,6 +819,39 @@ html[lang="en"] .hero h1 {
   flex: 1;
 }
 
+.lecture-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lecture-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 260px;
+}
+
+.lecture-card h3 {
+  margin-bottom: 0;
+}
+
+.lecture-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.lecture-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.lecture-card.is-soon {
+  border-style: dashed;
+  opacity: 0.82;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -851,6 +885,7 @@ html[lang="en"] .hero h1 {
   .domain-grid,
   .assess-grid,
   .resource-grid,
+  .lecture-grid,
   .part {
     grid-template-columns: 1fr;
   }
@@ -900,6 +935,14 @@ html[lang="en"] .hero h1 {
   .loop,
   .stats {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .lecture-actions {
+    flex-direction: column;
+  }
+
+  .lecture-actions .btn {
+    width: 100%;
   }
 
   .table {
