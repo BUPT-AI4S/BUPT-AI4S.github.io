@@ -8,7 +8,7 @@
   const themeToggle = document.querySelector(".theme-toggle");
   const canvas = document.querySelector(".hero-canvas");
   const hero = document.querySelector(".hero");
-  const sectionIds = ["about", "goals", "curriculum", "domains", "team", "assessment", "lectures", "resources"];
+  const sectionIds = ["about", "goals", "curriculum", "domains", "team", "assessment", "lectures", "join", "resources"];
 
   const titles = {
     zh: "科学智能原理与实践 | 北京邮电大学",

@@ -421,11 +421,19 @@ html[lang="en"] .hero h1 {
 
 .leads {
   color: var(--muted);
-  margin: 0 0 28px;
+  margin: 0 0 8px;
 }
 
 .leads a {
   color: var(--text);
+}
+
+.builders {
+  color: var(--muted);
+  margin: 0 0 28px;
+  max-width: 54rem;
+  font-size: 0.92rem;
+  line-height: 1.75;
 }
 
 .cta-row {
@@ -804,7 +812,50 @@ html[lang="en"] .hero h1 {
 }
 
 .resource-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.join-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.join-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.join-copy p {
+  margin: 0;
+}
+
+.join-qr {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 20px;
+  background: var(--card-solid);
+}
+
+.join-qr img {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.join-qr figcaption {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
 }
 
 .resource-card {
@@ -886,6 +937,7 @@ html[lang="en"] .hero h1 {
   .assess-grid,
   .resource-grid,
   .lecture-grid,
+  .join-panel,
   .part {
     grid-template-columns: 1fr;
   }
