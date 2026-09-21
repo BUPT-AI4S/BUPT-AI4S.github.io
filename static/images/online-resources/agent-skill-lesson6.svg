@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" width="480" height="360" role="img" aria-label="Agent Skill ันีๅ\A">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070b14"/>
+      <stop offset="50%" stop-color="#0c1730"/>
+      <stop offset="100%" stop-color="#071820"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="72%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#4ee1c6" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#4ee1c6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="22%" cy="78%" r="45%">
+      <stop offset="0%" stop-color="#6b8cff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#6b8cff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="480" height="360" fill="url(#bg)"/>
+  <rect width="480" height="360" fill="url(#glow)"/>
+  <rect width="480" height="360" fill="url(#glow2)"/>
+  <g fill="none" stroke="#4ee1c6" stroke-opacity="0.22" stroke-width="1.2">
+    <path d="M40 280 L120 120 L220 200 L320 80 L440 180"/>
+    <path d="M80 60 L180 160 L280 100 L380 240"/>
+    <circle cx="120" cy="120" r="28" stroke-opacity="0.15"/>
+    <circle cx="320" cy="80" r="36" stroke-opacity="0.12"/>
+  </g>
+  <circle cx="120" cy="120" r="6" fill="#4ee1c6"/>
+  <circle cx="220" cy="200" r="5" fill="#6b8cff"/>
+  <circle cx="320" cy="80" r="7" fill="#4ee1c6"/>
+  <circle cx="440" cy="180" r="5" fill="#f0b429"/>
+  <g fill="none" stroke="#6b8cff" stroke-opacity="0.35" stroke-width="1">
+    <rect x="88" y="248" width="56" height="40" rx="8"/>
+    <rect x="168" y="248" width="56" height="40" rx="8"/>
+    <rect x="248" y="248" width="56" height="40" rx="8"/>
+    <path d="M144 268 L168 268 M224 268 L248 268"/>
+  </g>
+  <text x="28" y="44" fill="#8b9bb4" font-family="Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="11" letter-spacing="2">AI4S ท ONLINE</text>
+  <text x="28" y="82" fill="#e8eef8" font-family="Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="20" font-weight="700">Agent Skill</text>
+  <text x="28" y="108" fill="#4ee1c6" font-family="Segoe UI, PingFang SC, Microsoft YaHei, sans-serif" font-size="13">ันี ท ๏(ๅ\A</text>
+</svg>
