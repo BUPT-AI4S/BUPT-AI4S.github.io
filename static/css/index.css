@@ -762,6 +762,19 @@ html[lang="en"] .hero h1 {
   gap: 16px;
 }
 
+.assess-docs-head {
+  margin: 28px 0 12px;
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+
+.assess-docs {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
 .bar {
   display: grid;
   grid-template-columns: 40% 60%;
@@ -1032,6 +1045,7 @@ html[lang="en"] .hero h1 {
   .goal-grid,
   .domain-grid,
   .assess-grid,
+  .assess-docs,
   .resource-grid,
   .lecture-grid,
   .join-panel,
