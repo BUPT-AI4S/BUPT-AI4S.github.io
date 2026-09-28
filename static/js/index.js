@@ -119,12 +119,19 @@
   const onScroll = () => {
     nav?.classList.toggle("is-scrolled", window.scrollY > 8);
 
-    const offset = 96;
+    const topInset = 96;
+    const viewBottom = window.innerHeight;
     let current = sectionIds[0];
+    let bestVisible = -1;
     for (const id of sectionIds) {
       const el = document.getElementById(id);
       if (!el) continue;
-      if (el.getBoundingClientRect().top - offset <= 0) current = id;
+      const rect = el.getBoundingClientRect();
+      const visible = Math.min(rect.bottom, viewBottom) - Math.max(rect.top, topInset);
+      if (visible >= bestVisible) {
+        bestVisible = visible;
+        current = id;
+      }
     }
     document.querySelectorAll(".nav-menu a").forEach((link) => {
       const href = link.getAttribute("href") || "";
