@@ -859,16 +859,16 @@ html[lang="en"] .hero h1 {
 
 .bar-chart {
   list-style: none;
-  margin: 0;
+  margin: 12px 0 0;
   padding: 0;
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .bar-row {
   display: grid;
-  grid-template-columns: minmax(9rem, 16rem) minmax(0, 1fr) auto;
-  gap: 12px;
+  grid-template-columns: minmax(9rem, 14rem) minmax(8rem, 1fr) auto;
+  gap: 14px;
   align-items: center;
 }
 
@@ -878,9 +878,10 @@ html[lang="en"] .hero h1 {
 }
 
 .bar-track {
-  height: 12px;
+  height: 22px;
   border-radius: 999px;
   background: var(--blue-dim);
+  border: 1px solid var(--stroke);
   overflow: hidden;
 }
 
