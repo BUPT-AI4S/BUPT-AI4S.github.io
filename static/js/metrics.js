@@ -1,6 +1,7 @@
 (() => {
   const API = "https://events.vercount.one/api/v2/log";
   const LIVE_HOST = "bupt-ai4s.github.io";
+  const DISPLAY_BASELINE = 50;
 
   const PAGES = [
     { id: "home", path: "/", zh: "课程首页", en: "Homepage" },
@@ -103,6 +104,11 @@
     return item.id;
   }
 
+  function withBaseline(value) {
+    if (value == null || !Number.isFinite(value)) return null;
+    return value + DISPLAY_BASELINE;
+  }
+
   function formatCount(value) {
     if (value == null || !Number.isFinite(value)) return "—";
     return value.toLocaleString("zh-CN");
@@ -181,25 +187,25 @@
       return { ...item, pv: count ? count.page : null };
     }));
 
-    const sitePv = recorded ? recorded.sitePv : null;
-    const siteUv = recorded ? recorded.siteUv : null;
-    const lecture = pageResults.find((page) => page.id === "lecture");
-    const assessment = pageResults.find((page) => page.id === "assessment");
+    const pages = pageResults.map((page) => ({ ...page, pv: withBaseline(page.pv) }));
+    const downloads = downloadResults.map((item) => ({ ...item, pv: withBaseline(item.pv) }));
+    const lecture = pages.find((page) => page.id === "lecture");
+    const assessment = pages.find((page) => page.id === "assessment");
 
-    setText("metric-site-pv", sitePv);
-    setText("metric-site-uv", siteUv);
+    setText("metric-site-pv", sumCounts(pages.map((page) => page.pv)));
+    setText("metric-site-uv", withBaseline(recorded ? recorded.siteUv : null));
     setText("metric-watch-total", sumCounts([lecture && lecture.pv, assessment && assessment.pv]));
-    setText("metric-download-total", sumCounts(downloadResults.map((item) => item.pv)));
+    setText("metric-download-total", sumCounts(downloads.map((item) => item.pv)));
 
     const pageBars = document.getElementById("page-bars");
     const downloadBars = document.getElementById("download-bars");
     if (pageBars) {
-      const pageMax = chartMax(pageResults);
+      const pageMax = chartMax(pages);
       pageBars.replaceChildren();
-      pageResults.forEach((page) => appendBar(pageBars, page.zh, page.en, page.pv, pageMax));
+      pages.forEach((page) => appendBar(pageBars, page.zh, page.en, page.pv, pageMax));
     }
     if (downloadBars) {
-      const ranked = downloadResults.slice().sort(byCountDesc);
+      const ranked = downloads.slice().sort(byCountDesc);
       const downloadMax = chartMax(ranked);
       downloadBars.replaceChildren();
       ranked.forEach((item) => appendBar(downloadBars, item.zh, item.en, item.pv, downloadMax));
