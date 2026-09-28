@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-title-zh="访问统计 | 科学智能原理与实践" data-title-en="Visit statistics | AI for Science" data-desc-zh="北京邮电大学《科学智能原理与实践》课程站访问、课件打开与资料下载次数。" data-desc-en="Page views, deck opens, and download clicks for the BUPT AI for Science course site.">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>访问统计 | 科学智能原理与实践</title>
+  <meta name="description" content="北京邮电大学《科学智能原理与实践》课程站访问、课件打开与资料下载次数。">
+  <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
+  <script>
+    (function () {
+      try {
+        var query = new URLSearchParams(location.search).get("theme");
+        var theme = (query === "dark" || query === "light") ? query : localStorage.getItem("ai4s-theme");
+        if (theme === "dark" || theme === "light") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/700.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?904f2838addd89de1ff9f21ed312d370";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#stats-board">
+    <span class="lang-zh">跳到正文</span>
+    <span class="lang-en">Skip to content</span>
+  </a>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-mark" src="static/images/favicon.svg" alt="">
+        <span class="brand-copy">
+          <strong>AI4S</strong>
+          <span>BUPT</span>
+        </span>
+      </a>
+      <nav class="nav-menu" id="nav-menu" aria-label="Primary">
+        <a href="index.html#about"><span class="lang-zh">简介</span><span class="lang-en">About</span></a>
+        <a href="index.html#goals"><span class="lang-zh">目标</span><span class="lang-en">Goals</span></a>
+        <a href="index.html#curriculum"><span class="lang-zh">大纲</span><span class="lang-en">Curriculum</span></a>
+        <a href="index.html#domains"><span class="lang-zh">方向</span><span class="lang-en">Domains</span></a>
+        <a href="index.html#team"><span class="lang-zh">团队</span><span class="lang-en">Team</span></a>
+        <a href="index.html#assessment"><span class="lang-zh">考核</span><span class="lang-en">Assessment</span></a>
+        <a href="index.html#lectures"><span class="lang-zh">讲义</span><span class="lang-en">Lectures</span></a>
+        <a href="index.html#join"><span class="lang-zh">入群</span><span class="lang-en">Join</span></a>
+        <a href="index.html#resources"><span class="lang-zh">资料</span><span class="lang-en">Resources</span></a>
+        <a href="index.html#online-resources"><span class="lang-zh">在线资源</span><span class="lang-en">Online</span></a>
+        <a href="stats.html" class="is-active"><span class="lang-zh">统计</span><span class="lang-en">Stats</span></a>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="切换到夜间模式">
+          <span class="theme-to-dark"><span class="lang-zh">夜间</span><span class="lang-en">Night</span></span>
+          <span class="theme-to-light"><span class="lang-zh">白天</span><span class="lang-en">Day</span></span>
+        </button>
+        <button class="lang-toggle" type="button" aria-label="切换到英文">EN</button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="section" id="stats-board">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow"><span class="lang-zh">访问统计</span><span class="lang-en">Visit statistics</span></span>
+        <h2>
+          <span class="lang-zh">课程站打开与下载次数</span>
+          <span class="lang-en">Opens and downloads on the course site</span>
+        </h2>
+        <p class="lang-zh">数字在每次打开本页时重新读取。同一人刷新或更换浏览器会再计一次，不是选课人数。</p>
+        <p class="lang-en">Figures are read again each time this page opens. A refresh or another browser counts again. These are not enrollment numbers.</p>
+      </div>
+
+      <div class="metric-grid">
+        <div class="stat"><b id="metric-site-pv">—</b><span class="lang-zh">全站访问次数</span><span class="lang-en">Site page views</span></div>
+        <div class="stat"><b id="metric-site-uv">—</b><span class="lang-zh">独立访客</span><span class="lang-en">Visitors</span></div>
+        <div class="stat"><b id="metric-watch-total">—</b><span class="lang-zh">课件打开合计</span><span class="lang-en">Deck opens</span></div>
+        <div class="stat"><b id="metric-download-total">—</b><span class="lang-zh">资料下载合计</span><span class="lang-en">Download clicks</span></div>
+      </div>
+
+      <div class="stats-block">
+        <h3><span class="lang-zh">分页打开次数</span><span class="lang-en">Opens by page</span></h3>
+        <ul class="bar-chart" id="page-bars"></ul>
+      </div>
+
+      <div class="stats-block">
+        <h3><span class="lang-zh">分项下载点击</span><span class="lang-en">Download clicks by file</span></h3>
+        <ul class="bar-chart" id="download-bars"></ul>
+      </div>
+
+      <p class="stats-note">
+        <span class="lang-zh">打开次数按页面加载计算，下载次数按课程页上的下载按钮计算。直接输入文件网址下载不会经过按钮，因此不会计入。取不到数字时显示“—”。</span>
+        <span class="lang-en">Opens count page loads. Downloads count clicks on the course site’s download buttons. Opening a file address directly does not pass through those buttons, so it is not counted. A dash means the figure could not be loaded.</span>
+      </p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong class="lang-zh">北京邮电大学 · 科学智能原理与实践课程组</strong>
+        <strong class="lang-en">BUPT · AI for Science course group</strong>
+        <p class="lang-zh">秋季 2026</p>
+        <p class="lang-en">Fall 2026</p>
+      </div>
+      <p class="lang-zh">对外次数由页面打开时向计数服务读取。课程组另可在百度统计后台查看访问报表。</p>
+      <p class="lang-en">Public figures are read from the counter service when this page opens. The course team can also review reports in Baidu Analytics.</p>
+    </div>
+  </footer>
+
+  <script src="static/js/index.js"></script>
+  <script src="static/js/metrics.js"></script>
+</body>
+</html>

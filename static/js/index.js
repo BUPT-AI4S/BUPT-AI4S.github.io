@@ -64,10 +64,14 @@
     root.lang = isEn ? "en" : "zh-CN";
     root.dataset.lang = isEn ? "en" : "zh";
     localStorage.setItem(LANG_KEY, isEn ? "en" : "zh");
-    document.title = titles[isEn ? "en" : "zh"];
+    const customTitle = isEn ? root.dataset.titleEn : root.dataset.titleZh;
+    document.title = customTitle || titles[isEn ? "en" : "zh"];
 
     const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute("content", descriptions[isEn ? "en" : "zh"]);
+    if (desc) {
+      const customDesc = isEn ? root.dataset.descEn : root.dataset.descZh;
+      desc.setAttribute("content", customDesc || descriptions[isEn ? "en" : "zh"]);
+    }
 
     if (langToggle) {
       langToggle.setAttribute("aria-label", isEn ? "Switch to Chinese" : "切换到英文");
@@ -123,7 +127,9 @@
       if (el.getBoundingClientRect().top - offset <= 0) current = id;
     }
     document.querySelectorAll(".nav-menu a").forEach((link) => {
-      link.classList.toggle("is-active", link.getAttribute("href") === `#${current}`);
+      const href = link.getAttribute("href") || "";
+      if (!href.startsWith("#")) return;
+      link.classList.toggle("is-active", href === `#${current}`);
     });
   };
 

@@ -824,6 +824,81 @@ html[lang="en"] .hero h1 {
   font-weight: 600;
 }
 
+.table td.num,
+.table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 8px 0 8px;
+}
+
+.metric-grid .stat b {
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-block {
+  margin-top: 28px;
+}
+
+.stats-block h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.stats-note {
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.bar-chart {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(9rem, 16rem) minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.bar-label {
+  color: var(--soft);
+  line-height: 1.4;
+}
+
+.bar-track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--blue-dim);
+  overflow: hidden;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+}
+
+.bar-num {
+  min-width: 3.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
 .resource-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1058,7 +1133,8 @@ html[lang="en"] .hero h1 {
   }
 
   .loop,
-  .stats {
+  .stats,
+  .metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1121,6 +1197,17 @@ html[lang="en"] .hero h1 {
   .stats {
     grid-template-columns: 1fr 1fr;
   }
+
+  .bar-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "label num"
+      "track track";
+  }
+
+  .bar-label { grid-area: label; }
+  .bar-num { grid-area: num; }
+  .bar-track { grid-area: track; }
 
   .lecture-actions {
     flex-direction: column;
