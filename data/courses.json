@@ -1,0 +1,14 @@
+[
+  {
+    "id": "lecture-01",
+    "title": "第一讲 · 科学智能原理与实践",
+    "date": "2026-09-22",
+    "data": "data/lecture-01.json"
+  },
+  {
+    "id": "chairs-01",
+    "title": "第一讲 · 大师讲堂",
+    "date": "2026-09-24",
+    "data": "data/chairs-01.json"
+  }
+]

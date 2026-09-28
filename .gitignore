@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+.tingwu/
+.venv/
+__pycache__/
+*.pyc
+local-media/
+data/*.local.json
+node_modules/

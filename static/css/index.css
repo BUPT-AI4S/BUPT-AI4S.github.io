@@ -1224,6 +1224,56 @@ html[lang="en"] .hero h1 {
   }
 }
 
+.registration-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: clamp(20px, 4vw, 36px);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.nav-menu a.nav-replay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border: 1px solid var(--hover-border);
+  border-radius: 999px;
+  background: var(--cyan-dim);
+  color: var(--cyan);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-menu a.nav-replay:hover {
+  background: var(--blue-dim);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.registration-dates {
+  margin: 18px 0 8px;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 600;
+}
+
+.registration-note { color: var(--muted); }
+.registration-card .btn { white-space: nowrap; }
+.registration-card .btn[aria-disabled="true"] {
+  background: var(--btn-surface);
+  border-color: var(--stroke);
+  color: var(--muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   body { transition: none; }

@@ -1,5 +1,7 @@
 # 科学智能原理与实践 · AI for Science
 
+智慧课程回看入口：`replay.html`。本地视频预览、听悟密钥配置与课程发布流程见 [回看使用说明](docs/replay.md)。
+
 北京邮电大学课程仓库主页。采用与 [Academic Project Page Template](https://eliahuhorwitz.github.io/Academic-project-page-template/) / FinanceReasoning-homepage 相同的 **GitHub Pages 静态托管方式**：根目录 `index.html`、相对路径、`.nojekyll`，无需构建。页面本身按 AI4S 课程重做，支持中英切换与白天 / 夜间模式。
 
 本地预览：
