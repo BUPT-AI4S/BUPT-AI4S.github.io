@@ -1,0 +1,51 @@
+{
+  "synthetic": true,
+  "purpose": "trajectory_sft",
+  "sample_id": "P017-S041-trajectory",
+  "split": "train",
+  "group_id": "P017",
+  "model_inputs": {
+    "task": "描述可见征象，并保留不确定性。",
+    "image": "I01_PA.jpg"
+  },
+  "target_actions": [
+    {
+      "tool": "image_quality",
+      "arguments": {
+        "image_id": "I01_PA.jpg"
+      },
+      "observed_result": {
+        "readable": true,
+        "view": "PA"
+      }
+    },
+    {
+      "tool": "locate_region",
+      "arguments": {
+        "image_id": "I01_PA.jpg"
+      },
+      "observed_result": {
+        "region": "R1",
+        "status": "needs_review"
+      }
+    }
+  ],
+  "target_answer": "区域 R1 存在待复核征象。",
+  "training_loss_scope": [
+    "assistant_tool_calls",
+    "assistant_final_answer"
+  ],
+  "environment_outputs": "observed_context_not_model_targets",
+  "review": {
+    "status": "synthetic_approved_example",
+    "evidence": [
+      "quality",
+      "locate_region"
+    ]
+  },
+  "provenance": {
+    "source": "synthetic_teaching_trajectory",
+    "tool_schema_version": "v1"
+  },
+  "intended_use": "schema_learning_only"
+}

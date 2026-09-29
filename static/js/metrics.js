@@ -6,6 +6,7 @@
   const PAGES = [
     { id: "home", path: "/", zh: "课程首页", en: "Homepage" },
     { id: "lecture", path: "/course_material/AI4S第一讲_学生版.html", zh: "第一讲学生版", en: "Lecture 01 student deck" },
+    { id: "lecture-02", path: "/AI4S第二讲_AI-Ready科学数据_综述图文版/index.html", zh: "第二讲综述图文版", en: "Lecture 02 illustrated deck" },
     { id: "assessment", path: "/course_material/课程作业考核标准.html", zh: "课程作业考核标准", en: "Assessment deck" },
     { id: "stats", path: "/stats.html", zh: "访问统计", en: "Visit statistics" },
   ];
@@ -13,6 +14,7 @@
   const DOWNLOADS = [
     { id: "syllabus", file: "AI4S科学智能原理与实践-北京邮电大学20260914.docx", zh: "教学大纲 Word", en: "Syllabus (Word)" },
     { id: "lecture-html", file: "AI4S第一讲_学生版.html", requireDownload: true, zh: "第一讲 HTML 下载", en: "Lecture 01 HTML download" },
+    { id: "lecture-02-rar", file: "AI4S第二讲_AI-Ready科学数据_综述图文版.rar", requireDownload: true, zh: "第二讲课件包下载", en: "Lecture 02 archive download" },
     { id: "assessment-html", file: "课程作业考核标准.html", requireDownload: true, zh: "考核标准课件下载", en: "Assessment deck download" },
     { id: "discovery-report", file: "科学发现实践报告模板.docx", zh: "科学发现实践报告模板", en: "Discovery practice report template" },
     { id: "discovery-rubric", file: "科学发现实践考核标准.docx", zh: "科学发现实践考核标准", en: "Discovery practice rubric" },
@@ -190,11 +192,12 @@
     const pages = pageResults.map((page) => ({ ...page, pv: withBaseline(page.pv) }));
     const downloads = downloadResults.map((item) => ({ ...item, pv: withBaseline(item.pv) }));
     const lecture = pages.find((page) => page.id === "lecture");
+    const lecture02 = pages.find((page) => page.id === "lecture-02");
     const assessment = pages.find((page) => page.id === "assessment");
 
     setText("metric-site-pv", sumCounts(pages.map((page) => page.pv)));
     setText("metric-site-uv", withBaseline(recorded ? recorded.siteUv : null));
-    setText("metric-watch-total", sumCounts([lecture && lecture.pv, assessment && assessment.pv]));
+    setText("metric-watch-total", sumCounts([lecture && lecture.pv, lecture02 && lecture02.pv, assessment && assessment.pv]));
     setText("metric-download-total", sumCounts(downloads.map((item) => item.pv)));
 
     const pageBars = document.getElementById("page-bars");

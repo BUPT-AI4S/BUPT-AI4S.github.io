@@ -1,0 +1,2794 @@
+{
+  "title": "AI-Ready 科学数据定向调研",
+  "checked": "2026-09-28 America/Los_Angeles",
+  "scope": "公开机构报告、原论文、官方代码、数据卡与教程；定向范围调研，非穷尽性系统综述或热度排名。",
+  "resources": [
+    {
+      "id": "fair",
+      "category": "定义、白皮书与标准",
+      "name": "FAIR Guiding Principles",
+      "year": 2016,
+      "kind": "期刊论文",
+      "org": "国际科研数据社区",
+      "url": "https://doi.org/10.1038/sdata.2016.18",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "治理",
+        "共享"
+      ],
+      "product": "可发现、可访问、可互操作、可复用的原则框架。",
+      "method": "把数据标识、机器可读元数据、访问协议和复用许可作为可交付内容。",
+      "limit": "FAIR 没有承诺标签正确或模型泛化，也不要求所有数据无条件公开。",
+      "start": "检查自己的一份数据是否有稳定 ID、字段解释和明确许可。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://doi.org/10.1038/sdata.2016.18"
+        ]
+      ]
+    },
+    {
+      "id": "sheets",
+      "category": "定义、白皮书与标准",
+      "name": "Datasheets for Datasets",
+      "year": 2021,
+      "kind": "期刊论文",
+      "org": "Gebru 等",
+      "url": "https://doi.org/10.1145/3458723",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "治理",
+        "共享"
+      ],
+      "product": "解释动机、组成、采集、加工、用途与维护的数据说明。",
+      "method": "围绕数据生命周期逐项记录来源和决策。",
+      "limit": "文档是证据入口，需要与真实文件、代码及版本对应。",
+      "start": "为十条样本写清来源、缺失、标签产生方式与不适用场景。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://doi.org/10.1145/3458723"
+        ]
+      ]
+    },
+    {
+      "id": "croissant",
+      "category": "定义、白皮书与标准",
+      "name": "Croissant：ML-Ready 数据元数据",
+      "year": 2024,
+      "kind": "NeurIPS 数据集与基准论文",
+      "org": "MLCommons 社区",
+      "url": "https://arxiv.org/abs/2403.19546",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "接入",
+        "共享"
+      ],
+      "product": "JSON-LD 描述数据集、资源文件、记录结构和机器学习语义。",
+      "method": "将文件位置、字段类型、关联和记录集表达为机器可读结构。",
+      "limit": "它描述如何找到和加载数据，不能自动证明科学含义或答案正确。",
+      "start": "先读官方小型示例，再为自己的 CSV 标注字段与记录单位。",
+      "github": "mlcommons/croissant",
+      "docs": "https://docs.mlcommons.org/croissant/",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "mlcommons/croissant",
+        "url": "https://api.github.com/repos/mlcommons/croissant",
+        "resolved_url": "https://api.github.com/repos/mlcommons/croissant",
+        "retrieved_at": "2026-09-29T02:08:56.630253+00:00",
+        "bytes": 6449,
+        "file": "github-mlcommons__croissant.json",
+        "full_name": "mlcommons/croissant",
+        "stargazers_count": 903,
+        "forks_count": 125,
+        "pushed_at": "2026-09-23T17:55:32Z",
+        "archived": false,
+        "description": "Croissant is a high-level format for machine learning datasets that brings together four rich layers.",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2403.19546"
+        ],
+        [
+          "代码",
+          "https://github.com/mlcommons/croissant"
+        ],
+        [
+          "教程",
+          "https://docs.mlcommons.org/croissant/"
+        ]
+      ]
+    },
+    {
+      "id": "rda-white",
+      "category": "定义、白皮书与标准",
+      "name": "Data Readiness and Data-Centric AI",
+      "year": 2025,
+      "kind": "机构白皮书",
+      "org": "RDA / Microsoft",
+      "url": "https://www.rd-alliance.org/wp-content/uploads/2025/07/RDA-Microsoft-White-Paper_Data-and-AI_Final.pdf",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "定义",
+        "治理"
+      ],
+      "product": "2025 年全球圆桌研究形成的数据、能力建设与科研治理建议。",
+      "method": "将元数据、数据质量、自动化准备、研究人员能力和可信环境一起考虑。",
+      "limit": "这是社区调研与建议，不能当作经过实验验证的单一评分标准。",
+      "start": "重点读数据基础与技能建设章节，转成项目的责任与交付清单。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://www.rd-alliance.org/wp-content/uploads/2025/07/RDA-Microsoft-White-Paper_Data-and-AI_Final.pdf"
+        ]
+      ]
+    },
+    {
+      "id": "isc",
+      "category": "定义、白皮书与标准",
+      "name": "Data and AI for Science: Key Considerations",
+      "year": 2025,
+      "kind": "机构报告",
+      "org": "国际科学理事会 ISC / CODATA",
+      "url": "https://council.science/publications/data-and-ai-for-science/",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "定义",
+        "治理"
+      ],
+      "product": "从科学数据准备、开放科学、伦理和环境成本解释 AI-ready。",
+      "method": "同时讨论“为 AI 准备数据”和“用 AI 整理数据”。",
+      "limit": "开放获取与可直接用于特定训练是不同条件，报告不提供通用训练配方。",
+      "start": "从数据代表性、可解释元数据和复用边界检查自己的研究数据。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://council.science/publications/data-and-ai-for-science/"
+        ]
+      ]
+    },
+    {
+      "id": "drai",
+      "category": "定义、白皮书与标准",
+      "name": "Data Readiness for Scientific AI at Scale",
+      "year": 2025,
+      "kind": "预印本框架",
+      "org": "Oak Ridge National Laboratory",
+      "url": "https://arxiv.org/abs/2507.23018v1",
+      "domains": [
+        "气象",
+        "材料",
+        "生物",
+        "聚变"
+      ],
+      "roles": [
+        "定义",
+        "加工"
+      ],
+      "product": "五级技术就绪度与五阶段加工的二维框架。",
+      "method": "Raw、Cleaned、Labeled、Feature-engineered、AI-ready 对照 ingest、preprocess、transform、structure、shard。",
+      "limit": "面向大规模科学计算的概念模型，不是国际认证标准，也不同于科学知识五层。",
+      "start": "对照 ClimaX 的网格重采样、训练统计量、张量结构与分片。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2507.23018v1"
+        ]
+      ]
+    },
+    {
+      "id": "pnnl",
+      "category": "定义、白皮书与标准",
+      "name": "AI-Ready Data Pilot Project Report",
+      "year": 2026,
+      "kind": "国家实验室技术报告",
+      "org": "Pacific Northwest National Laboratory",
+      "url": "https://doi.org/10.2172/3020608",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "定义",
+        "验证"
+      ],
+      "product": "通过三位数据科学家检查三个学科 CSV 的小规模试点，提出数据、元数据与验证测试要求。",
+      "method": "观察研究者如何判断数据能否进入自己的机器学习流程。",
+      "limit": "样本规模很小，适合启发操作清单，不能据此概括所有学科。",
+      "start": "把“我能理解字段”与“程序能通过验证”分别列成检查项。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://doi.org/10.2172/3020608"
+        ]
+      ]
+    },
+    {
+      "id": "survey",
+      "category": "定义、白皮书与标准",
+      "name": "A Survey of Scientific Large Language Models",
+      "year": 2025,
+      "kind": "综述预印本",
+      "org": "Hu 等",
+      "url": "https://arxiv.org/abs/2508.21148v2",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "知识组织",
+        "预训练",
+        "后训练",
+        "评测"
+      ],
+      "product": "用户指定阅读综述，组织科学模态、知识五层与大模型数据生态。",
+      "method": "事实、理论、方法技术、建模仿真、洞见分别承载不同科学知识。",
+      "limit": "五层是作者提出的组织框架，不能视作成熟度等级或统一国际定义。",
+      "start": "给同一课题的观测、公式、协议、模拟与假设分别找一份实物。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2508.21148v2"
+        ]
+      ]
+    },
+    {
+      "id": "space",
+      "category": "定义、白皮书与标准",
+      "name": "Building AI-Ready Data Systems for Space Life Sciences",
+      "year": 2026,
+      "kind": "预印本",
+      "org": "Costes 等跨机构团队",
+      "url": "https://arxiv.org/abs/2606.28856v1",
+      "domains": [
+        "生物",
+        "医疗",
+        "空间科学"
+      ],
+      "roles": [
+        "定义",
+        "治理"
+      ],
+      "product": "讨论从 FAIR 走向 AI 可用的数据系统与接口。",
+      "method": "围绕异构空间生物资料、科学语义和不同 AI 使用需求组织系统。",
+      "limit": "本轮核查到摘要与版本，未取得 HTML 全文；仅作为拓展阅读，不承载课内数值结论。",
+      "start": "比较“可下载实验资料”和“能按研究问题自动组合分析”的差距。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2606.28856v1"
+        ]
+      ]
+    },
+    {
+      "id": "opengenome",
+      "category": "科学数据产品",
+      "name": "OpenGenome2 / Evo 2",
+      "year": 2025,
+      "kind": "数据集；Evo 2 期刊版本 2026",
+      "org": "Arc Institute 等",
+      "url": "https://huggingface.co/datasets/arcinstitute/opengenome2",
+      "domains": [
+        "生物"
+      ],
+      "roles": [
+        "预训练"
+      ],
+      "product": "8.8 万亿碱基对，提供原始序列 FASTA 与预训练处理后的 JSONL。",
+      "method": "整合多个生物数据库，处理序列、分类标签和特殊标记，并为训练阶段设置混合权重。",
+      "limit": "碱基数、训练 token 数与独立生物样本数不能互换；相近物种和同源序列可能泄漏。",
+      "start": "查看 FASTA 与 JSONL 两个目录，再读 species_metadata.csv。",
+      "hf": "arcinstitute/opengenome2",
+      "paper": "https://doi.org/10.1038/s41586-026-10176-5",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "arcinstitute/opengenome2",
+        "url": "https://huggingface.co/api/datasets/arcinstitute/opengenome2",
+        "resolved_url": "https://huggingface.co/api/datasets/arcinstitute/opengenome2",
+        "retrieved_at": "2026-09-29T02:09:01.048863+00:00",
+        "bytes": 135285,
+        "file": "huggingface-arcinstitute__opengenome2.json",
+        "downloads": 44131,
+        "likes": 160,
+        "lastModified": "2026-09-02T19:11:46.000Z",
+        "gated": false,
+        "sha": "84d2a7e690c8bb395d1f4868822dfa031ea561c6",
+        "license": "apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://huggingface.co/datasets/arcinstitute/opengenome2"
+        ],
+        [
+          "论文",
+          "https://doi.org/10.1038/s41586-026-10176-5"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/arcinstitute/opengenome2"
+        ]
+      ]
+    },
+    {
+      "id": "uniprot",
+      "category": "科学数据产品",
+      "name": "UniProt",
+      "year": 2026,
+      "kind": "持续更新科学数据库",
+      "org": "UniProt Consortium",
+      "url": "https://www.uniprot.org/help/programmatic_access",
+      "domains": [
+        "生物"
+      ],
+      "roles": [
+        "原始资源",
+        "后训练"
+      ],
+      "product": "蛋白序列、功能、催化反应与证据注释，可通过 API 导出。",
+      "method": "用 accession 连接序列和功能，区分审校注释及自动注释，保留来源版本。",
+      "limit": "注释强度不同；功能文本不能直接代替目标实验条件下的活性标签。",
+      "start": "选一条审校蛋白记录，读取序列、证据代码和催化注释。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://www.uniprot.org/help/programmatic_access"
+        ]
+      ]
+    },
+    {
+      "id": "mimicjpg",
+      "category": "科学数据产品",
+      "name": "MIMIC-CXR / MIMIC-CXR-JPG 2.1.0",
+      "year": 2024,
+      "kind": "受控访问数据集",
+      "org": "MIT LCP / PhysioNet 等",
+      "url": "https://physionet.org/content/mimic-cxr-jpg/2.1.0/",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "预训练",
+        "监督",
+        "评测"
+      ],
+      "product": "377,110 张胸片对应 227,835 次检查；JPG、元数据、报告派生标签及划分文件。",
+      "method": "DICOM 转换为 JPG，按 subject_id / study_id / dicom_id 关联，标签由报告处理产生。",
+      "limit": "需要认证、培训与数据使用协议。自动报告标签不等于每张图的独立专家金标准。",
+      "start": "先读数据说明和列定义；课程用合成字段记录演练，无需取得患者资料。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://physionet.org/content/mimic-cxr-jpg/2.1.0/"
+        ]
+      ]
+    },
+    {
+      "id": "biomedclip",
+      "category": "科学数据产品",
+      "name": "PMC-15M / BiomedCLIP",
+      "year": 2023,
+      "kind": "研究论文与模型资源",
+      "org": "Microsoft Research 等",
+      "url": "https://www.microsoft.com/en-us/research/publication/biomedclip-a-multimodal-biomedical-foundation-model-pretrained-from-fifteen-million-scientific-image-text-pairs/",
+      "domains": [
+        "医疗",
+        "生物"
+      ],
+      "roles": [
+        "预训练"
+      ],
+      "product": "从生物医学论文整理 1,500 万图文对，用于领域图文表征。",
+      "method": "利用图与说明的关联学习视觉和语言表示。",
+      "limit": "论文图包括多种图表与实验图，不能全部理解为临床影像；原始文章许可需要单独核对。",
+      "start": "比较图注配对信号与医生为任务专门写的答案。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://www.microsoft.com/en-us/research/publication/biomedclip-a-multimodal-biomedical-foundation-model-pretrained-from-fifteen-million-scientific-image-text-pairs/"
+        ]
+      ]
+    },
+    {
+      "id": "pubmedvision",
+      "category": "科学数据产品",
+      "name": "PubMedVision / HuatuoGPT-Vision",
+      "year": 2024,
+      "kind": "EMNLP 论文与数据集",
+      "org": "香港中文大学（深圳）/ SRIBD",
+      "url": "https://aclanthology.org/2024.emnlp-main.418/",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "对齐",
+        "指令微调"
+      ],
+      "product": "647,031 条 Alignment VQA 与同规模 Instruction-Tuning VQA，合计 1,294,062 条。",
+      "method": "从 PubMed 图文出发，用 GPT-4V 在看到图与原说明的条件下去噪、改写与构造问答。",
+      "limit": "同一原图可派生多个样本，条数增加不代表独立证据增加；生成问答仍需复核。",
+      "start": "比较数据卡的两个配置，并追踪问题、图片和参考描述的关系。",
+      "hf": "FreedomIntelligence/PubMedVision",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "FreedomIntelligence/PubMedVision",
+        "url": "https://huggingface.co/api/datasets/FreedomIntelligence/PubMedVision",
+        "resolved_url": "https://huggingface.co/api/datasets/FreedomIntelligence/PubMedVision",
+        "retrieved_at": "2026-09-29T02:09:02.140327+00:00",
+        "bytes": 2756,
+        "file": "huggingface-FreedomIntelligence__PubMedVision.json",
+        "downloads": 1819,
+        "likes": 107,
+        "lastModified": "2025-02-18T07:44:10.000Z",
+        "gated": false,
+        "sha": "3c84e04b38bceb5341419b9a4f8ca37ba790cb84",
+        "license": "apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://aclanthology.org/2024.emnlp-main.418/"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/FreedomIntelligence/PubMedVision"
+        ]
+      ]
+    },
+    {
+      "id": "medreason",
+      "category": "科学数据产品",
+      "name": "MedReason",
+      "year": 2025,
+      "kind": "预印本与数据集",
+      "org": "UCSC-VLAA 等",
+      "url": "https://arxiv.org/abs/2504.00993",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "解释型后训练"
+      ],
+      "product": "32,682 个医学问答对，附知识图谱辅助构造的逐步解释。",
+      "method": "从七个医学问答来源出发，利用知识图谱关联问题实体与答案，构造和检查解释。",
+      "limit": "文字解释不是实际临床工作流日志，也不是模型内部思维的测量。",
+      "start": "比较 question、answer 与 reasoning 的角色，核对来源划分是否独立。",
+      "hf": "UCSC-VLAA/MedReason",
+      "github": "UCSC-VLAA/MedReason",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "UCSC-VLAA/MedReason",
+        "url": "https://api.github.com/repos/UCSC-VLAA/MedReason",
+        "resolved_url": "https://api.github.com/repos/UCSC-VLAA/MedReason",
+        "retrieved_at": "2026-09-29T02:09:00.202590+00:00",
+        "bytes": 6221,
+        "file": "github-UCSC-VLAA__MedReason.json",
+        "full_name": "UCSC-VLAA/MedReason",
+        "stargazers_count": 282,
+        "forks_count": 23,
+        "pushed_at": "2025-06-19T18:39:55Z",
+        "archived": false,
+        "description": "MedReason: Eliciting Factual Medical Reasoning Steps in LLMs via Knowledge Graphs",
+        "default_branch": "main",
+        "license": null
+      },
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "UCSC-VLAA/MedReason",
+        "url": "https://huggingface.co/api/datasets/UCSC-VLAA/MedReason",
+        "resolved_url": "https://huggingface.co/api/datasets/UCSC-VLAA/MedReason",
+        "retrieved_at": "2026-09-29T02:09:02.285030+00:00",
+        "bytes": 1523,
+        "file": "huggingface-UCSC-VLAA__MedReason.json",
+        "downloads": 1081,
+        "likes": 88,
+        "lastModified": "2025-05-27T20:39:33.000Z",
+        "gated": false,
+        "sha": "7fc0ddb80653c839be359ac4496ec6ee00bdd52f",
+        "license": "apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2504.00993"
+        ],
+        [
+          "代码",
+          "https://github.com/UCSC-VLAA/MedReason"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/UCSC-VLAA/MedReason"
+        ]
+      ]
+    },
+    {
+      "id": "reasonmed",
+      "category": "科学数据产品",
+      "name": "ReasonMed",
+      "year": 2025,
+      "kind": "预印本 v3",
+      "org": "Sun 等",
+      "url": "https://arxiv.org/abs/2506.09513v3",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "解释型后训练"
+      ],
+      "product": "v3 报告从约 175 万候选推理路径整理出约 37 万样本。",
+      "method": "多模型生成、验证和错误修订，按难度整理训练材料。",
+      "limit": "自动验证仍可能共享生成模型的偏差；v1 与 v3 的初始路径数量不同。",
+      "start": "画出候选池、拒绝池和最终训练池，理解数量与质量之间的取舍。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2506.09513v3"
+        ]
+      ]
+    },
+    {
+      "id": "medmcqa",
+      "category": "科学数据产品",
+      "name": "MedMCQA",
+      "year": 2022,
+      "kind": "医学问答数据集",
+      "org": "MedMCQA 作者 / OpenLifeScienceAI",
+      "url": "https://huggingface.co/datasets/openlifescienceai/medmcqa",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "问答训练",
+        "评测"
+      ],
+      "product": "医学考试选择题，包含问题、选项、答案及相关说明字段。",
+      "method": "整理考试问题为机器可读记录，支持文本问答研究。",
+      "limit": "考试答案能力不能直接代表影像、真实患者或工具执行能力。",
+      "start": "先检查 split 和题目来源，再取小样本读取字段。",
+      "hf": "openlifescienceai/medmcqa",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "openlifescienceai/medmcqa",
+        "url": "https://huggingface.co/api/datasets/openlifescienceai/medmcqa",
+        "resolved_url": "https://huggingface.co/api/datasets/openlifescienceai/medmcqa",
+        "retrieved_at": "2026-09-29T02:09:03.605266+00:00",
+        "bytes": 2970,
+        "file": "huggingface-openlifescienceai__medmcqa.json",
+        "downloads": 174678,
+        "likes": 237,
+        "lastModified": "2024-01-04T14:32:02.000Z",
+        "gated": false,
+        "sha": "91c6572c454088bf71b679ad90aa8dffcd0d5868",
+        "license": [
+          "apache-2.0"
+        ]
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://huggingface.co/datasets/openlifescienceai/medmcqa"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/openlifescienceai/medmcqa"
+        ]
+      ]
+    },
+    {
+      "id": "pubmedqa",
+      "category": "科学数据产品",
+      "name": "PubMedQA",
+      "year": 2019,
+      "kind": "EMNLP 论文与数据集",
+      "org": "PubMedQA 作者",
+      "url": "https://huggingface.co/datasets/qiaojin/PubMedQA",
+      "domains": [
+        "医疗",
+        "生物"
+      ],
+      "roles": [
+        "问答训练",
+        "评测"
+      ],
+      "product": "文献问题、摘要上下文与 yes/no/maybe 答案，包含不同构造子集。",
+      "method": "以科学摘要中的研究问题构造文献理解任务。",
+      "limit": "专家标注与自动构造子集不可混称同一种金标准；需按论文和题目检查污染。",
+      "start": "比较 labeled、unlabeled、artificial 子集的来源与适用用途。",
+      "hf": "qiaojin/PubMedQA",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "qiaojin/PubMedQA",
+        "url": "https://huggingface.co/api/datasets/qiaojin/PubMedQA",
+        "resolved_url": "https://huggingface.co/api/datasets/qiaojin/PubMedQA",
+        "retrieved_at": "2026-09-29T02:09:03.633822+00:00",
+        "bytes": 3889,
+        "file": "huggingface-qiaojin__PubMedQA.json",
+        "downloads": 78465,
+        "likes": 342,
+        "lastModified": "2024-03-06T01:50:16.000Z",
+        "gated": false,
+        "sha": "9001f2853fb87cab8d220904e0de81ac6973b318",
+        "license": [
+          "mit"
+        ]
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://huggingface.co/datasets/qiaojin/PubMedQA"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/qiaojin/PubMedQA"
+        ]
+      ]
+    },
+    {
+      "id": "molinst",
+      "category": "科学数据产品",
+      "name": "Mol-Instructions",
+      "year": 2024,
+      "kind": "ICLR 论文与数据集",
+      "org": "浙江大学 ZJUNLP 等",
+      "url": "https://arxiv.org/abs/2306.08018v5",
+      "domains": [
+        "化学",
+        "生物"
+      ],
+      "roles": [
+        "指令微调"
+      ],
+      "product": "分子、蛋白质和生物医学文本三组指令，涵盖结构、性质、功能与反应任务。",
+      "method": "从数据库导出可核验属性，配合任务模板和自然语言描述构造监督。",
+      "limit": "数据卡的规模标签与正文存在口径疑点，课程不采用其自动规模标签作精确总量。",
+      "start": "从简单性质任务开始，分开核对结构解析和自然语言改写。",
+      "hf": "zjunlp/Mol-Instructions",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "zjunlp/Mol-Instructions",
+        "url": "https://huggingface.co/api/datasets/zjunlp/Mol-Instructions",
+        "resolved_url": "https://huggingface.co/api/datasets/zjunlp/Mol-Instructions",
+        "retrieved_at": "2026-09-29T02:09:48.132912+00:00",
+        "bytes": 1158,
+        "file": "huggingface-zjunlp__Mol-Instructions.json",
+        "downloads": 838,
+        "likes": 70,
+        "lastModified": "2024-03-03T15:32:47.000Z",
+        "gated": false,
+        "sha": "66da41958866dfce072595017aaf460bb290c19b",
+        "license": "cc-by-4.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2306.08018v5"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/zjunlp/Mol-Instructions"
+        ]
+      ]
+    },
+    {
+      "id": "omat",
+      "category": "科学数据产品",
+      "name": "Open Materials 2024（OMat24）",
+      "year": 2024,
+      "kind": "预印本与数据集",
+      "org": "Meta FAIR",
+      "url": "https://arxiv.org/abs/2410.12771",
+      "domains": [
+        "材料"
+      ],
+      "roles": [
+        "预训练",
+        "监督",
+        "评测"
+      ],
+      "product": "超过 1.1 亿次 DFT 计算，围绕无机材料结构与组成多样性。",
+      "method": "以原子、晶胞、能量、力等形成结构化训练记录，公开模型与数据资源。",
+      "limit": "计算记录数不等于独立材料数；DFT 标签取决于计算设置，不能自动当作实验测量。",
+      "start": "对照一条结构、能量与力的关系，再看数据划分和单位。",
+      "hf": "facebook/OMAT24",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "facebook/OMAT24",
+        "url": "https://huggingface.co/api/datasets/facebook/OMAT24",
+        "resolved_url": "https://huggingface.co/api/datasets/facebook/OMAT24",
+        "retrieved_at": "2026-09-29T02:09:01.986993+00:00",
+        "bytes": 1336,
+        "file": "huggingface-facebook__OMAT24.json",
+        "downloads": 277,
+        "likes": 81,
+        "lastModified": "2025-12-11T19:29:18.000Z",
+        "gated": false,
+        "sha": "ca00b8aac581497cd0a13146fb3708ad8e2e2fe8",
+        "license": "cc-by-4.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2410.12771"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/facebook/OMAT24"
+        ]
+      ]
+    },
+    {
+      "id": "omol",
+      "category": "科学数据产品",
+      "name": "Open Molecules 2025（OMol25）",
+      "year": 2025,
+      "kind": "预印本与官方资源",
+      "org": "Meta FAIR 等",
+      "url": "https://arxiv.org/abs/2505.08762",
+      "domains": [
+        "化学"
+      ],
+      "roles": [
+        "预训练",
+        "监督",
+        "评测"
+      ],
+      "product": "超过一亿次 DFT 计算，覆盖 83 种元素、不同电荷、自旋、构象及分子环境。",
+      "method": "把结构与一致计算方法下的能量、力等联系，配套专门评测。",
+      "limit": "官方 Hugging Face 入口是模型仓库 facebook/OMol25。数据许可、模型许可与访问限制分开规定，不能承诺直接下载。",
+      "start": "阅读官方 DATASET 文档与访问条件，再选小规模资源做结构解析。",
+      "resource": "https://huggingface.co/facebook/OMol25",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2505.08762"
+        ],
+        [
+          "资源",
+          "https://huggingface.co/facebook/OMol25"
+        ]
+      ]
+    },
+    {
+      "id": "well",
+      "category": "科学数据产品",
+      "name": "The Well",
+      "year": 2024,
+      "kind": "NeurIPS 数据集与基准论文",
+      "org": "Polymathic AI",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/4f9a5acd91ac76569f2fe291b1f4772b-Abstract-Datasets_and_Benchmarks_Track.html",
+      "domains": [
+        "物理",
+        "气象",
+        "生物"
+      ],
+      "roles": [
+        "时空预训练",
+        "评测"
+      ],
+      "product": "16 组物理模拟约 15 TB，以统一 HDF5 规范保存场、坐标、时间与参数。",
+      "method": "WellDataset 将物理场加载为张量，并指定输入帧数、预测帧数与划分。",
+      "limit": "一条物理时间轨迹与智能体工具轨迹含义不同；同一模拟相邻帧高度相关。",
+      "start": "从官方最小数据集教程阅读一次样本，解释 T、H、W、C 各轴。",
+      "github": "PolymathicAI/the_well",
+      "resource": "https://huggingface.co/collections/polymathic-ai/the-well",
+      "docs": "https://polymathic-ai.org/the_well/tutorials/dataset/",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "PolymathicAI/the_well",
+        "url": "https://api.github.com/repos/PolymathicAI/the_well",
+        "resolved_url": "https://api.github.com/repos/PolymathicAI/the_well",
+        "retrieved_at": "2026-09-29T02:08:58.343408+00:00",
+        "bytes": 6503,
+        "file": "github-PolymathicAI__the_well.json",
+        "full_name": "PolymathicAI/the_well",
+        "stargazers_count": 4468,
+        "forks_count": 570,
+        "pushed_at": "2026-07-23T14:39:04Z",
+        "archived": false,
+        "description": "A 15TB Collection of Physics Simulation Datasets",
+        "default_branch": "master",
+        "license": "BSD-3-Clause"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://proceedings.neurips.cc/paper_files/paper/2024/hash/4f9a5acd91ac76569f2fe291b1f4772b-Abstract-Datasets_and_Benchmarks_Track.html"
+        ],
+        [
+          "代码",
+          "https://github.com/PolymathicAI/the_well"
+        ],
+        [
+          "资源",
+          "https://huggingface.co/collections/polymathic-ai/the-well"
+        ],
+        [
+          "教程",
+          "https://polymathic-ai.org/the_well/tutorials/dataset/"
+        ]
+      ]
+    },
+    {
+      "id": "weatherbench",
+      "category": "科学数据产品",
+      "name": "WeatherBench 2",
+      "year": 2024,
+      "kind": "期刊研究与评测工具",
+      "org": "Google Research 等",
+      "url": "https://arxiv.org/abs/2308.15560",
+      "domains": [
+        "气象"
+      ],
+      "roles": [
+        "训练",
+        "评测"
+      ],
+      "product": "ERA5、基线预报与统一评测流程，提供不同网格、时间步和气压层的 Zarr 资料。",
+      "method": "重采样并保持变量、坐标和起报时间，比较同条件预报与参考场。",
+      "limit": "ERA5 是再分析资料；不能把预报时尚不可获得的信息放入输入。",
+      "start": "用官方 data guide 查看六小时、13 层等具体配置与单位。",
+      "docs": "https://weatherbench2.readthedocs.io/en/latest/data-guide.html",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2308.15560"
+        ],
+        [
+          "教程",
+          "https://weatherbench2.readthedocs.io/en/latest/data-guide.html"
+        ]
+      ]
+    },
+    {
+      "id": "deepmimo",
+      "category": "科学数据产品",
+      "name": "DeepMIMO",
+      "year": 2026,
+      "kind": "持续更新开源数据与工具",
+      "org": "DeepMIMO 团队",
+      "url": "https://www.deepmimo.net/docs/",
+      "domains": [
+        "通信"
+      ],
+      "roles": [
+        "模拟",
+        "监督",
+        "评测"
+      ],
+      "product": "射线追踪场景、传播路径及可配置的复数 MIMO 信道。",
+      "method": "按场景与天线参数生成信道，再构造波束选择或信道估计任务。",
+      "limit": "模拟信道与实测信道应分别标记；载频、阵列、码本变化会改变任务。",
+      "start": "运行官方 quickstart 的小场景，记录参数与信道轴含义。",
+      "github": "DeepMIMO/DeepMIMO",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "DeepMIMO/DeepMIMO",
+        "url": "https://api.github.com/repos/DeepMIMO/DeepMIMO",
+        "resolved_url": "https://api.github.com/repos/DeepMIMO/DeepMIMO",
+        "retrieved_at": "2026-09-29T02:08:58.571152+00:00",
+        "bytes": 6363,
+        "file": "github-DeepMIMO__DeepMIMO.json",
+        "full_name": "DeepMIMO/DeepMIMO",
+        "stargazers_count": 126,
+        "forks_count": 26,
+        "pushed_at": "2026-09-23T17:36:26Z",
+        "archived": false,
+        "description": "DeepMIMOv4: A Toolchain and Database for Ray-tracing Datasets.",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://www.deepmimo.net/docs/"
+        ],
+        [
+          "代码",
+          "https://github.com/DeepMIMO/DeepMIMO"
+        ]
+      ]
+    },
+    {
+      "id": "circuit",
+      "category": "科学数据产品",
+      "name": "CircuitNet",
+      "year": 2026,
+      "kind": "持续更新学科数据产品",
+      "org": "CircuitNet 团队",
+      "url": "https://circuitnet.github.io/intro/overview.html",
+      "domains": [
+        "芯片"
+      ],
+      "roles": [
+        "监督",
+        "评测"
+      ],
+      "product": "布局特征图、网表图与拥塞、DRC、IR drop、延迟任务；官网区分 N28/N14/N45。",
+      "method": "通过指定 EDA 流程提取二维特征与图结构，并连接后续设计结果。",
+      "limit": "代码 BSD 许可不能替代工艺、设计和原始工具的全部使用条件。",
+      "start": "先看一个特征图或图构建 demo，再按设计族而非图片随机分组。",
+      "github": "circuitnet/CircuitNet",
+      "docs": "https://circuitnet.github.io/intro/download.html",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "circuitnet/CircuitNet",
+        "url": "https://api.github.com/repos/circuitnet/CircuitNet",
+        "resolved_url": "https://api.github.com/repos/circuitnet/CircuitNet",
+        "retrieved_at": "2026-09-29T02:08:59.915796+00:00",
+        "bytes": 6590,
+        "file": "github-circuitnet__CircuitNet.json",
+        "full_name": "circuitnet/CircuitNet",
+        "stargazers_count": 512,
+        "forks_count": 86,
+        "pushed_at": "2026-05-17T09:16:35Z",
+        "archived": false,
+        "description": "CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)",
+        "default_branch": "main",
+        "license": "BSD-3-Clause"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://circuitnet.github.io/intro/overview.html"
+        ],
+        [
+          "代码",
+          "https://github.com/circuitnet/CircuitNet"
+        ],
+        [
+          "教程",
+          "https://circuitnet.github.io/intro/download.html"
+        ]
+      ]
+    },
+    {
+      "id": "primevul",
+      "category": "科学数据产品",
+      "name": "PrimeVul",
+      "year": 2025,
+      "kind": "ICSE 论文与数据集",
+      "org": "DLVulDet 团队",
+      "url": "https://github.com/DLVulDet/PrimeVul",
+      "domains": [
+        "安全"
+      ],
+      "roles": [
+        "监督",
+        "评测"
+      ],
+      "product": "以真实软件漏洞相关函数和元数据构造检测数据，提供配对与时间划分设置。",
+      "method": "减少重复与标签噪声，联系修复前后版本和实际漏洞来源。",
+      "limit": "同一函数的修复版与缺陷版跨集合会高估泛化；数据标签仍需核对语境。",
+      "start": "观察安全修复前后记录的关联，检查来源项目与时间切分。",
+      "github": "DLVulDet/PrimeVul",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "DLVulDet/PrimeVul",
+        "url": "https://api.github.com/repos/DLVulDet/PrimeVul",
+        "resolved_url": "https://api.github.com/repos/DLVulDet/PrimeVul",
+        "retrieved_at": "2026-09-29T02:09:00.193343+00:00",
+        "bytes": 5147,
+        "file": "github-DLVulDet__PrimeVul.json",
+        "full_name": "DLVulDet/PrimeVul",
+        "stargazers_count": 274,
+        "forks_count": 22,
+        "pushed_at": "2024-09-07T02:13:07Z",
+        "archived": false,
+        "description": "Repository for PrimeVul Vulnerability Detection Dataset",
+        "default_branch": "main",
+        "license": "MIT"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/DLVulDet/PrimeVul"
+        ],
+        [
+          "代码",
+          "https://github.com/DLVulDet/PrimeVul"
+        ]
+      ]
+    },
+    {
+      "id": "bigearth",
+      "category": "科学数据产品",
+      "name": "BigEarthNet v2",
+      "year": 2024,
+      "kind": "数据集与论文资源",
+      "org": "TU Berlin / BIFOLD",
+      "url": "https://zenodo.org/records/10891137",
+      "domains": [
+        "遥感"
+      ],
+      "roles": [
+        "多模态预训练",
+        "监督",
+        "评测"
+      ],
+      "product": "549,488 对 Sentinel-1 / Sentinel-2 切片，连接多标签与元数据。",
+      "method": "将 SAR 与多光谱观测对应到地理区域，v2 使用地理划分减少空间相关。",
+      "limit": "配对仍要检查时差、云雪与标签时效；相邻切片不代表独立区域。",
+      "start": "查看一对影像的波段、采集时间、区域标识与 split。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://zenodo.org/records/10891137"
+        ]
+      ]
+    },
+    {
+      "id": "finepdfs",
+      "category": "科学数据产品",
+      "name": "FinePDFs",
+      "year": 2025,
+      "kind": "开放文本语料",
+      "org": "Hugging Face",
+      "url": "https://huggingface.co/datasets/HuggingFaceFW/finepdfs",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "文本预训练"
+      ],
+      "product": "由 PDF 文档提取、整理的大规模多语言文本语料。",
+      "method": "文档解析、语言与质量处理、去重后形成可用于训练的文本。",
+      "limit": "通用 PDF 语料不是科学真值库；数据库许可不自动替代每份原始文档的许可。",
+      "start": "先取流式小样本，检查公式、表格与正文在解析后丢失了什么。",
+      "hf": "HuggingFaceFW/finepdfs",
+      "checked": "2026-09-28",
+      "hfSnapshot": {
+        "kind": "huggingface",
+        "id": "HuggingFaceFW/finepdfs",
+        "url": "https://huggingface.co/api/datasets/HuggingFaceFW/finepdfs",
+        "resolved_url": "https://huggingface.co/api/datasets/HuggingFaceFW/finepdfs",
+        "retrieved_at": "2026-09-29T02:09:03.912896+00:00",
+        "bytes": 409993,
+        "file": "huggingface-HuggingFaceFW__finepdfs.json",
+        "downloads": 47871,
+        "likes": 943,
+        "lastModified": "2026-04-03T19:19:23.000Z",
+        "gated": false,
+        "sha": "220bac3acbf07789502c621d2d33952f51ac7f86",
+        "license": "odc-by"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://huggingface.co/datasets/HuggingFaceFW/finepdfs"
+        ],
+        [
+          "数据卡",
+          "https://huggingface.co/datasets/HuggingFaceFW/finepdfs"
+        ]
+      ]
+    },
+    {
+      "id": "docling",
+      "category": "加工工具与复用组件",
+      "name": "Docling",
+      "year": 2026,
+      "kind": "开源工具",
+      "org": "Docling 项目社区",
+      "url": "https://github.com/docling-project/docling",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "文档解析"
+      ],
+      "product": "将 PDF 等文档转换为结构化内容，处理布局、表格与文本。",
+      "method": "把页上的区域和结构保留下来，为后续抽取提供可定位输入。",
+      "limit": "正确解析布局不等于正确理解科学量；扫描质量与工具失败应分开检查。",
+      "start": "用一份自己有权使用的两页论文，对照原文检查表格列与公式。",
+      "github": "docling-project/docling",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "docling-project/docling",
+        "url": "https://api.github.com/repos/docling-project/docling",
+        "resolved_url": "https://api.github.com/repos/docling-project/docling",
+        "retrieved_at": "2026-09-29T02:08:54.400986+00:00",
+        "bytes": 6752,
+        "file": "github-docling-project__docling.json",
+        "full_name": "docling-project/docling",
+        "stargazers_count": 68139,
+        "forks_count": 4951,
+        "pushed_at": "2026-09-28T15:44:34Z",
+        "archived": false,
+        "description": "Get your documents ready for gen AI",
+        "default_branch": "main",
+        "license": "MIT"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/docling-project/docling"
+        ],
+        [
+          "代码",
+          "https://github.com/docling-project/docling"
+        ]
+      ]
+    },
+    {
+      "id": "mineru",
+      "category": "加工工具与复用组件",
+      "name": "MinerU",
+      "year": 2026,
+      "kind": "开源工具",
+      "org": "OpenDataLab",
+      "url": "https://github.com/opendatalab/MinerU",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "文档解析"
+      ],
+      "product": "将复杂 PDF 整理为文本和结构化输出，支持科学文档解析场景。",
+      "method": "解析文本、表格和公式等元素，为知识抽取建立输入。",
+      "limit": "GitHub API 未给出标准 SPDX 许可结论，使用前应读当前 LICENSE 和模型条件。",
+      "start": "对同一科学表格比较解析结果与原始页面，记录错列和漏单位。",
+      "github": "opendatalab/MinerU",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "opendatalab/MinerU",
+        "url": "https://api.github.com/repos/opendatalab/MinerU",
+        "resolved_url": "https://api.github.com/repos/opendatalab/MinerU",
+        "retrieved_at": "2026-09-29T02:08:55.405133+00:00",
+        "bytes": 6531,
+        "file": "github-opendatalab__MinerU.json",
+        "full_name": "opendatalab/MinerU",
+        "stargazers_count": 80790,
+        "forks_count": 6737,
+        "pushed_at": "2026-09-28T15:59:22Z",
+        "archived": false,
+        "description": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows.",
+        "default_branch": "master",
+        "license": "NOASSERTION"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/opendatalab/MinerU"
+        ],
+        [
+          "代码",
+          "https://github.com/opendatalab/MinerU"
+        ]
+      ]
+    },
+    {
+      "id": "datajuicer",
+      "category": "加工工具与复用组件",
+      "name": "Data-Juicer / 2.0 / Sandbox",
+      "year": 2025,
+      "kind": "开源工具与研究系列",
+      "org": "Data-Juicer 团队",
+      "url": "https://github.com/datajuicer/data-juicer",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "清洗",
+        "筛选",
+        "数据模型反馈"
+      ],
+      "product": "可组合的数据处理算子、配方与数据模型协同实验工具。",
+      "method": "把分析、过滤、去重和转换组合为可重复流程，比较不同数据配方。",
+      "limit": "通用质量分数不能代替学科规则；需要以独立下游任务检验筛选效果。",
+      "start": "对一小份文献语料运行不同过滤配方，记录保留率与失败样本。",
+      "github": "datajuicer/data-juicer",
+      "paper": "https://arxiv.org/abs/2501.14755",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "datajuicer/data-juicer",
+        "url": "https://api.github.com/repos/datajuicer/data-juicer",
+        "resolved_url": "https://api.github.com/repos/datajuicer/data-juicer",
+        "retrieved_at": "2026-09-29T02:08:56.146701+00:00",
+        "bytes": 6723,
+        "file": "github-datajuicer__data-juicer.json",
+        "full_name": "datajuicer/data-juicer",
+        "stargazers_count": 7100,
+        "forks_count": 430,
+        "pushed_at": "2026-09-28T09:00:50Z",
+        "archived": false,
+        "description": "Data processing for and with foundation models!  🍎 🍋 🌽 ➡️ ➡️🍸 🍹 🍷",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/datajuicer/data-juicer"
+        ],
+        [
+          "论文",
+          "https://arxiv.org/abs/2501.14755"
+        ],
+        [
+          "代码",
+          "https://github.com/datajuicer/data-juicer"
+        ]
+      ]
+    },
+    {
+      "id": "datatrove",
+      "category": "加工工具与复用组件",
+      "name": "DataTrove",
+      "year": 2026,
+      "kind": "开源工具",
+      "org": "Hugging Face",
+      "url": "https://github.com/huggingface/datatrove",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "文本清洗",
+        "去重"
+      ],
+      "product": "平台无关的文档处理流水线，提供读写、过滤与大规模去重组件。",
+      "method": "围绕 Document 记录串联处理步骤，可本地或集群运行。",
+      "limit": "文本近重复检测不等于分子实体去重或患者独立性。",
+      "start": "先用十份文本试验 exact / near duplicate，并检查删除理由。",
+      "github": "huggingface/datatrove",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "huggingface/datatrove",
+        "url": "https://api.github.com/repos/huggingface/datatrove",
+        "resolved_url": "https://api.github.com/repos/huggingface/datatrove",
+        "retrieved_at": "2026-09-29T02:08:55.433537+00:00",
+        "bytes": 6520,
+        "file": "github-huggingface__datatrove.json",
+        "full_name": "huggingface/datatrove",
+        "stargazers_count": 3363,
+        "forks_count": 308,
+        "pushed_at": "2026-09-29T00:08:16Z",
+        "archived": false,
+        "description": "Freeing data processing from scripting madness by providing a set of platform-agnostic customizable pipeline processing blocks.",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/huggingface/datatrove"
+        ],
+        [
+          "代码",
+          "https://github.com/huggingface/datatrove"
+        ]
+      ]
+    },
+    {
+      "id": "curator",
+      "category": "加工工具与复用组件",
+      "name": "NeMo Curator",
+      "year": 2026,
+      "kind": "开源工具",
+      "org": "NVIDIA",
+      "url": "https://github.com/NVIDIA-NeMo/Curator",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "数据加工"
+      ],
+      "product": "面向基础模型数据准备的可扩展处理工具与多模态工作流。",
+      "method": "借助并行处理和可组合步骤完成筛选、去重及数据准备。",
+      "limit": "部署资源依任务而变；吞吐优势不能证明科学标签更可靠。",
+      "start": "从官方 CPU 小样本教程开始，再决定是否需要 GPU 流程。",
+      "github": "NVIDIA-NeMo/Curator",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "NVIDIA-NeMo/Curator",
+        "url": "https://api.github.com/repos/NVIDIA-NeMo/Curator",
+        "resolved_url": "https://api.github.com/repos/NVIDIA-NeMo/Curator",
+        "retrieved_at": "2026-09-29T02:08:56.401938+00:00",
+        "bytes": 6644,
+        "file": "github-NVIDIA-NeMo__Curator.json",
+        "full_name": "NVIDIA-NeMo/Curator",
+        "stargazers_count": 1786,
+        "forks_count": 339,
+        "pushed_at": "2026-09-29T01:43:52Z",
+        "archived": false,
+        "description": "Scalable data pre processing and curation toolkit for LLMs",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/NVIDIA-NeMo/Curator"
+        ],
+        [
+          "代码",
+          "https://github.com/NVIDIA-NeMo/Curator"
+        ]
+      ]
+    },
+    {
+      "id": "dataflow",
+      "category": "加工工具与复用组件",
+      "name": "DataFlow",
+      "year": 2025,
+      "kind": "预印本与开源工具",
+      "org": "OpenDCAI",
+      "url": "https://arxiv.org/abs/2512.16676",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "加工",
+        "合成",
+        "后训练"
+      ],
+      "product": "数据算子与工作流框架，论文报告近 200 个算子和六类通用流水线。",
+      "method": "通过组合算子及 DataFlow-Agent 规划、生成和检查处理流程。",
+      "limit": "数学、代码和文本上的结果不能直接外推到科学仪器原始数据。",
+      "start": "选一条抽取流水线，保存每个算子的输入、输出及拒绝记录。",
+      "github": "OpenDCAI/DataFlow",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "OpenDCAI/DataFlow",
+        "url": "https://api.github.com/repos/OpenDCAI/DataFlow",
+        "resolved_url": "https://api.github.com/repos/OpenDCAI/DataFlow",
+        "retrieved_at": "2026-09-29T02:08:56.477500+00:00",
+        "bytes": 6429,
+        "file": "github-OpenDCAI__DataFlow.json",
+        "full_name": "OpenDCAI/DataFlow",
+        "stargazers_count": 8213,
+        "forks_count": 1188,
+        "pushed_at": "2026-09-28T10:36:34Z",
+        "archived": false,
+        "description": "[SIGMOD'27] Easy Data Preparation with latest LLMs-based Operators and Pipelines.",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2512.16676"
+        ],
+        [
+          "代码",
+          "https://github.com/OpenDCAI/DataFlow"
+        ]
+      ]
+    },
+    {
+      "id": "hfdatasets",
+      "category": "加工工具与复用组件",
+      "name": "Hugging Face Datasets",
+      "year": 2026,
+      "kind": "开源工具",
+      "org": "Hugging Face",
+      "url": "https://huggingface.co/docs/datasets/",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "读取",
+        "转换",
+        "共享"
+      ],
+      "product": "统一的数据读取、map、filter、streaming 与版本访问接口。",
+      "method": "在明确定义的配置、split 和 revision 下读取和处理记录。",
+      "limit": "统一接口不会自动消除数据集之间的许可、字段语义和污染差异。",
+      "start": "用 streaming 只看一条，再固定 revision，避免盲目全量下载。",
+      "github": "huggingface/datasets",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "huggingface/datasets",
+        "url": "https://api.github.com/repos/huggingface/datasets",
+        "resolved_url": "https://api.github.com/repos/huggingface/datasets",
+        "retrieved_at": "2026-09-29T02:08:57.229353+00:00",
+        "bytes": 6747,
+        "file": "github-huggingface__datasets.json",
+        "full_name": "huggingface/datasets",
+        "stargazers_count": 22013,
+        "forks_count": 3474,
+        "pushed_at": "2026-09-28T10:04:31Z",
+        "archived": false,
+        "description": "🤗 The largest hub of ready-to-use datasets for AI models with fast, easy-to-use and efficient data manipulation tools",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://huggingface.co/docs/datasets/"
+        ],
+        [
+          "代码",
+          "https://github.com/huggingface/datasets"
+        ]
+      ]
+    },
+    {
+      "id": "rdkit",
+      "category": "加工工具与复用组件",
+      "name": "RDKit",
+      "year": 2026,
+      "kind": "学科工具",
+      "org": "RDKit 社区",
+      "url": "https://www.rdkit.org/docs/GettingStartedInPython.html",
+      "domains": [
+        "化学",
+        "材料"
+      ],
+      "roles": [
+        "解析",
+        "实体标准化"
+      ],
+      "product": "分子字符串解析、结构操作、特征和性质计算。",
+      "method": "将 SMILES 解析为分子图，检查有效性并按任务制定规范化规则。",
+      "limit": "去盐、互变异构体与立体信息的处理可能改变任务对象，需要保留原始表示。",
+      "start": "解析 CCO 与 OCC，比较规范表示并解释它们为何指向同一实体。",
+      "github": "rdkit/rdkit",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "rdkit/rdkit",
+        "url": "https://api.github.com/repos/rdkit/rdkit",
+        "resolved_url": "https://api.github.com/repos/rdkit/rdkit",
+        "retrieved_at": "2026-09-29T02:09:46.272936+00:00",
+        "bytes": 5952,
+        "file": "github-rdkit__rdkit.json",
+        "full_name": "rdkit/rdkit",
+        "stargazers_count": 3601,
+        "forks_count": 1069,
+        "pushed_at": "2026-09-28T13:10:18Z",
+        "archived": false,
+        "description": "The official sources for the RDKit library",
+        "default_branch": "master",
+        "license": "BSD-3-Clause"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://www.rdkit.org/docs/GettingStartedInPython.html"
+        ],
+        [
+          "代码",
+          "https://github.com/rdkit/rdkit"
+        ]
+      ]
+    },
+    {
+      "id": "xarray",
+      "category": "加工工具与复用组件",
+      "name": "xarray",
+      "year": 2026,
+      "kind": "学科工具",
+      "org": "xarray 社区",
+      "url": "https://docs.xarray.dev/en/stable/",
+      "domains": [
+        "气象",
+        "遥感",
+        "物理"
+      ],
+      "roles": [
+        "坐标对齐",
+        "张量化"
+      ],
+      "product": "带维度名与坐标的多维数组，支持 NetCDF / Zarr 等。",
+      "method": "根据 time、latitude、longitude、level 显式选择和对齐数据。",
+      "limit": "数组能对齐不代表观测时效与物理定义一致；插值也会引入假设。",
+      "start": "读取变量的 dims、coords、attrs，检查单位和缺失值。",
+      "github": "pydata/xarray",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "pydata/xarray",
+        "url": "https://api.github.com/repos/pydata/xarray",
+        "resolved_url": "https://api.github.com/repos/pydata/xarray",
+        "retrieved_at": "2026-09-29T02:09:46.273016+00:00",
+        "bytes": 6055,
+        "file": "github-pydata__xarray.json",
+        "full_name": "pydata/xarray",
+        "stargazers_count": 4202,
+        "forks_count": 1369,
+        "pushed_at": "2026-09-28T23:26:11Z",
+        "archived": false,
+        "description": "N-D labeled arrays and datasets in Python",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://docs.xarray.dev/en/stable/"
+        ],
+        [
+          "代码",
+          "https://github.com/pydata/xarray"
+        ]
+      ]
+    },
+    {
+      "id": "mne",
+      "category": "加工工具与复用组件",
+      "name": "MNE-Python",
+      "year": 2026,
+      "kind": "学科工具",
+      "org": "MNE 社区",
+      "url": "https://mne.tools/stable/index.html",
+      "domains": [
+        "医疗",
+        "生物"
+      ],
+      "roles": [
+        "信号预处理"
+      ],
+      "product": "EEG / MEG 等神经生理信号的读取、滤波、事件处理与分析。",
+      "method": "按采样率、通道、事件和被试组织流程，留下参数与处理记录。",
+      "limit": "滤波、伪迹去除和切窗影响信号含义；相邻窗不是新被试。",
+      "start": "使用官方 sample 数据观察一次滤波前后的波形与频谱。",
+      "github": "mne-tools/mne-python",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "mne-tools/mne-python",
+        "url": "https://api.github.com/repos/mne-tools/mne-python",
+        "resolved_url": "https://api.github.com/repos/mne-tools/mne-python",
+        "retrieved_at": "2026-09-29T02:09:46.273082+00:00",
+        "bytes": 6615,
+        "file": "github-mne-tools__mne-python.json",
+        "full_name": "mne-tools/mne-python",
+        "stargazers_count": 3529,
+        "forks_count": 1601,
+        "pushed_at": "2026-09-28T13:08:49Z",
+        "archived": false,
+        "description": "MNE: Magnetoencephalography (MEG) and Electroencephalography (EEG) in Python",
+        "default_branch": "main",
+        "license": "BSD-3-Clause"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://mne.tools/stable/index.html"
+        ],
+        [
+          "代码",
+          "https://github.com/mne-tools/mne-python"
+        ]
+      ]
+    },
+    {
+      "id": "torchgeo",
+      "category": "加工工具与复用组件",
+      "name": "TorchGeo",
+      "year": 2026,
+      "kind": "学科工具",
+      "org": "Microsoft / 开源社区",
+      "url": "https://torchgeo.readthedocs.io/en/stable/",
+      "domains": [
+        "遥感"
+      ],
+      "roles": [
+        "读取",
+        "空间采样"
+      ],
+      "product": "地理数据集、空间采样和模型训练组件。",
+      "method": "使用地理边界和时间信息组织跨源影像访问及任务样本。",
+      "limit": "随机图块划分可能包含空间相关，工具使用仍需科学实验设计。",
+      "start": "查看 BigEarthNetV2 的 bands 与 split 配置，核对区域边界。",
+      "github": "microsoft/torchgeo",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "microsoft/torchgeo",
+        "url": "https://api.github.com/repos/microsoft/torchgeo",
+        "resolved_url": "https://api.github.com/repositories/369428935",
+        "retrieved_at": "2026-09-29T02:09:46.273132+00:00",
+        "bytes": 6369,
+        "file": "github-microsoft__torchgeo.json",
+        "full_name": "torchgeo/torchgeo",
+        "stargazers_count": 4191,
+        "forks_count": 592,
+        "pushed_at": "2026-09-28T16:37:27Z",
+        "archived": false,
+        "description": "TorchGeo: datasets, samplers, transforms, and pre-trained models for geospatial data",
+        "default_branch": "main",
+        "license": "MIT"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://torchgeo.readthedocs.io/en/stable/"
+        ],
+        [
+          "代码",
+          "https://github.com/microsoft/torchgeo"
+        ]
+      ]
+    },
+    {
+      "id": "fairchem",
+      "category": "加工工具与复用组件",
+      "name": "FAIR-Chem",
+      "year": 2026,
+      "kind": "学科工具与模型生态",
+      "org": "Meta FAIR 等",
+      "url": "https://github.com/facebookresearch/fairchem",
+      "domains": [
+        "化学",
+        "材料"
+      ],
+      "roles": [
+        "读取",
+        "训练",
+        "评测"
+      ],
+      "product": "连接原子级数据、模型与评测的开源生态。",
+      "method": "以原子系统和计算属性构造数据接口，复用公开训练和评测流程。",
+      "limit": "代码、不同数据及模型分别有许可，API 的 NOASSERTION 不能解读成可任意使用。",
+      "start": "先用教程读取一条原子系统，检查原子数、坐标、能量和力。",
+      "github": "facebookresearch/fairchem",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "facebookresearch/fairchem",
+        "url": "https://api.github.com/repos/facebookresearch/fairchem",
+        "resolved_url": "https://api.github.com/repos/facebookresearch/fairchem",
+        "retrieved_at": "2026-09-29T02:08:58.246470+00:00",
+        "bytes": 6764,
+        "file": "github-facebookresearch__fairchem.json",
+        "full_name": "facebookresearch/fairchem",
+        "stargazers_count": 2270,
+        "forks_count": 509,
+        "pushed_at": "2026-09-25T23:00:16Z",
+        "archived": false,
+        "description": "FAIR Chemistry's library of machine learning methods for chemistry ",
+        "default_branch": "main",
+        "license": "NOASSERTION"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://github.com/facebookresearch/fairchem"
+        ],
+        [
+          "代码",
+          "https://github.com/facebookresearch/fairchem"
+        ]
+      ]
+    },
+    {
+      "id": "dvc",
+      "category": "加工工具与复用组件",
+      "name": "DVC",
+      "year": 2026,
+      "kind": "开源工具",
+      "org": "Iterative / 社区",
+      "url": "https://dvc.org/doc",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "版本",
+        "复现"
+      ],
+      "product": "数据版本、流水线依赖及实验产物追踪。",
+      "method": "把数据快照、参数和处理阶段与代码版本联系起来。",
+      "limit": "记录版本能说明做了什么，不能保证标签或假设正确。",
+      "start": "为 raw、derived 和一个转换脚本建立一次可重跑记录。",
+      "github": "iterative/dvc",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "iterative/dvc",
+        "url": "https://api.github.com/repos/iterative/dvc",
+        "resolved_url": "https://api.github.com/repositories/83878269",
+        "retrieved_at": "2026-09-29T02:08:57.272732+00:00",
+        "bytes": 6191,
+        "file": "github-iterative__dvc.json",
+        "full_name": "treeverse/dvc",
+        "stargazers_count": 15889,
+        "forks_count": 1330,
+        "pushed_at": "2026-09-28T19:13:12Z",
+        "archived": false,
+        "description": "🦉 Data Versioning and ML Experiments",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://dvc.org/doc"
+        ],
+        [
+          "代码",
+          "https://github.com/iterative/dvc"
+        ]
+      ]
+    },
+    {
+      "id": "datacomp",
+      "category": "训练与评测方法",
+      "name": "DataComp",
+      "year": 2023,
+      "kind": "NeurIPS 论文",
+      "org": "DataComp 社区",
+      "url": "https://arxiv.org/abs/2304.14108",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "数据筛选",
+        "预训练评测"
+      ],
+      "product": "固定训练设置，比较不同数据筛选策略的视觉语言研究平台。",
+      "method": "控制模型和计算条件，观察训练数据选择如何影响结果。",
+      "limit": "结果受数据池、预算与评测任务制约，不能把通用过滤器视作科学数据答案。",
+      "start": "读一个筛选配置，解释为什么比较数据要控制模型与预算。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2304.14108"
+        ]
+      ]
+    },
+    {
+      "id": "dclm",
+      "category": "训练与评测方法",
+      "name": "DataComp-LM（DCLM）",
+      "year": 2024,
+      "kind": "NeurIPS 数据集与基准论文",
+      "org": "UW / Apple 等多机构",
+      "url": "https://arxiv.org/abs/2406.11794",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "文本预训练",
+        "数据配方评测"
+      ],
+      "product": "围绕 240 万亿候选 token 的受控数据实验平台。",
+      "method": "固定或规定训练预算，比较原始来源、过滤、去重、token 化与评估配方。",
+      "limit": "候选池规模不等于最终训练量；控制比较比直接引用排行榜更有教学价值。",
+      "start": "按来源选择、加工、token 化、训练、评测五步阅读官方流程。",
+      "github": "mlfoundations/dclm",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2406.11794"
+        ],
+        [
+          "代码",
+          "https://github.com/mlfoundations/dclm"
+        ]
+      ]
+    },
+    {
+      "id": "healthbench",
+      "category": "训练与评测方法",
+      "name": "HealthBench",
+      "year": 2025,
+      "kind": "预印本与评测资源",
+      "org": "OpenAI / 医师合作团队",
+      "url": "https://arxiv.org/abs/2505.08775",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "独立评测"
+      ],
+      "product": "5,000 个健康对话，262 位医生参与制定逐对话评分规则。",
+      "method": "用具体 rubric 检验开放式回答中的内容支持、覆盖与风险相关要求。",
+      "limit": "评分器的误差仍需检查；这是健康对话评测，不能代替所有临床能力验证。",
+      "start": "读一条对话和对应 rubric，区分模型输入与评分器专用参考。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2505.08775"
+        ]
+      ]
+    },
+    {
+      "id": "medagent",
+      "category": "训练与评测方法",
+      "name": "MedAgentBench",
+      "year": 2025,
+      "kind": "NEJM AI 论文与环境",
+      "org": "Stanford 团队",
+      "url": "https://doi.org/10.1056/AIdbp2500144",
+      "domains": [
+        "医疗"
+      ],
+      "roles": [
+        "工具交互评测"
+      ],
+      "product": "300 项任务、100 个患者档案和 FHIR 交互环境。",
+      "method": "用 API 查询、任务状态和结果检查评价智能体的执行能力。",
+      "limit": "沙盒任务通过不能直接证明真实医院部署能力；环境状态需要重置。",
+      "start": "阅读一个只读查询任务，记录调用、返回与终止条件。",
+      "github": "stanfordmlgroup/MedAgentBench",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "stanfordmlgroup/MedAgentBench",
+        "url": "https://api.github.com/repos/stanfordmlgroup/MedAgentBench",
+        "resolved_url": "https://api.github.com/repos/stanfordmlgroup/MedAgentBench",
+        "retrieved_at": "2026-09-29T02:09:00.393305+00:00",
+        "bytes": 6958,
+        "file": "github-stanfordmlgroup__MedAgentBench.json",
+        "full_name": "stanfordmlgroup/MedAgentBench",
+        "stargazers_count": 333,
+        "forks_count": 69,
+        "pushed_at": "2025-11-21T18:39:26Z",
+        "archived": false,
+        "description": "MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents",
+        "default_branch": "main",
+        "license": "MIT"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://doi.org/10.1056/AIdbp2500144"
+        ],
+        [
+          "代码",
+          "https://github.com/stanfordmlgroup/MedAgentBench"
+        ]
+      ]
+    },
+    {
+      "id": "scienceagent",
+      "category": "训练与评测方法",
+      "name": "ScienceAgentBench",
+      "year": 2025,
+      "kind": "ICLR 论文与评测资源",
+      "org": "Ohio State University 等",
+      "url": "https://arxiv.org/abs/2410.05080",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "科研智能体评测"
+      ],
+      "product": "从数据驱动研究任务出发检查智能体能否产出正确分析文件。",
+      "method": "将任务要求、输入数据、专家知识和结果检查连接为可执行测试。",
+      "limit": "能执行代码不等于科学结论成立；评测依赖任务与检查覆盖。",
+      "start": "打开一个任务目录，辨认输入、参考产物和验收逻辑。",
+      "github": "OSU-NLP-Group/ScienceAgentBench",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "OSU-NLP-Group/ScienceAgentBench",
+        "url": "https://api.github.com/repos/OSU-NLP-Group/ScienceAgentBench",
+        "resolved_url": "https://api.github.com/repos/OSU-NLP-Group/ScienceAgentBench",
+        "retrieved_at": "2026-09-29T02:09:00.967543+00:00",
+        "bytes": 7124,
+        "file": "github-OSU-NLP-Group__ScienceAgentBench.json",
+        "full_name": "OSU-NLP-Group/ScienceAgentBench",
+        "stargazers_count": 174,
+        "forks_count": 23,
+        "pushed_at": "2026-07-18T05:25:41Z",
+        "archived": false,
+        "description": "[ICLR'25] ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery",
+        "default_branch": "main",
+        "license": "MIT"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2410.05080"
+        ],
+        [
+          "代码",
+          "https://github.com/OSU-NLP-Group/ScienceAgentBench"
+        ]
+      ]
+    },
+    {
+      "id": "interns1",
+      "category": "训练与评测方法",
+      "name": "Intern-S1",
+      "year": 2025,
+      "kind": "科学基础模型预印本",
+      "org": "上海人工智能实验室等",
+      "url": "https://arxiv.org/abs/2508.15763",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "预训练",
+        "强化学习"
+      ],
+      "product": "技术报告连接科学多模态持续预训练与离线、在线后训练。",
+      "method": "结合领域数据、任务环境与 Mixture-of-Rewards 组织学习。",
+      "limit": "模型技术报告不意味着所有训练数据与奖励环境完整公开。",
+      "start": "区分原始语料、训练任务、可验证反馈和最终评测四类材料。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2508.15763"
+        ]
+      ]
+    },
+    {
+      "id": "scidatacopilot",
+      "category": "2026 研究前沿",
+      "name": "SciDataCopilot",
+      "year": 2026,
+      "kind": "预印本 v1；代码公开",
+      "org": "上海人工智能实验室",
+      "url": "https://arxiv.org/abs/2602.09132v1",
+      "domains": [
+        "生物",
+        "医疗",
+        "气象"
+      ],
+      "roles": [
+        "任务化加工",
+        "工具编排"
+      ],
+      "product": "四类智能体连接数据访问、意图解析、处理与整合。酶案例报告 214,104 条反应记录。",
+      "method": "按研究目标选择数据与工具，复用 Case Lake，执行并修复代码，保存可追溯产物。",
+      "limit": "三类用例的结果范围有限；代码执行成功、加工提速与科学正确性分别验证。",
+      "start": "阅读酶序列—底物—产物的构造案例，再按仓库示例试一个小任务。",
+      "github": "InternScience/SciDataCopilot",
+      "checked": "2026-09-28",
+      "githubSnapshot": {
+        "kind": "github",
+        "id": "InternScience/SciDataCopilot",
+        "url": "https://api.github.com/repos/InternScience/SciDataCopilot",
+        "resolved_url": "https://api.github.com/repos/InternScience/SciDataCopilot",
+        "retrieved_at": "2026-09-29T02:09:46.272666+00:00",
+        "bytes": 6770,
+        "file": "github-InternScience__SciDataCopilot.json",
+        "full_name": "InternScience/SciDataCopilot",
+        "stargazers_count": 46,
+        "forks_count": 1,
+        "pushed_at": "2026-02-11T04:02:14Z",
+        "archived": false,
+        "description": "An Agentic Data Preparation Framework for AGI-driven Scientific Discovery",
+        "default_branch": "main",
+        "license": "Apache-2.0"
+      },
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2602.09132v1"
+        ],
+        [
+          "代码",
+          "https://github.com/InternScience/SciDataCopilot"
+        ]
+      ]
+    },
+    {
+      "id": "foxden",
+      "category": "2026 研究前沿",
+      "name": "FOXDEN",
+      "year": 2026,
+      "kind": "预印本 v3，9 月",
+      "org": "Cornell CHESS / MagLab",
+      "url": "https://arxiv.org/abs/2609.03105v3",
+      "domains": [
+        "实验科学",
+        "材料"
+      ],
+      "roles": [
+        "元数据",
+        "谱系",
+        "发布"
+      ],
+      "product": "为原始、约化和分析数据附加结构化元数据与谱系，并支持 DOI 发布。",
+      "method": "把实验设施的数据处理阶段、标识和关系组织为服务。",
+      "limit": "其部署证据支持数据服务可用性，不等价于已证明所有下游 AI 模型提升。",
+      "start": "画出一次实验的 raw / reduced / analyzed 关系，并核对每个版本的来源。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2609.03105v3"
+        ]
+      ]
+    },
+    {
+      "id": "bounds",
+      "category": "2026 研究前沿",
+      "name": "Domain Bounds",
+      "year": 2026,
+      "kind": "预印本 v1，9 月 24 日",
+      "org": "Oak Ridge National Laboratory",
+      "url": "https://arxiv.org/abs/2609.30507v1",
+      "domains": [
+        "医疗",
+        "计算科学"
+      ],
+      "roles": [
+        "语义验证",
+        "复用"
+      ],
+      "product": "将有效复用条件与数据绑定，检查数值正常但使用语境不兼容的静默错误。",
+      "method": "声明生成条件与使用约束，在下游消费时验证是否相容。",
+      "limit": "报告的注入故障实验规模有限，不表述为已经解决全部科学语义问题。",
+      "start": "为字段增加适用设备、测量定义、时间范围与禁止用途，再检查新任务。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2609.30507v1"
+        ]
+      ]
+    },
+    {
+      "id": "baker",
+      "category": "2026 研究前沿",
+      "name": "Croissant Baker",
+      "year": 2026,
+      "kind": "预印本 v1，5 月",
+      "org": "MIT / TUM 等多机构",
+      "url": "https://arxiv.org/abs/2605.15079v1",
+      "domains": [
+        "跨学科",
+        "医疗"
+      ],
+      "roles": [
+        "元数据生成"
+      ],
+      "product": "从本地、异构或受控数据生成 Croissant 元数据，研究格式感知处理器。",
+      "method": "识别格式结构后建立字段和资源描述，并检查结构保真。",
+      "limit": "自动推断结构不能替研究者决定临床或科学语义，仍需复核。",
+      "start": "比较 CSV 与 DICOM 的字段描述，指出哪些含义需要领域专家。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2605.15079v1"
+        ]
+      ]
+    },
+    {
+      "id": "ctasks",
+      "category": "2026 研究前沿",
+      "name": "Croissant Tasks",
+      "year": 2026,
+      "kind": "预印本 v1，5 月",
+      "org": "Google DeepMind 等",
+      "url": "https://arxiv.org/abs/2605.29786v1",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "评测复现"
+      ],
+      "product": "用机器可读元数据区分任务问题和具体解法，补充可执行评测信息。",
+      "method": "记录问题、输入输出、指标与执行条件，降低仅靠论文重建实验的歧义。",
+      "limit": "这是发展中的格式提案；元数据自身错误仍会传递到自动复现。",
+      "start": "把“测什么”和“某模型怎样完成测试”分开写成两个清单。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2605.29786v1"
+        ]
+      ]
+    },
+    {
+      "id": "bigearthtext",
+      "category": "2026 研究前沿",
+      "name": "BigEarthNet.txt",
+      "year": 2026,
+      "kind": "预印本 v2，3–4 月",
+      "org": "TU Berlin / BIFOLD 等",
+      "url": "https://arxiv.org/abs/2603.29630v2",
+      "domains": [
+        "遥感"
+      ],
+      "roles": [
+        "多模态预训练",
+        "评测"
+      ],
+      "product": "在多传感器地球观测数据上增加多样文本描述，组织图文学习任务。",
+      "method": "把多光谱、SAR 与文字监督联系起来，扩展原来的标签式数据产品。",
+      "limit": "需要核对文本生成来源、传感器支持的事实与地理独立性。",
+      "start": "比较类别标签、图像描述和问答各自提供了多少新监督。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2603.29630v2"
+        ]
+      ]
+    },
+    {
+      "id": "lastai",
+      "category": "RSI 与反馈治理",
+      "name": "The Last AI Built by Humans",
+      "year": 2026,
+      "kind": "用户上传预印本 v3",
+      "org": "Duan 等",
+      "url": "https://arxiv.org/abs/2609.11873v3",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "RSI",
+        "持续治理"
+      ],
+      "product": "区分本次输出修复、持续改进及改进机制的跨轮次继承。",
+      "method": "Humanlaya 的内层修任务包，外层改质检方法，经留出检查与人工把关后用于新批次。",
+      "limit": "自主性级别不等于质量等级；企业内部对比与独立复现须区分。",
+      "start": "先修复一次扫描件，再更新会被下一批继承的检查规则。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2609.11873v3"
+        ]
+      ]
+    },
+    {
+      "id": "stella",
+      "category": "RSI 与反馈治理",
+      "name": "STELLA",
+      "year": 2025,
+      "kind": "预印本 v1",
+      "org": "Jin 等",
+      "url": "https://arxiv.org/abs/2507.02004v1",
+      "domains": [
+        "生物",
+        "科研工作流"
+      ],
+      "roles": [
+        "工具经验",
+        "反馈"
+      ],
+      "product": "通过工具和模板组织科研任务经验。",
+      "method": "把可复用工具与任务模板保留，并在后续研究中调用。",
+      "limit": "本课沿用指定综述引用的 v1，不把更晚版本结果混入同一证据。",
+      "start": "检查一次任务留下了数据、工具代码还是任务模板，以及下次如何调用。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://arxiv.org/abs/2507.02004v1"
+        ]
+      ]
+    },
+    {
+      "id": "collapse",
+      "category": "RSI 与反馈治理",
+      "name": "递归合成数据与模型坍塌",
+      "year": 2024,
+      "kind": "Nature 论文",
+      "org": "Shumailov 等",
+      "url": "https://www.nature.com/articles/s41586-024-07566-y",
+      "domains": [
+        "跨学科"
+      ],
+      "roles": [
+        "合成数据",
+        "反馈风险"
+      ],
+      "product": "研究递归使用模型生成数据训练时分布尾部信息可能逐渐丢失。",
+      "method": "比较数据生成与再训练链条中的分布变化。",
+      "limit": "结论依训练和数据替换设置，不应简化成“所有合成数据都不能用”。",
+      "start": "为真实、模拟、合成记录保存不同来源，并跟踪罕见条件覆盖。",
+      "checked": "2026-09-28",
+      "links": [
+        [
+          "主要来源",
+          "https://www.nature.com/articles/s41586-024-07566-y"
+        ]
+      ]
+    }
+  ],
+  "metricSnapshots": [
+    {
+      "kind": "github",
+      "id": "docling-project/docling",
+      "url": "https://api.github.com/repos/docling-project/docling",
+      "resolved_url": "https://api.github.com/repos/docling-project/docling",
+      "retrieved_at": "2026-09-29T02:08:54.400986+00:00",
+      "bytes": 6752,
+      "file": "github-docling-project__docling.json",
+      "full_name": "docling-project/docling",
+      "stargazers_count": 68139,
+      "forks_count": 4951,
+      "pushed_at": "2026-09-28T15:44:34Z",
+      "archived": false,
+      "description": "Get your documents ready for gen AI",
+      "default_branch": "main",
+      "license": "MIT"
+    },
+    {
+      "kind": "github",
+      "id": "opendatalab/MinerU",
+      "url": "https://api.github.com/repos/opendatalab/MinerU",
+      "resolved_url": "https://api.github.com/repos/opendatalab/MinerU",
+      "retrieved_at": "2026-09-29T02:08:55.405133+00:00",
+      "bytes": 6531,
+      "file": "github-opendatalab__MinerU.json",
+      "full_name": "opendatalab/MinerU",
+      "stargazers_count": 80790,
+      "forks_count": 6737,
+      "pushed_at": "2026-09-28T15:59:22Z",
+      "archived": false,
+      "description": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows.",
+      "default_branch": "master",
+      "license": "NOASSERTION"
+    },
+    {
+      "kind": "github",
+      "id": "huggingface/datatrove",
+      "url": "https://api.github.com/repos/huggingface/datatrove",
+      "resolved_url": "https://api.github.com/repos/huggingface/datatrove",
+      "retrieved_at": "2026-09-29T02:08:55.433537+00:00",
+      "bytes": 6520,
+      "file": "github-huggingface__datatrove.json",
+      "full_name": "huggingface/datatrove",
+      "stargazers_count": 3363,
+      "forks_count": 308,
+      "pushed_at": "2026-09-29T00:08:16Z",
+      "archived": false,
+      "description": "Freeing data processing from scripting madness by providing a set of platform-agnostic customizable pipeline processing blocks.",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "datajuicer/data-juicer",
+      "url": "https://api.github.com/repos/datajuicer/data-juicer",
+      "resolved_url": "https://api.github.com/repos/datajuicer/data-juicer",
+      "retrieved_at": "2026-09-29T02:08:56.146701+00:00",
+      "bytes": 6723,
+      "file": "github-datajuicer__data-juicer.json",
+      "full_name": "datajuicer/data-juicer",
+      "stargazers_count": 7100,
+      "forks_count": 430,
+      "pushed_at": "2026-09-28T09:00:50Z",
+      "archived": false,
+      "description": "Data processing for and with foundation models!  🍎 🍋 🌽 ➡️ ➡️🍸 🍹 🍷",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "NVIDIA-NeMo/Curator",
+      "url": "https://api.github.com/repos/NVIDIA-NeMo/Curator",
+      "resolved_url": "https://api.github.com/repos/NVIDIA-NeMo/Curator",
+      "retrieved_at": "2026-09-29T02:08:56.401938+00:00",
+      "bytes": 6644,
+      "file": "github-NVIDIA-NeMo__Curator.json",
+      "full_name": "NVIDIA-NeMo/Curator",
+      "stargazers_count": 1786,
+      "forks_count": 339,
+      "pushed_at": "2026-09-29T01:43:52Z",
+      "archived": false,
+      "description": "Scalable data pre processing and curation toolkit for LLMs",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "OpenDCAI/DataFlow",
+      "url": "https://api.github.com/repos/OpenDCAI/DataFlow",
+      "resolved_url": "https://api.github.com/repos/OpenDCAI/DataFlow",
+      "retrieved_at": "2026-09-29T02:08:56.477500+00:00",
+      "bytes": 6429,
+      "file": "github-OpenDCAI__DataFlow.json",
+      "full_name": "OpenDCAI/DataFlow",
+      "stargazers_count": 8213,
+      "forks_count": 1188,
+      "pushed_at": "2026-09-28T10:36:34Z",
+      "archived": false,
+      "description": "[SIGMOD'27] Easy Data Preparation with latest LLMs-based Operators and Pipelines.",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "mlcommons/croissant",
+      "url": "https://api.github.com/repos/mlcommons/croissant",
+      "resolved_url": "https://api.github.com/repos/mlcommons/croissant",
+      "retrieved_at": "2026-09-29T02:08:56.630253+00:00",
+      "bytes": 6449,
+      "file": "github-mlcommons__croissant.json",
+      "full_name": "mlcommons/croissant",
+      "stargazers_count": 903,
+      "forks_count": 125,
+      "pushed_at": "2026-09-23T17:55:32Z",
+      "archived": false,
+      "description": "Croissant is a high-level format for machine learning datasets that brings together four rich layers.",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "huggingface/datasets",
+      "url": "https://api.github.com/repos/huggingface/datasets",
+      "resolved_url": "https://api.github.com/repos/huggingface/datasets",
+      "retrieved_at": "2026-09-29T02:08:57.229353+00:00",
+      "bytes": 6747,
+      "file": "github-huggingface__datasets.json",
+      "full_name": "huggingface/datasets",
+      "stargazers_count": 22013,
+      "forks_count": 3474,
+      "pushed_at": "2026-09-28T10:04:31Z",
+      "archived": false,
+      "description": "🤗 The largest hub of ready-to-use datasets for AI models with fast, easy-to-use and efficient data manipulation tools",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "iterative/dvc",
+      "url": "https://api.github.com/repos/iterative/dvc",
+      "resolved_url": "https://api.github.com/repositories/83878269",
+      "retrieved_at": "2026-09-29T02:08:57.272732+00:00",
+      "bytes": 6191,
+      "file": "github-iterative__dvc.json",
+      "full_name": "treeverse/dvc",
+      "stargazers_count": 15889,
+      "forks_count": 1330,
+      "pushed_at": "2026-09-28T19:13:12Z",
+      "archived": false,
+      "description": "🦉 Data Versioning and ML Experiments",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "deepchem/deepchem",
+      "url": "https://api.github.com/repos/deepchem/deepchem",
+      "resolved_url": "https://api.github.com/repos/deepchem/deepchem",
+      "retrieved_at": "2026-09-29T02:08:58.038226+00:00",
+      "bytes": 6361,
+      "file": "github-deepchem__deepchem.json",
+      "full_name": "deepchem/deepchem",
+      "stargazers_count": 7022,
+      "forks_count": 2325,
+      "pushed_at": "2026-08-20T19:01:34Z",
+      "archived": false,
+      "description": "Democratizing Deep-Learning for Drug Discovery, Quantum Chemistry, Materials Science and Biology",
+      "default_branch": "master",
+      "license": "MIT"
+    },
+    {
+      "kind": "github",
+      "id": "facebookresearch/fairchem",
+      "url": "https://api.github.com/repos/facebookresearch/fairchem",
+      "resolved_url": "https://api.github.com/repos/facebookresearch/fairchem",
+      "retrieved_at": "2026-09-29T02:08:58.246470+00:00",
+      "bytes": 6764,
+      "file": "github-facebookresearch__fairchem.json",
+      "full_name": "facebookresearch/fairchem",
+      "stargazers_count": 2270,
+      "forks_count": 509,
+      "pushed_at": "2026-09-25T23:00:16Z",
+      "archived": false,
+      "description": "FAIR Chemistry's library of machine learning methods for chemistry ",
+      "default_branch": "main",
+      "license": "NOASSERTION"
+    },
+    {
+      "kind": "github",
+      "id": "PolymathicAI/the_well",
+      "url": "https://api.github.com/repos/PolymathicAI/the_well",
+      "resolved_url": "https://api.github.com/repos/PolymathicAI/the_well",
+      "retrieved_at": "2026-09-29T02:08:58.343408+00:00",
+      "bytes": 6503,
+      "file": "github-PolymathicAI__the_well.json",
+      "full_name": "PolymathicAI/the_well",
+      "stargazers_count": 4468,
+      "forks_count": 570,
+      "pushed_at": "2026-07-23T14:39:04Z",
+      "archived": false,
+      "description": "A 15TB Collection of Physics Simulation Datasets",
+      "default_branch": "master",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "kind": "github",
+      "id": "DeepMIMO/DeepMIMO",
+      "url": "https://api.github.com/repos/DeepMIMO/DeepMIMO",
+      "resolved_url": "https://api.github.com/repos/DeepMIMO/DeepMIMO",
+      "retrieved_at": "2026-09-29T02:08:58.571152+00:00",
+      "bytes": 6363,
+      "file": "github-DeepMIMO__DeepMIMO.json",
+      "full_name": "DeepMIMO/DeepMIMO",
+      "stargazers_count": 126,
+      "forks_count": 26,
+      "pushed_at": "2026-09-23T17:36:26Z",
+      "archived": false,
+      "description": "DeepMIMOv4: A Toolchain and Database for Ray-tracing Datasets.",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "NVlabs/sionna",
+      "url": "https://api.github.com/repos/NVlabs/sionna",
+      "resolved_url": "https://api.github.com/repos/NVlabs/sionna",
+      "retrieved_at": "2026-09-29T02:08:59.125750+00:00",
+      "bytes": 6183,
+      "file": "github-NVlabs__sionna.json",
+      "full_name": "NVlabs/sionna",
+      "stargazers_count": 1621,
+      "forks_count": 414,
+      "pushed_at": "2026-09-09T11:36:00Z",
+      "archived": false,
+      "description": "Sionna: An Open-Source Library for Research on Communication Systems",
+      "default_branch": "main",
+      "license": "NOASSERTION"
+    },
+    {
+      "kind": "github",
+      "id": "circuitnet/CircuitNet",
+      "url": "https://api.github.com/repos/circuitnet/CircuitNet",
+      "resolved_url": "https://api.github.com/repos/circuitnet/CircuitNet",
+      "retrieved_at": "2026-09-29T02:08:59.915796+00:00",
+      "bytes": 6590,
+      "file": "github-circuitnet__CircuitNet.json",
+      "full_name": "circuitnet/CircuitNet",
+      "stargazers_count": 512,
+      "forks_count": 86,
+      "pushed_at": "2026-05-17T09:16:35Z",
+      "archived": false,
+      "description": "CircuitNet: An Open-Source Dataset for Machine Learning Applications in Electronic Design Automation (EDA)",
+      "default_branch": "main",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "kind": "github",
+      "id": "DLVulDet/PrimeVul",
+      "url": "https://api.github.com/repos/DLVulDet/PrimeVul",
+      "resolved_url": "https://api.github.com/repos/DLVulDet/PrimeVul",
+      "retrieved_at": "2026-09-29T02:09:00.193343+00:00",
+      "bytes": 5147,
+      "file": "github-DLVulDet__PrimeVul.json",
+      "full_name": "DLVulDet/PrimeVul",
+      "stargazers_count": 274,
+      "forks_count": 22,
+      "pushed_at": "2024-09-07T02:13:07Z",
+      "archived": false,
+      "description": "Repository for PrimeVul Vulnerability Detection Dataset",
+      "default_branch": "main",
+      "license": "MIT"
+    },
+    {
+      "kind": "github",
+      "id": "UCSC-VLAA/MedReason",
+      "url": "https://api.github.com/repos/UCSC-VLAA/MedReason",
+      "resolved_url": "https://api.github.com/repos/UCSC-VLAA/MedReason",
+      "retrieved_at": "2026-09-29T02:09:00.202590+00:00",
+      "bytes": 6221,
+      "file": "github-UCSC-VLAA__MedReason.json",
+      "full_name": "UCSC-VLAA/MedReason",
+      "stargazers_count": 282,
+      "forks_count": 23,
+      "pushed_at": "2025-06-19T18:39:55Z",
+      "archived": false,
+      "description": "MedReason: Eliciting Factual Medical Reasoning Steps in LLMs via Knowledge Graphs",
+      "default_branch": "main",
+      "license": null
+    },
+    {
+      "kind": "github",
+      "id": "stanfordmlgroup/MedAgentBench",
+      "url": "https://api.github.com/repos/stanfordmlgroup/MedAgentBench",
+      "resolved_url": "https://api.github.com/repos/stanfordmlgroup/MedAgentBench",
+      "retrieved_at": "2026-09-29T02:09:00.393305+00:00",
+      "bytes": 6958,
+      "file": "github-stanfordmlgroup__MedAgentBench.json",
+      "full_name": "stanfordmlgroup/MedAgentBench",
+      "stargazers_count": 333,
+      "forks_count": 69,
+      "pushed_at": "2025-11-21T18:39:26Z",
+      "archived": false,
+      "description": "MedAgentBench: A Realistic Virtual EHR Environment to Benchmark Medical LLM Agents",
+      "default_branch": "main",
+      "license": "MIT"
+    },
+    {
+      "kind": "github",
+      "id": "OSU-NLP-Group/ScienceAgentBench",
+      "url": "https://api.github.com/repos/OSU-NLP-Group/ScienceAgentBench",
+      "resolved_url": "https://api.github.com/repos/OSU-NLP-Group/ScienceAgentBench",
+      "retrieved_at": "2026-09-29T02:09:00.967543+00:00",
+      "bytes": 7124,
+      "file": "github-OSU-NLP-Group__ScienceAgentBench.json",
+      "full_name": "OSU-NLP-Group/ScienceAgentBench",
+      "stargazers_count": 174,
+      "forks_count": 23,
+      "pushed_at": "2026-07-18T05:25:41Z",
+      "archived": false,
+      "description": "[ICLR'25] ScienceAgentBench: Toward Rigorous Assessment of Language Agents for Data-Driven Scientific Discovery",
+      "default_branch": "main",
+      "license": "MIT"
+    },
+    {
+      "kind": "huggingface",
+      "id": "arcinstitute/opengenome2",
+      "url": "https://huggingface.co/api/datasets/arcinstitute/opengenome2",
+      "resolved_url": "https://huggingface.co/api/datasets/arcinstitute/opengenome2",
+      "retrieved_at": "2026-09-29T02:09:01.048863+00:00",
+      "bytes": 135285,
+      "file": "huggingface-arcinstitute__opengenome2.json",
+      "downloads": 44131,
+      "likes": 160,
+      "lastModified": "2026-09-02T19:11:46.000Z",
+      "gated": false,
+      "sha": "84d2a7e690c8bb395d1f4868822dfa031ea561c6",
+      "license": "apache-2.0"
+    },
+    {
+      "kind": "huggingface",
+      "id": "facebook/OMAT24",
+      "url": "https://huggingface.co/api/datasets/facebook/OMAT24",
+      "resolved_url": "https://huggingface.co/api/datasets/facebook/OMAT24",
+      "retrieved_at": "2026-09-29T02:09:01.986993+00:00",
+      "bytes": 1336,
+      "file": "huggingface-facebook__OMAT24.json",
+      "downloads": 277,
+      "likes": 81,
+      "lastModified": "2025-12-11T19:29:18.000Z",
+      "gated": false,
+      "sha": "ca00b8aac581497cd0a13146fb3708ad8e2e2fe8",
+      "license": "cc-by-4.0"
+    },
+    {
+      "kind": "huggingface",
+      "id": "FreedomIntelligence/PubMedVision",
+      "url": "https://huggingface.co/api/datasets/FreedomIntelligence/PubMedVision",
+      "resolved_url": "https://huggingface.co/api/datasets/FreedomIntelligence/PubMedVision",
+      "retrieved_at": "2026-09-29T02:09:02.140327+00:00",
+      "bytes": 2756,
+      "file": "huggingface-FreedomIntelligence__PubMedVision.json",
+      "downloads": 1819,
+      "likes": 107,
+      "lastModified": "2025-02-18T07:44:10.000Z",
+      "gated": false,
+      "sha": "3c84e04b38bceb5341419b9a4f8ca37ba790cb84",
+      "license": "apache-2.0"
+    },
+    {
+      "kind": "huggingface",
+      "id": "UCSC-VLAA/MedReason",
+      "url": "https://huggingface.co/api/datasets/UCSC-VLAA/MedReason",
+      "resolved_url": "https://huggingface.co/api/datasets/UCSC-VLAA/MedReason",
+      "retrieved_at": "2026-09-29T02:09:02.285030+00:00",
+      "bytes": 1523,
+      "file": "huggingface-UCSC-VLAA__MedReason.json",
+      "downloads": 1081,
+      "likes": 88,
+      "lastModified": "2025-05-27T20:39:33.000Z",
+      "gated": false,
+      "sha": "7fc0ddb80653c839be359ac4496ec6ee00bdd52f",
+      "license": "apache-2.0"
+    },
+    {
+      "kind": "huggingface",
+      "id": "openlifescienceai/medmcqa",
+      "url": "https://huggingface.co/api/datasets/openlifescienceai/medmcqa",
+      "resolved_url": "https://huggingface.co/api/datasets/openlifescienceai/medmcqa",
+      "retrieved_at": "2026-09-29T02:09:03.605266+00:00",
+      "bytes": 2970,
+      "file": "huggingface-openlifescienceai__medmcqa.json",
+      "downloads": 174678,
+      "likes": 237,
+      "lastModified": "2024-01-04T14:32:02.000Z",
+      "gated": false,
+      "sha": "91c6572c454088bf71b679ad90aa8dffcd0d5868",
+      "license": [
+        "apache-2.0"
+      ]
+    },
+    {
+      "kind": "huggingface",
+      "id": "qiaojin/PubMedQA",
+      "url": "https://huggingface.co/api/datasets/qiaojin/PubMedQA",
+      "resolved_url": "https://huggingface.co/api/datasets/qiaojin/PubMedQA",
+      "retrieved_at": "2026-09-29T02:09:03.633822+00:00",
+      "bytes": 3889,
+      "file": "huggingface-qiaojin__PubMedQA.json",
+      "downloads": 78465,
+      "likes": 342,
+      "lastModified": "2024-03-06T01:50:16.000Z",
+      "gated": false,
+      "sha": "9001f2853fb87cab8d220904e0de81ac6973b318",
+      "license": [
+        "mit"
+      ]
+    },
+    {
+      "kind": "huggingface",
+      "id": "HuggingFaceFW/finepdfs",
+      "url": "https://huggingface.co/api/datasets/HuggingFaceFW/finepdfs",
+      "resolved_url": "https://huggingface.co/api/datasets/HuggingFaceFW/finepdfs",
+      "retrieved_at": "2026-09-29T02:09:03.912896+00:00",
+      "bytes": 409993,
+      "file": "huggingface-HuggingFaceFW__finepdfs.json",
+      "downloads": 47871,
+      "likes": 943,
+      "lastModified": "2026-04-03T19:19:23.000Z",
+      "gated": false,
+      "sha": "220bac3acbf07789502c621d2d33952f51ac7f86",
+      "license": "odc-by"
+    },
+    {
+      "kind": "github",
+      "id": "InternScience/SciDataCopilot",
+      "url": "https://api.github.com/repos/InternScience/SciDataCopilot",
+      "resolved_url": "https://api.github.com/repos/InternScience/SciDataCopilot",
+      "retrieved_at": "2026-09-29T02:09:46.272666+00:00",
+      "bytes": 6770,
+      "file": "github-InternScience__SciDataCopilot.json",
+      "full_name": "InternScience/SciDataCopilot",
+      "stargazers_count": 46,
+      "forks_count": 1,
+      "pushed_at": "2026-02-11T04:02:14Z",
+      "archived": false,
+      "description": "An Agentic Data Preparation Framework for AGI-driven Scientific Discovery",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "rdkit/rdkit",
+      "url": "https://api.github.com/repos/rdkit/rdkit",
+      "resolved_url": "https://api.github.com/repos/rdkit/rdkit",
+      "retrieved_at": "2026-09-29T02:09:46.272936+00:00",
+      "bytes": 5952,
+      "file": "github-rdkit__rdkit.json",
+      "full_name": "rdkit/rdkit",
+      "stargazers_count": 3601,
+      "forks_count": 1069,
+      "pushed_at": "2026-09-28T13:10:18Z",
+      "archived": false,
+      "description": "The official sources for the RDKit library",
+      "default_branch": "master",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "kind": "github",
+      "id": "pydata/xarray",
+      "url": "https://api.github.com/repos/pydata/xarray",
+      "resolved_url": "https://api.github.com/repos/pydata/xarray",
+      "retrieved_at": "2026-09-29T02:09:46.273016+00:00",
+      "bytes": 6055,
+      "file": "github-pydata__xarray.json",
+      "full_name": "pydata/xarray",
+      "stargazers_count": 4202,
+      "forks_count": 1369,
+      "pushed_at": "2026-09-28T23:26:11Z",
+      "archived": false,
+      "description": "N-D labeled arrays and datasets in Python",
+      "default_branch": "main",
+      "license": "Apache-2.0"
+    },
+    {
+      "kind": "github",
+      "id": "mne-tools/mne-python",
+      "url": "https://api.github.com/repos/mne-tools/mne-python",
+      "resolved_url": "https://api.github.com/repos/mne-tools/mne-python",
+      "retrieved_at": "2026-09-29T02:09:46.273082+00:00",
+      "bytes": 6615,
+      "file": "github-mne-tools__mne-python.json",
+      "full_name": "mne-tools/mne-python",
+      "stargazers_count": 3529,
+      "forks_count": 1601,
+      "pushed_at": "2026-09-28T13:08:49Z",
+      "archived": false,
+      "description": "MNE: Magnetoencephalography (MEG) and Electroencephalography (EEG) in Python",
+      "default_branch": "main",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "kind": "github",
+      "id": "microsoft/torchgeo",
+      "url": "https://api.github.com/repos/microsoft/torchgeo",
+      "resolved_url": "https://api.github.com/repositories/369428935",
+      "retrieved_at": "2026-09-29T02:09:46.273132+00:00",
+      "bytes": 6369,
+      "file": "github-microsoft__torchgeo.json",
+      "full_name": "torchgeo/torchgeo",
+      "stargazers_count": 4191,
+      "forks_count": 592,
+      "pushed_at": "2026-09-28T16:37:27Z",
+      "archived": false,
+      "description": "TorchGeo: datasets, samplers, transforms, and pre-trained models for geospatial data",
+      "default_branch": "main",
+      "license": "MIT"
+    },
+    {
+      "kind": "huggingface",
+      "id": "zjunlp/Mol-Instructions",
+      "url": "https://huggingface.co/api/datasets/zjunlp/Mol-Instructions",
+      "resolved_url": "https://huggingface.co/api/datasets/zjunlp/Mol-Instructions",
+      "retrieved_at": "2026-09-29T02:09:48.132912+00:00",
+      "bytes": 1158,
+      "file": "huggingface-zjunlp__Mol-Instructions.json",
+      "downloads": 838,
+      "likes": 70,
+      "lastModified": "2024-03-03T15:32:47.000Z",
+      "gated": false,
+      "sha": "66da41958866dfce072595017aaf460bb290c19b",
+      "license": "cc-by-4.0"
+    },
+    {
+      "kind": "huggingface",
+      "id": "polymathic-ai/shear_flow",
+      "url": "https://huggingface.co/api/datasets/polymathic-ai/shear_flow",
+      "resolved_url": "https://huggingface.co/api/datasets/polymathic-ai/shear_flow",
+      "retrieved_at": "2026-09-29T02:09:48.146701+00:00",
+      "bytes": 7298,
+      "file": "huggingface-polymathic-ai__shear_flow.json",
+      "downloads": 7042,
+      "likes": 2,
+      "lastModified": "2025-04-10T07:50:17.000Z",
+      "gated": false,
+      "sha": "fc867f856f306905cf94c1f5df978cc518a2048c",
+      "license": "cc-by-4.0"
+    },
+    {
+      "kind": "huggingface",
+      "id": "polymathic-ai/active_matter",
+      "url": "https://huggingface.co/api/datasets/polymathic-ai/active_matter",
+      "resolved_url": "https://huggingface.co/api/datasets/polymathic-ai/active_matter",
+      "retrieved_at": "2026-09-29T02:09:48.160765+00:00",
+      "bytes": 7611,
+      "file": "huggingface-polymathic-ai__active_matter.json",
+      "downloads": 2876,
+      "likes": 5,
+      "lastModified": "2025-04-10T07:50:05.000Z",
+      "gated": false,
+      "sha": "dc3e9135a75b4e5a0d979086219fc97fe668f7a3",
+      "license": "cc-by-4.0"
+    }
+  ]
+}

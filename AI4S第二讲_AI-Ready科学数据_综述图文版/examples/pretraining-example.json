@@ -1,0 +1,23 @@
+{
+  "synthetic": true,
+  "purpose": "pretraining_image_text_alignment",
+  "sample_id": "P017-S041",
+  "split": "train",
+  "group_id": "P017",
+  "model_inputs": {
+    "images": [
+      "I01_PA.jpg",
+      "I02_LATERAL.jpg"
+    ],
+    "paired_text": "合成报告 R041：区域 R1 待复核。"
+  },
+  "supervision": {
+    "kind": "same_study_pair",
+    "pairing_evidence": "study_id=S041; manually_checked_example"
+  },
+  "provenance": {
+    "source": "teaching_demo_not_a_real_patient",
+    "transform": "v1"
+  },
+  "intended_use": "schema_learning_only"
+}

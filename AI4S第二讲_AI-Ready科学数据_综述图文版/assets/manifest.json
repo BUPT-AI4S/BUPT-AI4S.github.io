@@ -1,0 +1,371 @@
+{
+  "sv-teaser": {
+    "file": "sv-teaser.jpg",
+    "original": "originals/sv-teaser.jpg",
+    "width": 6727,
+    "height": 4213,
+    "figure": "综述图 1：科学研究尺度",
+    "paper": "Hu 等，科学大语言模型综述 v2",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "sha256": "4bb9b5f612f74f7c9442876fb32268025ca76d0eb52dd4bf2e403f34c888f640",
+    "original_sha256": "4bb9b5f612f74f7c9442876fb32268025ca76d0eb52dd4bf2e403f34c888f640"
+  },
+  "domains": {
+    "file": "domains.png",
+    "original": "originals/data3.pdf",
+    "figure": "图4",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4001,
+    "height": 4009,
+    "sha256": "4d621d4832b3eb51d7a125576360c7723d5f22878afa4c9a12f63ce8dc81f5a5"
+  },
+  "sv-biomolecules": {
+    "file": "sv-biomolecules.png",
+    "original": "originals/sv-biomolecules.pdf",
+    "width": 4800,
+    "height": 2755,
+    "figure": "综述图 13：生物序列与三维结构",
+    "paper": "Hu 等，科学大语言模型综述 v2",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "sha256": "ff83c6a5ac8a9df44260c7e34775416da58812ac34da8a14908ee00b1b43404a",
+    "original_sha256": "cb7af4006e7acbece96744414e42c106c1b961fdd64aa231c35f7d422e890b56"
+  },
+  "medical_imaging": {
+    "file": "medical_imaging_ver7.png",
+    "original": "medical_imaging_ver7.png",
+    "figure": "医学影像图",
+    "paper": "Hu et al., arXiv:2508.21148v2",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 6598,
+    "height": 1945,
+    "sha256": "7e0b699532f9f38007dc8bbade57eec4d2aba99edc9089c1513055f2b8e9dd75",
+    "original_sha256": "7e0b699532f9f38007dc8bbade57eec4d2aba99edc9089c1513055f2b8e9dd75"
+  },
+  "symbol": {
+    "file": "symbol.png",
+    "original": "originals/smiles.png",
+    "figure": "图10",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 2804,
+    "height": 1782,
+    "sha256": "bfc438a31d0c1f96ba5e41b00a7c9e602cfa990b3207ea9df2909f64f318afa1",
+    "original_sha256": "bfc438a31d0c1f96ba5e41b00a7c9e602cfa990b3207ea9df2909f64f318afa1"
+  },
+  "sv-deep-scene": {
+    "file": "sv-deep-scene.png",
+    "original": "sv-deep-scene.png",
+    "width": 4409,
+    "height": 4472,
+    "paper": "DeepMIMO 官方场景示例",
+    "figure": "官网原图",
+    "url": "https://github.com/DeepMIMO/DeepMIMO",
+    "asset_url": "https://raw.githubusercontent.com/DeepMIMO/DeepMIMO/main/docs/assets/images/basic_scene.png"
+  },
+  "earth": {
+    "file": "earth.png",
+    "original": "originals/earth_vis_data.pdf",
+    "figure": "图7",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 2155,
+    "sha256": "784cf687a5d219acc28ccf5807dc68cca7bd9ca5f6be7553269be501495e08ae",
+    "original_sha256": "b14a7b1f02766c2bc148224d2865f37255c89cc643d56ddc66d77d3f04865114"
+  },
+  "sv-circuit": {
+    "file": "sv-circuit.png",
+    "original": "sv-circuit.png",
+    "width": 1885,
+    "height": 866,
+    "paper": "CircuitNet 官方数据结构图",
+    "figure": "官网原图",
+    "url": "https://circuitnet.github.io/",
+    "asset_url": "https://circuitnet.github.io/assets/overall_structure-DrBTioEF.png"
+  },
+  "sv-reben-sea": {
+    "file": "sv-reben-sea.png",
+    "original": "originals/sv-reben-sea.png",
+    "width": 120,
+    "height": 120,
+    "figure": "reBEN 图 1a：海水切片与标签修订",
+    "paper": "Clasen 等，reBEN，IGARSS 2025 / arXiv v5",
+    "url": "https://arxiv.org/abs/2407.03653v5",
+    "sha256": "8b441ff5683cb78261fd806cd66be8e423b58593a81146fd162feb30519addb7",
+    "original_sha256": "8b441ff5683cb78261fd806cd66be8e423b58593a81146fd162feb30519addb7"
+  },
+  "sv-reben-land": {
+    "file": "sv-reben-land.png",
+    "original": "originals/sv-reben-land.png",
+    "width": 120,
+    "height": 120,
+    "figure": "reBEN 图 1b：牧草地与城镇混合切片",
+    "paper": "Clasen 等，reBEN，IGARSS 2025 / arXiv v5",
+    "url": "https://arxiv.org/abs/2407.03653v5",
+    "sha256": "32e038c1016c98ab674c7ce1bcf785122d079519e51c07a20f571cf9fd580fc8",
+    "original_sha256": "32e038c1016c98ab674c7ce1bcf785122d079519e51c07a20f571cf9fd580fc8"
+  },
+  "eeg": {
+    "file": "eeg.png",
+    "original": "originals/EEG_signal.pdf",
+    "figure": "图11",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 1698,
+    "sha256": "7668b9a824a945f622ab639c6da63e6d227b4f2bc394155dd555452415da0fbb"
+  },
+  "knowledge": {
+    "file": "knowledge.png",
+    "original": "originals/data_structure3.pdf",
+    "figure": "图14",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 2838,
+    "sha256": "286577ac53b99ab9b50203c70323d3b5a222a709a78d450c6a0e10f22c44e867",
+    "original_sha256": "6ce72ef7b6c71b90d1875feb99ca2a63995f334e8deeaec5474a502bba36409e"
+  },
+  "architecture": {
+    "file": "architecture.png",
+    "original": "originals/export_model_arch3.pdf",
+    "figure": "图16",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 1628,
+    "sha256": "1cebc936833fafa8f88f062eef724dec6a3a93752f7719d1c03e89d52b4c02aa"
+  },
+  "mix": {
+    "file": "mix.png",
+    "original": "originals/interns1-pie.pdf",
+    "figure": "图19b",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 1283,
+    "sha256": "1115c9a9c63d23299aa59140b353dd032bffc48eed2e093da79be750b8011095"
+  },
+  "visual": {
+    "file": "visual.png",
+    "original": "originals/physics_visual_data.png",
+    "figure": "图6",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 2172,
+    "height": 1192,
+    "sha256": "a68c8bd27f40c6e77d289974d20e271d5840d435a7c8d55b09099c21d8b11d2d"
+  },
+  "history": {
+    "file": "history.png",
+    "original": "originals/sci_llm_develop7.pdf",
+    "figure": "图3",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 2125,
+    "sha256": "a6e16c5a693292c2b3065adb5e3a9becf9cf26011980c2c310210416f5163f41"
+  },
+  "sv-biomedclip": {
+    "file": "sv-biomedclip.png",
+    "original": "originals/sv-biomedclip.pdf",
+    "width": 4800,
+    "height": 943,
+    "figure": "数据构造与图文预训练原图",
+    "paper": "Zhang 等，BiomedCLIP，arXiv v1",
+    "url": "https://arxiv.org/abs/2303.00915v1",
+    "sha256": "e172c9f9609c0ac94e781e531ba77b7a31967adf67c79e89b04903ceade0bd21",
+    "original_sha256": "2497a8c1f8cdfb512d7fe6a1504e7f39ff7740d37ed389f1a17cab0fdfbece36"
+  },
+  "cambrian": {
+    "file": "cambrian.png",
+    "original": "originals/Cambrain7m.pdf",
+    "figure": "图21",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4001,
+    "height": 2890,
+    "sha256": "89ef343aed32a9c8c00fbd566cb060c3da399e76725a87ddd0aa132d599a303e"
+  },
+  "molbuild": {
+    "file": "molbuild.png",
+    "original": "originals/molbuild.png",
+    "figure": "图2",
+    "paper": "Fang et al., Mol-Instructions, ICLR 2024",
+    "url": "https://arxiv.org/abs/2306.08018",
+    "width": 3660,
+    "height": 1804,
+    "sha256": "fd23ca0f283abe83bf6f86bb7789952d0168d721eca0e409cdb64cfd460d25aa",
+    "original_sha256": "fd23ca0f283abe83bf6f86bb7789952d0168d721eca0e409cdb64cfd460d25aa"
+  },
+  "sv-pubmedvision": {
+    "file": "sv-pubmedvision.png",
+    "original": "originals/sv-pubmedvision.pdf",
+    "width": 4800,
+    "height": 2164,
+    "figure": "图 2：PubMedVision 数据构造",
+    "paper": "Chen 等，PubMedVision，EMNLP 2024 / arXiv v2",
+    "url": "https://arxiv.org/abs/2406.19280v2",
+    "sha256": "7292a8c02cf09f2946d97c072996a346ed5073eeeee1a72347d89b8a51a9b04d",
+    "original_sha256": "c6bf343fccd04c7d1bfeb2e3296092c79a6661323f259df25fa8d7177d548cc9"
+  },
+  "sv-medreason": {
+    "file": "sv-medreason.png",
+    "original": "originals/sv-medreason.pdf",
+    "width": 4800,
+    "height": 3085,
+    "figure": "图 2：MedReason 数据构造",
+    "paper": "Wu 等，MedReason，arXiv v1",
+    "url": "https://arxiv.org/abs/2504.00993v1",
+    "sha256": "316d4a4c75cd6dec64da5ab43273cb6b06d9f1c2805d4c87c6c1427489172e59",
+    "original_sha256": "6284a21d098181063500a616d5933d1f181b3d1a4e61bf03e845d48cc220dd35"
+  },
+  "sv-medrax": {
+    "file": "sv-medrax.png",
+    "original": "originals/sv-medrax.png",
+    "width": 2648,
+    "height": 2232,
+    "figure": "图 1：MedRAX 架构",
+    "paper": "Fallahpour 等，MedRAX，arXiv v1 / ICML 2025",
+    "url": "https://arxiv.org/abs/2502.02673v1",
+    "sha256": "0b9978a89c388a426aea0f021fd8de4fcee253fa07f9a0e95efef11526506b74",
+    "original_sha256": "0b9978a89c388a426aea0f021fd8de4fcee253fa07f9a0e95efef11526506b74"
+  },
+  "postbias": {
+    "file": "postbias.png",
+    "original": "originals/sft_sources.pdf",
+    "figure": "图22",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 4173,
+    "sha256": "65405eb30a5fc7f470ff64c9fafd4d0ca83afb89b76c259edee3b201f0bd1a9d"
+  },
+  "evaluation": {
+    "file": "evaluation.png",
+    "original": "originals/evaluate_v3.pdf",
+    "figure": "图27",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 1867,
+    "sha256": "9e249d4f0885b1778a88f32f486c50114c6a86b8253c10d3d3e8181029f782d8"
+  },
+  "agentbench": {
+    "file": "agentbench.png",
+    "original": "originals/agentbench.pdf",
+    "figure": "图2",
+    "paper": "Chen et al., ScienceAgentBench, ICLR 2025",
+    "url": "https://arxiv.org/abs/2410.05080",
+    "width": 4000,
+    "height": 2250,
+    "sha256": "d538df6fb136b8d54d1c2f2996e629d3ac784f7d3518fe1a370630f4017181a6"
+  },
+  "evalbias": {
+    "file": "evalbias.png",
+    "original": "originals/eval_sources.pdf",
+    "figure": "图25",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 4182,
+    "sha256": "1c37a8c60c566dbab4a7daa961c6364d36aaf8fd56b5768cb7dcc5d877feeccd"
+  },
+  "pipeline": {
+    "file": "pipeline.png",
+    "original": "originals/data_pipeline5.pdf",
+    "figure": "图28",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 1539,
+    "sha256": "5961fdd64ddcb441c69844925e0685206f0b4523356f25ce08c0f9604ca6370b",
+    "original_sha256": "adeda81576a670b6ca8a57544cfb2a79f449eec6dcb3e9bb8a20be353d45d92a"
+  },
+  "sv-pubmed-case": {
+    "file": "sv-pubmed-case.png",
+    "original": "originals/sv-pubmed-case.pdf",
+    "width": 4800,
+    "height": 3058,
+    "figure": "图 1：不同图注构造方式的案例",
+    "paper": "Chen 等，PubMedVision，EMNLP 2024 / arXiv v2",
+    "url": "https://arxiv.org/abs/2406.19280v2",
+    "sha256": "9567e114b9e542126c6af03e24aa4f49275be0dd23b7f2d1704e894a362d4f05",
+    "original_sha256": "0a079e13e04cb50bb894031f7b9f8993cd3ae1a53bdc25fac91f4010600f890d"
+  },
+  "sv-deep-rays": {
+    "file": "sv-deep-rays.png",
+    "original": "sv-deep-rays.png",
+    "width": 2297,
+    "height": 1907,
+    "paper": "DeepMIMO 官方传播路径示例",
+    "figure": "官网原图",
+    "url": "https://github.com/DeepMIMO/DeepMIMO",
+    "asset_url": "https://raw.githubusercontent.com/DeepMIMO/DeepMIMO/main/docs/assets/images/ray_paths.png"
+  },
+  "scidata-enzyme": {
+    "file": "scidata-enzyme.png",
+    "original": "originals/scidata-enzyme.pdf",
+    "figure": "Figure 7",
+    "paper": "Rao et al., SciDataCopilot, arXiv:2602.09132v1",
+    "url": "https://arxiv.org/abs/2602.09132v1",
+    "width": 4800,
+    "height": 3710,
+    "sha256": "afbd73de1e2496e4d073a566d7c81d42e33a6be2bd392483167da6c03ee5552c"
+  },
+  "sv-omat": {
+    "file": "sv-omat.png",
+    "original": "originals/sv-omat.png",
+    "width": 5715,
+    "height": 3616,
+    "figure": "图 1：OMat24 数据构造",
+    "paper": "Barroso-Luque 等，OMat24，arXiv v1",
+    "url": "https://arxiv.org/abs/2410.12771v1",
+    "sha256": "e0478a3747710832566f841cb00f40c2040bbb3767bbd88df5775ea8cf130d0a",
+    "original_sha256": "e0478a3747710832566f841cb00f40c2040bbb3767bbd88df5775ea8cf130d0a"
+  },
+  "future": {
+    "file": "future.png",
+    "original": "originals/future5.pdf",
+    "figure": "图29",
+    "paper": "Hu et al., arXiv:2508.21148v2 (2025)",
+    "url": "https://arxiv.org/abs/2508.21148v2",
+    "width": 4000,
+    "height": 1381,
+    "sha256": "7b147183de50666d484c8a4e2bb571633adfc1a270c5e123db39258dcdaff31d",
+    "original_sha256": "b4e9bd0972550289429a2ea23be752e308e7f6da98f2fee64746f09d97f6b699"
+  },
+  "rsi-stella": {
+    "file": "rsi-stella.png",
+    "original": "originals/rsi-stella-fig1.pdf",
+    "figure": "Figure 1",
+    "paper": "Jin et al., STELLA, arXiv:2507.02004v1 (2025)",
+    "url": "https://arxiv.org/abs/2507.02004v1",
+    "width": 4400,
+    "height": 3222,
+    "sha256": "333c5e29fa61bd9b41bc31d8d7563549b1b145189d1daf2daff689b7fbf106cf",
+    "original_sha256": "cf07abcfcae3b2128418f6ddd5e5a456eb00e0a5b45baeb30ed505d333d25c0f"
+  },
+  "lastai-humanlaya": {
+    "file": "lastai-humanlaya.png",
+    "original": "originals/lastai-humanlaya.pdf",
+    "figure": "Figure 13",
+    "paper": "Duan et al., The Last AI Built by Humans, arXiv:2609.11873v3 (2026)",
+    "url": "https://arxiv.org/abs/2609.11873v3",
+    "width": 4800,
+    "height": 1441,
+    "sha256": "27bb88e19d0b3105232392900eb3dfc02f635413dfefd429894c547c296bb2d8",
+    "original_sha256": "5e4ed299cb8324d0ea3f09e9927ff7625d6499f3df438226942cad438db7646d"
+  },
+  "scidata-pipeline": {
+    "file": "scidata-pipeline.png",
+    "original": "originals/scidata-pipeline.pdf",
+    "figure": "Figure 2",
+    "paper": "Rao et al., SciDataCopilot, arXiv:2602.09132v1",
+    "url": "https://arxiv.org/abs/2602.09132v1",
+    "width": 4800,
+    "height": 3710,
+    "sha256": "ffab1e11c1cc03263113c871d7288ee52316b90a12b3094fb52e9592f689efc1"
+  }
+}

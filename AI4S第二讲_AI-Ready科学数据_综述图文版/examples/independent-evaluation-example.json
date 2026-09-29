@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "purpose": "independent_evaluation",
+  "sample_id": "P028-S082",
+  "split": "held_out_test",
+  "group_id": "P028",
+  "model_inputs": {
+    "task": "描述可见征象，并保留不确定性。",
+    "image": "P028-S082-I01.jpg"
+  },
+  "evaluator_only": {
+    "reference": "合成参考：区域 R2 待复核。",
+    "rubric": [
+      "位置与证据一致",
+      "保留不确定性",
+      "无输入之外的断言"
+    ],
+    "reference_version": "v1",
+    "access": "not_exposed_to_model"
+  },
+  "learning_signal": null,
+  "provenance": {
+    "source": "synthetic_case_not_used_for_training"
+  },
+  "intended_use": "schema_learning_only"
+}
