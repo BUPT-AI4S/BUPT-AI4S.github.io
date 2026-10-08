@@ -10,15 +10,11 @@ function seek(ms){if(!Number.isFinite(ms))return;if(!video.currentSrc||video.rea
 function timeButton(ms){const b=el('button',formatTime(ms),'time');b.disabled=!Number.isFinite(ms);b.addEventListener('click',()=>seek(ms));return b;}
 function save(){if(!course||!Number.isFinite(video.currentTime)||!video.readyState)return;try{localStorage.setItem('ai4s-replay:'+course.id,JSON.stringify({time:video.currentTime}));}catch{}}
 function update(){const ms=video.currentTime*1000;$('position').textContent=formatTime(ms);const next=video.readyState > 0 ? activeSegment(rows,ms) : -1;if(next!==current){$('transcript').children[current]?.classList.remove('active');current=next;const node=$('transcript').children[current];node?.classList.add('active');if(node&&$('follow').checked){$('transcript').scrollTo({top:node.offsetTop-50,behavior:'smooth'});}}if(Date.now()-lastSaved>5000){save();lastSaved=Date.now();}}
-function renderTranscript(){const box=$('transcript');box.replaceChildren();if(!rows.length){empty(box,'课堂原文待生成。视频可以先行观看，接入听悟后将显示带时间戳的转写。');return;}
+function renderTranscript(){const box=$('transcript');box.replaceChildren();if(!rows.length){empty(box,'课堂整理稿待发布，可先观看视频。');return;}
   rows.forEach((r,i)=>{const b=el('button',undefined,'utterance');b.append(el('small',`${r.speaker||'发言人'}  ·  ${formatTime(r.start)}`));const p=el('span');let from=0;for(const hit of matches.filter(h=>h.index===i)){p.append(document.createTextNode(r.text.slice(from,hit.start)),el('mark',r.text.slice(hit.start,hit.end)));from=hit.end;}p.append(document.createTextNode(r.text.slice(from)));b.append(p);b.addEventListener('click',()=>seek(r.start));box.append(b);});current=-1;update();}
 function search(){matches=findMatches(rows,$('search').value);matchIndex=matches.length?0:-1;renderTranscript();showMatch(false);}
 function selectTranscript() {
-  const polished = $('transcript-mode').value === 'polished' && course?.transcriptPolished?.length;
-  rows = (polished ? course.transcriptPolished : course?.transcript) || [];
-  $('transcript-note').textContent = polished
-    ? 'AI 整理稿 · 按段落定位；未整理的片段保留原文。可切换原始转写核对。'
-    : '原始语音转写 · 可能存在识别错误。';
+  rows = course?.transcriptPolished || [];
   search();
 }
 function showMatch(jump=true){$('count').textContent=`${matchIndex+1}/${matches.length}`;$('previous').disabled=$('next').disabled=!matches.length;document.querySelectorAll('.utterance.hit').forEach(n=>n.classList.remove('hit'));document.querySelectorAll('mark.current-match').forEach(n=>n.classList.remove('current-match'));if(matchIndex<0)return;const hit=matches[matchIndex],node=$('transcript').children[hit.index];node.classList.add('hit');$('transcript').querySelectorAll('mark')[matchIndex]?.classList.add('current-match');$('transcript').scrollTo({top:node.offsetTop-30,behavior:'smooth'});if(jump)seek(rows[hit.index].start);}
@@ -45,8 +41,6 @@ async function load(id) {
   if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; }
   const entry = courses.find(c => c.id === id);
   course = null;
-  $('transcript-mode').disabled = true;
-  $('transcript-note').textContent = '';
   rows = [];
   matches = [];
   matchIndex = -1;
@@ -70,10 +64,6 @@ async function load(id) {
     const data = await read(entry.data);
     if (token !== loadId) return;
     course = data;
-    const hasPolished = Boolean(course.transcriptPolished?.length);
-    $('transcript-mode').querySelector('[value="polished"]').disabled = !hasPolished;
-    $('transcript-mode').value = hasPolished ? 'polished' : 'original';
-    $('transcript-mode').disabled = false;
     selectTranscript();
     $('title').textContent = course.title;
     $('meta').textContent = `${course.date || ''} · 北京邮电大学`;
@@ -114,13 +104,12 @@ async function load(id) {
     notice('课程数据加载失败，请刷新重试。');
     $('summary').textContent = '无法加载课程概要';
     empty($('mind-tree'), '无法加载脑图');
-    empty($('transcript'), '无法加载课堂原文');
+    empty($('transcript'), '无法加载课堂整理稿');
     empty($('panel'), '无法加载课程分析');
   }
 }
 video.addEventListener('timeupdate',update);video.addEventListener('pause',save);window.addEventListener('pagehide',save);video.addEventListener('loadedmetadata',()=>{try{const saved=JSON.parse(localStorage.getItem('ai4s-replay:'+course.id));if(saved?.time>0&&saved.time<video.duration-3)video.currentTime=saved.time;}catch{}video.playbackRate=Number($('speed').value);});video.addEventListener('error',()=>notice('视频加载失败，请检查视频地址，或选择本地视频观看。'));
 $('speed').onchange=()=>{video.playbackRate=Number($('speed').value);};$('local-video').onchange=e=>{const file=e.target.files[0];if(!file)return;save();if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(file);video.src=objectUrl;$('video-empty').hidden=true;notice('正在播放所选本地视频，文件不会上传。请确保它与当前课时一致。');};
-$('transcript-mode').onchange=selectTranscript;
 $('search').addEventListener('input',search);$('search').addEventListener('keydown',e=>{if(e.key==='Enter'&&matches.length){matchIndex=(matchIndex+1)%matches.length;showMatch();}});$('next').onclick=()=>{matchIndex=(matchIndex+1)%matches.length;showMatch();};$('previous').onclick=()=>{matchIndex=(matchIndex-1+matches.length)%matches.length;showMatch();};$('course').onchange=e=>load(e.target.value);
 document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>{panel=b.dataset.panel;document.querySelectorAll('[data-panel]').forEach(n=>{n.classList.toggle('selected',n===b);n.setAttribute('aria-pressed',String(n===b));});renderPanel();});
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(n=>{n.classList.toggle('selected',n===b);n.setAttribute('aria-pressed',String(n===b));});$('guide').hidden=b.dataset.view!=='guide';$('mind').hidden=b.dataset.view!=='mind';});
