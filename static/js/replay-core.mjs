@@ -10,10 +10,17 @@ export function findMatches(rows, query) {
     while((pos=text.indexOf(q,from))!==-1){hits.push({index,start:pos,end:pos+q.length});from=pos+q.length;}return hits;});
 }
 
+const isMasterclass = course => course.id.startsWith('chairs-') || course.title.includes('大师讲堂');
+
+export function sortCourses(courses) {
+  return [...courses].sort((a,b) => Number(isMasterclass(a))-Number(isMasterclass(b))
+    || a.id.localeCompare(b.id, 'en', {numeric:true}));
+}
+
 export function courseLabels(courses) {
   const counts = { '课程': 0, '大师讲堂': 0 };
   return courses.map(course => {
-    const label = course.id.startsWith('chairs-') || course.title.includes('大师讲堂') ? '大师讲堂' : '课程';
+    const label = isMasterclass(course) ? '大师讲堂' : '课程';
     return {label, number: String(++counts[label]).padStart(2, '0')};
   });
 }

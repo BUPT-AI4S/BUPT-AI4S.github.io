@@ -1,5 +1,5 @@
 import {mountMindMap} from './mind-map.mjs';
-import {formatTime,findMatches,activeSegment,courseLabels} from './replay-core.mjs';
+import {formatTime,findMatches,activeSegment,sortCourses} from './replay-core.mjs';
 const $=id=>document.getElementById(id), video=$('video');
 let course, courses=[], rows=[], matches=[], matchIndex=-1, current=-1, panel='chapters', objectUrl, loadId=0, scale=1, lastSaved=0;
 function el(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}
@@ -126,7 +126,7 @@ document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>{panel=b.data
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(n=>{n.classList.toggle('selected',n===b);n.setAttribute('aria-pressed',String(n===b));});$('guide').hidden=b.dataset.view!=='guide';$('mind').hidden=b.dataset.view!=='mind';});
 $('zoom-in').onclick=()=>zoom(.1);$('zoom-out').onclick=()=>zoom(-.1);$('zoom-reset').onclick=()=>{scale=1;zoom(0);};$('close-preview').onclick=()=>$('preview').close();
 const viewport=$('mind-viewport');let drag;viewport.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.target.closest('button'))return;drag={x:e.clientX,y:e.clientY,left:viewport.scrollLeft,top:viewport.scrollTop};viewport.setPointerCapture(e.pointerId);});viewport.addEventListener('pointermove',e=>{if(drag){viewport.scrollLeft=drag.left+drag.x-e.clientX;viewport.scrollTop=drag.top+drag.y-e.clientY;}});viewport.addEventListener('pointerup',()=>drag=null);viewport.addEventListener('pointercancel',()=>drag=null);
-try{courses=await read('data/courses.json');if(!courses.length)throw new Error();for(const [index,c] of courses.entries()){const {label,number:ordinal}=courseLabels(courses)[index];const option=el('option',`${label} ${ordinal}`);option.value=c.id;$('course').append(option);const b=el('button');b.dataset.course=c.id;const number=el('span',ordinal,'course-number');const copy=el('span',label,'course-copy');b.title=c.title;b.append(copy,number);b.onclick=()=>load(c.id);$('course-list').append(b);}const id=new URLSearchParams(location.search).get('course');await load(courses.some(c=>c.id===id)?id:courses[0].id);}catch{notice('课程目录加载失败，请通过本地预览服务或网站访问。');$('title').textContent='课程暂不可用';}
+try{courses=sortCourses(await read('data/courses.json'));if(!courses.length)throw new Error();for(const c of courses){const option=el('option',c.title);option.value=c.id;$('course').append(option);const b=el('button');b.dataset.course=c.id;const copy=el('span',c.title,'course-copy');b.title=c.title;b.append(copy);b.onclick=()=>load(c.id);$('course-list').append(b);}const id=new URLSearchParams(location.search).get('course');await load(courses.some(c=>c.id===id)?id:courses[0].id);}catch{notice('课程目录加载失败，请通过本地预览服务或网站访问。');$('title').textContent='课程暂不可用';}
 
 function expandMind(expanded) {
   $('mind').classList.toggle('expanded', expanded);
