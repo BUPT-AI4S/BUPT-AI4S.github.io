@@ -1,0 +1,90 @@
+{
+  "id": "",
+  "title": "",
+  "titleZh": "",
+  "authors": [],
+  "affiliations": [],
+  "published": "",
+  "dateType": "public",
+  "venue": "",
+  "year": "",
+  "disciplines": [],
+  "subfield": "",
+  "keywords": [],
+  "tags": [],
+  "abstract": "",
+  "abstractZh": "",
+  "summaryZh": "",
+  "summaryEn": "",
+  "paperUrl": "",
+  "pdfUrl": "",
+  "forumUrl": "",
+  "codeUrl": "",
+  "figures": [],
+  "notes": [
+    {
+      "id": "summary",
+      "headingZh": "一句话总结",
+      "headingEn": "One-sentence summary",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "motivation",
+      "headingZh": "研究背景与动机",
+      "headingEn": "Background and motivation",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "method",
+      "headingZh": "方法详解",
+      "headingEn": "Method explained",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "experiments",
+      "headingZh": "实验关键数据",
+      "headingEn": "Key experimental evidence",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "insights",
+      "headingZh": "亮点与洞察",
+      "headingEn": "Highlights and insights",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "limitations",
+      "headingZh": "局限与展望",
+      "headingEn": "Limitations and outlook",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "related",
+      "headingZh": "相关工作与启发",
+      "headingEn": "Related work and connections",
+      "textZh": "",
+      "textEn": ""
+    },
+    {
+      "id": "reproduction",
+      "headingZh": "复现与阅读建议",
+      "headingEn": "Reproduction and reading guide",
+      "textZh": "",
+      "textEn": ""
+    }
+  ],
+  "notesMeta": {
+    "templateVersion": "1.0",
+    "generated": "",
+    "reviewed": false,
+    "basisZh": "",
+    "basisEn": "",
+    "sources": []
+  }
+}

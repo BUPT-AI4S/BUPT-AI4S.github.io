@@ -4,6 +4,9 @@
   const root = document.documentElement;
   const nav = document.querySelector(".nav");
   const navToggle = document.querySelector(".nav-toggle");
+  const navGroup = document.querySelector(".nav-group");
+  const introToggle = document.querySelector(".nav-group-toggle");
+  const introMenu = document.querySelector(".nav-dropdown");
   const langToggle = document.querySelector(".lang-toggle");
   const themeToggle = document.querySelector(".theme-toggle");
   const canvas = document.querySelector(".hero-canvas");
@@ -104,13 +107,53 @@
     setTheme(isDarkTheme() ? "light" : "dark");
   });
 
+  function setIntroOpen(open) {
+    if (!introToggle || !introMenu) return;
+    introToggle.setAttribute("aria-expanded", String(open));
+    introMenu.hidden = !open;
+  }
+
+  introToggle?.addEventListener("click", () => {
+    setIntroOpen(introToggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  navGroup?.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "mouse" && window.matchMedia("(min-width: 821px)").matches) {
+      setIntroOpen(true);
+    }
+  });
+  navGroup?.addEventListener("pointerleave", (event) => {
+    if (event.pointerType === "mouse" && window.matchMedia("(min-width: 821px)").matches) {
+      setIntroOpen(false);
+    }
+  });
+  navGroup?.addEventListener("focusout", (event) => {
+    if (!navGroup.contains(event.relatedTarget)) setIntroOpen(false);
+  });
+  navGroup?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      setIntroOpen(false);
+      introToggle.focus();
+      event.preventDefault();
+    } else if (event.key === "ArrowDown" && event.target === introToggle) {
+      setIntroOpen(true);
+      introMenu.querySelector("a")?.focus();
+      event.preventDefault();
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (!navGroup?.contains(event.target)) setIntroOpen(false);
+  });
+
   navToggle?.addEventListener("click", () => {
     const open = nav.classList.toggle("open");
     navToggle.setAttribute("aria-expanded", String(open));
+    if (!open) setIntroOpen(false);
   });
 
   document.querySelectorAll(".nav-menu a").forEach((link) => {
     link.addEventListener("click", () => {
+      setIntroOpen(false);
       nav.classList.remove("open");
       navToggle?.setAttribute("aria-expanded", "false");
     });
@@ -138,6 +181,7 @@
       if (!href.startsWith("#")) return;
       link.classList.toggle("is-active", href === `#${current}`);
     });
+    introToggle?.classList.toggle("is-active", ["about", "goals", "curriculum", "domains", "team"].includes(current));
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });

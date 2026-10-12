@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" role="img" aria-labelledby="title desc">
+<title id="title">ClimaX training workflow</title><desc id="desc">Heterogeneous weather and climate data are used for pretraining, followed by task-specific fine-tuning for weather forecasts and climate projections.</desc>
+<rect width="900" height="300" rx="16" fill="#f7f9fc"/>
+<text x="40" y="48" font-family="Arial,sans-serif" font-size="22" fill="#1e293b">ClimaX · Pretrain, then adapt</text>
+<g font-family="Arial,sans-serif" text-anchor="middle" font-size="18" fill="#1e293b">
+<rect x="40" y="95" width="220" height="140" rx="12" fill="#e2eef4"/><text x="150" y="134">Heterogeneous data</text><text x="150" y="166" font-size="14">Variables · Space · Time</text><text x="150" y="204" font-size="14">CMIP6-derived datasets</text>
+<rect x="335" y="95" width="220" height="140" rx="12" fill="#e5e9fa"/><text x="445" y="134">Pretraining</text><text x="445" y="166" font-size="14">Encoding + Aggregation</text><text x="445" y="204" font-size="14">Transformer</text>
+<rect x="630" y="95" width="230" height="140" rx="12" fill="#e0f1e9"/><text x="745" y="134">Task-specific fine-tuning</text><text x="745" y="172" font-size="14">Weather forecasting</text><text x="745" y="204" font-size="14">Climate projection</text></g>
+<g stroke="#64748b" stroke-width="3" fill="none"><path d="M275 165h43m-10-8 10 8-10 8"/><path d="M570 165h43m-10-8 10 8-10 8"/></g>
+<text x="40" y="275" font-family="Arial,sans-serif" font-size="12" fill="#64748b">Conceptual workflow illustration · Not an original paper figure</text>
+</svg>

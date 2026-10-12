@@ -233,7 +233,8 @@ a:hover {
   gap: 8px 18px;
 }
 
-.nav-menu a {
+.nav-menu a,
+.nav-group-toggle {
   color: var(--soft);
   font-size: 0.92rem;
   padding: 8px 0;
@@ -241,12 +242,15 @@ a:hover {
 }
 
 .nav-menu a:hover,
-.nav-menu a.is-active {
+.nav-menu a.is-active,
+.nav-group-toggle:hover,
+.nav-group-toggle.is-active {
   color: var(--text);
   text-decoration: none;
 }
 
-.nav-menu a.is-active::after {
+.nav-menu a.is-active::after,
+.nav-group-toggle.is-active::after {
   content: "";
   position: absolute;
   left: 0;
@@ -255,6 +259,68 @@ a:hover {
   height: 2px;
   border-radius: 99px;
   background: linear-gradient(90deg, var(--cyan), var(--blue));
+}
+
+.nav-group {
+  position: relative;
+}
+
+.nav-group-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.nav-group-toggle[aria-expanded="true"] .nav-chevron {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: var(--nav-menu-bg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.nav-dropdown[hidden] {
+  display: none;
+}
+
+.nav-dropdown a {
+  padding: 10px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.nav-dropdown a:hover,
+.nav-dropdown a:focus-visible {
+  background: var(--btn-surface);
+}
+
+.nav-group-toggle:focus-visible,
+.nav-dropdown a:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
 }
 
 .nav-actions {
@@ -1182,6 +1248,23 @@ html[lang="en"] .hero h1 {
 
   .nav.open .nav-menu {
     display: flex;
+  }
+
+  .nav-group-toggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-dropdown {
+    position: static;
+    min-width: 0;
+    margin-top: 4px;
+    box-shadow: none;
+  }
+
+  .nav-menu {
+    max-height: calc(100dvh - var(--nav-h));
+    overflow-y: auto;
   }
 
   .team-grid {

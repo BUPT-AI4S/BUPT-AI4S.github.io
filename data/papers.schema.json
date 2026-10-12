@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI4S paper catalog v1",
+  "type": "object",
+  "required": ["schemaVersion", "updated", "papers"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "updated": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "tagTranslations": {"type": "object", "additionalProperties": {"type": "string"}},
+    "papers": {"type": "array", "items": {"$ref": "#/$defs/paper"}}
+  },
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "source": {
+      "type": "object", "required": ["id", "title", "url"],
+      "properties": {"id": {"type": "string"}, "title": {"type": "string"}, "url": {"type": "string", "pattern": "^https://"}}
+    },
+    "section": {
+      "type": "object", "required": ["id", "headingZh", "headingEn", "textZh", "textEn"],
+      "properties": {
+        "id": {"type": "string", "enum": ["summary", "motivation", "method", "experiments", "insights", "limitations", "related", "reproduction"]},
+        "headingZh": {"type": "string"}, "headingEn": {"type": "string"},
+        "textZh": {"type": "string"}, "textEn": {"type": "string"}
+      }
+    },
+    "figure": {
+      "type": "object", "required": ["src", "altZh", "altEn", "captionZh", "captionEn"],
+      "properties": {"src": {"type": "string"}, "altZh": {"type": "string"}, "altEn": {"type": "string"}, "captionZh": {"type": "string"}, "captionEn": {"type": "string"}, "sourceUrl": {"type": "string"}}
+    },
+    "paper": {
+      "type": "object", "required": ["id", "title", "authors"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1}, "title": {"type": "string", "minLength": 1}, "titleZh": {"type": "string"},
+        "authors": {"$ref": "#/$defs/strings"}, "affiliations": {"$ref": "#/$defs/strings"},
+        "venue": {"type": "string"}, "year": {"type": "string"}, "published": {"type": "string"},
+        "dateType": {"type": "string", "enum": ["public", "submitted", "published"]},
+        "disciplines": {"$ref": "#/$defs/strings"}, "subfield": {"type": "string"},
+        "keywords": {"$ref": "#/$defs/strings"}, "tags": {"$ref": "#/$defs/strings"}, "topics": {"$ref": "#/$defs/strings"},
+        "abstract": {"type": "string"}, "abstractZh": {"type": "string"}, "summaryZh": {"type": "string"}, "summaryEn": {"type": "string"},
+        "paperUrl": {"type": "string"}, "pdfUrl": {"type": "string"}, "forumUrl": {"type": "string"}, "codeUrl": {"type": "string"},
+        "figures": {"type": "array", "items": {"$ref": "#/$defs/figure"}},
+        "notes": {"type": "array", "items": {"$ref": "#/$defs/section"}},
+        "notesMeta": {
+          "type": "object", "required": ["templateVersion", "generated", "reviewed", "basisZh", "basisEn", "sources"],
+          "properties": {"templateVersion": {"const": "1.0"}, "generated": {"type": "string"}, "reviewed": {"type": "boolean"}, "basisZh": {"type": "string"}, "basisEn": {"type": "string"}, "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}}
+        }
+      }
+    }
+  }
+}

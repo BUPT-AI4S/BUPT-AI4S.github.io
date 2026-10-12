@@ -2,13 +2,15 @@
 
 智慧课程回看入口：`replay.html`。本地视频预览、听悟密钥配置与课程发布流程见 [回看使用说明](docs/replay.md)。
 
-北京邮电大学课程仓库主页。采用与 [Academic Project Page Template](https://eliahuhorwitz.github.io/Academic-project-page-template/) / FinanceReasoning-homepage 相同的 **GitHub Pages 静态托管方式**：根目录 `index.html`、相对路径、`.nojekyll`，无需构建。页面本身按 AI4S 课程重做，支持中英切换与白天 / 夜间模式。
+前沿速递入口：`papers.html`。每篇论文一个 JSON，上传到 `data/papers/`；GitHub Actions 自动校验、生成轻量索引并发布。Pages Source 需选择 GitHub Actions。单篇模板、配图与采集命令见 [论文维护说明](docs/papers.md)。
+
+北京邮电大学课程仓库主页。使用 **GitHub Pages 静态托管**：根目录 `index.html`、相对路径、`.nojekyll`；构建仅用于校验文献、生成索引和整理发布文件。页面支持中英切换与白天 / 夜间模式。
 
 本地预览：
 
 ```bash
-# Python 3
-python -m http.server 8080
+# Python 3.10+
+python tools/preview.py --port 8080
 ```
 
 浏览器打开 `http://localhost:8080`。默认白天模式。语言与主题都会写入 `localStorage`，也可用 `?lang=en`、`?theme=dark`。
@@ -35,9 +37,9 @@ assignments/            作业与实践模板（待更新）
 1. 在 GitHub 新建仓库 `Bupt-AI4S-Principles-And-Practice`（名称可变，URL 会跟着变）。
 2. 将本目录推送到该仓库的 `main`（或 `master`）分支。
 3. 打开仓库 **Settings → Pages**。
-4. **Build and deployment → Source** 选择 **Deploy from a branch**。
-5. Branch 选 `main`（或你的默认分支），Folder 选 **`/ (root)`**，保存。
-6. 等待一两分钟，用上面的 Pages 地址访问。若仓库名不是 GitHub 用户名，这是 Project site，资源必须保持相对路径（当前已是）。
+4. **Build and deployment → Source** 选择 **GitHub Actions**。
+5. 本仓库工作流监听 `main`；若使用其他分支，修改 `.github/workflows/pages.yml` 的分支配置。
+6. 在 Actions 中等待校验与部署完成，再访问 Pages 地址。Project site 的资源需保持相对路径（当前已是）。
 
 自定义域名可在 Pages 设置里填写，并在仓库根目录添加 `CNAME` 文件。
 

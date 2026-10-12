@@ -1,0 +1,3 @@
+id,titleZh,summaryZh,disciplines,subfield,classificationReason,topics
+2303.11366,Reflexion：通过语言反馈改进智能体,让智能体把任务反馈写成反思文本，保存在记忆中，并用于下一次尝试。无需更新模型权重，探索从试错中改进决策的路径。,general,通用智能体方法,研究不限定具体学科的通用智能体方法，因此归入通用 AI。,Agents|Reasoning
+5CZyPMgjUu,ClimaX：天气与气候基础模型,ClimaX 用改造后的 Transformer 处理异构天气与气候数据；在 CMIP6 衍生数据上预训练后微调到天气预报和气候预测任务。,weather,天气预报与气候建模,研究对象是天气预报和气候预测，因此归入 AI for 气象。,Foundation models|Pretraining

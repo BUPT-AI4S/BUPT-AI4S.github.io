@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-12",
+  "tagTranslations": {
+    "Agents": "智能体",
+    "Reasoning": "推理",
+    "Foundation models": "基础模型",
+    "Pretraining": "预训练",
+    "Climate": "气候"
+  },
+  "papers": [
+    {
+      "id": "5CZyPMgjUu",
+      "title": "ClimaX: A foundation model for weather and climate",
+      "titleZh": "ClimaX：天气与气候基础模型",
+      "authors": [
+        "Tung Nguyen",
+        "Johannes Brandstetter",
+        "Ashish Kapoor",
+        "Jayesh K. Gupta",
+        "Aditya Grover"
+      ],
+      "affiliations": [
+        "Microsoft Research",
+        "University of California, Los Angeles"
+      ],
+      "published": "2023-01-24",
+      "dateType": "submitted",
+      "venue": "ICML",
+      "year": "2023",
+      "disciplines": [
+        "weather"
+      ],
+      "subfield": "天气预报与气候建模",
+      "keywords": [
+        "Weather",
+        "Climate",
+        "Transformer"
+      ],
+      "tags": [
+        "Foundation models",
+        "Pretraining",
+        "Climate"
+      ],
+      "topics": [
+        "Foundation models",
+        "Pretraining"
+      ],
+      "abstract": "",
+      "summaryZh": "ClimaX 面向天气与气候任务，用改造后的 Transformer 处理不同变量与时空范围的数据。模型在 CMIP6 衍生数据上预训练，再针对天气预报和气候预测微调，探索跨变量、跨尺度的迁移能力。",
+      "summaryEn": "ClimaX uses a Transformer adapted to heterogeneous weather and climate datasets. It is pretrained on CMIP6-derived data and then fine-tuned for weather forecasting and climate projection tasks, including variables and scales not seen during pretraining.",
+      "paperUrl": "https://proceedings.mlr.press/v202/nguyen23a.html",
+      "pdfUrl": "https://proceedings.mlr.press/v202/nguyen23a/nguyen23a.pdf",
+      "forumUrl": "https://openreview.net/forum?id=5CZyPMgjUu",
+      "codeUrl": "https://github.com/microsoft/ClimaX",
+      "sample": true,
+      "dataUrl": "data/papers/climax.json",
+      "hasNotes": true
+    },
+    {
+      "id": "2303.11366",
+      "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+      "titleZh": "Reflexion：通过语言反馈改进智能体",
+      "authors": [
+        "Noah Shinn",
+        "Federico Cassano",
+        "Edward Berman",
+        "Ashwin Gopinath",
+        "Karthik Narasimhan",
+        "Shunyu Yao"
+      ],
+      "affiliations": [],
+      "published": "2023-03-20",
+      "venue": "arXiv",
+      "year": "2023",
+      "disciplines": [
+        "general"
+      ],
+      "subfield": "通用智能体方法",
+      "keywords": [
+        "Language agents",
+        "Verbal feedback",
+        "Episodic memory"
+      ],
+      "tags": [
+        "Agents",
+        "Reasoning"
+      ],
+      "topics": [
+        "Agents",
+        "Reasoning"
+      ],
+      "summaryZh": "让智能体把任务反馈写成反思文本，保存在记忆中，并用于下一次尝试。无需更新模型权重，探索从试错中改进决策的路径。",
+      "summaryEn": "Agents turn task feedback into reflective text, retain it in episodic memory, and use it in subsequent attempts without updating model weights.",
+      "paperUrl": "https://arxiv.org/abs/2303.11366",
+      "pdfUrl": "https://arxiv.org/pdf/2303.11366",
+      "codeUrl": "",
+      "sample": true,
+      "dataUrl": "data/papers/reflexion.json",
+      "hasNotes": true
+    }
+  ]
+}
