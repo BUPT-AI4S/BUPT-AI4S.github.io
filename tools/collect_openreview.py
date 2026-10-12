@@ -155,18 +155,20 @@ def main():
     directory = args.output.suffix.lower() != '.json'
     filenames = {}; bodies = {}
     if directory:
-        from build_paper_index import read_json, read_markdown, markdown_source, compile_markdown, validate_paper, build_index
+        from build_paper_index import read_json, read_markdown, markdown_source, compile_markdown, validate_paper, build_index, paper_files, paper_key, load_tag_vocabulary, normalize_paper_tags
+        site_root=args.output.parent.parent if args.output.parent.name=='data' else ROOT
         existing=[];existing_stems=set()
-        for file in sorted([*args.output.glob('*.md'),*args.output.glob('*.json')]):
+        for file in paper_files(args.output):
             if file.name.endswith(('.local.md','.local.json')): raise ValueError(f'Reserved paper filename: {file.name}')
             if file.is_symlink() or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*\.(md|json)',file.name): raise ValueError(f'Invalid paper file: {file.name}')
-            if file.stem.lower() in existing_stems:raise ValueError(f'Duplicate paper filename: {file.name}')
-            existing_stems.add(file.stem.lower())
+            key=paper_key(file,args.output)
+            if key.lower() in existing_stems:raise ValueError(f'Duplicate paper filename: {file.name}')
+            existing_stems.add(key.lower())
             if file.suffix=='.md':
                 paper,body=read_markdown(file);bodies[paper['id']]=body
             else:paper=read_json(file)
             if paper['id'] in filenames: raise ValueError(f'Duplicate existing paper id: {paper["id"]}')
-            filenames[paper['id']]=file.name;existing.append(paper)
+            filenames[paper['id']]=file.relative_to(args.output).as_posix();existing.append(paper)
         data={'papers':existing}
     else:
         data = json.loads(args.output.read_text(encoding='utf-8')) if args.output.exists() else {'papers': []}
@@ -193,25 +195,27 @@ def main():
         config=read_json(config_path) if config_path.exists() else {}
         from build_paper_index import validate
         validate(config.get('tagTranslations',{}),schema['properties']['tagTranslations'],schema,'tagTranslations')
-        used={Path(name).stem.lower() for name in filenames.values()}
+        used={paper_key(args.output/name,args.output).lower() for name in filenames.values()}
+        vocabulary=load_tag_vocabulary(site_root)
         for paper in papers:
-            validate_paper(paper,schema,ROOT,paper['id'])
+            validate_paper(paper,schema,site_root,paper['id'])
+            normalize_paper_tags(paper,vocabulary,paper['id'])
             if paper['id'] not in filenames:
                 name=paper['id'] if re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*',paper['id']) else 'paper-'+hashlib.sha256(paper['id'].encode()).hexdigest()[:16]
-                name+='.md'
-                if Path(name).stem.lower() in used: raise ValueError(f'Conflicting paper filename: {name}')
-                filenames[paper['id']]=name;used.add(Path(name).stem.lower())
+                if name.lower() in used or (args.output/name).exists(): raise ValueError(f'Conflicting paper filename: {name}')
+                filenames[paper['id']]=name+'/paper.md';used.add(name.lower())
         # Check all Markdown bodies before changing any source file.
         for paper in papers:
             if filenames[paper['id']].endswith('.md'):
-                compile_markdown(bodies.get(paper['id'],''),args.output/filenames[paper['id']],ROOT)
+                compile_markdown(bodies.get(paper['id'],''),args.output/filenames[paper['id']],site_root)
         args.output.mkdir(parents=True,exist_ok=True)
         for paper in papers:
             output=args.output/filenames[paper['id']];temp=output.with_suffix(output.suffix+'.tmp')
+            output.parent.mkdir(parents=True,exist_ok=True)
             text=markdown_source(paper,bodies.get(paper['id'],'')) if output.suffix=='.md' else json.dumps(paper,ensure_ascii=False,indent=2)+'\n'
             temp.write_text(text,encoding='utf-8');temp.replace(output)
         details={}
-        index=build_index(args.output,ROOT/'data/papers.schema.json',config,ROOT,details)
+        index=build_index(args.output,ROOT/'data/papers.schema.json',config,site_root,details)
         built=args.output.parent/'papers-built';built.mkdir(exist_ok=True)
         for name,paper in details.items():
             output=built/name;temp=output.with_suffix('.json.tmp')
@@ -219,6 +223,9 @@ def main():
         output=args.output.parent/'papers-index.json';temp=output.with_suffix('.json.tmp')
         temp.write_text(json.dumps(index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');temp.replace(output)
     else:
+        from build_paper_index import load_tag_vocabulary, normalize_paper_tags
+        vocabulary=load_tag_vocabulary(ROOT)
+        data['papers']=[normalize_paper_tags(p,vocabulary,p['id']) for p in papers]
         args.output.parent.mkdir(parents=True, exist_ok=True)
         temp = args.output.with_suffix('.json.tmp')
         temp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

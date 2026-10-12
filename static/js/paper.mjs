@@ -1,9 +1,10 @@
-import { DISCIPLINES, listReturnUrl, paperTags, tagLabel } from './papers-core.mjs?v=20261012-files';
+import { DISCIPLINES, listReturnUrl, paperTags, tagLabel } from './papers-core.mjs?v=20261012-vocabulary';
 
 const root = document.documentElement, $ = id => document.getElementById(id);
 const tr = (zh, en) => root.lang === 'en' ? en : zh;
 let paper;
 let tagTranslations = {};
+let tagLabelsEn = {};
 const narrow = matchMedia('(max-width: 900px)');
 const directory = document.querySelector('.reading-toc details');
 function sizeDirectory() { directory.open = !narrow.matches; }
@@ -50,7 +51,7 @@ function render() {
     tr('解读来源与审核状态待补充。', 'Summary provenance and review status pending.');
   const body = $('reading-body'), toc = $('reading-toc'); body.replaceChildren(); toc.replaceChildren();
   const sections = [
-    {headingZh:'领域与关键词',headingEn:'Field & Keywords',textZh:[p.subfield,'关键词：'+(p.keywords||[]).join(' · '),'标签：'+paperTags(p).map(tag=>tagLabel(tag,'zh',tagTranslations)).join(' · ')].filter(Boolean).join('\n'),textEn:[p.subfield,'Keywords: '+(p.keywords||[]).join(' · '),'Tags: '+paperTags(p).join(' · ')].filter(Boolean).join('\n')},
+    {headingZh:'领域与关键词',headingEn:'Field & Keywords',textZh:[p.subfield,'关键词：'+(p.keywords||[]).join(' · '),'标签：'+paperTags(p).map(tag=>tagLabel(tag,'zh',tagTranslations,tagLabelsEn)).join(' · ')].filter(Boolean).join('\n'),textEn:[p.subfield,'Keywords: '+(p.keywords||[]).join(' · '),'Tags: '+paperTags(p).map(tag=>tagLabel(tag,'en',tagTranslations,tagLabelsEn)).join(' · ')].filter(Boolean).join('\n')},
     ...notes.filter(n=>n.id==='summary'||n.headingZh==='一句话总结'),
     { headingZh: p.abstractZh?'中文摘要':'中文概述', headingEn: p.abstract?'Abstract':'Summary', textZh: p.abstractZh || p.summaryZh || p.abstract || p.summaryEn, textEn: p.abstract || p.summaryEn || p.abstractZh || p.summaryZh },
     ...notes.filter(n=>n.id!=='summary'&&n.headingZh!=='一句话总结')
@@ -101,6 +102,7 @@ async function load() {
     if (!response.ok) throw new Error('Load failed');
     const data = await response.json();
     tagTranslations = data.tagTranslations || {};
+    tagLabelsEn = data.tagLabelsEn || {};
     if (!Array.isArray(data.papers)) throw new Error('Invalid data');
     const id = new URLSearchParams(location.search).get('id');
     const entry = data.papers.find(p => p.id === id);

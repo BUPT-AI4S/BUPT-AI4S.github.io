@@ -1,0 +1,47 @@
+schemaVersion: 1
+tags:
+- id: agents
+  nameEn: Agents
+  nameZh: 智能体
+  aliases:
+  - Agent
+  - AI agents
+  - 人工智能体
+  descriptionZh: 以目标为导向，与环境交互并执行任务的 AI 智能体。
+- id: reasoning
+  nameEn: Reasoning
+  nameZh: 推理
+  aliases:
+  - AI reasoning
+  - 人工智能推理
+  descriptionZh: 模型进行逻辑推断、问题求解和多步推理的方法。
+- id: foundation-models
+  nameEn: Foundation models
+  nameZh: 基础模型
+  aliases:
+  - Foundation model
+  - 基础模型方法
+  descriptionZh: 通过预训练形成可适配多个下游任务的共享模型。
+- id: pretraining
+  nameEn: Pretraining
+  nameZh: 预训练
+  aliases:
+  - Pre-training
+  - Pre training
+  descriptionZh: 下游任务适配前，在数据上训练共享模型表示。
+- id: climate
+  nameEn: Climate
+  nameZh: 气候
+  aliases:
+  - Climate science
+  - 气候科学
+  descriptionZh: 气候过程、气候建模与气候投影；不将天气预报视为同义词。
+- id: graph-neural-networks
+  nameEn: Graph neural networks
+  nameZh: 图神经网络
+  aliases:
+  - GNN
+  - GNNs
+  - Graph neural network
+  descriptionZh: 针对图结构学习节点、边或整图表示的神经网络；与训练阶段标签预训练区分。
+  sourceUrl: https://cso.kmi.open.ac.uk/topics/graph_neural_networks

@@ -1,0 +1,75 @@
+import importlib.util
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+
+ROOT=Path(__file__).resolve().parents[1]
+
+class PaperTagTests(unittest.TestCase):
+    def module(self):
+        spec=importlib.util.spec_from_file_location('tags_build',ROOT/'tools/build_paper_index.py')
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        return module
+
+    def setup_site(self,root,values):
+        folder=root/'data/papers/demo';folder.mkdir(parents=True)
+        (root/'data/paper-tags.yml').write_text('schemaVersion: 1\ntags:\n  - id: climate\n    nameEn: Climate\n    nameZh: 气候\n    aliases: [气候科学]\n',encoding='utf-8')
+        body='---\nid: demo\ntitle: Demo\nauthors: []\ntags: '+json.dumps(values,ensure_ascii=False)+'\n---\n\n## 方法\n\nText'
+        (folder/'paper.md').write_text(body,encoding='utf-8')
+
+    def test_ids_names_and_aliases_share_one_canonical_tag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,['climate','Climate','气候','气候科学',' CLIMATE '])
+            index=self.module().write_index(root,ROOT/'data/papers.schema.json')
+            self.assertEqual(index['papers'][0]['tags'],['climate'])
+            self.assertEqual(index['papers'][0]['tagIds'],['climate'])
+            self.assertEqual(index['tagTranslations'],{'climate':'气候'})
+            self.assertEqual(index['tagLabelsEn'],{'climate':'Climate'})
+            detail=json.loads((root/index['papers'][0]['dataUrl']).read_text(encoding='utf-8'))
+            self.assertEqual(detail['tags'],['climate'])
+
+    def test_unknown_tags_block_build_without_changing_the_index(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,['Climat'])
+            output=root/'data/papers-index.json';output.write_text('previous')
+            with self.assertRaisesRegex(ValueError,'Unknown tag.*Climate'):
+                self.module().write_index(root,ROOT/'data/papers.schema.json')
+            self.assertEqual(output.read_text(),'previous')
+
+    def test_add_command_checks_collisions_before_writing_the_vocabulary(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,['climate'])
+            command=[sys.executable,str(ROOT/'tools/manage_paper_tags.py'),'--root',str(root)]
+            result=subprocess.run(command+['add','--id','llm','--en','Large language models','--zh','大语言模型','--alias','LLMs'],capture_output=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            registry=root/'data/paper-tags.yml';previous=registry.read_bytes()
+            result=subprocess.run(command+['add','--id','duplicate','--en','Another','--zh','气候'],capture_output=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertEqual(registry.read_bytes(),previous)
+            text=(root/'data/papers/demo/paper.md').read_text(encoding='utf-8').replace('tags: ["climate"]','tags: [LLMs]')
+            (root/'data/papers/demo/paper.md').write_text(text,encoding='utf-8')
+            index=self.module().write_index(root,ROOT/'data/papers.schema.json')
+            self.assertEqual(index['papers'][0]['tags'],['llm'])
+
+    def test_missing_vocabulary_does_not_disable_tag_validation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,['unknown'])
+            (root/'data/paper-tags.yml').unlink()
+            with self.assertRaisesRegex(ValueError,'Missing.*paper-tags.yml'):
+                self.module().write_index(root,ROOT/'data/papers.schema.json')
+
+    def test_legacy_json_details_use_the_same_normalized_ids_as_the_catalog(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,[])
+            (root/'data/papers/demo/paper.md').unlink();(root/'data/papers/demo').rmdir()
+            (root/'data/papers/demo.json').write_text(json.dumps({'id':'demo','title':'Demo','authors':[],'tags':['气候科学']}),encoding='utf-8')
+            index=self.module().write_index(root,ROOT/'data/papers.schema.json')
+            entry=index['papers'][0]
+            detail=json.loads((root/entry['dataUrl']).read_text(encoding='utf-8'))
+            self.assertEqual(detail['tags'],['climate'])
+            self.assertEqual(entry['sourceUrl'],'data/papers/demo.json')
+
+if __name__=='__main__':unittest.main()

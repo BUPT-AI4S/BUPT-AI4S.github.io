@@ -12,8 +12,8 @@ authors:
 published: '2023-03-20'
 venue: arXiv
 topics:
-- Agents
-- Reasoning
+- agents
+- reasoning
 sample: true
 summaryZh: 让智能体把任务反馈写成反思文本，保存在记忆中，并用于下一次尝试。无需更新模型权重，探索从试错中改进决策的路径。
 summaryEn: |-
@@ -40,8 +40,8 @@ notesMeta:
 affiliations: []
 codeUrl: ''
 tags:
-- Agents
-- Reasoning
+- agents
+- reasoning
 abstract: |-
   Large language models (LLMs) have been increasingly used to interact with external environments (e.g., games, compilers, APIs) as goal-driven agents. However, it remains challenging for these language agents to quickly and efficiently learn from trial-and-error as traditional reinforcement learning methods require extensive training samples and expensive model fine-tuning.
 

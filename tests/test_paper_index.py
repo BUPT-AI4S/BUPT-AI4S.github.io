@@ -7,6 +7,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 class PaperIndexTests(unittest.TestCase):
+    def vocabulary(self,root):
+        (root/'data/paper-tags.yml').write_text('schemaVersion: 1\ntags:\n  - id: climate\n    nameEn: Climate\n    nameZh: 气候\n    aliases: []\n',encoding='utf-8')
     def module(self):
         spec=importlib.util.spec_from_file_location('paper_index',ROOT/'tools/build_paper_index.py')
         module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
@@ -20,19 +22,21 @@ class PaperIndexTests(unittest.TestCase):
         m=self.module()
         with tempfile.TemporaryDirectory() as tmp:
             folder=Path(tmp)/'data/papers';folder.mkdir(parents=True)
+            self.vocabulary(Path(tmp))
             (folder/'example.json').write_text(json.dumps(self.paper()),encoding='utf-8')
             data=m.build_index(folder,ROOT/'data/papers.schema.json',{'tagTranslations':{'Climate':'气候'}},Path(tmp))
             item=data['papers'][0]
-            self.assertEqual(item['dataUrl'],'data/papers/example.json')
+            self.assertEqual(item['dataUrl'],'data/papers-built/example.json')
             self.assertTrue(item['hasNotes'])
             self.assertNotIn('notes',item)
             self.assertNotIn('figures',item)
-            self.assertEqual(data['tagTranslations']['Climate'],'气候')
+            self.assertEqual(data['tagTranslations']['climate'],'气候')
 
     def test_invalid_file_duplicate_id_and_missing_image_are_rejected(self):
         m=self.module()
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);folder=root/'data/papers';folder.mkdir(parents=True)
+            self.vocabulary(root)
             a=folder/'a.json';a.write_text(json.dumps(self.paper()),encoding='utf-8')
             b=folder/'b.json';b.write_text(json.dumps(self.paper()),encoding='utf-8')
             with self.assertRaisesRegex(ValueError,'Duplicate'):m.build_index(folder,ROOT/'data/papers.schema.json',{},root)
@@ -46,6 +50,7 @@ class PaperIndexTests(unittest.TestCase):
         m=self.module()
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);folder=root/'data/papers';folder.mkdir(parents=True)
+            self.vocabulary(root)
             (folder/'a.json').write_text('{bad json',encoding='utf-8')
             output=root/'data/papers-index.json';output.write_text('previous',encoding='utf-8')
             with self.assertRaises(ValueError):m.write_index(root,schema_path=ROOT/'data/papers.schema.json')
@@ -70,6 +75,7 @@ class PaperIndexTests(unittest.TestCase):
         m=self.module()
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);folder=root/'data/papers';folder.mkdir(parents=True)
+            self.vocabulary(root)
             (folder/'example.local.json').write_text(json.dumps(self.paper()),encoding='utf-8')
             with self.assertRaisesRegex(ValueError,'reserved'):m.build_index(folder,ROOT/'data/papers.schema.json',{},root)
 

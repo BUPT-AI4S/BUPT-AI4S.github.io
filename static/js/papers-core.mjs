@@ -7,7 +7,12 @@ export const DISCIPLINES = {
 };
 
 export const paperTags = p => [...new Set([...(p.tags || []), ...(p.topics || [])])];
-export const tagLabel = (tag, lang, translations = {}) => lang === 'en' ? tag : translations[tag] || tag;
+export const tagLabel = (tag, lang, translations = {}, englishLabels = {}) => lang === 'en' ? englishLabels[tag] || tag : translations[tag] || englishLabels[tag] || tag;
+export function resolveTag(tag, vocabulary = []) {
+  const key=value=>value.normalize('NFKC').trim().toLocaleLowerCase().replace(/\s+/g,' ');
+  const requested=key(tag);
+  return vocabulary.find(t=>[t.id,t.nameEn,t.nameZh,...(t.aliases||[])].some(name=>key(name)===requested))?.id||tag;
+}
 export function cardAbstract(p, lang) {
   const keys=lang==='en'?['abstract','abstractZh']:['abstractZh','abstract'];
   const key=keys.find(key=>p[key]);

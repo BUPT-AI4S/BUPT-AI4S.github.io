@@ -122,4 +122,31 @@ class CollectorTests(unittest.TestCase):
             self.assertEqual(list(folder.glob('*.md')),[])
             self.assertEqual(file.read_text(),previous)
 
+    def test_import_refreshes_existing_directory_and_creates_a_new_paper_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);folder=root/'data/papers';existing=folder/'chosen-name';existing.mkdir(parents=True)
+            (root/'data/paper-tags.yml').write_text('schemaVersion: 1\ntags: []\n',encoding='utf-8')
+            images=existing/'images';images.mkdir();(images/'plot.png').write_bytes(b'keep image')
+            file=existing/'paper.md';file.write_text('---\nid: a\ntitle: Old\nauthors: []\n---\n\n## 方法\n\n保留\n\n![图](images/plot.png)\n',encoding='utf-8')
+            raw=root/'input.json';raw.write_text(json.dumps({'notes':[
+                {'id':'a','readers':['everyone'],'content':{'title':'Updated'}},
+                {'id':'b','readers':['everyone'],'content':{'title':'New'}}]}),encoding='utf-8')
+            result=subprocess.run([sys.executable,spec.origin,'--input',str(raw),'--output',str(folder)],capture_output=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertIn('title: Updated',file.read_text(encoding='utf-8'))
+            self.assertIn('![图](images/plot.png)',file.read_text(encoding='utf-8'))
+            self.assertEqual((images/'plot.png').read_bytes(),b'keep image')
+            self.assertTrue((folder/'b/paper.md').is_file())
+            self.assertFalse((folder/'b.md').exists())
+
+    def test_aggregate_editorial_export_rejects_unknown_topics_before_writing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);output=root/'export.json'
+            previous=json.dumps({'papers':[{'id':'a','title':'A','authors':[]}]})
+            output.write_text(previous,encoding='utf-8')
+            csv=root/'overrides.csv';csv.write_text('id,topics\na,UnknownNewTag\n',encoding='utf-8')
+            result=subprocess.run([sys.executable,spec.origin,'--editorial-only','--output',str(output),'--overrides',str(csv)],capture_output=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertEqual(output.read_text(),previous)
+
 if __name__ == '__main__': unittest.main()

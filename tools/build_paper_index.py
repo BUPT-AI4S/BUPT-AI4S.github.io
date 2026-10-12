@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import re
 import shutil
+import difflib
+import unicodedata
 import yaml
 from markdown_it import MarkdownIt
 from urllib.parse import urlparse, unquote
@@ -12,7 +14,61 @@ from urllib.parse import urlparse, unquote
 ROOT=Path(__file__).resolve().parents[1]
 INDEX_FIELDS=('id','title','titleZh','authors','affiliations','published','dateType','venue','year',
               'disciplines','subfield','keywords','tags','topics','abstract','abstractZh',
-              'summaryZh','summaryEn','paperUrl','pdfUrl','forumUrl','codeUrl','sample','abstractSource','abstractLicense')
+              'summaryZh','summaryEn','paperUrl','pdfUrl','forumUrl','codeUrl','sample','abstractSource','abstractLicense','tagIds')
+
+def tag_key(value):
+    return ' '.join(unicodedata.normalize('NFKC',value).strip().casefold().split())
+
+def validate_tag_vocabulary(data):
+    if not isinstance(data,dict) or data.get('schemaVersion')!=1 or not isinstance(data.get('tags'),list):
+        raise ValueError('Tag vocabulary: expected schemaVersion: 1 and a tags array')
+    lookup={};ids=set()
+    for tag in data['tags']:
+        if not isinstance(tag,dict):raise ValueError('Tag vocabulary: each tag must be an object')
+        for field in ('id','nameEn','nameZh'):
+            if not isinstance(tag.get(field),str) or not tag[field].strip():raise ValueError(f'Tag vocabulary: missing {field}')
+        if not re.fullmatch(r'[a-z][a-z0-9-]*',tag['id']):raise ValueError(f'Invalid tag id: {tag["id"]}')
+        if tag['id'] in ids:raise ValueError(f'Duplicate tag id: {tag["id"]}')
+        ids.add(tag['id'])
+        aliases=tag.get('aliases',[])
+        if not isinstance(aliases,list) or any(not isinstance(a,str) or not a.strip() for a in aliases):
+            raise ValueError(f'{tag["id"]}: aliases must be nonempty strings')
+        if tag.get('sourceUrl') and (not isinstance(tag['sourceUrl'],str) or urlparse(tag['sourceUrl']).scheme!='https'):
+            raise ValueError(f'{tag["id"]}: sourceUrl must use HTTPS')
+        for name in [tag['id'],tag['nameEn'],tag['nameZh'],*aliases]:
+            key=tag_key(name)
+            if key in lookup and lookup[key]['id']!=tag['id']:
+                raise ValueError(f'Tag name or alias collision: {name} ({lookup[key]["id"]} / {tag["id"]})')
+            lookup[key]=tag
+    return lookup
+
+def load_tag_vocabulary(root):
+    path=Path(root)/'data/paper-tags.yml'
+    if not path.exists():raise ValueError(f'Missing tag vocabulary: {path}')
+    if path.is_symlink() or not path.resolve().is_relative_to(Path(root).resolve()):raise ValueError('Invalid tag vocabulary path')
+    try:data=yaml.load(path.read_text(encoding='utf-8-sig'),Loader=PaperLoader)
+    except yaml.YAMLError as exc:raise ValueError(f'{path}: {exc}') from exc
+    return data,validate_tag_vocabulary(data)
+
+def normalize_paper_tags(paper,vocabulary,label):
+    if vocabulary is None:raise ValueError('Missing tag vocabulary')
+    _,lookup=vocabulary;paper=dict(paper);ids=[]
+    for field in ('tags','topics'):
+        if field not in paper:continue
+        names=[]
+        for raw in paper[field]:
+            key=tag_key(raw)
+            if key not in lookup:
+                close=difflib.get_close_matches(key,lookup,n=3,cutoff=.6)
+                suggestions=list(dict.fromkeys(lookup[k]['nameEn'] for k in close))
+                raise ValueError(f'{label}: Unknown tag {raw!r}; check data/paper-tags.yml'+
+                                 ('; possible matches: '+', '.join(suggestions) if suggestions else '; register the new tag before uploading'))
+            tag=lookup[key]
+            if tag['id'] not in names:names.append(tag['id'])
+            if tag['id'] not in ids:ids.append(tag['id'])
+        paper[field]=names
+    paper['tagIds']=ids
+    return paper
 
 class PaperLoader(yaml.SafeLoader):
     def construct_mapping(self,node,deep=False):
@@ -56,6 +112,24 @@ def markdown_source(paper,body):
     """Serialize metadata only; keep the editable Markdown body intact."""
     return '---\n'+yaml.dump(paper,Dumper=PaperDumper,allow_unicode=True,sort_keys=False,width=100000)+'---\n\n'+body.strip()+'\n'
 
+def paper_files(folder):
+    """Each new paper directory has exactly one source: paper.md."""
+    files=[*folder.glob('*.md'),*folder.glob('*.json')]
+    for directory in sorted(folder.iterdir()) if folder.exists() else []:
+        if directory.is_symlink():raise ValueError(f'Symlink not allowed for paper directory: {directory.name}')
+        if not directory.is_dir():continue
+        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*',directory.name) or directory.name.endswith('.local'):
+            raise ValueError(f'Invalid paper directory: {directory.name}')
+        source=directory/'paper.md'
+        if not source.is_file():raise ValueError(f'{directory.name}: missing paper.md')
+        if any(f.name!='paper.md' for f in directory.glob('*.md')):
+            raise ValueError(f'{directory.name}: keep only paper.md at the directory root')
+        files.append(source)
+    return sorted(files)
+
+def paper_key(file,folder):
+    return file.parent.name if file.parent!=folder else file.stem
+
 def compile_markdown(body,file,root):
     marker=r'(?m)^<!-- language: en -->\s*$'
     parts=re.split(marker,body)
@@ -73,7 +147,8 @@ def compile_markdown(body,file,root):
                     else:
                         if parsed.query or parsed.fragment: raise ValueError(f'{file}: invalid image path')
                         image=(file.parent/unquote(parsed.path)).resolve()
-                        if not image.is_relative_to((root/'static/images/papers').resolve()) or not image.is_file():
+                        allowed=(file.parent/'images') if file.name=='paper.md' else root/'static/images/papers'
+                        if not image.is_relative_to(allowed.resolve()) or not image.is_relative_to(root.resolve()) or not image.is_file():
                             raise ValueError(f'{file}: missing or invalid local image: {src}')
                         token.attrSet('src',image.relative_to(root.resolve()).as_posix())
                     token.attrSet('loading','lazy')
@@ -154,30 +229,34 @@ def validate_paper(paper,schema,root,label):
 def build_index(folder,schema_path,config,root,details=None):
     schema=read_json(schema_path)
     validate(config.get('tagTranslations',{}),schema['properties']['tagTranslations'],schema,'tagTranslations')
+    vocabulary=load_tag_vocabulary(root)
     papers=[]; ids=set(); filenames=set()
-    for file in sorted([*folder.glob('*.md'),*folder.glob('*.json')]):
+    for file in paper_files(folder):
         if file.name.endswith(('.local.json','.local.md')): raise ValueError(f'Paper filename uses reserved local suffix: {file.name}')
         if file.is_symlink(): raise ValueError(f'Symlink not allowed for paper: {file.name}')
         if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*\.(md|json)',file.name): raise ValueError(f'Invalid paper filename: {file.name}')
-        if file.stem.lower() in filenames: raise ValueError(f'Duplicate filename: {file.name}')
-        filenames.add(file.stem.lower())
+        key=paper_key(file,folder)
+        if key.lower() in filenames: raise ValueError(f'Duplicate filename: {key}')
+        filenames.add(key.lower())
         body=None
         if file.suffix=='.md':paper,body=read_markdown(file)
         else:paper=read_json(file)
         validate_paper(paper,schema,root,file.name)
+        paper=normalize_paper_tags(paper,vocabulary,file.relative_to(folder).as_posix())
         if body is not None:paper['content']=compile_markdown(body,file,root)
         if paper['id'] in ids: raise ValueError(f'Duplicate paper id: {paper["id"]}')
         ids.add(paper['id'])
         item={key:paper[key] for key in INDEX_FIELDS if key in paper}
-        item.update(dataUrl=('data/papers-built/'+file.stem+'.json') if body is not None else 'data/papers/'+file.name,
+        item.update(dataUrl='data/papers-built/'+key+'.json',
                     hasNotes=bool(body) if body is not None else bool(paper.get('notes')))
-        if body is not None:
-            item['sourceUrl']='data/papers/'+file.name
-            if details is not None:details[file.stem+'.json']=paper
+        item['sourceUrl']='data/papers/'+file.relative_to(folder).as_posix()
+        if details is not None:details[key+'.json']=paper
         papers.append(item)
     if not papers: raise ValueError('No paper Markdown files found')
     return {'schemaVersion':1,'updated':datetime.now(timezone(timedelta(hours=8))).date().isoformat(),
-            'tagTranslations':config.get('tagTranslations',{}),'papers':papers}
+            'tagTranslations':{t['id']:t['nameZh'] for t in vocabulary[0]['tags']} if vocabulary else config.get('tagTranslations',{}),
+            'tagLabelsEn':{t['id']:t['nameEn'] for t in vocabulary[0]['tags']} if vocabulary else {},
+            'tagVocabulary':vocabulary[0]['tags'] if vocabulary else [],'papers':papers}
 
 def write_index(root=ROOT,schema_path=None):
     root=Path(root)

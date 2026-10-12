@@ -1,10 +1,3 @@
 {
-  "schemaVersion": 1,
-  "tagTranslations": {
-    "Agents": "智能体",
-    "Reasoning": "推理",
-    "Foundation models": "基础模型",
-    "Pretraining": "预训练",
-    "Climate": "气候"
-  }
+  "schemaVersion": 1
 }

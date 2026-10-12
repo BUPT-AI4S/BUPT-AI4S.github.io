@@ -20,7 +20,7 @@ test('published catalog has bilingual Markdown sections and traceable full-paper
   assert.ok(climax.notesMeta.sources.some(s=>s.url==='https://proceedings.mlr.press/v202/nguyen23a/nguyen23a.pdf'));
   assert.match(climax.content.zh.html,/1\.70/);
   assert.match(climax.content.zh.html,/1\.79/);
-  assert.match(climax.content.zh.html,/<img[^>]+src="static\/images\/papers\/climax-workflow.svg"/);
+  assert.match(climax.content.zh.html,/<img[^>]+src="data\/papers\/climax\/images\/workflow.svg"/);
 });
 
 test('tag translations change labels while preserving stable tag identifiers', async () => {
@@ -30,6 +30,17 @@ test('tag translations change labels while preserving stable tag identifiers', a
   assert.equal(tagLabel('Climate','en',translations),'Climate');
   assert.equal(tagLabel('Unknown','zh',translations),'Unknown');
   assert.equal(filterPapers([{id:'a',title:'A',tags:['Climate']}],{tag:'Climate'}).length,1);
+});
+
+test('controlled tag IDs display bilingual labels and old alias links resolve to the same ID', async () => {
+  const {tagLabel,resolveTag,filterPapers}=await import('../static/js/papers-core.mjs');
+  const vocabulary=[{id:'climate',nameEn:'Climate',nameZh:'气候',aliases:['气候科学']}];
+  assert.equal(tagLabel('climate','zh',{climate:'气候'},{climate:'Climate'}),'气候');
+  assert.equal(tagLabel('climate','en',{climate:'气候'},{climate:'Climate'}),'Climate');
+  for(const input of ['Climate','climate','气候科学',' Ｃｌｉｍａｔｅ ']) {
+    assert.equal(resolveTag(input,vocabulary),'climate');
+    assert.equal(filterPapers([{id:'a',title:'A',tags:['climate']}],{tag:resolveTag(input,vocabulary)}).length,1);
+  }
 });
 
 test('catalog uses abstracts only and never substitutes an AI overview', async () => {

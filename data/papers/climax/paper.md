@@ -17,8 +17,8 @@ disciplines:
 - weather
 subfield: 天气预报与气候建模
 topics:
-- Foundation models
-- Pretraining
+- foundation-models
+- pretraining
 keywords:
 - Weather
 - Climate
@@ -64,9 +64,9 @@ affiliations:
 affiliationSource: https://www.microsoft.com/en-us/research/articles/introducing-climax-the-first-foundation-model-for-weather-and-climate
 codeUrl: https://github.com/microsoft/ClimaX
 tags:
-- Foundation models
-- Pretraining
-- Climate
+- foundation-models
+- pretraining
+- climate
 abstractZh: |-
   近年来，基于机器学习的数据驱动方法尝试使用深度神经网络学习数据驱动的函数映射，直接解决下游预报或气候投影任务。然而，这些网络通常针对特定时空任务，在经过整理且同质的气候数据集上训练，因此缺乏目前用于天气与气候建模、计算开销较大的基于物理的数值模型所具备的通用性。
 
@@ -103,7 +103,7 @@ ClimaX 将变量集合不同的天气与气候网格数据组织为统一的 Tra
 
 4. 下游适配。已见变量可以微调整个模型；全新变量需要替换输入嵌入层和预测头，保留、冻结或微调共享组件；分辨率变化还需调整位置嵌入。“支持未见变量”因此不等于任意变量的零样本预测。依据：第 2 节、图 2–3、第 3 节。
 
-![ClimaX 从异构数据预训练到下游任务微调的流程](../../static/images/papers/climax-workflow.svg)
+![ClimaX 从异构数据预训练到下游任务微调的流程](images/workflow.svg)
 
 *ClimaX 训练流程示意图：异构数据预训练，再针对天气预报与气候预测微调。此图为流程示意，并非论文原图。*
 
@@ -175,7 +175,7 @@ Pretraining uses five regridded CMIP6 sources, randomized horizons of 6–168 ho
 
 Fine-tuning can update the full model for familiar variables. New variables require replacement embeddings and heads, with shared components retained or adapted. New resolutions also require positional adaptation. This is not arbitrary zero-shot prediction. Sources: Section 2, Figures 2–3 and Section 3.
 
-![ClimaX pretraining and fine-tuning workflow](../../static/images/papers/climax-workflow.svg)
+![ClimaX pretraining and fine-tuning workflow](images/workflow.svg)
 
 *Conceptual ClimaX workflow: pretrain on heterogeneous data, then fine-tune for weather and climate tasks. This is an illustration, not an original paper figure.*
 

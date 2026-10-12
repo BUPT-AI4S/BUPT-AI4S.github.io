@@ -1,6 +1,6 @@
 # 论文 AI 解读 Markdown 模板
 
-复制 `data/paper.template.md`，上传到 `data/papers/<filename>.md`。YAML 维护元数据，下方 Markdown 直接编写正文和插图，详见 [上传说明](papers.md)。
+复制 `data/paper.template.md` 到 `data/papers/<论文名>/paper.md`，配图放在同目录的 `images/`。YAML 维护元数据，下方 Markdown 直接编写正文和插图，详见 [上传说明](papers.md)。
 
 ## 推荐章节
 
@@ -21,7 +21,7 @@
 
 - `abstract` 为原英文摘要，`abstractZh` 为完整译文，不能用概述冒充。
 - 目录卡片直接显示原摘要或完整译文，每张卡片独立切换中英文；`summaryZh` / `summaryEn` 仅兼容保留，不能替代摘要。Markdown 正文是完整解读。
-- 标签规则不变，中文译名仍在共用配置中维护。
+- 写标签前先查 `data/paper-tags.yml`，论文引用固定 ID；中英文名和别名统一在词表维护，新增步骤见上传说明。
 - 插图跟随方法或实验段落，附替代文本、图注、原论文图号与来源链接；示意图注明。
 - `notesMeta` 记录生成日期、人工审核状态、依据和来源。AI 核对引用不等于人工审核。
 
@@ -48,4 +48,4 @@ notesMeta:
 4. 检查失败案例与限制，不使用脱离协议的“全面优于”结论。
 5. 更新来源与目录概述，构建后检查页面和配图。
 
-完整示例在 `data/papers/climax.md`，这是唯一维护源。内容组织参考 [Paper Notes 解读](https://papernotes.org/ACL2026/llm_reasoning/logical_phase_transitions_understanding_collapse_in_llm_logical_reasoning/)，不复制正文或主观评分。ClimaX 正式来源：[ICML 2023 / PMLR](https://proceedings.mlr.press/v202/nguyen23a.html)。
+完整示例在 `data/papers/climax/paper.md`，这是唯一维护源。内容组织参考 [Paper Notes 解读](https://papernotes.org/ACL2026/llm_reasoning/logical_phase_transitions_understanding_collapse_in_llm_logical_reasoning/)，不复制正文或主观评分。ClimaX 正式来源：[ICML 2023 / PMLR](https://proceedings.mlr.press/v202/nguyen23a.html)。

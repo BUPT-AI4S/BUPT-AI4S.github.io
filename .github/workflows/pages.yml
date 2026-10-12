@@ -34,6 +34,7 @@ jobs:
           node --test tests/papers.test.mjs tests/replay.test.mjs
           python -m unittest discover -s tests -p test_paper_index.py
           python -m unittest discover -s tests -p test_paper_markdown.py
+          python -m unittest discover -s tests -p test_paper_tags.py
           python -m unittest discover -s tests -p test_openreview.py
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'

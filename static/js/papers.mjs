@@ -1,4 +1,4 @@
-import { DISCIPLINES, filterPapers, readingUrl, paperTags, tagCounts, cardAbstract, tagLabel } from './papers-core.mjs?v=20261012-abstract';
+import { DISCIPLINES, filterPapers, readingUrl, paperTags, tagCounts, cardAbstract, tagLabel, resolveTag } from './papers-core.mjs?v=20261012-vocabulary';
 const root = document.documentElement, $ = id => document.getElementById(id);
 const list = $('paper-list'), message = $('papers-message');
 const fields = {q:$('paper-search'),subfield:$('subfield-filter'),venue:$('venue-filter'),year:$('year-filter')};
@@ -6,6 +6,7 @@ const savedOnly = $('saved-only'), storageKey = 'ai4s-saved-papers';
 let papers = [], saved = [], discipline = '', selectedTag = '', loaded = false, storageAvailable = true;
 const cardLanguages = new Map();
 let tagTranslations = {};
+let tagLabelsEn = {}, tagVocabulary = [];
 const tr = (zh,en) => root.lang === 'en' ? en : zh;
 try { const v = JSON.parse(localStorage.getItem(storageKey) || '[]'); saved = Array.isArray(v) ? v.filter(id => typeof id === 'string') : []; } catch { storageAvailable = false; }
 function node(tag,text,cls) { const el=document.createElement(tag); if(text!==undefined) el.textContent=text; if(cls) el.className=cls; return el; }
@@ -18,7 +19,7 @@ function tags(values,cls) { const box=node('div',undefined,'paper-tags'); values
 function readUrl() {
   const params=new URLSearchParams(location.search);
   for(const [name,el] of Object.entries(fields)) el.value=params.get(name)||'';
-  discipline=params.get('discipline')||''; selectedTag=params.get('tag')||''; savedOnly.checked=params.get('saved')==='1'; return params.get('paper')||'';
+  discipline=params.get('discipline')||''; selectedTag=resolveTag(params.get('tag')||'',tagVocabulary); savedOnly.checked=params.get('saved')==='1'; return params.get('paper')||'';
 }
 function syncUrl() {
   const url=new URL(location.href), values={discipline,tag:selectedTag,saved:savedOnly.checked?'1':'',paper:''};
@@ -57,10 +58,10 @@ function render() {
   const filtered=filterPapers(papers,{...filters,tag:selectedTag});
   const tagBox=$('tag-filters'); tagBox.replaceChildren();
   for(const [tag,count] of [['',filterPapers(papers,filters).length],...tagCounts(filterPapers(papers,filters))]) {
-    const b=node('button',(tag?tagLabel(tag,root.lang,tagTranslations):tr('全部标签','All tags'))+' · '+count);b.type='button';b.dataset.tag=tag;b.setAttribute('aria-pressed',String(selectedTag===tag));
+    const b=node('button',(tag?tagLabel(tag,root.lang,tagTranslations,tagLabelsEn):tr('全部标签','All tags'))+' · '+count);b.type='button';b.dataset.tag=tag;b.setAttribute('aria-pressed',String(selectedTag===tag));
     b.addEventListener('click',()=>{selectedTag=tag;syncUrl();render();[...tagBox.children].find(b=>b.dataset.tag===tag)?.focus();});tagBox.append(b);
   }
-  if(selectedTag && ![...tagBox.children].some(b=>b.dataset.tag===selectedTag)) {const b=node('button',tagLabel(selectedTag,root.lang,tagTranslations)+' · 0');b.type='button';b.setAttribute('aria-pressed','true');b.addEventListener('click',()=>{selectedTag='';syncUrl();render();});tagBox.append(b);}
+  if(selectedTag && ![...tagBox.children].some(b=>b.dataset.tag===selectedTag)) {const b=node('button',tagLabel(selectedTag,root.lang,tagTranslations,tagLabelsEn)+' · 0');b.type='button';b.setAttribute('aria-pressed','true');b.addEventListener('click',()=>{selectedTag='';syncUrl();render();});tagBox.append(b);}
   const extension=$('keyword-extension');extension.replaceChildren();
   if(fields.q.value.trim()) {
     extension.append(node('span',tr('延伸检索：','Explore: ')));
@@ -100,7 +101,7 @@ function render() {
     const keywords=node('div',undefined,'paper-tags');keywords.append(node('span',ct('关键词','Keywords'),'tag-label'));
     for(const keyword of [...new Set(p.keywords||[])]) {const b=node('button',keyword);b.type='button';b.addEventListener('click',()=>{fields.q.value=keyword;syncUrl();render();fields.q.focus();});keywords.append(b);}item.append(keywords);
     const tagList=paperTags(p), labels=node('div',undefined,'paper-tags card-tags');labels.append(node('span',ct(`标签 · ${tagList.length}`,`Tags · ${tagList.length}`),'tag-label'));
-    for(const tag of tagList) {const b=node('button',tagLabel(tag,lang,tagTranslations));b.type='button';b.setAttribute('aria-pressed',String(selectedTag===tag));b.addEventListener('click',()=>{selectedTag=tag;syncUrl();render();[...$('tag-filters').children].find(b=>b.dataset.tag===tag)?.focus();});labels.append(b);}item.append(labels);
+    for(const tag of tagList) {const b=node('button',tagLabel(tag,lang,tagTranslations,tagLabelsEn));b.type='button';b.setAttribute('aria-pressed',String(selectedTag===tag));b.addEventListener('click',()=>{selectedTag=tag;syncUrl();render();[...$('tag-filters').children].find(b=>b.dataset.tag===tag)?.focus();});labels.append(b);}item.append(labels);
     const footer=node('div',undefined,'paper-entry-footer'), links=node('div',undefined,'paper-entry-links');
     const read=node('a',tr(p.hasNotes?'阅读 AI 解读':'查看论文 · 解读待补充',p.hasNotes?'Read AI summary':'View paper · Summary pending'));
     read.href=readingUrl(p.id,location.search);links.append(read);
@@ -120,7 +121,7 @@ async function load() {
     const response=await fetch('data/papers-index.json', {cache:'no-cache'});if(!response.ok) throw new Error('Load failed');const data=await response.json();
     if(!Array.isArray(data.papers)||data.papers.some(p=>!p.id||!p.title||!Array.isArray(p.authors)||(p.disciplines&&!Array.isArray(p.disciplines)))) throw new Error('Invalid data');
     if(new Set(data.papers.map(p=>p.id)).size!==data.papers.length) throw new Error('Duplicate id');
-    papers=data.papers;tagTranslations=data.tagTranslations||{};loaded=true;populateFilters();const id=readUrl();$('data-updated').textContent=data.updated||'—';if(data.updated) $('data-updated').dateTime=data.updated;render();if(id && papers.some(p=>p.id===id)) location.replace(readingUrl(id,location.search));
+    papers=data.papers;tagTranslations=data.tagTranslations||{};tagLabelsEn=data.tagLabelsEn||{};tagVocabulary=data.tagVocabulary||[];loaded=true;populateFilters();const id=readUrl();$('data-updated').textContent=data.updated||'—';if(data.updated) $('data-updated').dateTime=data.updated;render();if(id && papers.some(p=>p.id===id)) location.replace(readingUrl(id,location.search));
   } catch {message.replaceChildren(node('p',tr('论文数据暂时无法加载，请重试。','Could not load paper data. Please retry.')));const retry=node('button',tr('重试','Retry'));retry.type='button';retry.addEventListener('click',load);message.append(retry);}
 }
 load();

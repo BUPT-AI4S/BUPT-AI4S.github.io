@@ -2,13 +2,134 @@
   "schemaVersion": 1,
   "updated": "2026-10-12",
   "tagTranslations": {
-    "Agents": "智能体",
-    "Reasoning": "推理",
-    "Foundation models": "基础模型",
-    "Pretraining": "预训练",
-    "Climate": "气候"
+    "agents": "智能体",
+    "reasoning": "推理",
+    "foundation-models": "基础模型",
+    "pretraining": "预训练",
+    "climate": "气候",
+    "graph-neural-networks": "图神经网络"
   },
+  "tagLabelsEn": {
+    "agents": "Agents",
+    "reasoning": "Reasoning",
+    "foundation-models": "Foundation models",
+    "pretraining": "Pretraining",
+    "climate": "Climate",
+    "graph-neural-networks": "Graph neural networks"
+  },
+  "tagVocabulary": [
+    {
+      "id": "agents",
+      "nameEn": "Agents",
+      "nameZh": "智能体",
+      "aliases": [
+        "Agent",
+        "AI agents",
+        "人工智能体"
+      ],
+      "descriptionZh": "以目标为导向，与环境交互并执行任务的 AI 智能体。"
+    },
+    {
+      "id": "reasoning",
+      "nameEn": "Reasoning",
+      "nameZh": "推理",
+      "aliases": [
+        "AI reasoning",
+        "人工智能推理"
+      ],
+      "descriptionZh": "模型进行逻辑推断、问题求解和多步推理的方法。"
+    },
+    {
+      "id": "foundation-models",
+      "nameEn": "Foundation models",
+      "nameZh": "基础模型",
+      "aliases": [
+        "Foundation model",
+        "基础模型方法"
+      ],
+      "descriptionZh": "通过预训练形成可适配多个下游任务的共享模型。"
+    },
+    {
+      "id": "pretraining",
+      "nameEn": "Pretraining",
+      "nameZh": "预训练",
+      "aliases": [
+        "Pre-training",
+        "Pre training"
+      ],
+      "descriptionZh": "下游任务适配前，在数据上训练共享模型表示。"
+    },
+    {
+      "id": "climate",
+      "nameEn": "Climate",
+      "nameZh": "气候",
+      "aliases": [
+        "Climate science",
+        "气候科学"
+      ],
+      "descriptionZh": "气候过程、气候建模与气候投影；不将天气预报视为同义词。"
+    },
+    {
+      "id": "graph-neural-networks",
+      "nameEn": "Graph neural networks",
+      "nameZh": "图神经网络",
+      "aliases": [
+        "GNN",
+        "GNNs",
+        "Graph neural network"
+      ],
+      "descriptionZh": "针对图结构学习节点、边或整图表示的神经网络；与训练阶段标签预训练区分。",
+      "sourceUrl": "https://cso.kmi.open.ac.uk/topics/graph_neural_networks"
+    }
+  ],
   "papers": [
+    {
+      "id": "Vbj1jSaqTo",
+      "title": "Learning the Neighborhood: Contrast-Free Multimodal Self-Supervised Molecular Graph Pretraining",
+      "titleZh": "C-FREE：学习邻域的无对比多模态分子图预训练",
+      "authors": [
+        "Boshra Ariguib",
+        "Mathias Niepert",
+        "Andrei Manolache"
+      ],
+      "affiliations": [
+        "Computer Science Department, University of Stuttgart, Germany",
+        "Bitdefender, Romania"
+      ],
+      "published": "",
+      "venue": "ICML",
+      "year": "2026",
+      "disciplines": [
+        "chemistry"
+      ],
+      "subfield": "分子表示学习",
+      "keywords": [
+        "Molecular graph pretraining",
+        "Graph neural networks",
+        "3D conformers",
+        "Latent prediction"
+      ],
+      "tags": [
+        "pretraining",
+        "graph-neural-networks"
+      ],
+      "abstract": "High-quality molecular representations are essential for property prediction and molecular design, yet large labeled datasets remain scarce. While self-supervised pretraining on molecular graphs has shown promise, many existing approaches either depend on hand-crafted augmentations or complex generative objectives, and often rely solely on 2D topology, leaving valuable 3D structural information underutilized.\n\nTo address this gap, we introduce C-FREE (Contrast-Free Representation learning on Ego-nets), a simple framework that integrates 2D graphs with ensembles of 3D conformers. C-FREE learns molecular representations by predicting subgraph embeddings from their complementary neighborhoods in the latent space, using fixed-radius ego-nets as modeling units across different conformers.\n\nThis design allows us to integrate both geometric and topological information within a hybrid Graph Neural Network (GNN)-Transformer backbone, without negatives, positional encodings, or expensive pre-processing. Pretraining on the GEOM dataset, which provides rich 3D conformational diversity, C-FREE achieves state-of-the-art results on MoleculeNet, surpassing contrastive, generative, and other multimodal self-supervised methods.\n\nFine-tuning across datasets with diverse sizes and molecule types further demonstrates that pretraining transfers effectively to new chemical domains, highlighting the importance of 3D-informed molecular representations.",
+      "abstractZh": "高质量的分子表示对于性质预测和分子设计至关重要，但大规模带标签数据仍然稀缺。尽管分子图自监督预训练已展现潜力，现有许多方法仍依赖人工设计的数据增强或复杂的生成目标，而且往往只使用二维拓扑，未充分利用有价值的三维结构信息。\n\n为弥补这一不足，我们提出 C-FREE（基于自我邻域子图的无对比表示学习），一个将二维图与多个三维构象整合起来的简洁框架。C-FREE 在潜在空间中，根据互补邻域预测子图的嵌入，并将固定半径的自我邻域子图作为跨构象建模的基本单元，从而学习分子表示。\n\n这种设计让我们能够在混合图神经网络（GNN）与 Transformer 主干中整合几何和拓扑信息，而无需负样本、位置编码或昂贵的预处理。在提供丰富三维构象多样性的 GEOM 数据集上预训练后，C-FREE 在 MoleculeNet 上取得先进结果，超过对比学习、生成式及其他多模态自监督方法。\n\n在不同规模和不同分子类型的数据集上进行微调，进一步表明预训练能够有效迁移到新的化学领域，突出三维信息参与分子表示学习的重要性。",
+      "paperUrl": "https://proceedings.mlr.press/v306/ariguib26a.html",
+      "pdfUrl": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/ariguib26a/ariguib26a.pdf",
+      "forumUrl": "https://openreview.net/forum?id=Vbj1jSaqTo",
+      "codeUrl": "https://github.com/ariguiba/C-FREE",
+      "sample": true,
+      "abstractSource": "https://proceedings.mlr.press/v306/ariguib26a.html",
+      "abstractLicense": "https://creativecommons.org/licenses/by/4.0/",
+      "tagIds": [
+        "pretraining",
+        "graph-neural-networks"
+      ],
+      "dataUrl": "data/papers-built/c-free.json",
+      "hasNotes": true,
+      "sourceUrl": "data/papers/c-free/paper.md"
+    },
     {
       "id": "5CZyPMgjUu",
       "title": "ClimaX: A foundation model for weather and climate",
@@ -38,13 +159,13 @@
         "Transformer"
       ],
       "tags": [
-        "Foundation models",
-        "Pretraining",
-        "Climate"
+        "foundation-models",
+        "pretraining",
+        "climate"
       ],
       "topics": [
-        "Foundation models",
-        "Pretraining"
+        "foundation-models",
+        "pretraining"
       ],
       "abstract": "Recent data-driven approaches based on machine learning aim to directly solve a downstream forecasting or projection task by learning a data-driven functional mapping using deep neural networks. However, these networks are trained using curated and homogeneous climate datasets for specific spatiotemporal tasks, and thus lack the generality of currently used computationally intensive physics-informed numerical models for weather and climate modeling.\n\nWe develop and demonstrate ClimaX, a flexible and generalizable deep learning model for weather and climate science that can be trained using heterogeneous datasets spanning different variables, spatio-temporal coverage, and physical groundings. ClimaX extends the Transformer architecture with novel encoding and aggregation blocks that allow effective use of available compute and data while maintaining general utility.\n\nClimaX is pretrained with a self-supervised learning objective on climate datasets derived from CMIP6. The pretrained ClimaX can then be fine-tuned to address a breadth of climate and weather tasks, including those that involve atmospheric variables and spatio-temporal scales unseen during pretraining.\n\nCompared to existing data-driven baselines, we show that this generality in ClimaX results in superior performance on benchmarks for weather forecasting and climate projections, even when pretrained at lower resolutions and compute budgets. Our source code is available at https://github.com/microsoft/ClimaX.",
       "abstractZh": "近年来，基于机器学习的数据驱动方法尝试使用深度神经网络学习数据驱动的函数映射，直接解决下游预报或气候投影任务。然而，这些网络通常针对特定时空任务，在经过整理且同质的气候数据集上训练，因此缺乏目前用于天气与气候建模、计算开销较大的基于物理的数值模型所具备的通用性。\n\n我们开发并验证了 ClimaX：一种面向天气与气候科学、灵活且具有泛化能力的深度学习模型，可以利用涵盖不同变量、时空范围及物理基础的异构数据集进行训练。ClimaX 在 Transformer 架构中引入新的编码与聚合模块，在保持通用性的同时有效利用可用的计算资源和数据。\n\nClimaX 使用自监督学习目标，在由 CMIP6 衍生的气候数据集上预训练。随后，可以对预训练后的 ClimaX 进行微调，以处理多种气候与天气任务，包括涉及预训练中未见过的大气变量和时空尺度的任务。\n\n与现有数据驱动基线相比，我们表明，ClimaX 的这种通用性使其在天气预报和气候投影基准上取得更优性能，即使预训练采用较低的分辨率和计算预算也是如此。源代码公开于 https://github.com/microsoft/ClimaX。",
@@ -57,9 +178,14 @@
       "sample": true,
       "abstractSource": "https://proceedings.mlr.press/v202/nguyen23a.html",
       "abstractLicense": "https://creativecommons.org/licenses/by/4.0/",
+      "tagIds": [
+        "foundation-models",
+        "pretraining",
+        "climate"
+      ],
       "dataUrl": "data/papers-built/climax.json",
       "hasNotes": true,
-      "sourceUrl": "data/papers/climax.md"
+      "sourceUrl": "data/papers/climax/paper.md"
     },
     {
       "id": "2303.11366",
@@ -87,12 +213,12 @@
         "Episodic memory"
       ],
       "tags": [
-        "Agents",
-        "Reasoning"
+        "agents",
+        "reasoning"
       ],
       "topics": [
-        "Agents",
-        "Reasoning"
+        "agents",
+        "reasoning"
       ],
       "abstract": "Large language models (LLMs) have been increasingly used to interact with external environments (e.g., games, compilers, APIs) as goal-driven agents. However, it remains challenging for these language agents to quickly and efficiently learn from trial-and-error as traditional reinforcement learning methods require extensive training samples and expensive model fine-tuning.\n\nWe propose Reflexion, a novel framework to reinforce language agents not by updating weights, but instead through linguistic feedback. Concretely, Reflexion agents verbally reflect on task feedback signals, then maintain their own reflective text in an episodic memory buffer to induce better decision-making in subsequent trials.\n\nReflexion is flexible enough to incorporate various types (scalar values or free-form language) and sources (external or internally simulated) of feedback signals, and obtains significant improvements over a baseline agent across diverse tasks (sequential decision-making, coding, language reasoning). For example, Reflexion achieves a 91% pass@1 accuracy on the HumanEval coding benchmark, surpassing the previous state-of-the-art GPT-4 that achieves 80%.\n\nWe also conduct ablation and analysis studies using different feedback signals, feedback incorporation methods, and agent types, and provide insights into how they affect performance.",
       "abstractZh": "大型语言模型（LLM）越来越多地被用作以目标为导向的智能体，与外部环境（例如游戏、编译器和 API）交互。然而，这些语言智能体仍然难以快速、高效地从试错中学习，因为传统强化学习方法需要大量训练样本和昂贵的模型微调。\n\n我们提出 Reflexion，一种通过语言反馈而非更新模型权重来强化语言智能体的新框架。具体而言，Reflexion 智能体以语言形式反思任务反馈信号，并将生成的反思文本保存在情节记忆缓冲区中，以促进后续尝试中的更好决策。\n\nReflexion 可以灵活整合不同类型（标量值或自由形式的语言）和不同来源（外部提供或内部模拟）的反馈信号，并在多种任务（序列决策、编程和语言推理）上相较基线智能体取得显著提升。例如，Reflexion 在 HumanEval 编程基准上取得 91% 的 pass@1 准确率，超过此前达到 80% 的先进模型 GPT-4。\n\n我们还使用不同的反馈信号、反馈整合方法和智能体类型开展消融与分析研究，探讨它们如何影响性能。",
@@ -104,9 +230,13 @@
       "sample": true,
       "abstractSource": "https://arxiv.org/abs/2303.11366v4",
       "abstractLicense": "https://creativecommons.org/licenses/by/4.0/",
+      "tagIds": [
+        "agents",
+        "reasoning"
+      ],
       "dataUrl": "data/papers-built/reflexion.json",
       "hasNotes": true,
-      "sourceUrl": "data/papers/reflexion.md"
+      "sourceUrl": "data/papers/reflexion/paper.md"
     }
   ]
 }
