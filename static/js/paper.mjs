@@ -29,6 +29,7 @@ function render() {
   renderBack();
   if (!paper) return;
   const p = paper, notes = p.notes || [];
+  const hasNotes = p.content ? Object.values(p.content).some(c=>c.html?.trim()) : notes.length;
   $('reading-title').textContent = tr(p.titleZh || p.title, p.title);
   document.title = $('reading-title').textContent + ' · AI4S';
   $('reading-english-title').textContent = root.lang === 'en' ? '' : p.title;
@@ -44,7 +45,7 @@ function render() {
     } catch {}
   }
   const provenance = p.notesMeta;
-  $('reading-provenance').textContent = !notes.length ? tr('AI 解读待补充。下方提供论文简介与原文入口。', 'AI summary pending. Read the introduction or original paper below.') : provenance ?
+  $('reading-provenance').textContent = !hasNotes ? tr('AI 解读待补充。下方提供论文简介与原文入口。', 'AI summary pending. Read the introduction or original paper below.') : provenance ?
     tr(`大模型生成 · ${provenance.reviewed ? '已人工审核' : '未人工审核'} · ${provenance.generated}。依据：${provenance.basisZh}`, `AI generated · ${provenance.reviewed ? 'Human reviewed' : 'Not human reviewed'} · ${provenance.generated}. Source: ${provenance.basisEn}`) :
     tr('解读来源与审核状态待补充。', 'Summary provenance and review status pending.');
   const body = $('reading-body'), toc = $('reading-toc'); body.replaceChildren(); toc.replaceChildren();
@@ -60,6 +61,22 @@ function render() {
     block.append(node('h2', title), node('p', tr(section.textZh, section.textEn || section.textZh) || tr('内容待补充', 'Content pending')));
     body.append(block); const link = node('a', title); link.href = '#' + block.id; toc.append(link);
   });
+  if(p.content) {
+    const selected=p.content[root.lang==='en'?'en':'zh'];
+    const content=selected?.html?.trim()?selected:(p.content.zh?.html?.trim()?p.content.zh:p.content.en);
+    if(content?.html) {
+      const block=node('section',undefined,'reading-markdown');
+      // HTML is generated at build time from Markdown with raw HTML disabled.
+      block.innerHTML=content.html;
+      body.append(block);
+      for(const heading of content.toc||[]) {
+        const link=node('a',heading.title);link.href='#'+heading.id;toc.append(link);
+      }
+      for(const image of block.querySelectorAll('img')) image.addEventListener('error',()=>{
+        image.replaceWith(node('p',tr('图片暂时无法加载','Image unavailable')));
+      },{once:true});
+    }
+  }
   if(p.figures?.length) {
     const gallery=node('section',undefined,'reading-section');gallery.id='paper-figures';gallery.append(node('h2',tr('论文配图','Figures')));
     for(const figure of p.figures) {
@@ -88,7 +105,7 @@ async function load() {
     const id = new URLSearchParams(location.search).get('id');
     const entry = data.papers.find(p => p.id === id);
     if (!entry) { message.textContent = tr('未找到这篇论文，请返回文献列表选择。', 'Paper not found. Return to the list to choose a paper.'); return; }
-    if (!/^data\/papers\/[A-Za-z0-9][A-Za-z0-9._-]*\.json$/.test(entry.dataUrl)) throw new Error('Invalid paper path');
+    if (!/^data\/(papers|papers-built)\/[A-Za-z0-9][A-Za-z0-9._-]*\.json$/.test(entry.dataUrl)) throw new Error('Invalid paper path');
     const detail = await fetch(entry.dataUrl, {cache:'no-cache'});
     if (!detail.ok) throw new Error('Paper load failed');
     paper = await detail.json();

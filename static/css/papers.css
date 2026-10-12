@@ -60,6 +60,18 @@
 .reading-section + .reading-section { padding-top:24px; border-top:1px solid var(--stroke); }
 .reading-section h2 { font-size:23px; line-height:1.4; margin:0 0 14px; }
 .reading-section p { font-size:16px; color:var(--soft); line-height:1.95; margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
+.reading-markdown { max-width:75ch; color:var(--soft); font-size:16px; line-height:1.95; overflow-wrap:anywhere; }
+.reading-markdown h2 { font-size:23px; line-height:1.4; color:var(--text); padding-top:24px; margin:28px 0 14px; border-top:1px solid var(--stroke); scroll-margin-top:calc(var(--nav-h) + 24px); }
+.reading-markdown h2:first-child { margin-top:0; }
+.reading-markdown h3 { color:var(--text); font-size:19px; scroll-margin-top:calc(var(--nav-h) + 24px); }
+.reading-markdown p { margin:0 0 18px; }
+.reading-markdown li { margin:8px 0; }
+.reading-markdown img { display:block; max-width:100%; height:auto; border-radius:8px; background:#fff; border:1px solid var(--stroke); }
+.reading-markdown a { color:var(--blue); }
+.reading-markdown blockquote { margin:20px 0; border-left:3px solid var(--stroke); padding-left:18px; }
+.reading-markdown pre { overflow-x:auto; padding:16px; border-radius:8px; background:var(--section-alt); }
+.reading-markdown table { display:block; max-width:100%; overflow-x:auto; border-collapse:collapse; margin:20px 0; }
+.reading-markdown th,.reading-markdown td { border:1px solid var(--stroke); padding:8px 12px; text-align:left; }
 .papers-main ::selection { background:var(--blue-dim); color:var(--text); }
 .papers-main input { caret-color:var(--blue); }
 .papers-main { scrollbar-color:var(--muted) var(--card-solid); }

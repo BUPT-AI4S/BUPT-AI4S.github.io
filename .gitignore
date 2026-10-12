@@ -9,3 +9,6 @@ local-media/
 data/*.local.json
 node_modules/
 _site/
+.paper-deps/
+.tmp/
+data/papers-built/

@@ -2,20 +2,25 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-test('published catalog has stable section IDs and traceable full-paper ClimaX notes', async () => {
+test('published catalog has bilingual Markdown sections and traceable full-paper ClimaX notes', async () => {
   const data=JSON.parse(await readFile(new URL('../data/papers-index.json',import.meta.url),'utf8'));
   assert.equal(data.schemaVersion,1);
   const details=await Promise.all(data.papers.map(p=>readFile(new URL('../'+p.dataUrl,import.meta.url),'utf8').then(JSON.parse)));
   for(const p of details) {
-    assert.ok(Array.isArray(p.notes));
-    assert.equal(new Set(p.notes.map(n=>n.id)).size,p.notes.length);
-    for(const n of p.notes) assert.ok(n.id && typeof n.textZh==='string' && typeof n.textEn==='string');
+    assert.equal(typeof p.content.zh.html,'string');
+    assert.equal(typeof p.content.en.html,'string');
+    for(const content of Object.values(p.content)) {
+      assert.equal(new Set(content.toc.map(n=>n.id)).size,content.toc.length);
+      for(const heading of content.toc) assert.ok(content.html.includes(`id="${heading.id}"`));
+    }
   }
   const climax=details.find(p=>p.id==='5CZyPMgjUu');
-  assert.deepEqual(climax.notes.map(n=>n.id),['summary','motivation','method','experiments','insights','limitations','related','reproduction']);
+  assert.equal(climax.content.zh.toc.length,8);
+  assert.equal(climax.content.en.toc.length,8);
   assert.ok(climax.notesMeta.sources.some(s=>s.url==='https://proceedings.mlr.press/v202/nguyen23a/nguyen23a.pdf'));
-  assert.match(climax.notes.find(n=>n.id==='experiments').textZh,/1\.70/);
-  assert.match(climax.notes.find(n=>n.id==='experiments').textZh,/1\.79/);
+  assert.match(climax.content.zh.html,/1\.70/);
+  assert.match(climax.content.zh.html,/1\.79/);
+  assert.match(climax.content.zh.html,/<img[^>]+src="static\/images\/papers\/climax-workflow.svg"/);
 });
 
 test('tag translations change labels while preserving stable tag identifiers', async () => {

@@ -27,6 +27,10 @@ def configure_videos(root, course_id=None, video=None):
     return {key: Path(value) for key, value in saved.items()}
 
 class Handler(SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
+        super().end_headers()
+
     def __init__(self, *args, videos=None, **kwargs):
         self.videos = videos or {}
         super().__init__(*args, directory=str(ROOT), **kwargs)

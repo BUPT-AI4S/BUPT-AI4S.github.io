@@ -72,3 +72,8 @@ class PreviewTests(unittest.TestCase):
             with self.subTest(path=path), self.assertRaises(HTTPError) as caught:
                 urlopen(self.url+path)
             self.assertEqual(caught.exception.code,404)
+
+    def test_paper_page_and_index_are_not_cached(self):
+        for path in ['/papers.html','/data/papers-index.json']:
+            with self.subTest(path=path), urlopen(self.url+path) as response:
+                self.assertIn('no-store',response.headers.get('Cache-Control',''))

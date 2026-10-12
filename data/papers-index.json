@@ -54,8 +54,9 @@
       "forumUrl": "https://openreview.net/forum?id=5CZyPMgjUu",
       "codeUrl": "https://github.com/microsoft/ClimaX",
       "sample": true,
-      "dataUrl": "data/papers/climax.json",
-      "hasNotes": true
+      "dataUrl": "data/papers-built/climax.json",
+      "hasNotes": true,
+      "sourceUrl": "data/papers/climax.md"
     },
     {
       "id": "2303.11366",
@@ -96,8 +97,9 @@
       "pdfUrl": "https://arxiv.org/pdf/2303.11366",
       "codeUrl": "",
       "sample": true,
-      "dataUrl": "data/papers/reflexion.json",
-      "hasNotes": true
+      "dataUrl": "data/papers-built/reflexion.json",
+      "hasNotes": true,
+      "sourceUrl": "data/papers/reflexion.md"
     }
   ]
 }

@@ -1,81 +1,122 @@
-# 前沿速递：逐篇上传与维护
+# 前沿速递：Markdown 上传与维护
 
-网站使用 GitHub Pages 静态托管，网页没有上传或管理入口。每篇论文一个 JSON，GitHub Actions 校验后生成轻量索引并发布。
+每篇论文一个带 YAML Front Matter 的 Markdown 文件，GitHub 可直接预览。网页没有上传入口；Actions 解析元信息、渲染正文、生成索引并部署。
 
-## 上传位置
+## 上传步骤
 
-1. 复制 `data/paper.template.json`，填写论文信息及解读。
-2. 在仓库 `data/papers/` 上传文件，例如 `my-paper.json`。文件名用英文字母、数字、点、连字符或下划线，以字母或数字开头；`id` 必须唯一。
-3. 图片上传到 `static/images/papers/`，可按论文建子目录。比如 `static/images/papers/my-paper/method.png`，在 `figures[].src` 填写这个相对网站根目录的路径。
-4. 提交到 `main`。Actions 中“Validate papers and deploy Pages”校验通过后发布；错误会指出文件和字段，修正后重新提交。
-
-不用手动修改索引。删除论文文件后，下次构建会从目录移除；改文件名但保留 `id` 不影响论文链接。不要把未填写的模板上传到 `data/papers/`。`.local.json` 是本地配置专用后缀，不能用于论文文件名。
+1. 复制 `data/paper.template.md`，填写顶部两条 `---` 之间的 YAML，以及下方正文。
+2. 上传到 `data/papers/`，如 `my-paper.md`。文件名用英文字母、数字、点、连字符或下划线，以字母或数字开头；`id` 必须唯一，不随文件名更改。不能使用 `.local.md` 后缀。
+3. 图片上传到 `static/images/papers/my-paper/`，在正文对应段落插图，注明图注和来源。
+4. 提交到 `main`，等待 Actions 中“Validate papers and deploy Pages”通过。格式问题会在日志指出；失败时保留原线上版本。
 
 ```text
-data/papers/climax.json        # 完整论文，维护这个文件
-data/papers/reflexion.json
-data/papers-config.json       # 共用中文标签对照
-data/papers-index.json        # 自动生成的轻量索引
-data/paper.template.json      # 新论文模板，不扫描
-data/papers.schema.json       # 字段规范
-static/images/papers/         # 配图，可按论文建子目录
+data/papers/climax.md           # 元数据、解读、插图位置，维护此文件
+data/papers/reflexion.md
+data/paper.template.md          # 新论文模板，不扫描
+static/images/papers/           # 图片，可按论文建子目录
+data/papers-config.json         # 共用标签译名，规则不变
+data/papers.schema.json         # 元数据校验规范
+data/papers-index.json          # 自动生成的索引，不手改
+data/papers-built/*.json        # 自动渲染产物，忽略 Git 提交
 ```
 
-目录页仅读取索引中的作者、单位、摘要/概述、分类、关键词、标签和资源链接。索引不含完整解读、来源记录或配图；详情页按 `id` 查索引，再读取对应 JSON。解读内容结构见 [模板规范](paper-notes-template.md)。
+只维护 `.md` 和图片。删除源文件后重新构建即从目录移除。新上传统一使用 Markdown；旧 JSON 源暂时兼容读取。详情页读取构建结果，浏览器不解析 YAML。
 
-## GitHub Pages 一次性设置
+## YAML 示例
 
-仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。工作流在提交到 `main` 或手动运行时部署，Pull Request 只校验。首次启用后可在 Actions 手动触发。代码写好不等于远程工作流已运行，本地修改需提交推送才会触发。
+用两个空格缩进。数组可写 `[A, B]` 或逐行 `- A`；字符串包含冒号时加引号。年份建议加引号，日期会统一为字符串。
 
-工作流在发布产物中生成索引，不向仓库提交索引。仓库现有索引用于本地预览，线上以构建结果为准。格式错误、重复论文/章节 ID、非 HTTPS 资源或缺失本地图片会阻止部署，不会替换已发布的网站。
+```yaml
+---
+id: my-paper
+title: "Example: A Scientific Model"
+titleZh: 示例论文
+authors: [Alice]
+affiliations: [Example University]
+venue: ICML
+year: "2023"
+published: 2023-01-02
+disciplines: [weather]
+tags: [Climate, Pretraining]
+keywords: [Weather forecasting]
+summaryZh: 一段目录短概述。
+abstract: |-
+  Original English abstract.
+paperUrl: https://example.org/paper
+pdfUrl: https://example.org/paper.pdf
+codeUrl: https://github.com/example/repository
+---
+```
 
-## 本地预览
+必须填写 `id`、`title`、`authors`，其他未知信息留空。`abstract` 是原英文摘要，`abstractZh` 是完整摘要译文，`summaryZh` / `summaryEn` 是目录短概述。完整解读、图片写在正文，YAML 中不要写 `notes`、`content` 或 `figures`。
 
-Python 3.10+，标准库，无需安装构建依赖：
+标签规则不变：`tags` 填英文标签，中文译名仍在 `papers-config.json` 的 `tagTranslations`，`topics` 兼容旧数据，不自动合并近义词。
+
+学科代码：`general` 通用 AI、`mathematics` 数学、`physics` 物理、`chemistry` 化学、`materials` 材料、`biology` 生物、`medicine` 医学、`weather` 气象、`communications` 通信、`earth` 地球科学、`chips` 芯片、`other` 其他。空数组表示待分类。
+
+## 正文与插图
+
+默认正文为中文。英文可选，用独占一行的 `<!-- language: en -->` 分隔；没有英文时仍显示已有正文。页面从标题自动生成目录，支持列表、加粗、引用、代码块和表格；原始 HTML 不执行。
+
+```markdown
+## 方法详解
+
+介绍模型输入、输出和关键模块。
+
+![模型结构](../../static/images/papers/my-paper/architecture.png)
+
+*图 1：原论文 Figure 2，说明各模块如何协作。*
+
+[图片来源](https://example.org/paper.pdf)
+
+<!-- language: en -->
+
+## Method
+
+Explain the inputs, outputs and key modules.
+```
+
+图片路径相对当前 `.md`，必须指向 `static/images/papers/` 中存在的文件，GitHub 与网站都能显示。也支持 HTTPS 图片。示意图必须明确说明，图片跟随相关段落。普通链接用 HTTPS 或页内锚点。
+
+重复 YAML 字段、重复论文 ID、缺失图片和无效元信息会阻止构建。YAML 锚点、别名及自定义对象标签不支持。来源记录和内容要求见 [解读规范](paper-notes-template.md)。
+
+## 本地预览与部署
+
+Python 3.10+，首次安装依赖：
 
 ```sh
-python tools/build_paper_index.py
+python -m pip install -r tools/papers-requirements.txt
 python tools/preview.py --port 8080
 ```
 
-访问 `http://127.0.0.1:8080/papers.html`。预览工具启动时也重建索引；服务器运行期间改论文后，运行构建器再刷新。
+预览启动时自动构建。运行中修改论文后，重新构建并刷新：
 
 ```sh
+python tools/build_paper_index.py
 python tools/build_paper_index.py --site
 ```
 
-此命令生成 `_site/` 供发布，包含页面、课程资料、静态资源和公开数据，排除 `.env`、工具、测试、本地视频映射与日志。它是可重建目录，不要放手工维护的文件。
+`--site` 生成 `_site/`，包含源 Markdown、渲染产物及公开资源，排除工具、测试、日志和本地配置。不要在生成目录存手工文件。
 
-## 字段和标签
-
-`abstract` 是英文原摘要，`abstractZh` 是完整摘要译文，`summaryZh`/`summaryEn` 是短概述，`notes` 是完整解读，不能互相冒充。作者和单位为字符串数组，未知信息留空。
-
-新论文填写 `tags`；旧 `topics` 兼容保留。中文译名在 `papers-config.json` 的 `tagTranslations` 中填写，例如 `"Climate": "气候"`。筛选用稳定英文标识，显示语言不影响计数。
-
-`disciplines` 分类代码：`general` 通用 AI、`mathematics` 数学、`physics` 物理、`chemistry` 化学、`materials` 材料、`biology` 生物、`medicine` 医学、`weather` 气象、`communications` 通信、`earth` 地球科学、`chips` 芯片、`other` 其他学科。空数组显示待分类。
-
-`codeUrl` 可填官方 GitHub 仓库；公开资源用 HTTPS。`figures` 每项包含 `src`、`altZh`/`altEn`、`captionZh`/`captionEn` 和可选 `sourceUrl`；本地图片必须在 `static/images/papers/`，示意图应注明。`notesMeta` 记录模板版本、生成日期、人工审核状态、依据和来源。
+仓库 **Settings → Pages → Source** 选择 **GitHub Actions**。工作流安装依赖；`main` 提交发布，Pull Request 只校验。代码需推送后才改变线上流程。
 
 ## OpenReview 导入（可选）
 
-脚本默认写入 `data/papers/`，保留已有文件名、中文内容、分类和解读，并重建索引：
+默认生成 `.md`，刷新时保留已有文件名、人工整理字段与正文，并重建索引和详情产物：
 
 ```sh
 python tools/collect_openreview.py --venue ICLR.cc/2025/Conference --limit 10
 python tools/collect_openreview.py --forum SUBMISSION_ID
-python tools/collect_openreview.py --api 1 --invitation VENUE_ID/-/Blind_Submission --limit 10
 python tools/collect_openreview.py --input local-notes.json
 python tools/collect_openreview.py --editorial-only --overrides data/papers-editorial.csv
 ```
 
-CSV 为可选编辑辅助，`id` 对应已有论文，多分类或方法标签用 `|` 分隔，空单元格保留原值。采集只读取明确公开的投稿、字段和决定；分类建议不会自动成为正式分类。此前实时采集返回 403，尚未验证成功；不绕过验证，正常认证 token 仅通过本地 `OPENREVIEW_TOKEN` 提供，不写入仓库。
-
-每个文件独立原子替换；格式/重复检查先于写入，磁盘 I/O 故障时需修复后重新构建。旧聚合导出仅在显式 `--output some-export.json` 时兼容，网站不读取它，正常维护不要重新创建 `data/papers.json`。
+CSV 辅助编辑；只采集明确公开的内容，分类建议不自动成为正式分类。此前实时接口返回 403，尚未验证成功。认证只通过本地环境变量提供。显式 `--output export.json` 仍支持旧聚合导出，网站不读取它。
 
 ## 验证
 
 ```sh
+python tools/build_paper_index.py --site
+python -m unittest discover -s tests
 node --test tests/papers.test.mjs tests/replay.test.mjs
-python -m unittest discover -s tests -p test_paper_index.py
-python -m unittest discover -s tests -p test_openreview.py
 ```

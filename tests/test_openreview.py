@@ -88,14 +88,38 @@ class CollectorTests(unittest.TestCase):
     def test_directory_import_keeps_filename_and_curated_notes(self):
         with tempfile.TemporaryDirectory() as temp:
             temp=Path(temp);folder=temp/'papers';folder.mkdir()
-            existing=folder/'chosen-name.json'
-            existing.write_text(json.dumps({'id':'a','title':'Old','authors':[], 'notes':[{'id':'method','headingZh':'方法','headingEn':'Method','textZh':'保留','textEn':'Keep'}]}),encoding='utf-8')
+            existing=folder/'chosen-name.md'
+            existing.write_text('---\nid: a\ntitle: Old\nauthors: []\n---\n\n## 方法\n\n保留\n\n<!-- language: en -->\n\n## Method\n\nKeep\n',encoding='utf-8')
             raw=temp/'notes.json';raw.write_text(json.dumps({'notes':[{'id':'a','readers':['everyone'],'content':{'title':'New'}}]}),encoding='utf-8')
             result=subprocess.run([sys.executable,spec.origin,'--input',str(raw),'--output',str(folder)],capture_output=True)
             self.assertEqual(result.returncode,0,result.stderr)
-            self.assertEqual(json.loads(existing.read_text(encoding='utf-8'))['title'],'New')
-            self.assertEqual(json.loads(existing.read_text(encoding='utf-8'))['notes'][0]['textEn'],'Keep')
-            self.assertEqual(len(list(folder.glob('*.json'))),1)
+            text=existing.read_text(encoding='utf-8')
+            self.assertIn('title: New',text)
+            self.assertIn('## Method\n\nKeep',text)
+            self.assertIn('## 方法\n\n保留',text)
+            self.assertEqual(len(list(folder.glob('*.md'))),1)
+            self.assertEqual(len(list(folder.glob('*.json'))),0)
             self.assertTrue((temp/'papers-index.json').exists())
+
+    def test_refresh_legacy_json_does_not_create_duplicate_markdown(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);folder=root/'papers';folder.mkdir()
+            file=folder/'old.json';file.write_text(json.dumps({'id':'a','title':'Old','authors':[]}),encoding='utf-8')
+            raw=root/'input.json';raw.write_text(json.dumps({'notes':[{'id':'a','readers':['everyone'],'content':{'title':'New'}}]}),encoding='utf-8')
+            result=subprocess.run([sys.executable,spec.origin,'--input',str(raw),'--output',str(folder)],capture_output=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(json.loads(file.read_text())['title'],'New')
+            self.assertEqual(list(folder.glob('*.md')),[])
+
+    def test_import_rejects_cross_extension_filename_collision_before_writing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);folder=root/'papers';folder.mkdir()
+            file=folder/'new-id.json';previous=json.dumps({'id':'old-id','title':'Old','authors':[]})
+            file.write_text(previous,encoding='utf-8')
+            raw=root/'input.json';raw.write_text(json.dumps({'notes':[{'id':'new-id','readers':['everyone'],'content':{'title':'New'}}]}),encoding='utf-8')
+            result=subprocess.run([sys.executable,spec.origin,'--input',str(raw),'--output',str(folder)],capture_output=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertEqual(list(folder.glob('*.md')),[])
+            self.assertEqual(file.read_text(),previous)
 
 if __name__ == '__main__': unittest.main()

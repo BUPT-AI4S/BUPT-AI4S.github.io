@@ -2,7 +2,7 @@
 
 智慧课程回看入口：`replay.html`。本地视频预览、听悟密钥配置与课程发布流程见 [回看使用说明](docs/replay.md)。
 
-前沿速递入口：`papers.html`。每篇论文一个 JSON，上传到 `data/papers/`；GitHub Actions 自动校验、生成轻量索引并发布。Pages Source 需选择 GitHub Actions。单篇模板、配图与采集命令见 [论文维护说明](docs/papers.md)。
+前沿速递入口：`papers.html`。每篇论文一个带 YAML 元数据的 Markdown 文件，上传到 `data/papers/`；GitHub Actions 自动渲染、校验、生成轻量索引并发布。Pages Source 需选择 GitHub Actions。单篇模板、配图与采集命令见 [论文维护说明](docs/papers.md)。
 
 北京邮电大学课程仓库主页。使用 **GitHub Pages 静态托管**：根目录 `index.html`、相对路径、`.nojekyll`；构建仅用于校验文献、生成索引和整理发布文件。页面支持中英切换与白天 / 夜间模式。
 
@@ -10,6 +10,7 @@
 
 ```bash
 # Python 3.10+
+python -m pip install -r tools/papers-requirements.txt
 python tools/preview.py --port 8080
 ```
 

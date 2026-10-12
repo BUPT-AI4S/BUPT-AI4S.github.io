@@ -25,12 +25,15 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
+      - name: Install paper build dependencies
+        run: python -m pip install -r tools/papers-requirements.txt
       - name: Validate papers and generate index
         run: python tools/build_paper_index.py --site
       - name: Test catalog and collector
         run: |
           node --test tests/papers.test.mjs tests/replay.test.mjs
           python -m unittest discover -s tests -p test_paper_index.py
+          python -m unittest discover -s tests -p test_paper_markdown.py
           python -m unittest discover -s tests -p test_openreview.py
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'
