@@ -24,7 +24,14 @@ keywords:
 - Climate
 - Transformer
 sample: true
-abstract: ''
+abstract: |-
+  Recent data-driven approaches based on machine learning aim to directly solve a downstream forecasting or projection task by learning a data-driven functional mapping using deep neural networks. However, these networks are trained using curated and homogeneous climate datasets for specific spatiotemporal tasks, and thus lack the generality of currently used computationally intensive physics-informed numerical models for weather and climate modeling.
+
+  We develop and demonstrate ClimaX, a flexible and generalizable deep learning model for weather and climate science that can be trained using heterogeneous datasets spanning different variables, spatio-temporal coverage, and physical groundings. ClimaX extends the Transformer architecture with novel encoding and aggregation blocks that allow effective use of available compute and data while maintaining general utility.
+
+  ClimaX is pretrained with a self-supervised learning objective on climate datasets derived from CMIP6. The pretrained ClimaX can then be fine-tuned to address a breadth of climate and weather tasks, including those that involve atmospheric variables and spatio-temporal scales unseen during pretraining.
+
+  Compared to existing data-driven baselines, we show that this generality in ClimaX results in superior performance on benchmarks for weather forecasting and climate projections, even when pretrained at lower resolutions and compute budgets. Our source code is available at https://github.com/microsoft/ClimaX.
 summaryEn: |-
   ClimaX uses a Transformer adapted to heterogeneous weather and climate datasets. It is pretrained on CMIP6-derived data and then fine-tuned for weather forecasting and climate projection tasks, including variables and scales not seen during pretraining.
 summaryZh: ClimaX 面向天气与气候任务，用改造后的 Transformer 处理不同变量与时空范围的数据。模型在 CMIP6 衍生数据上预训练，再针对天气预报和气候预测微调，探索跨变量、跨尺度的迁移能力。
@@ -33,7 +40,7 @@ paperUrl: https://proceedings.mlr.press/v202/nguyen23a.html
 pdfUrl: https://proceedings.mlr.press/v202/nguyen23a/nguyen23a.pdf
 forumUrl: https://openreview.net/forum?id=5CZyPMgjUu
 source: ICML 2023 formal paper, PMLR 202:25904–25938; official ClimaX repository
-translationSource: 中文与英文概述均由本站依据 arXiv 摘要整理，不是完整摘要译文。录用形式未核对，保留空值。
+translationSource: 英文摘要保留原文；中文为依据原摘要逐段翻译，未经人工审核。
 notesMeta:
   templateVersion: '1.0'
   generated: '2026-10-12'
@@ -60,6 +67,16 @@ tags:
 - Foundation models
 - Pretraining
 - Climate
+abstractZh: |-
+  近年来，基于机器学习的数据驱动方法尝试使用深度神经网络学习数据驱动的函数映射，直接解决下游预报或气候投影任务。然而，这些网络通常针对特定时空任务，在经过整理且同质的气候数据集上训练，因此缺乏目前用于天气与气候建模、计算开销较大的基于物理的数值模型所具备的通用性。
+
+  我们开发并验证了 ClimaX：一种面向天气与气候科学、灵活且具有泛化能力的深度学习模型，可以利用涵盖不同变量、时空范围及物理基础的异构数据集进行训练。ClimaX 在 Transformer 架构中引入新的编码与聚合模块，在保持通用性的同时有效利用可用的计算资源和数据。
+
+  ClimaX 使用自监督学习目标，在由 CMIP6 衍生的气候数据集上预训练。随后，可以对预训练后的 ClimaX 进行微调，以处理多种气候与天气任务，包括涉及预训练中未见过的大气变量和时空尺度的任务。
+
+  与现有数据驱动基线相比，我们表明，ClimaX 的这种通用性使其在天气预报和气候投影基准上取得更优性能，即使预训练采用较低的分辨率和计算预算也是如此。源代码公开于 https://github.com/microsoft/ClimaX。
+abstractSource: https://proceedings.mlr.press/v202/nguyen23a.html
+abstractLicense: https://creativecommons.org/licenses/by/4.0/
 ---
 
 ## 一句话总结

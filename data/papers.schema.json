@@ -36,7 +36,7 @@
         "dateType": {"type": "string", "enum": ["public", "submitted", "published"]},
         "disciplines": {"$ref": "#/$defs/strings"}, "subfield": {"type": "string"},
         "keywords": {"$ref": "#/$defs/strings"}, "tags": {"$ref": "#/$defs/strings"}, "topics": {"$ref": "#/$defs/strings"},
-        "abstract": {"type": "string"}, "abstractZh": {"type": "string"}, "summaryZh": {"type": "string"}, "summaryEn": {"type": "string"},
+        "abstract": {"type": "string"}, "abstractZh": {"type": "string"}, "abstractSource": {"type": "string"}, "abstractLicense": {"type": "string"}, "summaryZh": {"type": "string"}, "summaryEn": {"type": "string"},
         "paperUrl": {"type": "string"}, "pdfUrl": {"type": "string"}, "forumUrl": {"type": "string"}, "codeUrl": {"type": "string"},
         "figures": {"type": "array", "items": {"$ref": "#/$defs/figure"}},
         "notes": {"type": "array", "items": {"$ref": "#/$defs/section"}},

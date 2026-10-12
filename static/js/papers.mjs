@@ -1,4 +1,4 @@
-import { DISCIPLINES, filterPapers, readingUrl, paperTags, tagCounts, cardAbstract, tagLabel } from './papers-core.mjs?v=20261012-files';
+import { DISCIPLINES, filterPapers, readingUrl, paperTags, tagCounts, cardAbstract, tagLabel } from './papers-core.mjs?v=20261012-abstract';
 const root = document.documentElement, $ = id => document.getElementById(id);
 const list = $('paper-list'), message = $('papers-message');
 const fields = {q:$('paper-search'),subfield:$('subfield-filter'),venue:$('venue-filter'),year:$('year-filter')};
@@ -78,7 +78,7 @@ function render() {
     header.append(tags((p.disciplines?.length?p.disciplines:['unclassified']).map(disciplineName),'discipline-tag'));
     header.append(node('span',[p.venue,p.year,p.subfield].filter(Boolean).join(' · '),'paper-entry-meta'));
     if(p.sample) header.append(node('span',tr('测试样例','Test entry'),'sample-badge'));
-    const switcher=node('button',ct('EN','中文'),'card-language');switcher.type='button';switcher.dataset.language=p.id;switcher.setAttribute('aria-label',tr('切换论文语言：','Switch paper language: ')+p.title);
+    const switcher=node('button',ct('EN','中文'),'card-language');switcher.type='button';switcher.dataset.language=p.id;switcher.setAttribute('aria-label',tr('切换卡片语言：','Switch card language: ')+p.title);
     switcher.addEventListener('click',()=>{cardLanguages.set(p.id,lang==='en'?'zh':'en');render();[...list.querySelectorAll('[data-language]')].find(b=>b.dataset.language===p.id)?.focus();});header.append(switcher);
     const heading=node('h2'), title=node('a',lang==='en'?p.title:p.titleZh||p.title,'paper-title');
     title.href=readingUrl(p.id,location.search);heading.append(title);
@@ -86,7 +86,17 @@ function render() {
     if(lang!=='en'&&p.titleZh) item.append(node('p',p.title,'paper-english-title'));
     item.append(node('p',(p.authors||[]).join(' · '),'paper-authors'),node('p',ct('单位：','Affiliations: ')+(p.affiliations?.join(' · ')||ct('待补充','Not available')),'paper-affiliations'));
     const abstract=cardAbstract(p,lang);
-    item.append(node('h3',ct(abstract.isAbstract?'摘要':'概述',abstract.isAbstract?'Abstract':'Summary'),'card-section-label'),node('p',abstract.text||ct('摘要待补充','Abstract not available'),'paper-intro'));
+    item.append(node('h3',ct('摘要','Abstract'),'card-section-label'),node('p',abstract.text||ct('摘要待补充','Abstract not available'),'paper-intro'));
+    if(abstract.text && lang!=='en' && !p.abstractZh) item.append(node('p','暂无中文译文，显示英文原摘要。','translation-note'));
+    if(abstract.text && lang==='en' && !p.abstract) item.append(node('p','English abstract unavailable; showing the Chinese translation.','translation-note'));
+    if(p.abstractSource) {
+      const attribution=node('p',undefined,'translation-note');
+      const source=resource(ct('摘要来源 ↗','Abstract source ↗'),p.abstractSource);
+      if(source) attribution.append(source);
+      if(lang!=='en' && p.abstractZh) attribution.append(document.createTextNode(' · 中文译文'));
+      if(p.abstractLicense) {const license=resource(' · CC BY 4.0',p.abstractLicense);if(license) attribution.append(license);}
+      item.append(attribution);
+    }
     const keywords=node('div',undefined,'paper-tags');keywords.append(node('span',ct('关键词','Keywords'),'tag-label'));
     for(const keyword of [...new Set(p.keywords||[])]) {const b=node('button',keyword);b.type='button';b.addEventListener('click',()=>{fields.q.value=keyword;syncUrl();render();fields.q.focus();});keywords.append(b);}item.append(keywords);
     const tagList=paperTags(p), labels=node('div',undefined,'paper-tags card-tags');labels.append(node('span',ct(`标签 · ${tagList.length}`,`Tags · ${tagList.length}`),'tag-label'));

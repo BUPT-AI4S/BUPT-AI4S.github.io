@@ -39,16 +39,17 @@ published: 2023-01-02
 disciplines: [weather]
 tags: [Climate, Pretraining]
 keywords: [Weather forecasting]
-summaryZh: 一段目录短概述。
 abstract: |-
   Original English abstract.
+abstractZh: |-
+  原摘要的完整中文译文。
 paperUrl: https://example.org/paper
 pdfUrl: https://example.org/paper.pdf
 codeUrl: https://github.com/example/repository
 ---
 ```
 
-必须填写 `id`、`title`、`authors`，其他未知信息留空。`abstract` 是原英文摘要，`abstractZh` 是完整摘要译文，`summaryZh` / `summaryEn` 是目录短概述。完整解读、图片写在正文，YAML 中不要写 `notes`、`content` 或 `figures`。
+必须填写 `id`、`title`、`authors`，其他未知信息留空。目录卡片显示 `abstract`（原英文摘要）或 `abstractZh`（完整中文译文），每张卡片可以独立切换语言。缺失摘要时显示待补充，不用概述代替；只有原文时明确提示中文译文缺失。`abstractSource` 可填原摘要来源，`abstractLicense` 可填许可链接。`summaryZh` / `summaryEn` 是兼容保留的短概述，不再作为目录摘要回退。完整解读、图片写在正文，YAML 中不要写 `notes`、`content` 或 `figures`。
 
 标签规则不变：`tags` 填英文标签，中文译名仍在 `papers-config.json` 的 `tagTranslations`，`topics` 兼容旧数据，不自动合并近义词。
 

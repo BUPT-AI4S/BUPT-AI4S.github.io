@@ -46,7 +46,8 @@
         "Foundation models",
         "Pretraining"
       ],
-      "abstract": "",
+      "abstract": "Recent data-driven approaches based on machine learning aim to directly solve a downstream forecasting or projection task by learning a data-driven functional mapping using deep neural networks. However, these networks are trained using curated and homogeneous climate datasets for specific spatiotemporal tasks, and thus lack the generality of currently used computationally intensive physics-informed numerical models for weather and climate modeling.\n\nWe develop and demonstrate ClimaX, a flexible and generalizable deep learning model for weather and climate science that can be trained using heterogeneous datasets spanning different variables, spatio-temporal coverage, and physical groundings. ClimaX extends the Transformer architecture with novel encoding and aggregation blocks that allow effective use of available compute and data while maintaining general utility.\n\nClimaX is pretrained with a self-supervised learning objective on climate datasets derived from CMIP6. The pretrained ClimaX can then be fine-tuned to address a breadth of climate and weather tasks, including those that involve atmospheric variables and spatio-temporal scales unseen during pretraining.\n\nCompared to existing data-driven baselines, we show that this generality in ClimaX results in superior performance on benchmarks for weather forecasting and climate projections, even when pretrained at lower resolutions and compute budgets. Our source code is available at https://github.com/microsoft/ClimaX.",
+      "abstractZh": "近年来，基于机器学习的数据驱动方法尝试使用深度神经网络学习数据驱动的函数映射，直接解决下游预报或气候投影任务。然而，这些网络通常针对特定时空任务，在经过整理且同质的气候数据集上训练，因此缺乏目前用于天气与气候建模、计算开销较大的基于物理的数值模型所具备的通用性。\n\n我们开发并验证了 ClimaX：一种面向天气与气候科学、灵活且具有泛化能力的深度学习模型，可以利用涵盖不同变量、时空范围及物理基础的异构数据集进行训练。ClimaX 在 Transformer 架构中引入新的编码与聚合模块，在保持通用性的同时有效利用可用的计算资源和数据。\n\nClimaX 使用自监督学习目标，在由 CMIP6 衍生的气候数据集上预训练。随后，可以对预训练后的 ClimaX 进行微调，以处理多种气候与天气任务，包括涉及预训练中未见过的大气变量和时空尺度的任务。\n\n与现有数据驱动基线相比，我们表明，ClimaX 的这种通用性使其在天气预报和气候投影基准上取得更优性能，即使预训练采用较低的分辨率和计算预算也是如此。源代码公开于 https://github.com/microsoft/ClimaX。",
       "summaryZh": "ClimaX 面向天气与气候任务，用改造后的 Transformer 处理不同变量与时空范围的数据。模型在 CMIP6 衍生数据上预训练，再针对天气预报和气候预测微调，探索跨变量、跨尺度的迁移能力。",
       "summaryEn": "ClimaX uses a Transformer adapted to heterogeneous weather and climate datasets. It is pretrained on CMIP6-derived data and then fine-tuned for weather forecasting and climate projection tasks, including variables and scales not seen during pretraining.",
       "paperUrl": "https://proceedings.mlr.press/v202/nguyen23a.html",
@@ -54,6 +55,8 @@
       "forumUrl": "https://openreview.net/forum?id=5CZyPMgjUu",
       "codeUrl": "https://github.com/microsoft/ClimaX",
       "sample": true,
+      "abstractSource": "https://proceedings.mlr.press/v202/nguyen23a.html",
+      "abstractLicense": "https://creativecommons.org/licenses/by/4.0/",
       "dataUrl": "data/papers-built/climax.json",
       "hasNotes": true,
       "sourceUrl": "data/papers/climax.md"
@@ -91,12 +94,16 @@
         "Agents",
         "Reasoning"
       ],
+      "abstract": "Large language models (LLMs) have been increasingly used to interact with external environments (e.g., games, compilers, APIs) as goal-driven agents. However, it remains challenging for these language agents to quickly and efficiently learn from trial-and-error as traditional reinforcement learning methods require extensive training samples and expensive model fine-tuning.\n\nWe propose Reflexion, a novel framework to reinforce language agents not by updating weights, but instead through linguistic feedback. Concretely, Reflexion agents verbally reflect on task feedback signals, then maintain their own reflective text in an episodic memory buffer to induce better decision-making in subsequent trials.\n\nReflexion is flexible enough to incorporate various types (scalar values or free-form language) and sources (external or internally simulated) of feedback signals, and obtains significant improvements over a baseline agent across diverse tasks (sequential decision-making, coding, language reasoning). For example, Reflexion achieves a 91% pass@1 accuracy on the HumanEval coding benchmark, surpassing the previous state-of-the-art GPT-4 that achieves 80%.\n\nWe also conduct ablation and analysis studies using different feedback signals, feedback incorporation methods, and agent types, and provide insights into how they affect performance.",
+      "abstractZh": "大型语言模型（LLM）越来越多地被用作以目标为导向的智能体，与外部环境（例如游戏、编译器和 API）交互。然而，这些语言智能体仍然难以快速、高效地从试错中学习，因为传统强化学习方法需要大量训练样本和昂贵的模型微调。\n\n我们提出 Reflexion，一种通过语言反馈而非更新模型权重来强化语言智能体的新框架。具体而言，Reflexion 智能体以语言形式反思任务反馈信号，并将生成的反思文本保存在情节记忆缓冲区中，以促进后续尝试中的更好决策。\n\nReflexion 可以灵活整合不同类型（标量值或自由形式的语言）和不同来源（外部提供或内部模拟）的反馈信号，并在多种任务（序列决策、编程和语言推理）上相较基线智能体取得显著提升。例如，Reflexion 在 HumanEval 编程基准上取得 91% 的 pass@1 准确率，超过此前达到 80% 的先进模型 GPT-4。\n\n我们还使用不同的反馈信号、反馈整合方法和智能体类型开展消融与分析研究，探讨它们如何影响性能。",
       "summaryZh": "让智能体把任务反馈写成反思文本，保存在记忆中，并用于下一次尝试。无需更新模型权重，探索从试错中改进决策的路径。",
       "summaryEn": "Agents turn task feedback into reflective text, retain it in episodic memory, and use it in subsequent attempts without updating model weights.",
       "paperUrl": "https://arxiv.org/abs/2303.11366",
       "pdfUrl": "https://arxiv.org/pdf/2303.11366",
       "codeUrl": "",
       "sample": true,
+      "abstractSource": "https://arxiv.org/abs/2303.11366v4",
+      "abstractLicense": "https://creativecommons.org/licenses/by/4.0/",
       "dataUrl": "data/papers-built/reflexion.json",
       "hasNotes": true,
       "sourceUrl": "data/papers/reflexion.md"

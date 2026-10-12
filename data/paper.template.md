@@ -14,6 +14,8 @@ keywords: []
 tags: []
 abstract: ''
 abstractZh: ''
+abstractSource: ''
+abstractLicense: ''
 summaryZh: ''
 summaryEn: ''
 paperUrl: ''

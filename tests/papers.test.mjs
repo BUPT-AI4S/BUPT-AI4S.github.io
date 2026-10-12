@@ -32,11 +32,13 @@ test('tag translations change labels while preserving stable tag identifiers', a
   assert.equal(filterPapers([{id:'a',title:'A',tags:['Climate']}],{tag:'Climate'}).length,1);
 });
 
-test('a Chinese overview remains a summary even when an English abstract exists', async () => {
+test('catalog uses abstracts only and never substitutes an AI overview', async () => {
   const { cardAbstract } = await import('../static/js/papers-core.mjs');
   const paper = {abstract:'Original abstract',summaryZh:'中文概述'};
-  assert.deepEqual(cardAbstract(paper,'zh'),{text:'中文概述',isAbstract:false});
+  assert.deepEqual(cardAbstract(paper,'zh'),{text:'Original abstract',isAbstract:true});
   assert.deepEqual(cardAbstract(paper,'en'),{text:'Original abstract',isAbstract:true});
+  assert.deepEqual(cardAbstract({summaryZh:'只有概述',summaryEn:'Only a summary'},'zh'),{text:'',isAbstract:false});
+  assert.deepEqual(cardAbstract({...paper,abstractZh:'完整中文摘要'},'zh'),{text:'完整中文摘要',isAbstract:true});
 });
 
 test('exact tags count papers once, search affiliations and preserve tag context', async () => {

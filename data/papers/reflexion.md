@@ -42,6 +42,25 @@ codeUrl: ''
 tags:
 - Agents
 - Reasoning
+abstract: |-
+  Large language models (LLMs) have been increasingly used to interact with external environments (e.g., games, compilers, APIs) as goal-driven agents. However, it remains challenging for these language agents to quickly and efficiently learn from trial-and-error as traditional reinforcement learning methods require extensive training samples and expensive model fine-tuning.
+
+  We propose Reflexion, a novel framework to reinforce language agents not by updating weights, but instead through linguistic feedback. Concretely, Reflexion agents verbally reflect on task feedback signals, then maintain their own reflective text in an episodic memory buffer to induce better decision-making in subsequent trials.
+
+  Reflexion is flexible enough to incorporate various types (scalar values or free-form language) and sources (external or internally simulated) of feedback signals, and obtains significant improvements over a baseline agent across diverse tasks (sequential decision-making, coding, language reasoning). For example, Reflexion achieves a 91% pass@1 accuracy on the HumanEval coding benchmark, surpassing the previous state-of-the-art GPT-4 that achieves 80%.
+
+  We also conduct ablation and analysis studies using different feedback signals, feedback incorporation methods, and agent types, and provide insights into how they affect performance.
+abstractZh: |-
+  大型语言模型（LLM）越来越多地被用作以目标为导向的智能体，与外部环境（例如游戏、编译器和 API）交互。然而，这些语言智能体仍然难以快速、高效地从试错中学习，因为传统强化学习方法需要大量训练样本和昂贵的模型微调。
+
+  我们提出 Reflexion，一种通过语言反馈而非更新模型权重来强化语言智能体的新框架。具体而言，Reflexion 智能体以语言形式反思任务反馈信号，并将生成的反思文本保存在情节记忆缓冲区中，以促进后续尝试中的更好决策。
+
+  Reflexion 可以灵活整合不同类型（标量值或自由形式的语言）和不同来源（外部提供或内部模拟）的反馈信号，并在多种任务（序列决策、编程和语言推理）上相较基线智能体取得显著提升。例如，Reflexion 在 HumanEval 编程基准上取得 91% 的 pass@1 准确率，超过此前达到 80% 的先进模型 GPT-4。
+
+  我们还使用不同的反馈信号、反馈整合方法和智能体类型开展消融与分析研究，探讨它们如何影响性能。
+abstractSource: https://arxiv.org/abs/2303.11366v4
+abstractLicense: https://creativecommons.org/licenses/by/4.0/
+translationSource: 英文摘要保留原文；中文为依据原摘要逐段翻译，未经人工审核。
 ---
 
 ## 研究问题

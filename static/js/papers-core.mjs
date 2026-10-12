@@ -9,7 +9,7 @@ export const DISCIPLINES = {
 export const paperTags = p => [...new Set([...(p.tags || []), ...(p.topics || [])])];
 export const tagLabel = (tag, lang, translations = {}) => lang === 'en' ? tag : translations[tag] || tag;
 export function cardAbstract(p, lang) {
-  const keys=lang==='en'?['abstract','summaryEn','abstractZh','summaryZh']:['abstractZh','summaryZh','abstract','summaryEn'];
+  const keys=lang==='en'?['abstract','abstractZh']:['abstractZh','abstract'];
   const key=keys.find(key=>p[key]);
   return {text:key?p[key]:'',isAbstract:key==='abstract'||key==='abstractZh'};
 }

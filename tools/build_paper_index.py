@@ -12,7 +12,7 @@ from urllib.parse import urlparse, unquote
 ROOT=Path(__file__).resolve().parents[1]
 INDEX_FIELDS=('id','title','titleZh','authors','affiliations','published','dateType','venue','year',
               'disciplines','subfield','keywords','tags','topics','abstract','abstractZh',
-              'summaryZh','summaryEn','paperUrl','pdfUrl','forumUrl','codeUrl','sample')
+              'summaryZh','summaryEn','paperUrl','pdfUrl','forumUrl','codeUrl','sample','abstractSource','abstractLicense')
 
 class PaperLoader(yaml.SafeLoader):
     def construct_mapping(self,node,deep=False):
@@ -140,7 +140,7 @@ def validate_paper(paper,schema,root,label):
     validate(paper,schema['$defs']['paper'],schema,label)
     ids=[n['id'] for n in paper.get('notes',[])]
     if len(ids)!=len(set(ids)): raise ValueError(f'{label}: Duplicate section id')
-    for field in ('paperUrl','pdfUrl','forumUrl','codeUrl'):
+    for field in ('paperUrl','pdfUrl','forumUrl','codeUrl','abstractSource','abstractLicense'):
         if paper.get(field) and urlparse(paper[field]).scheme!='https': raise ValueError(f'{label}: {field} must use HTTPS')
     for figure in paper.get('figures',[]):
         src=figure['src']; parsed=urlparse(src)
