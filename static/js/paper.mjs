@@ -124,10 +124,10 @@ function render() {
   const abstract=cardAbstract(p,root.lang);
   $('reading-abstract').textContent=abstract.text||tr('原文摘要待补充。','Abstract not available.');
   const attribution=$('abstract-attribution');attribution.replaceChildren();
-  if(root.lang!=='en'&&p.abstractZh)attribution.append(document.createTextNode('中文译文 · '));
+  if(root.lang!=='en'&&p.abstractZh)attribution.append(document.createTextNode('中文译文'));
   else if(root.lang!=='en'&&abstract.text)attribution.append(document.createTextNode('暂无中文译文，显示英文原摘要。 '));
   else if(root.lang==='en'&&!p.abstract&&abstract.text)attribution.append(document.createTextNode('English abstract unavailable; showing Chinese translation. '));
-  const source=safeResource(tr('摘要来源','Abstract source'),p.abstractSource);if(source)attribution.append(source);
+  attribution.hidden=!attribution.textContent.trim();
 
   const keywords=$('reading-keywords');keywords.replaceChildren(node('span',tr('关键词','Keywords'),'tag-label'));
   for(const word of p.keywords||[])keywords.append(node('span',word));

@@ -135,7 +135,6 @@ function card(p,index){
   const footer=node('div',undefined,'card-footer');
   if(text){const b=button(tr(open?'收起摘要':'展开摘要',open?'Collapse abstract':'Expand abstract'),'abstract-toggle',()=>{if(expanded.has(p.id))expanded.delete(p.id);else expanded.add(p.id);const isOpen=expanded.has(p.id);abstract.classList.toggle('is-expanded',isOpen);b.replaceChildren(document.createTextNode(tr(isOpen?'收起摘要':'展开摘要',isOpen?'Collapse abstract':'Expand abstract')),icon('chevron'));b.setAttribute('aria-expanded',String(isOpen));});b.append(icon('chevron'));b.setAttribute('aria-expanded',String(open));b.setAttribute('aria-controls',abstract.id);footer.append(b);}
   const read=node('a',tr('查看解读','Read summary'));read.href=readingUrl(p.id,location.search);footer.append(read);article.append(footer);
-  if(p.abstractSource||p.abstractLicense){const credit=node('p',undefined,'card-attribution');const a=resource(tr('摘要来源','Abstract source'),p.abstractSource);if(a)credit.append(a);article.append(credit);}
   return article;
 }
 function renderTable(entries){
