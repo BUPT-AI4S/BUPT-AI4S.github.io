@@ -35,6 +35,20 @@ class MarkdownPaperTests(unittest.TestCase):
             self.assertIn('<strong>中文</strong>',detail['content']['zh']['html'])
             self.assertEqual(detail['content']['en']['toc'][0]['title'],'Method')
 
+    def test_resource_and_poster_metadata_reaches_catalog(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=self.site_root(tmp);folder=root/'data/papers';folder.mkdir(parents=True)
+            extra='arxivUrl: https://arxiv.org/abs/2601.00001\narxivStatus: verified\ngithubSource: page\nsession: Poster Session 1\nsessionTime: 11:00 AM PDT\nroom: Room A\nposter: "#3"\n'
+            (folder/'demo.md').write_text(self.source().replace('title: Demo\n','title: Demo\n'+extra),encoding='utf-8')
+            entry=self.module().write_index(root,ROOT/'data/papers.schema.json')['papers'][0]
+            self.assertEqual(entry['arxivUrl'],'https://arxiv.org/abs/2601.00001')
+            self.assertEqual(entry['arxivStatus'],'verified')
+            self.assertEqual(entry['githubSource'],'page')
+            self.assertEqual(entry['session'],'Poster Session 1')
+            self.assertEqual(entry['sessionTime'],'11:00 AM PDT')
+            self.assertEqual(entry['room'],'Room A')
+            self.assertEqual(entry['poster'],'#3')
+
     def test_duplicate_yaml_keys_and_unsafe_tags_fail_without_replacing_index(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=self.site_root(tmp);folder=root/'data/papers';folder.mkdir(parents=True)
@@ -54,6 +68,8 @@ class MarkdownPaperTests(unittest.TestCase):
             data=self.module().write_index(root,ROOT/'data/papers.schema.json')
             detail=json.loads((root/data['papers'][0]['dataUrl']).read_text(encoding='utf-8'))
             self.assertIn('src="static/images/papers/demo/plot.png"',detail['content']['zh']['html'])
+            self.assertEqual(data['papers'][0]['thumbnail']['src'],'static/images/papers/demo/plot.png')
+            self.assertEqual(data['papers'][0]['thumbnail']['alt'],'结构')
             (images/'plot.png').unlink()
             with self.assertRaisesRegex(ValueError,'image'):self.module().write_index(root,ROOT/'data/papers.schema.json')
 

@@ -2,9 +2,9 @@
 <html lang="zh-CN" data-theme="light" data-title-zh="论文解读 · AI4S" data-title-en="Paper summary · AI4S" data-desc-zh="发现、检索与阅读科学智能论文。" data-desc-en="Discover and read research in scientific intelligence.">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>论文解读 · AI4S</title><meta name="description" content="发现、检索与阅读科学智能论文。">
-<link rel="icon" href="static/images/favicon.svg"><link rel="stylesheet" href="static/css/index.css?v=20261008-nav"><link rel="stylesheet" href="static/css/papers.css?v=20261012-markdown">
+<link rel="icon" href="static/images/favicon.svg"><link rel="stylesheet" href="static/css/index.css?v=20261008-nav"><link rel="stylesheet" href="static/css/papers.css?v=20261015-release">
 <script>try { const t = new URLSearchParams(location.search).get('theme') || localStorage.getItem('ai4s-theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch {}</script>
-</head><body><a class="skip-link" href="#reading-content"><span class="lang-zh">跳到解读</span><span class="lang-en">Skip to summary</span></a>
+</head><body class="paper-reading-page"><a class="skip-link" href="#reading-content"><span class="lang-zh">跳到解读</span><span class="lang-en">Skip to summary</span></a>
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="index.html#top">
@@ -39,11 +39,6 @@
         <a href="index.html#registration"><span class="lang-zh">组队</span><span class="lang-en">Sign up</span></a>
       </nav>
       <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="切换到夜间模式">
-          <span class="theme-to-dark"><span class="lang-zh">夜间</span><span class="lang-en">Night</span></span>
-          <span class="theme-to-light"><span class="lang-zh">白天</span><span class="lang-en">Day</span></span>
-        </button>
-        <button class="lang-toggle" type="button" aria-label="切换到英文">EN</button>
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
           <span></span>
         </button>
@@ -52,12 +47,24 @@
   </header>
 
 <main id="reading-content" class="papers-main reading-main"><div class="wrap">
-<a id="back-to-papers" class="reading-back" href="papers.html"><span class="lang-zh">返回文献列表</span><span class="lang-en">Back to papers</span></a>
 <div id="reading-message" class="papers-message" role="status" aria-live="polite">正在加载论文解读…</div>
 <article id="reading-article" hidden>
+<div class="reading-switchbar"><a id="back-to-papers" class="reading-back" href="papers.html"><span class="lang-zh">返回文献列表</span><span class="lang-en">Back to papers</span></a><div class="reading-view-tabs" role="tablist" aria-label="Paper views"><button id="summary-tab" type="button" role="tab" aria-selected="true" aria-controls="summary-view"><span class="lang-zh">摘要</span><span class="lang-en">Abstract</span></button><button id="original-tab" type="button" role="tab" aria-selected="false" aria-controls="original-view" tabindex="-1"><span class="lang-zh">论文原文</span><span class="lang-en">Original paper</span></button></div><div class="reading-preferences">        <button class="theme-toggle" type="button" aria-label="切换到夜间模式">
+          <span class="theme-to-dark"><span class="lang-zh">夜间</span><span class="lang-en">Night</span></span>
+          <span class="theme-to-light"><span class="lang-zh">白天</span><span class="lang-en">Day</span></span>
+        </button>
+        <button class="lang-toggle" type="button" aria-label="切换到英文">EN</button>
+</div><div id="reader-tools" class="reader-tools" hidden><div id="original-resources" class="paper-entry-links"></div><button id="reader-fullscreen" type="button" aria-pressed="false">全屏阅读</button></div></div>
+<div id="summary-view" role="tabpanel" aria-labelledby="summary-tab"><div class="reading-summary-grid"><div class="reading-document">
 <header class="reading-heading"><p id="reading-meta"></p><h1 id="reading-title"></h1><p id="reading-english-title"></p><p id="reading-authors"></p><div id="reading-resources" class="paper-entry-links"></div></header>
+<div id="reading-actions" class="reading-actions"></div>
+<section class="abstract-panel"><h2><span class="lang-zh">原文摘要</span><span class="lang-en">Abstract</span></h2><p id="reading-abstract"></p><p id="abstract-attribution" class="translation-note"></p><div id="reading-keywords" class="paper-tags"></div><button id="view-original" type="button"><span class="lang-zh">查看论文原文</span><span class="lang-en">Read original paper</span></button></section>
+<div class="summary-columns"><section class="ai-summary"><h2 class="summary-title"><span class="lang-zh">AI 总结</span><span class="lang-en">AI summary</span></h2>
 <div id="reading-provenance" class="reading-provenance"></div>
-<div class="reading-layout"><aside class="reading-toc"><details open><summary><span class="lang-zh">解读目录</span><span class="lang-en">On this page</span></summary><nav id="reading-toc" aria-label="解读目录"></nav></details></aside><div id="reading-body"></div></div>
+<div class="reading-layout"><div id="reading-body"></div></div>
+</section></div>
+</div><aside class="reading-sidebar"><aside class="reading-toc"><details open><summary><span class="lang-zh">解读目录</span><span class="lang-en">On this page</span></summary><nav id="reading-toc" aria-label="解读目录"></nav></details></aside><section class="reading-related"><h2><span class="lang-zh">相关论文</span><span class="lang-en">Related papers</span></h2><p class="related-explanation"><span class="lang-zh">根据共同研究标签推荐</span><span class="lang-en">Papers sharing research tags</span></p><div id="related-papers"></div></section></aside></div></div>
+<section id="original-view" role="tabpanel" aria-labelledby="original-tab" hidden><h2 id="original-title" class="sr-only"></h2><p id="reader-status" class="sr-only" role="status" aria-live="polite"></p><div id="paper-reader"></div></section>
 </article>
 <noscript><p>请启用 JavaScript 阅读论文解读。 / Enable JavaScript to read paper summaries.</p></noscript>
-</div></main><script src="static/js/index.js"></script><script type="module" src="static/js/paper.mjs?v=20261012-vocabulary"></script></body></html>
+</div></main><script src="static/js/index.js"></script><script type="module" src="static/js/paper.mjs?v=20261015-toc-active"></script></body></html>

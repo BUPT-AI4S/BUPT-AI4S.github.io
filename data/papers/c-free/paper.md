@@ -12,7 +12,7 @@ affiliations:
 published: ''
 venue: ICML
 year: '2026'
-disciplines: [chemistry]
+disciplines: [scientific-foundation-models, matter-sciences]
 subfield: 分子表示学习
 keywords: [Molecular graph pretraining, Graph neural networks, 3D conformers, Latent prediction]
 keywordSource: 根据正式论文题目和摘要整理。

@@ -2,6 +2,8 @@
 import argparse
 from datetime import datetime, timezone, timedelta
 import json
+from html import unescape
+from html.parser import HTMLParser
 from pathlib import Path
 import re
 import shutil
@@ -14,7 +16,19 @@ from urllib.parse import urlparse, unquote
 ROOT=Path(__file__).resolve().parents[1]
 INDEX_FIELDS=('id','title','titleZh','authors','affiliations','published','dateType','venue','year',
               'disciplines','subfield','keywords','tags','topics','abstract','abstractZh',
-              'summaryZh','summaryEn','paperUrl','pdfUrl','forumUrl','codeUrl','sample','abstractSource','abstractLicense','tagIds')
+              'summaryZh','summaryEn','paperUrl','pdfUrl','forumUrl','codeUrl','sample','abstractSource','abstractLicense','tagIds',
+              'arxivUrl','arxivStatus','githubSource','session','sessionTime','room','poster')
+INDEX_FIELDS+=('imported','classificationStatus','pdfAvailability','codeAvailability','projectUrl','dateRaw','datePrecision','sourceDate')
+
+class FirstImage(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.image = None
+    def handle_starttag(self, tag, attrs):
+        if tag == 'img' and self.image is None:
+            values = dict(attrs)
+            if values.get('src'):
+                self.image = {'src': unescape(values['src']), 'alt': values.get('alt', '')}
 
 def tag_key(value):
     return ' '.join(unicodedata.normalize('NFKC',value).strip().casefold().split())
@@ -215,7 +229,7 @@ def validate_paper(paper,schema,root,label):
     validate(paper,schema['$defs']['paper'],schema,label)
     ids=[n['id'] for n in paper.get('notes',[])]
     if len(ids)!=len(set(ids)): raise ValueError(f'{label}: Duplicate section id')
-    for field in ('paperUrl','pdfUrl','forumUrl','codeUrl','abstractSource','abstractLicense'):
+    for field in ('paperUrl','pdfUrl','forumUrl','codeUrl','abstractSource','abstractLicense','arxivUrl','projectUrl'):
         if paper.get(field) and urlparse(paper[field]).scheme!='https': raise ValueError(f'{label}: {field} must use HTTPS')
     for figure in paper.get('figures',[]):
         src=figure['src']; parsed=urlparse(src)
@@ -247,11 +261,46 @@ def build_index(folder,schema_path,config,root,details=None):
         if paper['id'] in ids: raise ValueError(f'Duplicate paper id: {paper["id"]}')
         ids.add(paper['id'])
         item={key:paper[key] for key in INDEX_FIELDS if key in paper}
+        for content in paper.get('content',{}).values():
+            parser=FirstImage();parser.feed(content.get('html',''))
+            if parser.image:
+                item['thumbnail']=parser.image
+                break
+        if 'thumbnail' not in item and paper.get('figures'):
+            figure=paper['figures'][0]
+            item['thumbnail']={'src':figure['src'],'alt':figure.get('altZh',figure.get('captionZh',''))}
         item.update(dataUrl='data/papers-built/'+key+'.json',
                     hasNotes=bool(body) if body is not None else bool(paper.get('notes')))
         item['sourceUrl']='data/papers/'+file.relative_to(folder).as_posix()
         if details is not None:details[key+'.json']=paper
         papers.append(item)
+    # Bulk metadata stays separate from authored Markdown. Curated content wins
+    # when a normalized title and conference year identify the same record.
+    title_key=lambda p:(''.join(c for c in unicodedata.normalize('NFKC',p['title']).casefold() if c.isalnum()),str(p.get('year','')))
+    authored={title_key(p) for p in papers}
+    for source in sorted((root/'data/imported').glob('ai4s-*.json')):
+        if source.is_symlink():raise ValueError('Symlink not allowed for imported metadata')
+        imported=read_json(source)
+        if imported.get('schemaVersion')!=1 or not isinstance(imported.get('papers'),list):raise ValueError('Invalid imported catalog')
+        for original in imported['papers']:
+            paper=dict(original)
+            if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*',str(paper.get('id',''))):raise ValueError('Unsafe imported paper id')
+            if any(key in paper for key in ('content','notes','notesMeta')):raise ValueError('Imported metadata cannot supply generated HTML or notes')
+            validate_paper(paper,schema,root,paper['id'])
+            paper=normalize_paper_tags(paper,vocabulary,source.name)
+            if title_key(paper) in authored:continue
+            if paper['id'] in ids:raise ValueError('Duplicate imported paper id: '+paper['id'])
+            if paper['id'].casefold() in filenames:raise ValueError('Duplicate imported detail filename: '+paper['id'])
+            ids.add(paper['id'])
+            filenames.add(paper['id'].casefold())
+            paper['imported']=True
+            paper['hasNotes']=False
+            paper['content']={lang:{'html':'','toc':[]} for lang in ('zh','en')}
+            item={key:paper[key] for key in INDEX_FIELDS if key in paper}
+            filename=paper['id']+'.json'
+            item.update(dataUrl='data/papers-built/'+filename,hasNotes=False,sourceUrl=source.relative_to(root).as_posix())
+            if details is not None:details[filename]=paper
+            papers.append(item)
     if not papers: raise ValueError('No paper Markdown files found')
     return {'schemaVersion':1,'updated':datetime.now(timezone(timedelta(hours=8))).date().isoformat(),
             'tagTranslations':{t['id']:t['nameZh'] for t in vocabulary[0]['tags']} if vocabulary else config.get('tagTranslations',{}),

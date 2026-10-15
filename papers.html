@@ -1,72 +1,35 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light" data-title-zh="前沿速递 · AI4S" data-title-en="Research frontier · AI4S" data-desc-zh="发现、检索与阅读科学智能论文。" data-desc-en="Discover and read research in scientific intelligence.">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>前沿速递 · AI4S</title><meta name="description" content="发现、检索与阅读科学智能论文。">
-<link rel="icon" href="static/images/favicon.svg"><link rel="stylesheet" href="static/css/index.css?v=20261008-nav"><link rel="stylesheet" href="static/css/papers.css?v=20261012-files">
+<html lang="zh-CN" data-theme="light" data-title-zh="前沿速递 · AI4S" data-title-en="Research frontier · AI4S" data-desc-zh="检索、筛选与阅读科学智能论文。" data-desc-en="Search, filter and read AI for Science papers.">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>前沿速递 · AI4S</title><meta name="description" content="检索、筛选与阅读科学智能论文。"><link rel="icon" href="static/images/favicon.svg"><link rel="stylesheet" href="static/css/index.css?v=20261008-nav"><link rel="stylesheet" href="static/css/catalog.css?v=20261015-colors">
 <script>try { const t = new URLSearchParams(location.search).get('theme') || localStorage.getItem('ai4s-theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch {}</script>
-</head><body><a class="skip-link" href="#papers-content"><span class="lang-zh">跳到论文</span><span class="lang-en">Skip to papers</span></a>
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="index.html#top">
-        <img class="brand-mark" src="static/images/favicon.svg" alt="">
-        <span class="brand-copy">
-          <strong>AI4S</strong>
-          <span>BUPT</span>
-        </span>
-      </a>
-      <nav class="nav-menu" id="nav-menu" aria-label="Primary">
-        <div class="nav-group">
-          <button class="nav-group-toggle" type="button" aria-expanded="false" aria-controls="course-intro-menu">
-            <span class="lang-zh">课程介绍</span><span class="lang-en">Course overview</span>
-            <span class="nav-chevron" aria-hidden="true"></span>
-          </button>
-          <div class="nav-dropdown" id="course-intro-menu" hidden>
-            <a href="index.html#about"><span class="lang-zh">简介</span><span class="lang-en">About</span></a>
-            <a href="index.html#goals"><span class="lang-zh">目标</span><span class="lang-en">Goals</span></a>
-            <a href="index.html#curriculum"><span class="lang-zh">大纲</span><span class="lang-en">Curriculum</span></a>
-            <a href="index.html#domains"><span class="lang-zh">方向</span><span class="lang-en">Domains</span></a>
-            <a href="index.html#team"><span class="lang-zh">团队</span><span class="lang-en">Team</span></a>
-          </div>
-        </div>
-        <a href="index.html#assessment"><span class="lang-zh">考核</span><span class="lang-en">Assessment</span></a>
-        <a href="index.html#lectures"><span class="lang-zh">讲义</span><span class="lang-en">Lectures</span></a>
-        <a href="index.html#join"><span class="lang-zh">入群</span><span class="lang-en">Join</span></a>
-        <a href="index.html#resources"><span class="lang-zh">资料</span><span class="lang-en">Resources</span></a>
-        <a href="index.html#online-resources"><span class="lang-zh">在线资源</span><span class="lang-en">Online</span></a>
-        <a href="papers.html" aria-current="page"><span class="lang-zh">前沿速递</span><span class="lang-en">Research frontier</span></a>
-        <a href="stats.html"><span class="lang-zh">统计</span><span class="lang-en">Stats</span></a>
-        <a href="replay.html"><span class="lang-zh">课程回看</span><span class="lang-en">Replay</span></a>
-        <a href="index.html#registration"><span class="lang-zh">组队</span><span class="lang-en">Sign up</span></a>
-      </nav>
-      <div class="nav-actions">
-        <button class="theme-toggle" type="button" aria-label="切换到夜间模式">
-          <span class="theme-to-dark"><span class="lang-zh">夜间</span><span class="lang-en">Night</span></span>
-          <span class="theme-to-light"><span class="lang-zh">白天</span><span class="lang-en">Day</span></span>
-        </button>
-        <button class="lang-toggle" type="button" aria-label="切换到英文">EN</button>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
-          <span></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-<main class="papers-main" id="papers-content"><div class="wrap">
-<header class="papers-heading"><div><h1><span class="lang-zh">前沿速递</span><span class="lang-en">Research frontier</span></h1><p><span class="lang-zh">按 AI for 学科浏览文献，阅读每篇论文的介绍与大模型中文解读。</span><span class="lang-en">Browse AI for Science by discipline, with paper introductions and AI summaries.</span></p></div><div class="collection-date"><span class="lang-zh">收录更新 </span><span class="lang-en">Updated </span><time id="data-updated"></time></div></header>
-<div class="papers-layout"><aside class="papers-sidebar"><h2><span class="lang-zh">学科分类</span><span class="lang-en">Disciplines</span></h2><div class="discipline-list" id="paper-disciplines" role="group" aria-label="AI for disciplines"></div></aside>
-<section class="papers-results" aria-label="Papers">
-<div class="papers-filters">
-<div class="filter-field"><label for="paper-search"><span class="lang-zh">搜索文献</span><span class="lang-en">Search papers</span></label><input id="paper-search" type="search" autocomplete="off"></div>
-<div class="filter-field"><label for="subfield-filter"><span class="lang-zh">细分领域</span><span class="lang-en">Field</span></label><select id="subfield-filter"></select></div>
-<div class="filter-field"><label for="venue-filter"><span class="lang-zh">会议 / 来源</span><span class="lang-en">Venue / Source</span></label><select id="venue-filter"></select></div>
-<div class="filter-field"><label for="year-filter"><span class="lang-zh">年份</span><span class="lang-en">Year</span></label><select id="year-filter"></select></div>
-<div class="filter-options"><label class="saved-filter"><input id="saved-only" type="checkbox"><span class="lang-zh">只看收藏</span><span class="lang-en">Saved only</span></label><small id="storage-note"></small><button id="clear-filters" type="button"><span class="lang-zh">重置筛选</span><span class="lang-en">Reset filters</span></button></div>
-</div>
-<section class="tag-browser" aria-labelledby="tag-browser-title"><h2 id="tag-browser-title"><span class="lang-zh">按标签检索</span><span class="lang-en">Browse by tag</span></h2><div id="tag-filters" class="paper-tags"></div><div id="keyword-extension"></div></section>
-<div class="papers-toolbar"><span id="paper-count" role="status" aria-live="polite"></span><span id="collection-scope"></span></div>
-<div id="papers-message" class="papers-message" role="status" aria-live="polite"></div>
-<div id="paper-list" class="paper-list" aria-label="文献列表"></div>
+</head>
+<body class="catalog-page"><a class="skip-link" href="#paper-list"><span class="lang-zh">跳到论文</span><span class="lang-en">Skip to papers</span></a>
+<header class="catalog-header nav"><div class="catalog-header-inner">
+<a class="catalog-brand" href="index.html" aria-label="AI4S 课程主页"><img src="static/images/favicon.svg" alt=""><span><strong><span class="lang-zh">AI4S 前沿速递</span><span class="lang-en">AI4S Research frontier</span></strong></span></a>
+<div class="catalog-search"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><label class="sr-only" for="paper-search">搜索文献 / Search papers</label><input id="paper-search" type="search" autocomplete="off" placeholder="搜索标题、作者、摘要、论文 ID… 支持 &quot;精确短语&quot;，按 / 聚焦"><label class="sr-only" for="search-field">搜索字段 / Search field</label><select id="search-field"><option value="all">全部字段</option><option value="title">标题</option><option value="authors">作者</option><option value="abstract">摘要</option><option value="id">论文 ID</option></select></div>
+<div class="catalog-header-actions"><button class="theme-toggle" type="button" aria-label="切换到夜间模式"><svg class="theme-to-dark" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/></svg><svg class="theme-to-light" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button><button class="lang-toggle" type="button" aria-label="切换到英文">EN</button></div>
+</div></header>
+<main class="catalog-shell" id="papers-content">
+<aside class="catalog-sidebar"><details class="sidebar-disclosure" open><summary><span class="lang-zh">筛选论文</span><span class="lang-en">Filter papers</span></summary><div class="sidebar-content">
+<div class="sidebar-heading"><h2><span class="lang-zh">研究方向</span><span class="lang-en">Research areas</span></h2><div id="match-mode" class="segmented" role="group" aria-label="Category matching"><button type="button" data-match="any" aria-pressed="true"><span class="lang-zh">任一</span><span class="lang-en">Any</span></button><button type="button" data-match="all" aria-pressed="false"><span class="lang-zh">全部</span><span class="lang-en">All</span></button></div></div>
+<label class="sidebar-check"><input id="primary-only" type="checkbox"><span class="lang-zh">只按主类别匹配</span><span class="lang-en">Match primary area only</span></label>
+<div id="paper-disciplines" class="discipline-list" role="group" aria-label="Research areas"></div>
+<section class="sidebar-section resource-facet"><h2 id="arxiv-heading"><span class="lang-zh">arXiv 预印本</span><span class="lang-en">arXiv preprints</span></h2><div id="arxiv-facet" role="group" aria-labelledby="arxiv-heading"></div></section>
+<section class="sidebar-section resource-facet"><h2 id="github-heading"><span class="lang-zh">GitHub 代码</span><span class="lang-en">GitHub code</span></h2><div id="github-facet" role="group" aria-labelledby="github-heading"></div></section>
+<section class="sidebar-section resource-facet"><h2 id="session-heading"><span class="lang-zh">海报场次</span><span class="lang-en">Poster sessions</span></h2><div id="session-facet" role="group" aria-labelledby="session-heading"></div></section>
+<section class="sidebar-section resource-facet"><h2 id="room-heading"><span class="lang-zh">会场</span><span class="lang-en">Rooms</span></h2><div id="room-facet" role="group" aria-labelledby="room-heading"></div></section>
+<section class="sidebar-section sidebar-saved">
+<label class="sidebar-check"><input id="saved-only" type="checkbox"><span class="lang-zh">只看收藏</span><span class="lang-en">Saved only</span></label><small id="storage-note"></small><button id="clear-filters" type="button"><span class="lang-zh">重置筛选</span><span class="lang-en">Reset filters</span></button></section>
+</div></details></aside>
+<section class="catalog-results" aria-label="Papers">
+<div class="catalog-filterbar"><div class="catalog-field-row">
+<div><label for="subfield-filter"><span class="lang-zh">细分领域</span><span class="lang-en">Field</span></label><select id="subfield-filter"></select></div>
+<div><label for="venue-filter"><span class="lang-zh">会议 / 来源</span><span class="lang-en">Venue / Source</span></label><select id="venue-filter"></select></div>
+<div><label for="year-filter"><span class="lang-zh">年份</span><span class="lang-en">Year</span></label><select id="year-filter"></select></div>
+</div></div>
+<div class="catalog-toolbar"><div class="result-info"><span id="paper-count" role="status" aria-live="polite"></span><div id="tag-filters" class="sidebar-tags" role="group" aria-label="研究标签 / Research tags"></div></div><div id="active-filters" class="active-filters"></div><div class="catalog-view-controls"><label for="paper-sort"><span class="lang-zh">排序</span><span class="lang-en">Sort</span></label><select id="paper-sort"><option value="default">默认（收录顺序）</option><option value="newest">发表日期：最新优先</option><option value="oldest">发表日期：最早优先</option><option value="title">标题 A–Z</option></select><div id="view-mode" class="segmented" role="group" aria-label="Paper layout"><button type="button" data-view="cards" aria-pressed="true"><span class="lang-zh">卡片</span><span class="lang-en">Cards</span></button><button type="button" data-view="list" aria-pressed="false"><span class="lang-zh">列表</span><span class="lang-en">List</span></button><button type="button" data-view="table" aria-pressed="false"><span class="lang-zh">表格</span><span class="lang-en">Table</span></button></div></div></div>
+<div id="papers-message" class="catalog-message" role="status" aria-live="polite"></div><div id="paper-list" class="catalog-paper-list" data-view="cards" aria-label="文献列表"></div>
+<nav id="catalog-pagination" class="catalog-pagination" aria-label="论文分页 / Paper pages"></nav>
 <noscript><p>请启用 JavaScript 查看论文列表。 / Enable JavaScript to browse papers.</p></noscript>
-</section></div><footer class="papers-footer"><span class="lang-zh">北京邮电大学 · 科学智能原理与实践</span><span class="lang-en">BUPT · AI for Science</span></footer>
-</div></main>
-<script src="static/js/index.js"></script><script type="module" src="static/js/papers.mjs?v=20261012-vocabulary"></script></body></html>
+<footer class="catalog-footer"><p id="collection-scope"></p><span class="lang-zh">收录更新 </span><span class="lang-en">Updated </span><time id="data-updated"></time><a href="index.html"><span class="lang-zh">返回课程主页</span><span class="lang-en">Course home</span></a></footer>
+</section></main><script src="static/js/index.js"></script><script type="module" src="static/js/papers.mjs?v=20261015-release"></script></body></html>

@@ -21,7 +21,7 @@ summaryEn: |-
 paperUrl: https://arxiv.org/abs/2303.11366
 pdfUrl: https://arxiv.org/pdf/2303.11366
 disciplines:
-- general
+- scientific-agents
 subfield: 通用智能体方法
 year: '2023'
 decision: ''
@@ -29,7 +29,7 @@ keywords:
 - Language agents
 - Verbal feedback
 - Episodic memory
-classificationReason: 这篇研究不限定具体学科的通用智能体方法，因此归入通用 AI；智能体和推理作为方法标签。
+classificationReason: 这篇研究不限定具体学科的通用智能体方法，因此归入科学智能体；智能体和推理作为方法标签。
 notesMeta:
   templateVersion: '1.0'
   generated: ''

@@ -36,7 +36,7 @@ venue: ICML
 year: "2026"
 published: "2026-07-01"
 dateType: published
-disciplines: [weather]
+disciplines: [scientific-foundation-models, earth-space-sciences]
 subfield: 天气预报
 keywords: [Weather forecasting, Transformer]
 tags: [climate, pretraining]
@@ -67,11 +67,42 @@ codeUrl: https://github.com/example/repository
 
 必填字段必须存在。空字符串写 `''`，空数组写 `[]`。目录名用于组织文件，`id` 用于网站识别，两者可以不同；改目录名时不要更改已发布的 `id`。
 
+### 资源状态与海报信息（可选）
+
+目录页侧栏提供 arXiv、GitHub、海报场次和会场筛选。资源状态使用单选；同组内多个场次或会场按“任一”匹配，不同组之间同时满足。每个选项旁的数量保留其他组的筛选条件，忽略本组当前选项。
+
+| 字段 | 填写内容 |
+| --- | --- |
+| `arxivUrl` | arXiv 的 HTTPS 摘要或 PDF 地址；也会从论文页面、PDF、摘要来源中的 arXiv 链接识别是否有预印本 |
+| `arxivStatus` | `verified`：已核对标题及作者；`probable`：可能匹配；`needs-review`：待核对；`not-found`：未找到；未核验时留空。仅有链接不会标为严格验证 |
+| `githubSource` | GitHub 链接来源：`page` 官方页面、`paper` 论文、`manual` 人工补充，未知留空；仓库地址仍填 `codeUrl`。“官网页面提供”筛选的是由官方页面提供的 GitHub 仓库链接 |
+| `session` / `sessionTime` | 官方海报场次名称 / 时间（包含时区），按来源填写 |
+| `room` / `poster` | 会场名称 / 海报编号，按来源填写 |
+
+缺失的场次和会场归入“未收录场次 / 未收录会场”，不会从论文年份或会议名称推断。筛选项自动由已收录数据生成，不预设某个会议的场次数量或会场名称。
+
 YAML 用空格缩进，不用 Tab；字段不能重复。多段摘要使用 `|-`，下方文本缩进两个空格；年份加引号；包含英文冒号的标题加引号。YAML 锚点、别名及自定义对象标签不支持。
 
 ### 学科与标签
 
-学科代码：`general` 通用 AI、`mathematics` 数学、`physics` 物理、`chemistry` 化学、`materials` 材料、`biology` 生物、`medicine` 医学、`weather` 气象、`communications` 通信、`earth` 地球科学、`chips` 芯片、`other` 其他学科。跨学科填写多个代码，如 `[weather, physics]`；空数组显示待分类。
+研究方向只使用以下大类，不建立括号中的细分学科：
+
+| 代码 | 研究方向 |
+| --- | --- |
+| `scientific-data` | 科学数据 |
+| `scientific-knowledge-models` | 科学知识模型 |
+| `scientific-foundation-models` | 科学基础模型 |
+| `scientific-agents` | 科学智能体 |
+| `scientific-evaluation` | 科学评测 |
+| `autonomous-labs` | 自主实验室 |
+| `mathematical-sciences` | AI for 数理科学 |
+| `life-sciences` | AI for 生命科学 |
+| `matter-sciences` | AI for 物质科学 |
+| `earth-space-sciences` | AI for 地球宇宙科学 |
+| `information-sciences` | AI for 信息科学 |
+| `social-sciences` | AI for 社会科学 |
+
+一篇论文可以属于多个大类，数组首项作为主类别。旧学科筛选链接会映射到对应的新大类。
 
 ### 建立标签前先查词表
 
@@ -203,3 +234,19 @@ GitHub 网页：进入仓库 `data/papers/`，选择 **Add file → Upload files
 更新论文时修改原目录并提交。删除论文时删除其完整目录，下次发布会移除对应卡片。
 
 完整入库测试案例见 [C-FREE 添加记录](c-free-ingestion-test.md)，包括查词表、新建标签、论文目录、原图和校验结果。
+
+
+### PDF 阅读器
+
+`pdf-reader.html?id=<论文ID>` 使用本地打包的 PDF.js 6.4.299（Apache-2.0）解析论文 PDF，不依赖浏览器原生 PDF 插件或响应的 MIME 类型。支持连续滚动、文本选择、翻页、缩放；下载是显式操作。远程 PDF 需要允许 CORS；加载失败时阅读器显示重试入口。库代码和所需字体资源在 `static/vendor/pdfjs/`，许可文件保留在该目录。
+
+### 批量 AI4S 元数据
+
+原始数据保留在 `metadata/metadata/`。只读取年度 `2026/ai4s.json`，不要同时导入全量会议文件，以免重复。清洗后的可发布数据独立放在 `data/imported/ai4s-2026.json`，构建器会合并它与手写论文；相同标题、年份的手写内容优先，不覆盖原有精读。
+
+```sh
+python tools/clean_ai4s_metadata.py --input metadata/metadata/2026/ai4s.json --output data/imported/ai4s-2026.json --report docs/ai4s-cleaning-report-2026-10-15.json --as-of 2026-10-15
+python tools/build_paper_index.py --site
+```
+
+清洗程序保留来源 ID、链接、原日期和分类依据。研究方向为规则初分；不生成中文译文或 AI 精读。缺少代码信息表示“未收录”，不表示“无代码”；会议日期保留为来源日期，不能当作论文发表日期。PDF 只筛选链接格式，未经逐一联网验证；DOI 落地页不作为 PDF。目录每页展示 48 篇，搜索与筛选仍覆盖完整收录集。纳入范围、待复核记录和字段缺失情况见同名清洗报告。

@@ -1,0 +1,778 @@
+{
+  "inputCount": 1420,
+  "eligibleCount": 1386,
+  "outputCount": 1371,
+  "mergedRecords": 15,
+  "excludedCount": 34,
+  "badPdfCandidates": 93,
+  "missingFields": {
+    "missing-abstract": 152,
+    "missing-authors": 1,
+    "missing-date": 59
+  },
+  "dateFlags": {
+    "future-date": 306,
+    "missing-date": 59
+  },
+  "datePrecisionCounts": {
+    "day": 1102,
+    "missing": 59,
+    "month": 59,
+    "year": 151
+  },
+  "rawIdConflicts": [
+    {
+      "id": "d9d4f495e875a2e075a1a4a6e1b9770f",
+      "titles": [
+        "Mollifier Layers: Enabling Efficient High-Order Derivatives in Inverse PDE Learning",
+        "Training Dynamics of Learning 3D-Rotational Equivariance"
+      ]
+    }
+  ],
+  "disciplineCounts": {
+    "earth-space-sciences": 213,
+    "information-sciences": 5,
+    "life-sciences": 692,
+    "mathematical-sciences": 354,
+    "matter-sciences": 639,
+    "scientific-agents": 6,
+    "scientific-data": 62,
+    "scientific-evaluation": 6,
+    "scientific-foundation-models": 115,
+    "scientific-knowledge-models": 124,
+    "social-sciences": 1
+  },
+  "mainOralDuplicateExamples": [
+    {
+      "venue": "ICLR",
+      "title": "AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "M7TNf5J26u",
+        "2026-Oral--23372-6f9f2139"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "DCFold: Efficient Protein Structure Generation with Single Forward Pass",
+      "sourceRecordKinds": [
+        "oral-index",
+        "main-index"
+      ],
+      "rawIds": [
+        "2026-Oral--11856-7c863941",
+        "LMsdys7t1L"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Exploring Synthesizable Chemical Space with Iterative Pathway Refinements",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "aQKVfKOkR5",
+        "2026-Oral--12058-fcba162f"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Extending Sequence Length is Not All You Need: Effective Integration of Multimodal Signals for Gene Expression Prediction",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "wwPSfcf5Pj",
+        "2026-Oral--1999-8d13e5d5"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "FALCON: Few-step Accurate Likelihoods for Continuous Flows",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "FbssShlI4N",
+        "2026-Oral--14390-4c78157c"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Fast training of accurate physics-informed neural networks without gradient descent",
+      "sourceRecordKinds": [
+        "oral-index",
+        "main-index"
+      ],
+      "rawIds": [
+        "2026-Oral--18549-0405c066",
+        "3VdSuh3sie"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "LLM DNA: Tracing Model Evolution via Functional Representations",
+      "sourceRecordKinds": [
+        "oral-index",
+        "main-index"
+      ],
+      "rawIds": [
+        "2026-Oral--8961-f474c16f",
+        "UIxHaAqFqQ"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "mCLM: A Modular Chemical Language Model that Generates Functional and Makeable Molecules",
+      "sourceRecordKinds": [
+        "oral-index",
+        "main-index"
+      ],
+      "rawIds": [
+        "2026-Oral--15651-725cbe7c",
+        "r2HG3xOMJI"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Planner Aware Path Learning in Diffusion Language Models Training",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "lAlI5FuIf7",
+        "2026-Oral--9935-cc529bfb"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Quotient-Space Diffusion Models",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "3JPAkwSVc4",
+        "2026-Oral--7627-15b0b32e"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "y3oHMcoItR",
+        "2026-Oral--2270-f8ab226a"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute",
+      "sourceRecordKinds": [
+        "oral-index",
+        "main-index"
+      ],
+      "rawIds": [
+        "2026-Oral--12999-1b9fcd5c",
+        "qmCpJtFZra"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Shoot First, Ask Questions Later? Building Rational Agents that Explore and Act Like People",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "EQhUvWH78U",
+        "2026-Oral--9652-41020dfa"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Structured Flow Autoencoders: Learning Structured Probabilistic Representations with Flow Matching",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "KYdfvF2SZN",
+        "2026-Oral--12981-b30b8dbc"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "The Spacetime of Diffusion Models: An Information Geometry Perspective",
+      "sourceRecordKinds": [
+        "main-index",
+        "oral-index"
+      ],
+      "rawIds": [
+        "qCsbYJZRA5",
+        "2026-Oral--8197-a794ccec"
+      ],
+      "tracks": [
+        "main",
+        "main"
+      ]
+    }
+  ],
+  "duplicateTitleExamples": [
+    {
+      "venue": "ICLR",
+      "title": "AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite",
+      "count": 2,
+      "rawIds": [
+        "M7TNf5J26u",
+        "2026-Oral--23372-6f9f2139"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "DCFold: Efficient Protein Structure Generation with Single Forward Pass",
+      "count": 2,
+      "rawIds": [
+        "2026-Oral--11856-7c863941",
+        "LMsdys7t1L"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Exploring Synthesizable Chemical Space with Iterative Pathway Refinements",
+      "count": 2,
+      "rawIds": [
+        "aQKVfKOkR5",
+        "2026-Oral--12058-fcba162f"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Extending Sequence Length is Not All You Need: Effective Integration of Multimodal Signals for Gene Expression Prediction",
+      "count": 2,
+      "rawIds": [
+        "wwPSfcf5Pj",
+        "2026-Oral--1999-8d13e5d5"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "FALCON: Few-step Accurate Likelihoods for Continuous Flows",
+      "count": 2,
+      "rawIds": [
+        "FbssShlI4N",
+        "2026-Oral--14390-4c78157c"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Fast training of accurate physics-informed neural networks without gradient descent",
+      "count": 2,
+      "rawIds": [
+        "2026-Oral--18549-0405c066",
+        "3VdSuh3sie"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "LLM DNA: Tracing Model Evolution via Functional Representations",
+      "count": 2,
+      "rawIds": [
+        "2026-Oral--8961-f474c16f",
+        "UIxHaAqFqQ"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "mCLM: A Modular Chemical Language Model that Generates Functional and Makeable Molecules",
+      "count": 2,
+      "rawIds": [
+        "2026-Oral--15651-725cbe7c",
+        "r2HG3xOMJI"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Planner Aware Path Learning in Diffusion Language Models Training",
+      "count": 2,
+      "rawIds": [
+        "lAlI5FuIf7",
+        "2026-Oral--9935-cc529bfb"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Quotient-Space Diffusion Models",
+      "count": 2,
+      "rawIds": [
+        "3JPAkwSVc4",
+        "2026-Oral--7627-15b0b32e"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data",
+      "count": 2,
+      "rawIds": [
+        "y3oHMcoItR",
+        "2026-Oral--2270-f8ab226a"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Scaling Atomistic Protein Binder Design with Generative Pretraining and Test-Time Compute",
+      "count": 2,
+      "rawIds": [
+        "2026-Oral--12999-1b9fcd5c",
+        "qmCpJtFZra"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Shoot First, Ask Questions Later? Building Rational Agents that Explore and Act Like People",
+      "count": 2,
+      "rawIds": [
+        "EQhUvWH78U",
+        "2026-Oral--9652-41020dfa"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "Structured Flow Autoencoders: Learning Structured Probabilistic Representations with Flow Matching",
+      "count": 2,
+      "rawIds": [
+        "KYdfvF2SZN",
+        "2026-Oral--12981-b30b8dbc"
+      ]
+    },
+    {
+      "venue": "ICLR",
+      "title": "The Spacetime of Diffusion Models: An Information Geometry Perspective",
+      "count": 2,
+      "rawIds": [
+        "qCsbYJZRA5",
+        "2026-Oral--8197-a794ccec"
+      ]
+    }
+  ],
+  "classificationStatusCounts": {
+    "needs-review": 83,
+    "rule-derived": 1288
+  },
+  "recordFlagCounts": {
+    "future-date": 306,
+    "missing-abstract": 152,
+    "missing-authors": 1,
+    "missing-date": 59,
+    "taxonomy-rule-derived": 1371,
+    "unresolved-pdf-url": 93
+  },
+  "excludedCandidates": [
+    {
+      "originalId": "10.1609/aaai.v40i8.37548",
+      "venue": "AAAI",
+      "title": "MdaIF: Robust One-Stop Multi-Degradation-Aware Image Fusion with Language-Driven Semantics",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "10.1609/aaai.v40i9.37687",
+      "venue": "AAAI",
+      "title": "RMFAT: Recurrent Multi-scale Feature Atmospheric Turbulence Mitigator",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "10.1609/aaai.v40i14.38205",
+      "venue": "AAAI",
+      "title": "DehazeGS: Seeing Through Fog with 3D Gaussian Splatting",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "10.1609/aaai.v40i16.38421",
+      "venue": "AAAI",
+      "title": "HATIR: Heat-Aware Diffusion for Turbulent Infrared Video Super-Resolution",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "10.1609/aaai.v40i19.38628",
+      "venue": "AAAI",
+      "title": "MoCast: Learning Turbulent Motions Under Physical Guidance for Precipitation Nowcasting",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Zhang_High-Quality_and_Efficient_Turbulence_Mitigation_with_Events_CVPR_2026_paper",
+      "venue": "CVPR",
+      "title": "High-Quality and Efficient Turbulence Mitigation with Events",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Xie_Physically-Grounded_Turbulence_Mitigation_with_Frame-Shared_Degradation_Parameters_CVPR_2026_paper",
+      "venue": "CVPR",
+      "title": "Physically-Grounded Turbulence Mitigation with Frame-Shared Degradation Parameters",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Zeng_Continuous_Exposure-Time_Modeling_for_Realistic_Atmospheric_Turbulence_Synthesis_CVPR_2026_paper",
+      "venue": "CVPR",
+      "title": "Continuous Exposure-Time Modeling for Realistic Atmospheric Turbulence Synthesis",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Yang_GenieDrive_Towards_Physics-Aware_Driving_World_Model_with_4D_Occupancy_Guided_CVPR_2026_paper",
+      "venue": "CVPR",
+      "title": "GenieDrive: Towards Physics-Aware Driving World Model with 4D Occupancy Guided Video Generation",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "physics-informed"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "Li_NimbusGS_Unified_3D_Scene_Reconstruction_under_Hybrid_Weather_CVPR_2026_paper",
+      "venue": "CVPR",
+      "title": "NimbusGS: Unified 3D Scene Reconstruction under Hybrid Weather",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Kang_PMRNet_Physics-informed_Multi-scale_Refinement_Network_for_Medical_Image_Segmentation_CVPR_2026_paper",
+      "venue": "CVPR",
+      "title": "PMRNet: Physics-informed Multi-scale Refinement Network for Medical Image Segmentation",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "physics-informed"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "eccv-bf6dac8899e21682",
+      "venue": "ECCV",
+      "title": "DiverseAD: A Large-Scale Driving Dataset with Diverse Atmospheric Conditions",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "eccv-257294059523ecda",
+      "venue": "ECCV",
+      "title": "Semantic-Aware, Physics-Informed, Geometry-Grounded Weather Synthesis",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "physics-informed"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "8emIjwUQZg",
+      "venue": "ICLR",
+      "title": "GenSR: Symbolic regression based on equation generative space",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "VnQJliq17X",
+      "venue": "ICML",
+      "title": "How Hard Is Science?",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "9mFx2t9RGj",
+      "venue": "ICML",
+      "title": "Beyond Accuracy and Complexity: The Effective Information Criterion for Structurally Stable Symbolic Regression",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "cmTjoiRyyr",
+      "venue": "ICML",
+      "title": "Softplus Attention with Re-weighting Boosts Length Extrapolation in Large Language Models",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Jj8Vec8qSs",
+      "venue": "ICML",
+      "title": "Mixture of Concept Bottleneck Experts",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "zAuh9CGr9R",
+      "venue": "ICML",
+      "title": "Stabilizing Equation Learning via Zero-Point Constraints",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "eTe0x6Fye4",
+      "venue": "ICML",
+      "title": "Neural–Evolutionary Symbolic Regression with Global Constraints: Constraint-Aware Decoding and Reward Shaping",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "hCAEcqig2C",
+      "venue": "ICML",
+      "title": "Learning Randomized Reductions",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "nYzdAcLN5F",
+      "venue": "ICML",
+      "title": "Weights to Code: Extracting Interpretable Algorithms from the Discrete Transformer",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "2ztmXT3qpN",
+      "venue": "ICML",
+      "title": "ECSEL: Explainable Classification via Signomial Equation Learning",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "f4xAzcMug6",
+      "venue": "ICML",
+      "title": "Evaluating Newtonian Mechanics in Video Generative Models with Real Physical Systems",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "physics-informed"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "Rem0zhold7",
+      "venue": "ICML",
+      "title": "Breaking the Simplification Bottleneck in Amortized Neural Symbolic Regression",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "h0317qKaeq",
+      "venue": "ICML",
+      "title": "Contrastive Symbolic Regression: Aligned Representations, Adaptive Prediction, and Diverse Ensembles",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "KjRmj39WfF",
+      "venue": "ICML",
+      "title": "Fully Zero-Shot Image Dehazing",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "10.1145/3770855.3819047",
+      "venue": "KDD",
+      "title": "GRASP: Manifold-Aware Structural Guidance for Generative Atmospheric Super-Resolution",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "6yBDMqMChG",
+      "venue": "NEURIPS",
+      "title": "Mimicking the Physicist's Eye: A VLM-centric Approach for Physics Formula Discovery",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "7LkTMagsSg",
+      "venue": "NEURIPS",
+      "title": "Physics-Informed Video Generation via Mixture-of-Experts Latent Alignment",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "physics-informed"
+      ],
+      "exclusionReason": "generic-visual-restoration-task-without-scientific-target"
+    },
+    {
+      "originalId": "RCI7AIVyKg",
+      "venue": "NEURIPS",
+      "title": "SMILE: Bridging Continuous Optimization and Discrete Symbolic Recovery",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "6AZvfOFUIP",
+      "venue": "NEURIPS",
+      "title": "Projected Neural Additive Models as Universal Approximators",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "IYu64aV0LR",
+      "venue": "NEURIPS",
+      "title": "Geometry-Constrained Kolmogorov–Arnold Networks: Learning Edge Geometry via Banach Duality",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "symbolic regression"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    },
+    {
+      "originalId": "Cwisp6UwX8",
+      "venue": "NEURIPS",
+      "title": "AeroMosaic:Transport-Aware Multimodal Evidence Fusion for Atmospheric Pollution Risk Inference",
+      "selectionReason": "keyword",
+      "selectionHits": [
+        "atmospheric"
+      ],
+      "exclusionReason": "no-explicit-scientific-domain-or-science-contribution"
+    }
+  ]
+}

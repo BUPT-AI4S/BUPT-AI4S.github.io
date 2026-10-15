@@ -14,7 +14,8 @@ venue: ICML
 year: '2023'
 decision: ''
 disciplines:
-- weather
+- scientific-foundation-models
+- earth-space-sciences
 subfield: 天气预报与气候建模
 topics:
 - foundation-models
@@ -35,7 +36,7 @@ abstract: |-
 summaryEn: |-
   ClimaX uses a Transformer adapted to heterogeneous weather and climate datasets. It is pretrained on CMIP6-derived data and then fine-tuned for weather forecasting and climate projection tasks, including variables and scales not seen during pretraining.
 summaryZh: ClimaX 面向天气与气候任务，用改造后的 Transformer 处理不同变量与时空范围的数据。模型在 CMIP6 衍生数据上预训练，再针对天气预报和气候预测微调，探索跨变量、跨尺度的迁移能力。
-classificationReason: 研究对象是天气预报和气候预测，因此归入 AI for 气象；Transformer 和预训练作为方法标签。
+classificationReason: 研究对象是天气预报和气候预测，因此归入科学基础模型与 AI for 地球宇宙科学；Transformer 和预训练作为方法标签。
 paperUrl: https://proceedings.mlr.press/v202/nguyen23a.html
 pdfUrl: https://proceedings.mlr.press/v202/nguyen23a/nguyen23a.pdf
 forumUrl: https://openreview.net/forum?id=5CZyPMgjUu
