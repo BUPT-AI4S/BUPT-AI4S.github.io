@@ -24,7 +24,6 @@ keywords:
 - Weather
 - Climate
 - Transformer
-sample: true
 abstract: |-
   Recent data-driven approaches based on machine learning aim to directly solve a downstream forecasting or projection task by learning a data-driven functional mapping using deep neural networks. However, these networks are trained using curated and homogeneous climate datasets for specific spatiotemporal tasks, and thus lack the generality of currently used computationally intensive physics-informed numerical models for weather and climate modeling.
 

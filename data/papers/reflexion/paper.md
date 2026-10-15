@@ -14,7 +14,6 @@ venue: arXiv
 topics:
 - agents
 - reasoning
-sample: true
 summaryZh: 让智能体把任务反馈写成反思文本，保存在记忆中，并用于下一次尝试。无需更新模型权重，探索从试错中改进决策的路径。
 summaryEn: |-
   Agents turn task feedback into reflective text, retain it in episodic memory, and use it in subsequent attempts without updating model weights.

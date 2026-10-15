@@ -17,7 +17,6 @@ subfield: 分子表示学习
 keywords: [Molecular graph pretraining, Graph neural networks, 3D conformers, Latent prediction]
 keywordSource: 根据正式论文题目和摘要整理。
 tags: [pretraining, graph-neural-networks]
-sample: true
 abstract: |-
   High-quality molecular representations are essential for property prediction and molecular design, yet large labeled datasets remain scarce. While self-supervised pretraining on molecular graphs has shown promise, many existing approaches either depend on hand-crafted augmentations or complex generative objectives, and often rely solely on 2D topology, leaving valuable 3D structural information underutilized.
 
