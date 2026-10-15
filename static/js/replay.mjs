@@ -1,7 +1,12 @@
 import {mountMindMap} from './mind-map.mjs';
 import {formatTime,findMatches,activeSegment,sortCourses} from './replay-core.mjs';
+import {createReplayCounter,LIVE_HOST} from './replay-metrics.mjs';
 const $=id=>document.getElementById(id), video=$('video');
 let course, courses=[], rows=[], matches=[], matchIndex=-1, current=-1, panel='chapters', objectUrl, loadId=0, scale=1, lastSaved=0;
+let displayedCourseId=null,videoCourseId=null;
+const playCounter=createReplayCounter({live:location.hostname===LIVE_HOST,onChange:(id,count)=>{
+  if(id===displayedCourseId)$('play-count').textContent=count.toLocaleString('zh-CN');
+}});
 function el(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}
 function empty(parent,text='该项分析暂未生成。'){parent.replaceChildren(el('p',text,'empty'));}
 function notice(text){$('notice').textContent=text;}
@@ -40,6 +45,10 @@ async function load(id) {
   video.load();
   if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; }
   const entry = courses.find(c => c.id === id);
+  displayedCourseId=id;videoCourseId=null;
+  const cachedCount=playCounter.value(id);
+  $('play-count').textContent=cachedCount===null?'—':cachedCount.toLocaleString('zh-CN');
+  playCounter.read(id);
   course = null;
   rows = [];
   matches = [];
@@ -95,7 +104,7 @@ async function load(id) {
     if (token !== loadId) return;
     $('local-video').disabled = false;
     $('video-empty').hidden = Boolean(url);
-    if (url) video.src = url;
+    if (url) { video.src = url;videoCourseId=id; }
     notice(rows.length
       ? 'AI 分析和整理仅供学习参考，请以课堂视频为准。播放进度保存在当前浏览器。'
       : '课程已建档，课堂分析待生成。当前不展示模拟转写或摘要。');
@@ -108,6 +117,11 @@ async function load(id) {
     empty($('panel'), '无法加载课程分析');
   }
 }
+video.addEventListener('playing',()=>{
+  if(videoCourseId&&course&&videoCourseId===displayedCourseId&&!objectUrl&&!video.paused&&video.readyState>=2){
+    playCounter.record(videoCourseId);
+  }
+});
 video.addEventListener('timeupdate',update);video.addEventListener('pause',save);window.addEventListener('pagehide',save);video.addEventListener('loadedmetadata',()=>{try{const saved=JSON.parse(localStorage.getItem('ai4s-replay:'+course.id));if(saved?.time>0&&saved.time<video.duration-3)video.currentTime=saved.time;}catch{}video.playbackRate=Number($('speed').value);});video.addEventListener('error',()=>notice('视频加载失败，请检查视频地址，或选择本地视频观看。'));
 $('speed').onchange=()=>{video.playbackRate=Number($('speed').value);};$('local-video').onchange=e=>{const file=e.target.files[0];if(!file)return;save();if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(file);video.src=objectUrl;$('video-empty').hidden=true;notice('正在播放所选本地视频，文件不会上传。请确保它与当前课时一致。');};
 $('search').addEventListener('input',search);$('search').addEventListener('keydown',e=>{if(e.key==='Enter'&&matches.length){matchIndex=(matchIndex+1)%matches.length;showMatch();}});$('next').onclick=()=>{matchIndex=(matchIndex+1)%matches.length;showMatch();};$('previous').onclick=()=>{matchIndex=(matchIndex-1+matches.length)%matches.length;showMatch();};$('course').onchange=e=>load(e.target.value);

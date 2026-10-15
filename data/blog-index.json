@@ -1,0 +1,461 @@
+{
+  "articles": [
+    {
+      "id": "scientific-model-start-editorial",
+      "articleId": "scientific-model-start",
+      "dataUrl": "data/blog/articles/scientific-model-start.json",
+      "title": "科学大模型的起点：数据如何成为科学知识",
+      "subtitle": "",
+      "badge": "科学大模型的起点",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "从科学对象的表示、知识层次与证据条件出发，讨论数据如何成为可用于研究的科学知识。",
+      "categories": [
+        "data",
+        "knowledge",
+        "foundation"
+      ],
+      "facets": {
+        "data": [
+          "curation",
+          "multimodal"
+        ],
+        "knowledge": [
+          "reasoning"
+        ],
+        "foundation": [
+          "language",
+          "multimodal"
+        ]
+      },
+      "keywords": [
+        "科学大模型的起点"
+      ],
+      "publicationYear": 2025,
+      "order": 0,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2508.21148"
+        }
+      ],
+      "titleEn": "Where Scientific Large Models Begin: Turning Data into Scientific Knowledge",
+      "summaryEn": "Starting with representations of scientific objects, layers of knowledge, and the evidence needed to support claims, this article explores how data becomes usable scientific knowledge.",
+      "collection": "reviews",
+      "seriesPart": 1
+    },
+    {
+      "id": "scientific-model-capabilities-editorial",
+      "articleId": "scientific-model-capabilities",
+      "dataUrl": "data/blog/articles/scientific-model-capabilities.json",
+      "title": "科学大模型的能力从何而来：从预训练到任务学习",
+      "subtitle": "",
+      "badge": "科学大模型的能力从何而来",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "沿着表示、预训练、后训练与任务反馈的路径，理解科学大模型的能力怎样形成，以及哪些能力需要额外建立。",
+      "categories": [
+        "data",
+        "foundation"
+      ],
+      "facets": {
+        "data": [
+          "curation",
+          "annotation"
+        ],
+        "foundation": [
+          "language",
+          "multimodal"
+        ]
+      },
+      "keywords": [
+        "科学大模型的能力从何而来"
+      ],
+      "publicationYear": 2025,
+      "order": 1,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2508.21148"
+        }
+      ],
+      "titleEn": "Where Scientific Large Models Get Their Capabilities: From Pretraining to Task Learning",
+      "summaryEn": "Follow the path from representations and pretraining to post-training and task feedback to understand how scientific model capabilities develop, and which capabilities need further work.",
+      "collection": "reviews",
+      "seriesPart": 2
+    },
+    {
+      "id": "scientific-model-scores-editorial",
+      "articleId": "scientific-model-scores",
+      "dataUrl": "data/blog/articles/scientific-model-scores.json",
+      "title": "科学大模型的高分，究竟证明了什么？",
+      "subtitle": "",
+      "badge": "科学大模型的高分，究竟证明了什么",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "从任务、指标、参考答案、裁判和测试条件出发，区分科学大模型的高分究竟支持哪一层能力结论。",
+      "categories": [
+        "evaluation"
+      ],
+      "facets": {
+        "evaluation": [
+          "knowledge",
+          "reasoning",
+          "discovery",
+          "reproducibility"
+        ]
+      },
+      "keywords": [
+        "科学大模型的高分，究竟证明了什么"
+      ],
+      "publicationYear": 2025,
+      "order": 2,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2508.21148"
+        }
+      ],
+      "titleEn": "What Do High Scores in Scientific Large Models Actually Prove?",
+      "summaryEn": "Examine tasks, metrics, reference answers, evaluators, and test conditions to distinguish which capability claims a high score can support.",
+      "collection": "reviews",
+      "seriesPart": 3
+    },
+    {
+      "id": "scientific-agent-data-editorial",
+      "articleId": "scientific-agent-data",
+      "dataUrl": "data/blog/articles/scientific-agent-data.json",
+      "title": "科研智能体走向发现，还缺少怎样的数据生态？",
+      "subtitle": "",
+      "badge": "科研智能体走向发现",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "科研智能体如何调用工具、理解失败并调整计划？本篇沿着研究循环，讨论可追溯的数据、反馈和持续积累的科学证据。",
+      "categories": [
+        "data",
+        "agents",
+        "labs"
+      ],
+      "facets": {
+        "data": [
+          "curation"
+        ],
+        "agents": [
+          "planning",
+          "tools",
+          "multiagent"
+        ],
+        "labs": [
+          "closed-loop"
+        ]
+      },
+      "keywords": [
+        "科研智能体走向发现"
+      ],
+      "publicationYear": 2025,
+      "order": 3,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2508.21148"
+        }
+      ],
+      "titleEn": "What Data Ecosystem Do Scientific Agents Need to Make Discoveries?",
+      "summaryEn": "How do scientific agents use tools, learn from failure, and revise plans? This article follows the research cycle to examine traceable data, feedback, and the accumulation of scientific evidence.",
+      "collection": "reviews",
+      "seriesPart": 4
+    },
+    {
+      "id": "agentic-science-editorial",
+      "articleId": "agentic-science",
+      "dataUrl": "data/blog/articles/agentic-science.json",
+      "title": "Agentic Science：当 AI 开始参与科学研究的下一步",
+      "subtitle": "",
+      "badge": "Agentic Science",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "从单次作答走向持续研究：围绕目标规划、执行与反馈，考察 AI 参与科研下一步的机制、实例与验证边界。",
+      "categories": [
+        "agents",
+        "labs",
+        "evaluation"
+      ],
+      "facets": {
+        "agents": [
+          "hypothesis",
+          "planning",
+          "tools",
+          "multiagent"
+        ],
+        "labs": [
+          "closed-loop"
+        ],
+        "evaluation": [
+          "discovery",
+          "reproducibility"
+        ]
+      },
+      "keywords": [
+        "Agentic Science"
+      ],
+      "publicationYear": 2025,
+      "order": 4,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2508.14111"
+        }
+      ],
+      "titleEn": "Agentic Science: When AI Starts Taking the Next Step in Research",
+      "summaryEn": "From answering once to conducting sustained research: explore how AI plans, acts, and uses feedback, with attention to concrete examples and the limits of validation.",
+      "collection": "agents"
+    },
+    {
+      "id": "scientific-foundation-models-editorial",
+      "articleId": "scientific-foundation-models",
+      "dataUrl": "data/blog/articles/scientific-foundation-models.json",
+      "title": "科学基础模型：从任务专用走向跨问题迁移",
+      "subtitle": "",
+      "badge": "科学基础模型",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "从任务专用代理模型走向跨问题迁移，梳理科学基础模型的定义、适配与泛化能力，以及物理和数值验证要求。",
+      "categories": [
+        "foundation",
+        "math-physics",
+        "evaluation"
+      ],
+      "facets": {
+        "foundation": [
+          "spatiotemporal",
+          "multiscale"
+        ],
+        "math-physics": [
+          "mathematics",
+          "physics"
+        ],
+        "evaluation": [
+          "reproducibility"
+        ]
+      },
+      "keywords": [
+        "科学基础模型"
+      ],
+      "publicationYear": 2026,
+      "order": 5,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1016/j.neunet.2026.108567"
+        }
+      ],
+      "titleEn": "Scientific Foundation Models: From Task-Specific Models to Transfer Across Problems",
+      "summaryEn": "Explore the definitions, adaptation, and generalization of scientific foundation models, and the physical and numerical validation required as models move beyond individual tasks.",
+      "collection": "foundation"
+    },
+    {
+      "id": "scientific-knowledge-modeling-editorial",
+      "articleId": "scientific-knowledge-modeling",
+      "dataUrl": "data/blog/articles/scientific-knowledge-modeling.json",
+      "title": "科学知识建模：从异构数据走向可推理的科学知识",
+      "subtitle": "",
+      "badge": "科学知识建模",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "把科学对象、关系、适用条件与证据组织成可计算的知识，理解知识图谱与大模型怎样协同支持预测和假设生成。",
+      "categories": [
+        "knowledge",
+        "life",
+        "matter"
+      ],
+      "facets": {
+        "knowledge": [
+          "graphs",
+          "retrieval",
+          "reasoning",
+          "causal",
+          "neurosymbolic"
+        ],
+        "life": [
+          "biology",
+          "omics"
+        ],
+        "matter": [
+          "chemistry",
+          "materials",
+          "pharmacy"
+        ]
+      },
+      "keywords": [
+        "科学知识建模"
+      ],
+      "publicationYear": 2026,
+      "order": 6,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1093/nsr/nwag140"
+        }
+      ],
+      "titleEn": "Scientific Knowledge Modeling: From Heterogeneous Data to Knowledge We Can Reason With",
+      "summaryEn": "Organize scientific objects, relationships, conditions, and evidence into computable knowledge, and examine how knowledge graphs and large models support prediction and hypothesis generation.",
+      "collection": "knowledge"
+    },
+    {
+      "id": "s1-omni-editorial",
+      "articleId": "s1-omni",
+      "dataUrl": "data/blog/articles/s1-omni.json",
+      "title": "S1-Omni：让科学推理连接预测、结构与图像生成",
+      "subtitle": "共享任务表示，如何驱动不同的科学输出",
+      "badge": "S1-Omni",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "共享视觉语言主干理解任务和组织证据，再由专业解码器输出数值、位点、结构与图像，检验统一表示的收益和边界。",
+      "categories": [
+        "foundation",
+        "life",
+        "matter",
+        "evaluation"
+      ],
+      "facets": {
+        "foundation": [
+          "multimodal",
+          "molecular"
+        ],
+        "life": [
+          "biology"
+        ],
+        "matter": [
+          "chemistry"
+        ],
+        "evaluation": [
+          "multimodal"
+        ]
+      },
+      "keywords": [
+        "S1-Omni"
+      ],
+      "publicationYear": 2026,
+      "order": 7,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2607.15686"
+        }
+      ],
+      "titleEn": "S1-Omni: Connecting Scientific Reasoning with Prediction, Structures, and Image Generation",
+      "summaryEn": "A shared vision-language backbone interprets tasks and organizes evidence, while specialized decoders produce values, binding sites, structures, and images. Examine the benefits and limits of a unified representation.",
+      "collection": "foundation"
+    },
+    {
+      "id": "biomatrix-editorial",
+      "articleId": "biomatrix",
+      "dataUrl": "data/blog/articles/biomatrix.json",
+      "title": "BioMatrix：让分子、蛋白质的序列与结构进入同一个模型",
+      "subtitle": "从统一离散表示，到跨模态与跨实体建模",
+      "badge": "BioMatrix",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "BioMatrix 把分子、蛋白质的序列与三维结构转成可共同学习的离散 Token，让同一自回归主干既能读取，也能生成这些表示。",
+      "categories": [
+        "foundation",
+        "life",
+        "matter",
+        "data"
+      ],
+      "facets": {
+        "foundation": [
+          "multimodal",
+          "molecular"
+        ],
+        "life": [
+          "biology"
+        ],
+        "matter": [
+          "chemistry"
+        ],
+        "data": [
+          "curation",
+          "multimodal"
+        ]
+      },
+      "keywords": [
+        "BioMatrix"
+      ],
+      "publicationYear": 2026,
+      "order": 8,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2606.22138"
+        }
+      ],
+      "titleEn": "BioMatrix: Bringing Molecular and Protein Sequences and Structures into One Model",
+      "summaryEn": "BioMatrix converts molecular and protein sequences and 3D structures into discrete tokens that can be learned together, enabling a single autoregressive backbone to read and generate these representations.",
+      "collection": "foundation"
+    },
+    {
+      "id": "logos-editorial",
+      "articleId": "logos",
+      "dataUrl": "data/blog/articles/logos.json",
+      "title": "LOGOS：用统一科学语法连接分子、蛋白质与材料",
+      "subtitle": "从科学对象与关系的序列化，到跨领域生成",
+      "badge": "LOGOS",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "通过统一科学语法组织蛋白质、小分子、化学反应与材料，把对象之间的显式关系接入共同的生成式学习。",
+      "categories": [
+        "foundation",
+        "life",
+        "matter"
+      ],
+      "facets": {
+        "foundation": [
+          "multimodal",
+          "molecular"
+        ],
+        "life": [
+          "biology"
+        ],
+        "matter": [
+          "chemistry",
+          "materials"
+        ]
+      },
+      "keywords": [
+        "LOGOS"
+      ],
+      "publicationYear": 2026,
+      "order": 9,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://arxiv.org/abs/2606.16905"
+        }
+      ],
+      "titleEn": "LOGOS: A Unified Scientific Grammar for Molecules, Proteins, and Materials",
+      "summaryEn": "A unified scientific grammar organizes proteins, small molecules, chemical reactions, and materials, incorporating explicit relationships between objects into shared generative learning.",
+      "collection": "foundation"
+    }
+  ]
+}

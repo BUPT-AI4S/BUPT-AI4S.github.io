@@ -21,6 +21,8 @@
 .catalog-search input::placeholder { color:var(--muted); opacity:1; }
 .catalog-search select { border:0; border-radius:8px; padding:8px; max-width:130px; background:var(--card-solid); color:var(--muted); font-size:14px; min-height:38px; }
 .catalog-header-actions { display:flex; gap:8px; flex-shrink:0; }
+.catalog-header-actions>a { align-self:center; padding:8px 10px; color:var(--muted); font-size:13px; white-space:nowrap; }
+.catalog-header-actions>.catalog-home-link { color:var(--blue); font-weight:600; }
 .catalog-header-actions button { min-width:44px; min-height:44px; padding:8px; border:1px solid var(--stroke); border-radius:10px; background:var(--card-solid); color:var(--muted); font-size:13px; display:flex; align-items:center; justify-content:center; }
 .catalog-header-actions button svg { width:21px; height:21px; }
 .catalog-shell { width:calc(100% - 80px); max-width:1880px; margin:24px auto 0; display:grid; grid-template-columns:320px minmax(0,1fr); gap:24px; align-items:start; position:relative; }
@@ -154,6 +156,16 @@ html[data-theme="dark"] .discipline-button[data-discipline] { --area-color:color
 @media(max-width:1000px) { .catalog-paper-list { grid-template-columns:1fr; } .catalog-brand small { font-size:11px; } .catalog-search input { font-size:13px; } .catalog-search { gap:8px; } .catalog-search select { max-width:100px; font-size:12px; } }
 @media(max-width:760px) { .catalog-page { --nav-h:140px; } .catalog-header-inner { display:grid; grid-template-columns:1fr auto; gap:12px; padding:14px 0; } .catalog-brand { min-width:0; } .catalog-search { grid-row:2; grid-column:1/-1; width:100%; margin:0; } .catalog-header-actions { grid-column:2; grid-row:1; } .catalog-shell { display:block; margin-top:16px; } .catalog-sidebar { position:static; max-height:none; padding:0 16px; margin-bottom:16px; overflow:visible; } .sidebar-disclosure>summary { display:list-item; cursor:pointer; min-height:48px; padding:12px 0; font-size:14px; font-weight:600; } .sidebar-content { padding:12px 0 20px; } .catalog-toolbar { align-items:center; margin-bottom:16px; flex-wrap:wrap; } .catalog-view-controls { justify-content:flex-start; gap:8px; } .catalog-view-controls>select { max-width:180px; font-size:12px; } .catalog-view-controls>label { font-size:12px; } .segmented button { padding:5px 10px; min-height:34px; font-size:13px; } .catalog-paper { padding:18px; } .card-heading h2 { font-size:17px; } .catalog-paper-list { gap:14px; } .catalog-page .sidebar-check { min-height:44px; } .card-labels button { min-height:32px; } .catalog-header-actions button { min-width:40px; min-height:40px; } }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .catalog-page { transition:none; } }
+@media(max-width:600px) {
+  .catalog-header-inner { gap:10px; }
+  .catalog-brand { gap:7px; }
+  .catalog-brand img { width:32px; height:32px; }
+  .catalog-brand strong { font-size:13px; }
+  .catalog-brand-section { display:block; font-size:11px; }
+  .catalog-header-actions { gap:5px; }
+  .catalog-header-actions>a { padding:6px 4px; font-size:12px; }
+  .catalog-header-actions button { min-width:34px; min-height:36px; padding:6px; }
+}
 @media(max-width:760px) { .catalog-filterbar { padding:16px; } .catalog-field-row { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } .catalog-field-row>div:first-child { grid-column:1/-1; } .catalog-tag-row { flex-direction:column; gap:10px; margin-top:16px; } }
 /* Tags share the result count row and wrap before the view controls. */
 .catalog-toolbar{display:block;margin-bottom:24px;min-height:0}.result-info{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;margin:16px 0}.result-info .sidebar-tags{margin:0;flex:1;min-width:min(100%,260px)}.catalog-toolbar .catalog-view-controls{justify-content:flex-start;margin-top:16px}.catalog-toolbar .active-filters:not(:empty){margin:12px 0 16px}.active-filters button{border-radius:20px;padding:6px 12px}.catalog-toolbar .result-info button{border-radius:16px;min-height:34px}.catalog-filterbar{margin-bottom:16px}.catalog-field-row{gap:16px}.catalog-tag-row{display:none}

@@ -98,3 +98,9 @@ body.mind-expanded { overflow: hidden; }
 #transcript-mode{max-width:140px;padding:5px 9px;border:1px solid #dce5e9;border-radius:8px;background:#fff;color:#315c67;font:inherit;font-size:13px}
 .transcript-note{margin:0 0 8px;color:#778795;font-size:12px;line-height:1.5;flex-shrink:0}
 .transcript-note:empty{display:none}
+
+.replay-meta{display:flex;align-items:center;flex-wrap:wrap;gap:5px 18px;margin-top:7px}
+.replay-meta #meta{margin:0}
+.play-stat{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;white-space:nowrap}
+.play-stat svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-linejoin:round;stroke-width:1.4}
+.play-stat strong{font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;margin-left:3px}

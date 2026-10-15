@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title data-zh="科学智能博客 · BUPT AI4S" data-en="AI4S Blog · BUPT">科学智能博客 · BUPT AI4S</title>
+  <meta name="description" content="BUPT Reasoning 的科学智能文章解读：从科学数据、基础模型，到智能体与科学发现。">
+  <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="static/css/blog.css?v=20261015-compact-pockets">
+  <script>try{const p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('ai4s-theme'),l=p.get('lang')||localStorage.getItem('ai4s-lang');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;if(l==='en')document.documentElement.lang='en';}catch{}</script>
+</head>
+<body class="blog-catalog">
+  <a class="skip-link" href="#article-list" data-zh="跳到文章" data-en="Skip to articles">跳到文章</a>
+  <header class="blog-header">
+    <div class="container header-inner">
+      <a class="blog-brand" href="index.html" aria-label="AI4S 首页" data-label-zh="AI4S 首页" data-label-en="AI4S home"><img src="static/images/favicon.svg" width="34" height="34" alt=""><span>AI4S</span></a>
+      <nav aria-label="站点导航" data-label-zh="站点导航" data-label-en="Site navigation"><a href="index.html" class="home-link" data-zh="点击这里回到首页" data-en="Back to home">点击这里回到首页</a><a href="papers.html" data-zh="前沿速递" data-en="Research frontier">前沿速递</a><button id="lang-toggle" type="button" aria-label="Switch to English">EN</button><button id="theme-toggle" type="button" aria-label="切换深浅主题">☾ 深色</button></nav>
+    </div>
+  </header>
+  <main class="container blog-main">
+    <header class="collection-heading">
+      <div><p class="eyebrow">BUPT REASONING / AI FOR SCIENCE</p><h1><span data-zh="科学智能博客" data-en="AI4S Blog">科学智能博客</span><span aria-hidden="true">.</span></h1><p class="collection-description" data-zh="从数据与模型，到科学发现。把研究读深一点。" data-en="From data and models to scientific discovery. Read beyond the surface.">从数据与模型，到科学发现。把研究读深一点。</p></div>
+    </header>
+    <section class="pocket-library" aria-label="文章分类" data-label-zh="文章分类" data-label-en="Article collections">
+      <div class="pocket-toolbar"><h2 data-zh="按主题阅读" data-en="Explore by topic">按主题阅读</h2><button id="all-articles" type="button" aria-pressed="true" aria-controls="article-panel" data-zh="全部文章" data-en="All articles">全部文章</button></div>
+      <div id="pocket-tabs" class="pocket-tabs" role="group" aria-label="选择文章分类" data-label-zh="选择文章分类" data-label-en="Choose a collection"></div>
+    </section>
+    <section id="article-panel" class="pocket-content" data-collection="all" aria-labelledby="collection-title">
+      <header class="pocket-section-heading"><h2 id="collection-title">全部文章</h2><p id="series-description" hidden></p></header>
+      <p id="collection-status" class="sr-only" role="status" aria-live="polite"></p>
+      <div id="article-scroll" class="article-scroll" tabindex="0" aria-label="文章列表滚动区" data-label-zh="文章列表滚动区" data-label-en="Scrollable article list">
+        <div id="load-status" class="load-status" role="status">正在加载文章…</div>
+        <div id="article-list" class="article-grid"></div>
+        <div id="empty-collection" class="empty-collection" hidden><span class="empty-folder" aria-hidden="true"></span><h3 data-zh="新内容，正在路上" data-en="More to explore, soon">新内容，正在路上</h3><p data-zh="该分类暂未收录文章，后续会陆续补充。" data-en="Articles for this topic will be added here.">该分类暂未收录文章，后续会陆续补充。</p></div>
+      </div>
+    </section>
+    <noscript><p class="load-status" data-zh="请启用 JavaScript 查看文章。" data-en="Please enable JavaScript to view the articles.">请启用 JavaScript 查看文章。</p></noscript>
+  </main>
+  <script type="module" src="static/js/blog.mjs?v=20261015-compact-pockets"></script>
+</body>
+</html>
