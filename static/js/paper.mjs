@@ -144,10 +144,8 @@ function render() {
       const link = node('a', label + ' ↗'); link.href = label==='PDF'?'pdf-reader.html?'+new URLSearchParams({id:p.id,lang:root.lang==='en'?'en':'zh'}):target.href; link.target = '_blank'; link.rel = 'noopener noreferrer'; resources.append(link);
     } catch {}
   }
-  const provenance = p.notesMeta;
-  $('reading-provenance').textContent = p.imported&&!hasNotes ? tr('批量导入的论文元数据；AI 解读尚未生成。研究方向为规则初分，尚未人工复核。','Imported paper metadata; AI notes have not been generated. Research areas are rule-based and have not been reviewed.') : !hasNotes ? tr('AI 解读待补充。下方提供论文简介与原文入口。', 'AI summary pending. Read the introduction or original paper below.') : provenance ?
-    tr(`大模型生成 · ${provenance.reviewed ? '已人工审核' : '未人工审核'} · ${provenance.generated}。依据：${provenance.basisZh}`, `AI generated · ${provenance.reviewed ? 'Human reviewed' : 'Not human reviewed'} · ${provenance.generated}. Source: ${provenance.basisEn}`) :
-    tr('解读来源与审核状态待补充。', 'Summary provenance and review status pending.');
+  $('reading-provenance').hidden=!!hasNotes;
+  $('reading-provenance').textContent = hasNotes ? '' : tr('暂无','Not available yet.');
   const body = $('reading-body'), toc = $('reading-toc'); body.replaceChildren(); toc.replaceChildren();
   const sections = hasNotes?[
     {headingZh:'领域与关键词',headingEn:'Field & Keywords',textZh:[p.subfield,'关键词：'+(p.keywords||[]).join(' · '),'标签：'+paperTags(p).map(tag=>tagLabel(tag,'zh',tagTranslations,tagLabelsEn)).join(' · ')].filter(Boolean).join('\n'),textEn:[p.subfield,'Keywords: '+(p.keywords||[]).join(' · '),'Tags: '+paperTags(p).map(tag=>tagLabel(tag,'en',tagTranslations,tagLabelsEn)).join(' · ')].filter(Boolean).join('\n')},
