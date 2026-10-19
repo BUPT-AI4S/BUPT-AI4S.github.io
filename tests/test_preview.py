@@ -2,6 +2,7 @@ import sys
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 from functools import partial
 from http.server import ThreadingHTTPServer
 from pathlib import Path
@@ -9,6 +10,40 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 from preview import Handler, configure_videos
+import preview
+
+class PreviewStartupTests(unittest.TestCase):
+    def test_missing_paper_dependencies_uses_existing_index(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'data/papers').mkdir(parents=True)
+            index = root/'data/papers-index.json'
+            index.write_text('{"papers": []}')
+            for name in ('yaml', 'markdown_it', 'mdurl'):
+                with self.subTest(name=name), patch('builtins.print') as output, patch('importlib.import_module', side_effect=ModuleNotFoundError(name=name)):
+                    preview.prepare_paper_index(root)
+                    self.assertTrue(output.called)
+                    self.assertEqual(index.read_text(), '{"papers": []}')
+
+    def test_missing_index_or_unexpected_dependency_still_fails(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'data/papers').mkdir(parents=True)
+            with patch('importlib.import_module', side_effect=ModuleNotFoundError(name='yaml')):
+                with self.assertRaises(ModuleNotFoundError):
+                    preview.prepare_paper_index(root)
+            (root/'data/papers-index.json').write_text('{}')
+            with patch('importlib.import_module', side_effect=ModuleNotFoundError(name='unexpected_module')):
+                with self.assertRaises(ModuleNotFoundError):
+                    preview.prepare_paper_index(root)
+
+    def test_installed_dependencies_rebuild_index(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root/'data/papers').mkdir(parents=True)
+            with patch('importlib.import_module') as load:
+                preview.prepare_paper_index(root)
+                load.return_value.write_index.assert_called_once_with(root)
 
 class QuietHandler(Handler):
     def log_message(self, *args): pass

@@ -1,6 +1,7 @@
 """Loopback-only static preview with a mapped local video and HTTP range support."""
 import argparse
 import io
+import importlib
 import json
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -9,6 +10,19 @@ import re
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def prepare_paper_index(root):
+    if not (root / 'data/papers').is_dir():
+        return
+    try:
+        builder = importlib.import_module('build_paper_index')
+    except ModuleNotFoundError as error:
+        if error.name not in {'yaml', 'markdown_it', 'mdurl'} or not (root / 'data/papers-index.json').is_file():
+            raise
+        print('Paper index not rebuilt: optional dependencies are missing; using the existing index. '
+              'To rebuild, run: python -m pip install -r tools/papers-requirements.txt', flush=True)
+        return
+    builder.write_index(root)
 
 def configure_videos(root, course_id=None, video=None):
     catalog = json.loads((root / 'data/courses.json').read_text(encoding='utf-8'))
@@ -103,9 +117,7 @@ if __name__=='__main__':
     parser.add_argument('--port',type=int,default=8080)
     args=parser.parse_args()
     try:
-        if (ROOT/'data/papers').is_dir():
-            from build_paper_index import write_index
-            write_index(ROOT)
+        prepare_paper_index(ROOT)
         videos = configure_videos(ROOT, args.id, args.video)
     except ValueError as error:
         parser.error(str(error))

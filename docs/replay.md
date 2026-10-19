@@ -14,6 +14,14 @@ python tools/preview.py --id lecture-01 --video "D:\ai4scode\科学智能原理�
 
 大师讲堂的视频使用 `--id chairs-01 --video "视频完整路径"` 绑定。每次更新视频需要先停止预览，再指定对应课时 ID 启动。各课时绑定独立保存在本机 `.tingwu/preview-videos.json`，不会提交到 GitHub；之后直接运行 `python tools/preview.py` 就能恢复所有绑定。新增课时处理完成、进入目录后，再按实际 ID 绑定。
 
+第三讲本地预览示例（在仓库根目录执行）：
+
+```powershell
+python tools/preview.py --port 8081 --id lecture-03 --video "D:\ai4scode\科学智能原理与实践-3-2026-10-13.mp4"
+```
+
+打开 `http://127.0.0.1:8081/replay.html?course=lecture-03`。如果提示缺少论文索引构建依赖，预览会使用已有论文索引，课程和本地视频仍可正常预览；需要更新前沿速递索引时，再安装 `tools/papers-requirements.txt` 中的依赖。
+
 也可以在页面点“选择本地视频”。浏览器不上传文件，但刷新或切换课时后需要重新选择。播放进度仅保存在当前浏览器，清理浏览器数据会丢失。务必选择与当前课时对应的视频。
 
 当前第一课为真实课程记录，转写、概要、章节、问答、脑图和 PPT 内容为空，等待听悟生成；没有伪造课堂文字。

@@ -16,5 +16,11 @@
     "title": "第二讲 AI-Ready科学数据-鄂海红",
     "date": "2026-09-29",
     "data": "data/lecture-02.json"
+  },
+  {
+    "id": "lecture-03",
+    "title": "第三讲 科学基础模型-鄂海红",
+    "date": "2026-10-13",
+    "data": "data/lecture-03.json"
   }
 ]
