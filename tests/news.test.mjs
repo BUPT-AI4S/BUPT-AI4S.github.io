@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {filterNews,articleUrl,findArticle} from '../static/js/news-core.mjs';
+import {filterNews,articleUrl,findArticle,latestNews} from '../static/js/news-core.mjs';
 
 const entries=[{id:'course-dialogue',title:'与大咖对话',titleEn:'Dialogue with researchers',summary:'科学智能课程',source:'BUPT Reasoning',date:'2026-10-23'}];
 test('news search handles Chinese, English and empty queries without mutating the source',()=>{
@@ -15,4 +15,11 @@ test('article links preserve search while identifiers resolve only published ent
  assert.equal(findArticle(entries,'../private'),undefined);
  assert.equal(findArticle(entries,'missing'),undefined);
  assert.equal(findArticle(entries,'course-dialogue'),entries[0]);
+});
+test('homepage selects the newest published date regardless of catalog order without changing the catalog',()=>{
+ const older={id:'older',date:'2026-10-16'},newest={id:'newest',date:'2026-10-24'},middle={id:'middle',date:'2026-10-23'};
+ const catalog=[older,newest,middle];
+ assert.equal(latestNews(catalog),newest);
+ assert.deepEqual(catalog,[older,newest,middle]);
+ assert.equal(latestNews([]),undefined);
 });

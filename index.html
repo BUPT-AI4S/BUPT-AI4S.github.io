@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/400.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/600.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit@5.2.8/700.css">
-  <link rel="stylesheet" href="static/css/index.css?v=20261023-book">
+  <link rel="stylesheet" href="static/css/index.css?v=20261023-home-news">
   <script>
     var _hmt = _hmt || [];
     (function () {
@@ -95,6 +95,17 @@
     <section class="hero">
       <div class="hero-grid" aria-hidden="true"></div>
       <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <aside class="wrap home-news" id="home-news" aria-labelledby="home-news-label" hidden>
+        <div class="home-news-meta">
+          <span id="home-news-label"><span class="lang-zh">最新动态</span><span class="lang-en">Latest news</span></span>
+          <time id="home-news-date"></time>
+        </div>
+        <div class="home-news-content">
+          <h2><a id="home-news-title"></a></h2>
+          <p id="home-news-summary"></p>
+        </div>
+        <a class="home-news-details" id="home-news-details"><span class="lang-zh">查看详情 ↗</span><span class="lang-en">Read more ↗</span></a>
+      </aside>
       <div class="wrap hero-inner">
         <div class="hero-content">
         <p class="kicker">BUPT · AI for Science</p>
@@ -945,6 +956,7 @@
   </footer>
 
   <script src="static/js/index.js?v=20261021-nav"></script>
+  <script type="module" src="static/js/home-news.mjs?v=20261023-home-news"></script>
   <script src="static/js/metrics.js?v=20260929a"></script>
   <script src="static/js/registration.js?v=20260928-form2"></script>
 </body>

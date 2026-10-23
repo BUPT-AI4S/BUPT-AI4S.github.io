@@ -1400,3 +1400,30 @@ html[lang="en"] .hero h1 { max-width: 100%; }
   .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .hero-book { max-width: 280px; }
 }
+
+/* The homepage teaser shares the published news catalog. */
+.hero { align-content: center; row-gap: 32px; }
+.home-news { position: relative; z-index: 1; display: grid; grid-template-columns: 112px minmax(0,1fr) auto; align-items: center; gap: 24px; padding: 22px 26px; border: 1px solid var(--stroke); border-left: 3px solid var(--cyan); border-radius: 12px; background: var(--card); box-shadow: var(--shadow); }
+.home-news[hidden] { display: none; }
+.home-news-meta { display: grid; gap: 8px; font-size: 12px; }
+#home-news-label { color: var(--cyan); font-weight: 600; letter-spacing: .05em; }
+.home-news-meta time { color: var(--muted); font-variant-numeric: tabular-nums; }
+.home-news-content { min-width: 0; }
+.home-news-content h2 { margin: 0; font-size: 17px; line-height: 1.55; letter-spacing: -.015em; overflow-wrap: anywhere; }
+.home-news-content h2 a:hover { color: var(--cyan); }
+.home-news-content p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin: 7px 0 0; font-size: 13px; line-height: 1.8; color: var(--muted); }
+.home-news-details { padding: 10px 15px; border: 1px solid var(--stroke); border-radius: 8px; font-size: 13px; font-weight: 600; white-space: nowrap; color: var(--cyan); background: var(--kicker-bg); }
+.home-news-details:hover { border-color: var(--cyan); text-decoration: none; }
+.home-news a:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; }
+@media(max-width: 700px) {
+ .home-news { grid-template-columns: minmax(0,1fr) auto; gap: 15px; padding: 18px; }
+ .home-news-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+ .home-news-content { grid-row: 2; grid-column: 1 / -1; }
+ .home-news-content h2 { font-size: 16px; }
+ .home-news-details { grid-row: 1; grid-column: 2; padding: 7px 10px; font-size: 12px; }
+}
+
+.home-news { --news-ink: #087767; }
+html[data-theme="dark"] .home-news { --news-ink: var(--cyan); }
+#home-news-label, .home-news-content h2 a, .home-news-details { color: var(--news-ink); }
+.home-news-content h2 a:hover { color: var(--text); }

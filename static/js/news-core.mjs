@@ -6,3 +6,4 @@ export function articleUrl(id,query=''){
  const params=new URLSearchParams({id});if(query.trim())params.set('q',query.trim());return 'news-article.html?'+params;
 }
 export function findArticle(entries,id){return typeof id==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)?entries.find(entry=>entry.id===id):undefined;}
+export function latestNews(entries){return entries.reduce((latest,item)=>!latest||item.date>latest.date?item:latest,undefined);}
