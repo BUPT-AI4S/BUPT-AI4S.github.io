@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "cncc-2026-haihong-e",
+      "title": "鄂海红：从图谱智能体到自主发现系统，结构化知识赋能可信科学推理 | CNCC 2026",
+      "titleEn": "Haihong E at CNCC 2026: Structured Knowledge for Trustworthy Scientific Reasoning",
+      "summary": "鄂海红教授在 CNCC 2026 分享图谱智能体与自主科学发现研究，现场发布《科学智能原理与实践》教材，附完整报告视频。",
+      "summaryEn": "Haihong E presents research on knowledge-enhanced agents and autonomous scientific discovery at CNCC 2026, introduces the AI for Science textbook, and shares the full talk recording.",
+      "source": "BUPT Reasoning · 学术现场",
+      "sourceEn": "BUPT Reasoning · Research events",
+      "date": "2026-10-23",
+      "cover": "data/news/assets/cncc-2026-haihong-e/image1.jpeg"
+    },
+    {
       "id": "dialogue-with-researchers",
       "title": "与大咖对话，用AI探索科学——这门课等你来！",
       "titleEn": "Dialogue with Researchers: Exploring Science with AI",
@@ -9,7 +20,7 @@
       "summaryEn": "Inside BUPT’s AI for Science course: conversations with researchers, interdisciplinary learning and practical projects by 147 student teams.",
       "source": "BUPT Reasoning · 课程动态",
       "sourceEn": "BUPT Reasoning · Course news",
-      "date": "2026-10-23",
+      "date": "2026-10-16",
       "cover": "data/news/assets/dialogue-with-researchers/image1.jpeg"
     }
   ]

@@ -56,8 +56,8 @@ function renderArticle(){
  $('news-subtitle').textContent=article.subtitle;$('news-source').textContent=getLanguage()==='en'?entry.sourceEn||article.source:article.source;
  $('news-date').textContent=article.date;$('news-date').dateTime=article.date;
  $('news-back').href=backUrl();document.querySelectorAll('.news-return').forEach(a=>a.href=backUrl());
- $('news-toc').replaceChildren(...article.blocks.filter(block=>block.type==='heading').map(block=>{
-  const a=link(block.number+' '+block.text,'#'+block.id);a.onclick=()=>{if(matchMedia('(max-width:800px)').matches)$('news-contents').open=false;};return a;
+ $('news-toc').replaceChildren(...article.blocks.filter(block=>block.type==='heading'&&block.level!==3).map(block=>{
+  const a=link((block.number?block.number+' ':'')+block.text,'#'+block.id);a.onclick=()=>{if(matchMedia('(max-width:800px)').matches)$('news-contents').open=false;};return a;
  }));
  for(const [index,item] of images.entries())item.button.setAttribute('aria-label',tr('查看原图：','Enlarge image: ')+(item.caption||tr('讲堂海报','Lecture poster')+' '+(index+1)));
  for(const gallery of galleries){gallery.title.textContent=tr('讲堂海报','Lecture posters');gallery.hint.textContent=tr('左右浏览 · 点击海报查看原图','Browse sideways · Select a poster to enlarge');gallery.previous.setAttribute('aria-label',tr('上一张海报','Previous poster'));gallery.next.setAttribute('aria-label',tr('下一张海报','Next poster'));}
@@ -70,8 +70,15 @@ function buildBody(){
  const body=$('news-body');
  for(const block of article.blocks){
   if(block.type==='paragraph'){const p=node('p');appendText(p,block.text);body.append(p);}
-  else if(block.type==='heading'){const h=node('h2');h.id=block.id;h.append(node('span',block.number,'news-section-number'),document.createTextNode(block.text));body.append(h);}
-  else if(block.type==='image'){const figure=node('figure');figure.append(imageButton(block));if(block.caption)figure.append(node('figcaption',block.caption));body.append(figure);}
+  else if(block.type==='heading'){const h=node(block.level===3?'h3':'h2');h.id=block.id;if(block.number)h.append(node('span',block.number,'news-section-number'));h.append(document.createTextNode(block.text));body.append(h);}
+  else if(block.type==='image'){const figure=node('figure',undefined,block.compact?'news-figure-compact':'');figure.append(imageButton(block));if(block.caption)figure.append(node('figcaption',block.caption));body.append(figure);}
+  else if(block.type==='video'){
+   const url=new URL(block.src);if(url.protocol!=='https:')throw Error('News video requires HTTPS');
+   const figure=node('figure',undefined,'news-video'),video=node('video');video.controls=true;video.playsInline=true;video.preload='metadata';
+   if(block.poster)video.poster=asset(block.poster);video.setAttribute('aria-label',block.caption||'报告回看');
+   const source=node('source');source.src=url.href;source.type='video/mp4';video.append(source,link('打开报告视频 ↗',url.href,true));figure.append(video);
+   if(block.caption)figure.append(node('figcaption',block.caption));body.append(figure);
+  }
   else if(block.type==='gallery'){
    const section=node('section',undefined,'news-gallery'),heading=node('div',undefined,'news-gallery-heading'),title=node('p'),controls=node('div',undefined,'news-gallery-controls');
    const previous=node('button','←'),next=node('button','→'),counter=node('span','1 / '+block.images.length);previous.type=next.type='button';previous.disabled=true;

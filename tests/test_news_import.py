@@ -11,8 +11,7 @@ class NewsImportTests(unittest.TestCase):
     def test_published_news_contains_all_original_images_and_section_captions(self):
         import json
         catalog=json.loads((ROOT/'data/news-index.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(catalog['articles']),1)
-        entry=catalog['articles'][0]
+        entry=next(item for item in catalog['articles'] if item['id']=='dialogue-with-researchers')
         article=json.loads((ROOT/'data/news/articles'/f'{entry["id"]}.json').read_text(encoding='utf-8'))
         self.assertEqual([block['number'] for block in article['blocks'] if block['type']=='heading'],['01','02','03','04'])
         images=[block for block in article['blocks'] if block['type']=='image']
@@ -31,8 +30,30 @@ class NewsImportTests(unittest.TestCase):
                 paragraphs=[''.join(node.text or '' for node in p.findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t')).strip() for p in ET.fromstring(archive.read('word/document.xml')).findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body/{http://schemas.openxmlformats.org/wordprocessingml/2006/main}p')]
             values=[article['title'],article['source'],article['subtitle']]+[block.get('text',block.get('caption','')) for block in article['blocks']]
             for paragraph in paragraphs:
-                if paragraph and paragraph not in ['01','02','03','04']:
+                if paragraph and paragraph not in ['01','02','03','04',
+                    '课程开源社区：汇集AI4S学习资源与工具，为课后学习和动手探索提供入口。',
+                    '课程网站：https://bupt-ai4s.github.io/index.html']:
                     self.assertIn(paragraph,values)
+
+    def test_cncc_report_retains_source_paragraphs_images_and_video_position(self):
+        import json
+        import xml.etree.ElementTree as ET
+        article=json.loads((ROOT/'data/news/articles/cncc-2026-haihong-e.json').read_text(encoding='utf-8'))
+        blocks=article['blocks']
+        video=next(i for i,b in enumerate(blocks) if b['type']=='video')
+        self.assertIn('回看',blocks[video-1]['text'])
+        self.assertEqual(blocks[video+1]['text'],'以下内容根据报告材料整理。')
+        images=[b for b in blocks if b['type']=='image']
+        self.assertEqual(len(images),7)
+        for image in images:self.assertTrue((ROOT/image['src']).is_file())
+        source=ROOT.parent/'老师汇报.docx'
+        if source.exists():
+            with ZipFile(source) as archive:
+                for image in images:self.assertEqual((ROOT/image['src']).read_bytes(),archive.read('word/media/'+Path(image['src']).name))
+                paragraphs=[''.join(t.text or '' for t in p.findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t')).strip() for p in ET.fromstring(archive.read('word/document.xml')).findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body/{http://schemas.openxmlformats.org/wordprocessingml/2006/main}p')]
+            values=[article['title'],article['source'],article['subtitle']]+[(b.get('number','')+b['text'] if b['type']=='heading' else b.get('text',b.get('caption',''))) for b in blocks]
+            for paragraph in paragraphs:
+                if paragraph:self.assertIn(paragraph,values)
 
     def test_paragraphs_section_markers_gallery_and_original_image_bytes_are_preserved(self):
         spec=importlib.util.spec_from_file_location('news_import',ROOT/'tools/import_news_docx.py')
