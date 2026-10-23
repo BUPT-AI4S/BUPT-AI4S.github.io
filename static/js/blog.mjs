@@ -1,4 +1,4 @@
-import {COLLECTIONS,collectionName,filterCollection,readCollection,seriesLabel,readingLink} from './blog-core.mjs';
+import {COLLECTIONS,collectionName,filterCollection,readCollection,seriesLabel,readingLink} from './blog-core.mjs?v=20261023-chapters';
 import {setupTheme,setupLanguage,getLanguage,tr,node,link} from './blog-shared.mjs';
 setupTheme();
 const list=document.getElementById('article-list'),status=document.getElementById('load-status');

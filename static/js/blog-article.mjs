@@ -1,4 +1,4 @@
-import {collectionName,readCollection,safeLink,splitChapters,chapterFromHash} from './blog-core.mjs';
+import {collectionName,readCollection,safeLink,splitChapters,chapterFromHash} from './blog-core.mjs?v=20261023-chapters';
 import {setupTheme,setupLanguage,getLanguage,tr,node,link} from './blog-shared.mjs';
 setupTheme();
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search);
