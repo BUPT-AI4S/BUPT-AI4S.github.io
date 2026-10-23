@@ -24,7 +24,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/cncc-2026-haihong-e/image1.jpeg",
+      "src": "data/news/assets/cncc-2026-haihong-e/cncc-report-photo.jpg",
       "caption": "图 1 鄂海红教授在 CNCC 2026 报告现场。"
     },
     {
@@ -48,7 +48,7 @@
     {
       "type": "video",
       "src": "https://ai4s-course-replay-2026.oss-cn-beijing.aliyuncs.com/%E8%80%81%E5%B8%88%E6%B1%87%E6%8A%A5.mp4",
-      "poster": "data/news/assets/cncc-2026-haihong-e/image1.jpeg",
+      "poster": "data/news/assets/cncc-2026-haihong-e/cncc-report-photo.jpg",
       "caption": "鄂海红教授 CNCC 2026 专题报告回看"
     },
     {
@@ -301,7 +301,7 @@
     {
       "type": "image",
       "src": "data/news/assets/cncc-2026-haihong-e/image5.png",
-      "caption": "",
+      "caption": "书籍在线阅读二维码",
       "compact": true
     },
     {
@@ -358,7 +358,7 @@
     {
       "type": "image",
       "src": "data/news/assets/cncc-2026-haihong-e/image7.png",
-      "caption": "",
+      "caption": "课程主页二维码",
       "compact": true
     },
     {

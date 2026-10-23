@@ -49,7 +49,10 @@ class NewsImportTests(unittest.TestCase):
         source=ROOT.parent/'老师汇报.docx'
         if source.exists():
             with ZipFile(source) as archive:
-                for image in images:self.assertEqual((ROOT/image['src']).read_bytes(),archive.read('word/media/'+Path(image['src']).name))
+                for image in images:
+                    # The opening photo was replaced by the author's separate high-resolution original.
+                    if Path(image['src']).name!='cncc-report-photo.jpg':
+                        self.assertEqual((ROOT/image['src']).read_bytes(),archive.read('word/media/'+Path(image['src']).name))
                 paragraphs=[''.join(t.text or '' for t in p.findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t')).strip() for p in ET.fromstring(archive.read('word/document.xml')).findall('.//{http://schemas.openxmlformats.org/wordprocessingml/2006/main}body/{http://schemas.openxmlformats.org/wordprocessingml/2006/main}p')]
             values=[article['title'],article['source'],article['subtitle']]+[(b.get('number','')+b['text'] if b['type']=='heading' else b.get('text',b.get('caption',''))) for b in blocks]
             for paragraph in paragraphs:
