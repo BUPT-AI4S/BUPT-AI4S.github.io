@@ -1,0 +1,147 @@
+{
+  "id": "dialogue-with-researchers",
+  "title": "与大咖对话，用AI探索科学——这门课等你来！",
+  "source": "BUPT Reasoning · 课程动态",
+  "subtitle": "科学智能原理与实践",
+  "date": "2026-10-23",
+  "sourceSha256": "86121a139f7a7bd73707e5dcc1b3c98740f51963d70fca529216b0e7f29141a6",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "AI如何成为科学发现的新方法？在北京邮电大学《科学智能原理与实践》课程中，同学们正通过前沿交流与动手实践，寻找自己的答案。"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "一门课，连接AI与不同学科",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "课程面向全校研究生与高年级本科生，由徐坤校长与鄂海红老师共同授课，携手屈贺如歌等多领域教师，带来AI与通信、数学、安全、医学、材料、芯片等学科的交叉探索。同时，邀请书生·端砚、玻尔科学空间等平台团队参与实践教学，让同学们从理解前沿方法走向真实平台上的动手探索。目前，课程吸引了347名学生，覆盖13个学院、30余个专业方向。不同学科的师生在这里相遇，共同探索用AI解决科学问题的新可能。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image1.jpeg",
+      "caption": "图1｜《科学智能原理与实践》课堂现场"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "大师讲堂，与前沿研究者面对面",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "课程特别设置“大师讲堂”，已邀请上海人工智能实验室、浦江实验室主任周伯文，聚焦AI与科学发现新范式，带来前沿研究的思考与启发。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image2.jpeg",
+      "caption": "图2｜周伯文教授大师讲堂现场"
+    },
+    {
+      "type": "paragraph",
+      "text": "后续还将持续邀请AI4S及相关领域的前沿研究者与专家学者，围绕人工智能与科学发现、交叉学科前沿等主题展开交流。（右滑查看更多）"
+    },
+    {
+      "type": "gallery",
+      "images": [
+        {
+          "src": "data/news/assets/dialogue-with-researchers/image3.png",
+          "caption": ""
+        },
+        {
+          "src": "data/news/assets/dialogue-with-researchers/image4.png",
+          "caption": ""
+        },
+        {
+          "src": "data/news/assets/dialogue-with-researchers/image5.png",
+          "caption": ""
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "与专家教授面对面，你将有机会了解前沿科学问题如何提出、AI方法如何应用，也可以带着自己的研究困惑参与讨论，寻找新的思路与方向。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image6.jpeg",
+      "caption": "图3｜讲堂现场提问"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image7.jpeg",
+      "caption": "图4｜讲堂互动交流"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "组队实践，把想法变成成果",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "学到的方法，如何用起来？课程已有147个小组完成实验组队，围绕科研Skill开发、专题报告、论文复现等方向开展探索。"
+    },
+    {
+      "type": "paragraph",
+      "text": "从开发科研技能模块，到梳理前沿进展、复现研究方法，同学们将在合作中形成具体成果，练习把科学问题转化为研究任务，走过“数据—模型—推理—验证”的实践过程。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image8.jpeg",
+      "caption": "图5｜AI4S跨学科实践分组情况"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "开放共享，让学习持续发生",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "课堂之外，课程网站面向师生提供开放共享的AI4S学习资源，让前沿阅读与实践探索触手可及。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image9.png",
+      "caption": "图6｜课程网站首页：开放学习资源"
+    },
+    {
+      "type": "paragraph",
+      "text": "前沿速递：已汇聚1373篇前沿论文，帮助大家追踪AI4S研究动态，发现感兴趣的方向。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image10.png",
+      "caption": "图7｜前沿速递：追踪AI4S研究动态"
+    },
+    {
+      "type": "paragraph",
+      "text": "博客：通过论文解读，帮助大家理解研究问题与方法，为深入阅读原文提供参考。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/dialogue-with-researchers/image11.png",
+      "caption": "图8｜博客栏目：理解研究问题与方法"
+    },
+    {
+      "type": "paragraph",
+      "text": "课程开源社区：汇集AI4S学习资源与工具，为课后学习和动手探索提供入口。"
+    },
+    {
+      "type": "paragraph",
+      "text": "课程网站：https://bupt-ai4s.github.io/index.html"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎走进课堂、参与讲堂，也欢迎从一篇论文、一次实践开始，与我们一起探索AI驱动科学发现的新可能！"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎关注 BUPT Reasoning，和我们一起读前沿论文、学 AI4S 方法，让《科学智能原理与实践》的学习从课堂延伸到日常。"
+    }
+  ]
+}

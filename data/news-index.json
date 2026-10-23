@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "articles": [
+    {
+      "id": "dialogue-with-researchers",
+      "title": "与大咖对话，用AI探索科学——这门课等你来！",
+      "titleEn": "Dialogue with Researchers: Exploring Science with AI",
+      "summary": "从大师讲堂的前沿交流，到147个小组的实践探索，走进北京邮电大学《科学智能原理与实践》的课堂。",
+      "summaryEn": "Inside BUPT’s AI for Science course: conversations with researchers, interdisciplinary learning and practical projects by 147 student teams.",
+      "source": "BUPT Reasoning · 课程动态",
+      "sourceEn": "BUPT Reasoning · Course news",
+      "date": "2026-10-23",
+      "cover": "data/news/assets/dialogue-with-researchers/image1.jpeg"
+    }
+  ]
+}

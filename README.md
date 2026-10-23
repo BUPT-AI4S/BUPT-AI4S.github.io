@@ -10,6 +10,8 @@
 
 教材阅读：[《科学智能原理与实践》书籍官网](https://bupt-ai4s.github.io/ai4s-book/)。课程首页提供封面和教材入口；旧课程教材地址自动跳转到书籍官网。
 
+课程动态：[动态列表](https://bupt-ai4s.github.io/news.html)。新闻正文、海报与图片维护方式见 [动态维护说明](docs/news.md)。
+
 本地预览：
 
 ```bash

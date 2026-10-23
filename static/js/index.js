@@ -86,6 +86,7 @@
     else url.searchParams.delete("lang");
     history.replaceState({}, "", url);
     updateThemeButton();
+    document.dispatchEvent(new Event("ai4s-language-change"));
   }
 
   function setTheme(theme) {
@@ -181,7 +182,7 @@
       if (!href.startsWith("#")) return;
       link.classList.toggle("is-active", href === `#${current}`);
     });
-    introToggle?.classList.toggle("is-active", sectionIds.includes(current));
+    introToggle?.classList.toggle("is-active", sectionIds.includes(current) && Boolean(document.getElementById(current)));
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
