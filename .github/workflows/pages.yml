@@ -31,7 +31,7 @@ jobs:
         run: python tools/build_paper_index.py --site
       - name: Test catalog and collector
         run: |
-          node --test tests/papers.test.mjs tests/replay.test.mjs tests/replay-metrics.test.mjs tests/blog.test.mjs
+          node --test tests/papers.test.mjs tests/replay.test.mjs tests/replay-metrics.test.mjs tests/blog.test.mjs tests/blog-chapters.test.mjs
           python -m unittest discover -s tests -p test_blog_import.py
           python -m unittest discover -s tests -p test_paper_index.py
           python -m unittest discover -s tests -p test_paper_markdown.py

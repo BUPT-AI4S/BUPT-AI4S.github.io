@@ -4,11 +4,17 @@ setupTheme();
 const list=document.getElementById('article-list'),status=document.getElementById('load-status');
 let entries=null,failed=false;
 let collection=readCollection(location.search);
+const drawer=document.getElementById('category-drawer'),categoryToggle=document.getElementById('category-toggle');
+categoryToggle.onclick=()=>{drawer.showModal();categoryToggle.setAttribute('aria-expanded','true');};
+document.getElementById('category-close').onclick=()=>drawer.close();
+drawer.addEventListener('close',()=>categoryToggle.setAttribute('aria-expanded','false'));
+drawer.addEventListener('click',event=>{if(event.target===drawer){const r=drawer.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)drawer.close();}});
 function selectCollection(id){
   collection=id;
   const url=new URL(location.href);if(id==='all')url.searchParams.delete('category');else url.searchParams.set('category',id);
   url.hash='';history.replaceState(null,'',url);render();
-  document.getElementById('article-scroll').scrollTop=0;
+  if(drawer.open)drawer.close();
+  document.getElementById('article-panel').scrollIntoView({behavior:'instant',block:'start'});
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)list.animate([{opacity:.4,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:230,easing:'ease-out'});
   document.getElementById(id==='all'?'all-articles':'pocket-'+id)?.focus({preventScroll:true});
 }
@@ -25,6 +31,12 @@ function renderPockets(){
     button.onclick=()=>selectCollection(group.id);return button;
   });
   document.getElementById('pocket-tabs').replaceChildren(...buttons);
+  document.getElementById('category-options').replaceChildren(...[{id:'all'},...COLLECTIONS].map(group=>{
+    const button=node('button',undefined,'category-option');button.type='button';button.dataset.collection=group.id;
+    button.setAttribute('aria-pressed',String(collection===group.id));
+    button.append(node('span',collectionName(group.id,getLanguage())),node('span',entries?String(filterCollection(entries,group.id).length):'…','category-count'));
+    button.onclick=()=>selectCollection(group.id);return button;
+  }));
   document.getElementById('all-articles').setAttribute('aria-pressed',String(collection==='all'));
   document.getElementById('article-panel').dataset.collection=collection;
   document.getElementById('collection-title').textContent=collectionName(collection,getLanguage());
@@ -75,8 +87,7 @@ async function load(){
     if(target&&collection!=='all'&&target.collection!==collection)collection=target.collection;
     render();
     if(target){
-      const scroll=document.getElementById('article-scroll'),card=document.getElementById(target.articleId);
-      scroll.scrollTop+=card.getBoundingClientRect().top-scroll.getBoundingClientRect().top-4;
+      document.getElementById(target.articleId).scrollIntoView({behavior:'instant',block:'start'});
     }
   }catch{
     failed=true;render();

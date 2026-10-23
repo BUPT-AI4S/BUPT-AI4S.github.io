@@ -11,4 +11,6 @@ node_modules/
 _site/
 .paper-deps/
 .tmp/
+.textbook-source/
+textbook-source/
 data/papers-built/

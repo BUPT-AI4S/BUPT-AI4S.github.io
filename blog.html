@@ -6,7 +6,7 @@
   <title data-zh="科学智能博客 · BUPT AI4S" data-en="AI4S Blog · BUPT">科学智能博客 · BUPT AI4S</title>
   <meta name="description" content="BUPT Reasoning 的科学智能文章解读：从科学数据、基础模型，到智能体与科学发现。">
   <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="static/css/blog.css?v=20261015-compact-pockets">
+  <link rel="stylesheet" href="static/css/blog.css?v=20261021-reading-size">
   <script>try{const p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('ai4s-theme'),l=p.get('lang')||localStorage.getItem('ai4s-lang');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;if(l==='en')document.documentElement.lang='en';}catch{}</script>
 </head>
 <body class="blog-catalog">
@@ -14,7 +14,7 @@
   <header class="blog-header">
     <div class="container header-inner">
       <a class="blog-brand" href="index.html" aria-label="AI4S 首页" data-label-zh="AI4S 首页" data-label-en="AI4S home"><img src="static/images/favicon.svg" width="34" height="34" alt=""><span>AI4S</span></a>
-      <nav aria-label="站点导航" data-label-zh="站点导航" data-label-en="Site navigation"><a href="index.html" class="home-link" data-zh="点击这里回到首页" data-en="Back to home">点击这里回到首页</a><a href="papers.html" data-zh="前沿速递" data-en="Research frontier">前沿速递</a><button id="lang-toggle" type="button" aria-label="Switch to English">EN</button><button id="theme-toggle" type="button" aria-label="切换深浅主题">☾ 深色</button></nav>
+      <nav aria-label="站点导航" data-label-zh="站点导航" data-label-en="Site navigation"><a href="index.html" class="home-link" data-zh="课程首页" data-en="Course home">课程首页</a><a href="papers.html" data-zh="前沿速递" data-en="Research frontier">前沿速递</a><button id="category-toggle" type="button" aria-expanded="false" aria-controls="category-drawer" data-zh="分类 ☷" data-en="Topics ☷">分类 ☷</button><button id="lang-toggle" type="button" aria-label="Switch to English">EN</button><button id="theme-toggle" type="button" aria-label="切换深浅主题">☾ 深色</button></nav>
     </div>
   </header>
   <main class="container blog-main">
@@ -28,7 +28,7 @@
     <section id="article-panel" class="pocket-content" data-collection="all" aria-labelledby="collection-title">
       <header class="pocket-section-heading"><h2 id="collection-title">全部文章</h2><p id="series-description" hidden></p></header>
       <p id="collection-status" class="sr-only" role="status" aria-live="polite"></p>
-      <div id="article-scroll" class="article-scroll" tabindex="0" aria-label="文章列表滚动区" data-label-zh="文章列表滚动区" data-label-en="Scrollable article list">
+      <div id="article-scroll" class="article-scroll">
         <div id="load-status" class="load-status" role="status">正在加载文章…</div>
         <div id="article-list" class="article-grid"></div>
         <div id="empty-collection" class="empty-collection" hidden><span class="empty-folder" aria-hidden="true"></span><h3 data-zh="新内容，正在路上" data-en="More to explore, soon">新内容，正在路上</h3><p data-zh="该分类暂未收录文章，后续会陆续补充。" data-en="Articles for this topic will be added here.">该分类暂未收录文章，后续会陆续补充。</p></div>
@@ -36,6 +36,10 @@
     </section>
     <noscript><p class="load-status" data-zh="请启用 JavaScript 查看文章。" data-en="Please enable JavaScript to view the articles.">请启用 JavaScript 查看文章。</p></noscript>
   </main>
-  <script type="module" src="static/js/blog.mjs?v=20261015-compact-pockets"></script>
+  <dialog id="category-drawer" class="category-drawer" aria-labelledby="category-drawer-title">
+    <div class="category-drawer-heading"><h2 id="category-drawer-title" data-zh="选择文章分类" data-en="Choose a topic">选择文章分类</h2><button id="category-close" type="button" aria-label="关闭分类" data-label-zh="关闭分类" data-label-en="Close topics">×</button></div>
+    <div id="category-options" class="category-options"></div>
+  </dialog>
+  <script type="module" src="static/js/blog.mjs?v=20261021-chapters"></script>
 </body>
 </html>

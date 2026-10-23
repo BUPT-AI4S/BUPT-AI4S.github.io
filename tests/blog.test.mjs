@@ -4,11 +4,13 @@ import {readFileSync,existsSync} from 'node:fs';
 import {safeLink,readingLink,categoryName,COLLECTIONS,filterCollection,readCollection,seriesLabel} from '../static/js/blog-core.mjs';
 const catalog=JSON.parse(readFileSync(new URL('../data/blog-index.json',import.meta.url),'utf8'));
 
-test('ten editorials retain reading order and all body text and images resolve',()=>{
+test('fifteen editorials retain reading order and all body text and images resolve',()=>{
   assert.deepEqual(catalog.articles.map(entry=>entry.articleId),[
     'scientific-model-start','scientific-model-capabilities','scientific-model-scores',
     'scientific-agent-data','agentic-science','scientific-foundation-models',
-    'scientific-knowledge-modeling','s1-omni','biomatrix','logos'
+    'scientific-knowledge-modeling','s1-omni','biomatrix','logos',
+    'scientific-foundation-pretraining','scientific-data-ai4s',
+    'virtual-biotech-clinical-data','virtual-biotech-treatment-hypotheses','scientific-agent-harness'
   ]);
   assert.deepEqual(Object.keys(catalog),['articles']);
   for(const entry of catalog.articles){
@@ -37,17 +39,18 @@ test('every editorial has an English title and card summary without changing Chi
   assert.equal(categoryName('foundation','zh'),'科学基础模型');
 });
 
-test('editorials retain their four collections and leave nine more topics ready for future content',()=>{
+test('new editorials join their topics while empty collections remain ready for future content',()=>{
   assert.deepEqual(COLLECTIONS.map(group=>group.id),['reviews','agents','foundation','knowledge','data','evaluation','labs','math-physics','life','matter','earth','information','social']);
   assert.deepEqual(filterCollection(catalog.articles,'reviews').map(entry=>entry.seriesPart),[1,2,3,4]);
-  assert.deepEqual(filterCollection(catalog.articles,'agents').map(entry=>entry.articleId),['agentic-science']);
-  assert.deepEqual(filterCollection(catalog.articles,'foundation').map(entry=>entry.articleId),['scientific-foundation-models','s1-omni','biomatrix','logos']);
+  assert.deepEqual(filterCollection(catalog.articles,'agents').map(entry=>entry.articleId),['agentic-science','virtual-biotech-clinical-data','virtual-biotech-treatment-hypotheses','scientific-agent-harness']);
+  assert.deepEqual(filterCollection(catalog.articles,'foundation').map(entry=>entry.articleId),['scientific-foundation-models','s1-omni','biomatrix','logos','scientific-foundation-pretraining']);
   assert.deepEqual(filterCollection(catalog.articles,'knowledge').map(entry=>entry.articleId),['scientific-knowledge-modeling']);
-  assert.equal(filterCollection(catalog.articles,'all').length,10);
-  assert.equal(catalog.articles.length,10);
+  assert.equal(filterCollection(catalog.articles,'all').length,15);
+  assert.equal(catalog.articles.length,15);
   assert.equal(seriesLabel(catalog.articles[2],'zh'),'精读（三）');
   assert.equal(seriesLabel(catalog.articles[2],'en'),'Part III');
-  for(const id of ['data','evaluation','labs','math-physics','life','matter','earth','information','social']){
+  assert.deepEqual(filterCollection(catalog.articles,'data').map(entry=>entry.articleId),['scientific-data-ai4s']);
+  for(const id of ['evaluation','labs','math-physics','life','matter','earth','information','social']){
     assert.deepEqual(filterCollection(catalog.articles,id),[]);
     assert.equal(readCollection('?category='+id),id);
     assert.ok(COLLECTIONS.find(group=>group.id===id).en);

@@ -181,7 +181,7 @@
       if (!href.startsWith("#")) return;
       link.classList.toggle("is-active", href === `#${current}`);
     });
-    introToggle?.classList.toggle("is-active", ["about", "goals", "curriculum", "domains", "team"].includes(current));
+    introToggle?.classList.toggle("is-active", sectionIds.includes(current));
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });

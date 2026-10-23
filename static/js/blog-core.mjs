@@ -33,3 +33,24 @@ export function safeLink(value){
   if(/^[a-z][a-z\d+.-]*:/i.test(value)||value.startsWith('/'))return null;
   return value;
 }
+
+// Preserve the former heading IDs so links into older articles still resolve.
+export function splitChapters(blocks){
+  const chapters=[];let chapter,headingIndex=0;
+  for(const source of blocks){
+    const block={...source};
+    if(block.type==='heading')block.headingId='part-'+(++headingIndex);
+    if(block.type==='heading'&&block.level!==3){
+      chapter={id:block.headingId,title:block.text,blocks:[]};chapters.push(chapter);
+    }else if(!chapter){
+      chapter={id:'intro',title:null,blocks:[]};chapters.push(chapter);
+    }
+    chapter.blocks.push(block);
+  }
+  return chapters;
+}
+export function chapterFromHash(chapters,hash){
+  let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return 0;}
+  const index=chapters.findIndex(chapter=>chapter.id===id||chapter.blocks.some(block=>block.headingId===id));
+  return index<0?0:index;
+}

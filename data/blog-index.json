@@ -456,6 +456,146 @@
       "titleEn": "LOGOS: A Unified Scientific Grammar for Molecules, Proteins, and Materials",
       "summaryEn": "A unified scientific grammar organizes proteins, small molecules, chemical reactions, and materials, incorporating explicit relationships between objects into shared generative learning.",
       "collection": "foundation"
+    },
+    {
+      "id": "scientific-foundation-pretraining-editorial",
+      "articleId": "scientific-foundation-pretraining",
+      "dataUrl": "data/blog/articles/scientific-foundation-pretraining.json",
+      "title": "科学基础模型的预训练：几种描述，如何共同参与学习？",
+      "subtitle": "",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "以分子的多模态表示为例，理解遮蔽恢复、跨模态对齐、信息融合怎样参与预训练，以及预训练如何衔接下游性质预测。",
+      "categories": [
+        "foundation"
+      ],
+      "keywords": [
+        "科学基础模型的预训练"
+      ],
+      "order": 10,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1093/nsr/nwaf495"
+        }
+      ],
+      "titleEn": "Scientific Foundation Model Pretraining: How Multiple Representations Learn Together",
+      "summaryEn": "Explore molecular representations, masked recovery, cross-modal alignment and information fusion, and how multimodal pretraining connects to downstream property prediction.",
+      "collection": "foundation"
+    },
+    {
+      "id": "scientific-data-ai4s-editorial",
+      "articleId": "scientific-data-ai4s",
+      "dataUrl": "data/blog/articles/scientific-data-ai4s.json",
+      "title": "科学数据如何进入AI4S 模型？",
+      "subtitle": "以 CatalystBench 为例，看研究记录怎样成为可学习、可检验的任务样本。",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "以 CatalystBench 为例，追踪研究记录怎样经过整理、任务构建、质量检查与评估，成为可学习、可检验的科学数据。",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "科学数据如何进入AI4S 模型"
+      ],
+      "order": 11,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/3449f32354933cd6f063112897c406f2-Abstract-Conference.html"
+        }
+      ],
+      "titleEn": "How Scientific Data Enters AI4S Models",
+      "summaryEn": "Using CatalystBench, follow how research records are curated, organized into tasks, checked for quality and evaluated as learnable, testable scientific data.",
+      "collection": "data"
+    },
+    {
+      "id": "virtual-biotech-clinical-data-editorial",
+      "articleId": "virtual-biotech-clinical-data",
+      "dataUrl": "data/blog/articles/virtual-biotech-clinical-data.json",
+      "title": "多智能体如何把临床数据转化为研发线索？",
+      "subtitle": "以 Virtual Biotech 为例，看专业分工、临床试验整理与单细胞分析怎样形成可检验的研发线索。",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "以 Virtual Biotech 为例，解析专业智能体的分工，以及临床试验整理与单细胞分析如何形成可检验的研发线索。",
+      "categories": [
+        "agents"
+      ],
+      "keywords": [
+        "多智能体如何把临床数据转化为研发线索"
+      ],
+      "order": 12,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1126/science.aeg6779"
+        }
+      ],
+      "titleEn": "How Multiple Agents Turn Clinical Data into Research Leads",
+      "summaryEn": "Examine the division of work in Virtual Biotech and how clinical trial curation and single-cell analysis produce research leads that can be further tested.",
+      "collection": "agents"
+    },
+    {
+      "id": "virtual-biotech-treatment-hypotheses-editorial",
+      "articleId": "virtual-biotech-treatment-hypotheses",
+      "dataUrl": "data/blog/articles/virtual-biotech-treatment-hypotheses.json",
+      "title": "多智能体如何提出并检验治疗假设？",
+      "subtitle": "以 Virtual Biotech 为例，看肺癌治疗假设与临床失败分析怎样连接证据、审查和验证。",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "沿着 Virtual Biotech 的肺癌治疗假设与临床失败分析，理解多智能体如何连接证据、科学审查和后续验证。",
+      "categories": [
+        "agents"
+      ],
+      "keywords": [
+        "多智能体如何提出并检验治疗假设"
+      ],
+      "order": 13,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1126/science.aeg6779"
+        }
+      ],
+      "titleEn": "How Multiple Agents Propose and Test Therapeutic Hypotheses",
+      "summaryEn": "Follow lung cancer hypotheses and clinical failure analysis in Virtual Biotech to understand how multiple agents connect evidence, scientific review and further validation.",
+      "collection": "agents"
+    },
+    {
+      "id": "scientific-agent-harness-editorial",
+      "articleId": "scientific-agent-harness",
+      "dataUrl": "data/blog/articles/scientific-agent-harness.json",
+      "title": "科学智能体的 Harness 如何支撑科研任务执行？",
+      "subtitle": "以 Nature 的 AI Scientist 为例",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "以 AI Scientist 为例，理解 Harness 如何组织研究构思、分阶段实验、运行记录、论文写作与评审，支撑科研任务执行。",
+      "categories": [
+        "agents"
+      ],
+      "keywords": [
+        "科学智能体的 Harness 如何支撑科研任务执行"
+      ],
+      "order": 14,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://www.nature.com/articles/s41586-026-10265-5"
+        }
+      ],
+      "titleEn": "How a Scientific Agent Harness Supports Research Execution",
+      "summaryEn": "Using AI Scientist, explore how a harness organizes research ideas, staged experiments, execution records, paper writing and review to support scientific research tasks.",
+      "collection": "agents"
     }
   ]
 }

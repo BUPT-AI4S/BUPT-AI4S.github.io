@@ -58,7 +58,7 @@ def import_document(source, article_id, kind, title=None, root=ROOT):
                 blocks.append({'type':'image','src':f'data/blog/assets/{article_id}/{name}','caption':''})
             if not content:
                 continue
-            if blocks and blocks[-1]['type']=='image' and (re.match(r'^(图\s*\d+|原论文图\s*\d+|全文导览)',content) or content.startswith('官方书影')):
+            if blocks and blocks[-1]['type']=='image' and not blocks[-1]['caption'] and (re.match(r'^(图\s*\d+|原论文图\s*\d+|全文导览)',content) or content.startswith('官方书影')):
                 blocks[-1]['caption']=content
                 continue
             style = element.find('w:pPr/w:pStyle',NS)
