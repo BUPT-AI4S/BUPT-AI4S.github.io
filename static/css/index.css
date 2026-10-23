@@ -289,6 +289,8 @@ a:hover {
 }
 
 .nav-dropdown {
+  max-height: calc(100dvh - var(--nav-h) - 24px);
+  overflow-y: auto;
   position: absolute;
   top: 100%;
   left: -12px;
@@ -1256,6 +1258,8 @@ html[lang="en"] .hero h1 {
   }
 
   .nav-dropdown {
+  max-height: calc(100dvh - var(--nav-h) - 24px);
+  overflow-y: auto;
     position: static;
     min-width: 0;
     margin-top: 4px;
@@ -1341,4 +1345,58 @@ html[lang="en"] .hero h1 {
   body { transition: none; }
   .hero-canvas { display: none; }
   .btn, .domain-card { transition: none; }
+}
+
+/* Course textbook: share the hero with the official book website. */
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+  align-items: center;
+  gap: clamp(32px, 4vw, 64px);
+}
+
+.hero-content { min-width: 0; }
+html[lang="en"] .hero h1 { max-width: 100%; }
+
+.hero-book {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 320px;
+  justify-self: center;
+}
+
+.hero-book-cover {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.hero-book-cover img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.hero-book-caption {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+.hero-book-cover:hover { border-color: var(--hover-border); text-decoration: none; }
+.hero-book-cover:focus-visible { outline: 3px solid var(--cyan); outline-offset: 5px; }
+.hero-book > .btn { width: 100%; text-align: center; }
+
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .hero-book { max-width: 280px; }
 }
