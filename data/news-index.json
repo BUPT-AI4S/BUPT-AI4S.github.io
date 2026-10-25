@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "wyss-2026-haihong-e",
+      "title": "鄂海红：当AI成为科学家，构建AI4S可信基础设施 | WYSS 2026",
+      "titleEn": "Haihong E at WYSS 2026: Building Trustworthy Infrastructure for AI for Science",
+      "summary": "鄂海红教授在世界青年科学家峰会欧洲专场与温州平行论坛作报告，围绕科学证据核验、科研诚信与学术出版，分享 AI4S 可信基础设施研究。",
+      "summaryEn": "At the WYSS 2026 European event and Wenzhou parallel forum, Haihong E discusses scientific evidence verification, research integrity and trustworthy infrastructure for AI for Science.",
+      "source": "BUPT Reasoning · 学术现场",
+      "sourceEn": "BUPT Reasoning · Research events",
+      "date": "2026-10-25",
+      "cover": "data/news/assets/wyss-2026-haihong-e/wyss-report-cover.webp"
+    },
+    {
       "id": "cncc-2026-haihong-e",
       "title": "鄂海红：从图谱智能体到自主发现系统，结构化知识赋能可信科学推理 | CNCC 2026",
       "titleEn": "Haihong E at CNCC 2026: Structured Knowledge for Trustworthy Scientific Reasoning",
