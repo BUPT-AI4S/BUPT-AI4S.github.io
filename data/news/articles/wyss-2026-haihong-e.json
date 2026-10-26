@@ -28,7 +28,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image1.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image1-original.jpg",
       "caption": "图 1｜鄂海红教授在 2026 世界青年科学家峰会欧洲专场作专题报告，布鲁塞尔，10 月 16 日。图源：会议现场照片。"
     },
     {
@@ -37,7 +37,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image2.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image2-original.jpg",
       "caption": "图 2｜鄂海红教授在峰会平行论坛“青年科学家与一流期刊共生发展论坛”作报告，温州，10 月 25 日。图源：会议现场照片。"
     },
     {
@@ -56,7 +56,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image3.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image3-original.png",
       "caption": "图 3｜独立性、真实性、支持性：科研智能体作出建议前的三项核验。图源：欧洲专场报告第 3 页。"
     },
     {
@@ -76,7 +76,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image4.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image4-original.png",
       "caption": "图 4｜跨论文图像复用案例：相同颜色标记表示匹配区域。图源：欧洲专场报告第 6 页。"
     },
     {
@@ -183,7 +183,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image5.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image5-original.png",
       "caption": "图 5｜从科研诚信检测、人机协作治理到自主科学发现中的科学幻觉治理。图源：温州论坛报告第 5 页。"
     },
     {
@@ -203,7 +203,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image6.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image6-original.png",
       "caption": "图 6｜以条件提取、来源检索、对象对齐和确定性复算支撑科学核验。图源：温州论坛报告第 27 页。"
     },
     {
@@ -243,7 +243,7 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/wyss-2026-haihong-e/image7.png",
+      "src": "data/news/assets/wyss-2026-haihong-e/image7-original.jpg",
       "caption": "图 7｜鄂海红教授参加“AI 与学术出版”圆桌交流。图源：10 月 25 日温州论坛现场照片。"
     },
     {
