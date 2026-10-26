@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "besc-2026-haihong-e",
+      "title": "鄂海红：以 AI 治理 AI，从生成式伪造检测到科研诚信治理 | BESC 2026",
+      "titleEn": "Haihong E at BESC 2026: Governing AI with AI for Research Integrity",
+      "summary": "鄂海红教授在 BESC 2026 主持“以 AI 治理 AI”专题分会，围绕学术出版治理、图文一致性与图像取证，探讨如何将自动检测转化为可核查的证据。",
+      "summaryEn": "Haihong E chairs the Governing AI with AI special session at BESC 2026, connecting editorial review, academic image–text consistency and image forensics with verifiable evidence.",
+      "source": "BUPT Reasoning · 学术现场",
+      "sourceEn": "BUPT Reasoning · Research events",
+      "date": "2026-10-26",
+      "cover": "data/news/assets/besc-2026-haihong-e/besc-report-cover.webp"
+    },
+    {
       "id": "wyss-2026-haihong-e",
       "title": "鄂海红：当AI成为科学家，构建AI4S可信基础设施 | WYSS 2026",
       "titleEn": "Haihong E at WYSS 2026: Building Trustworthy Infrastructure for AI for Science",

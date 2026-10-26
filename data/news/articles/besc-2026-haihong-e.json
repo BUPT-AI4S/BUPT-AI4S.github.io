@@ -1,0 +1,300 @@
+{
+  "id": "besc-2026-haihong-e",
+  "title": "鄂海红：以 AI 治理 AI，从生成式伪造检测到科研诚信治理 | BESC 2026",
+  "source": "BUPT Reasoning",
+  "subtitle": "学术现场 · BESC 2026",
+  "date": "2026-10-26",
+  "sourceSha256": "3bc23ed4a3ffdaf9a39cb9d37041ccc87b5882eeaa9e44b1eb63f28f7b934ac1",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "学术出版 · 生成式伪造 · 图像取证 · 人机协同治理"
+    },
+    {
+      "type": "paragraph",
+      "text": "由北京邮电大学鄂海红教授担任程序主席、组织征稿的 “以 AI 治理 AI：打击生成式伪造，维护社会计算中的学术诚信” 专题分会，共录用 7 篇论文。2026 年 10 月 26 日下午，鄂海红教授在泰国曼谷举行的第十三届行为与社会计算国际会议（BESC 2026）上主持该分会的口头报告交流，围绕生成式内容治理、科研诚信与相关计算方法展开讨论。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/scene-haihong-e.jpg",
+      "caption": "图 1｜鄂海红教授在 BESC 2026 会议现场。图源：会议现场照片。"
+    },
+    {
+      "type": "paragraph",
+      "text": "生成式 AI 正在帮助研究者检索、写作和分析，也使虚构文本、图像操纵与论文工厂的批量生产更容易获得专业外观。面对这些变化，学术审查需要回答更具体的问题：引用能否支撑论断，图片是否与文字一致，图像经过平台传播后是否仍可核验，以及模型发现的异常应如何交由人来判断。"
+    },
+    {
+      "type": "paragraph",
+      "text": "以 AI 治理 AI，需要把自动检测转化为可核查的证据，让模型发现线索，让研究者与编辑据此作出有依据、可追溯的判断。"
+    },
+    {
+      "type": "paragraph",
+      "text": "围绕“以 AI 治理 AI”，分会将讨论落到科研诚信中的具体问题：如何识别生成式伪造，如何核验学术图像与文字的关系，以及如何让自动检测结果成为编辑和专家能够使用的证据。从治理框架到图像取证，不同研究共同回应了学术出版面临的新挑战。"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "从生成式伪造到可追溯的学术审查",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "科研诚信风险可能同时出现在文本、引文、图像、数据与投稿行为中。一段文字即使表达流畅，也可能引用不存在的文献；一幅图像即使未经像素修改，也可能被配上不相符的实验说明。不同风险需要不同证据，单一的“AI 生成概率”难以覆盖整篇论文的可信性。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本次分会中，三项研究分别从 治理框架、图文一致性与图像来源关系 切入这一问题：先明确应检查什么、由谁复核，再把检查落实到论文中的图表与经过传播的图像。"
+    },
+    {
+      "type": "heading",
+      "number": "1.1",
+      "text": "学术出版治理：把分散信号组织成编辑可用的证据",
+      "id": "section-1-1",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "Governing AI with AI in Scholarly Publishing: A Social-Computing Taxonomy of GenAI-Enabled Academic Forgery and Human-in-the-Loop Editorial Review"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者：Muchen Li"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究单位：北京邮电大学"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文集：Behavioural and Social Computing（BESC 2026，LNCS 17176，Springer，2027）"
+    },
+    {
+      "type": "paragraph",
+      "text": "Muchen Li 的研究将学术出版视为作者、审稿人、编辑、出版社和平台共同参与的社会计算系统，提出连接 风险对象、检测信号、方法类型、治理阶段与人工监督 的五维分类框架[1]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/scene-taxonomy-matched.jpg",
+      "caption": "图 2｜学术出版治理研究报告现场，展示风险对象、检测信号、方法类型、治理阶段与人工监督的五维分类框架。图源：会议现场照片。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这一框架的价值在于把检测结果放回具体审查任务。引文检查要区分“这篇文献是否存在”和“它是否支持当前论断”；图像取证要定位重复或可疑区域；关系网络分析则用于发现需要进一步核查的协同模式。每类方法都有不同的误差来源，需要与其他证据相互印证。"
+    },
+    {
+      "type": "paragraph",
+      "text": "从社会计算视角看，论文工厂也涉及批量生产、投稿渠道和引用关系等组织行为。同一套写作模板或图像素材可能分散到多篇论文中，单独检查某一段文字容易遗漏这些联系。因此，研究将内容层面的异常与作者、引文和审稿流程中的关系信号放在一起讨论，并要求结合学科环境理解这些模式。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文进一步设计了人在回路的编辑工作流。稿件经过初筛后，系统生成证据报告，记录被标记的内容、对应来源、工具版本与不确定性；编辑据此分流给图像、统计或学科专家，必要时向作者索取原始材料，并保留回复、复核和最终决定。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/figure-1-editorial-workflow.png",
+      "caption": "图 3｜从自动初筛、证据报告到专家复核、作者回应与决策记录的治理流程。图源：Behavioural and Social Computing（BESC 2026 论文集，LNCS 17176），文献 [1]，原文图 2，第 282 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文给出了一个说明流程的示例：一篇投稿通过了通用文本检测，却存在两处 DOI 与题名不匹配、一个与既有论文相似的子图，以及密集的相互引用。编辑需要将这些问题分别交给文献核验、图像专家和熟悉领域结构的审查者，同时请作者补充引用说明与原始图像。最终决定由这些核查结果共同支撑。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这是一项分类与治理设计研究，其贡献是把分散的技术工具连接到可执行的审查环节。对于期刊和研究机构，值得关注的是证据报告能否回答三个问题：具体哪里需要复核，依据是什么，下一步由谁检查。"
+    },
+    {
+      "type": "heading",
+      "number": "1.2",
+      "text": "论文工厂识别：检查图像是否支持文字结论",
+      "id": "section-1-2",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "Paper Mill Detection Based on MLLM-Driven Academic Image–Text Consistency Assessment"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者：Junpeng Ding、Tzu-Yen Ma、Zichen Tang、Mengyuan Ji、Jun Zhang、Chenghao Ma、Siying Lin、Linyao Qi、Jintong Chen、Ziyi Zhang、Qing Huang、Haocheng Gao、Yifan Zhu、Haihong E"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究单位：北京邮电大学计算机学院"
+    },
+    {
+      "type": "paragraph",
+      "text": "通讯作者：鄂海红（Haihong E）"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文集：Behavioural and Social Computing（BESC 2026，LNCS 17176，Springer，2027）"
+    },
+    {
+      "type": "paragraph",
+      "text": "Junpeng Ding 等人的研究将关注点落到论文中的图文关系，提出“学术图文一致性评估”任务。鄂海红教授是该论文的通讯作者，报告由 Junpeng Ding 介绍[2]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/scene-image-text.jpg",
+      "caption": "图 4｜学术图文一致性评估研究报告现场。图源：会议现场照片。"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究把一致性拆成两个层次。对象层面检查图中的研究对象、数值、标签或曲线信息是否与描述相符；结论方向层面检查图示结果与正文结论是否一致，例如趋势表达是否发生方向性冲突。这样的检查能够发现图像与文字各自看似合理、组合起来却不成立的情况。"
+    },
+    {
+      "type": "paragraph",
+      "text": "多子图学术图像（即由多个子图组成的学术图像）往往包含不同实验、处理组和局部结果，整图概括容易忽略细节。该框架先通过版面分析提取图像、图注及相关正文，再识别子图的类别与位置，将局部视觉信息和对应文字送入多模态大模型，学习一致性判断并输出理由。"
+    },
+    {
+      "type": "paragraph",
+      "text": "训练数据也围绕这一任务构建。研究从 PubMed 与 Open-i 获取论文图像、图注和相关文字，利用模型生成描述、结论与初步一致性标注，再通过专家制定的实验参数、结果趋势和结论方向规则进行校正。测试样本则通过数值或趋势词的定向修改构造矛盾，并由专家逐条核验，保留修改位置及对应关系。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/figure-2-image-text.png",
+      "caption": "图 5｜结合版面分析、子图识别与多模态推理的图文一致性评估框架。图源：Behavioural and Social Computing（BESC 2026 论文集，LNCS 17176），文献 [2]，原文图 5，第 448 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "实验使用 13,731 条合成训练样本，以及 300 条经专家核验的测试样本；测试集包含经过定向修改并复核的不一致样本。在该测试设置下，Qwen2-VL-7B 经过框架适配后的 F1 为 71.92%，未适配基线为 62.06%。这一结果支持面向学术图像开展专门训练与细粒度解析的价值，评价对象是图文一致性识别。"
+    },
+    {
+      "type": "paragraph",
+      "text": "消融实验进一步解释了子图信息的作用。在 Qwen2-VL-7B 上，去掉子图分类与定位信息后，F1 从 71.92% 降至 65.41%；只学习图像描述、去掉显式一致性训练时，F1 为 54.75%。这组对比表明，模型需要同时学习“图中各部分对应什么”和“这些信息能否支持文字判断”，普通图像描述训练尚不足以完成这类核查。"
+    },
+    {
+      "type": "paragraph",
+      "text": "面向编辑应用，这类系统可以把可疑文字与相关图像对应起来，帮助缩小人工复核范围。图文不一致的成因仍需结合原始材料判断，模型的标记应进入证据核查流程。"
+    },
+    {
+      "type": "heading",
+      "number": "1.3",
+      "text": "SAG-OSN：图像经过社交平台传播后，如何继续取证？",
+      "id": "section-1-3",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "SAG-OSN: Source-Aware Grouping for OSN-Robust Image Forensics"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者：Yaodan Yan"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究单位：北京邮电大学"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文集：Behavioural and Social Computing（BESC 2026，LNCS 17176，Springer，2027）"
+    },
+    {
+      "type": "paragraph",
+      "text": "Yaodan Yan 通过录播报告介绍 SAG-OSN，研究在线社交网络传播条件下的图像取证[3]。图像上传和转发时常经历重新压缩、缩放与重采样，原有取证痕迹可能被削弱，平台处理也会引入新的视觉痕迹。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/scene-sag-osn.jpg",
+      "caption": "图 6｜SAG-OSN 报告在分会现场播放，主题为在线社交网络传播条件下的图像取证。图源：会议现场照片。"
+    },
+    {
+      "type": "paragraph",
+      "text": "SAG-OSN 同时关注两个问题：哪些区域可能被篡改，以及不同区域之间是否具有共同来源。 后一个问题能够把空间上分离、但来源特征相似的区域联系起来，使输出包含比简单真假分割更丰富的线索。"
+    },
+    {
+      "type": "paragraph",
+      "text": "方法先通过可学习的预处理减轻传播退化的影响，再将高频取证线索与分割模型的图像表示结合，最后对点提示产生的候选区域进行分组，形成来源一致的区域集合。这里的“来源”指图像区域间的来源关系，不能直接等同于找到了原始发布者。"
+    },
+    {
+      "type": "paragraph",
+      "text": "具体而言，模型保留预训练分割编码器的主体参数，通过轻量适配模块引入高频线索，关注边界、噪声残差等与取证有关的信息。它在图像中设置多个点提示，预测各点对应的候选区域，再提取区域表示进行聚类。这样，位置分离但具有相似来源特征的区域，可以被归入同一组。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/besc-2026-haihong-e/figure-3-sag-osn.png",
+      "caption": "图 7｜SAG-OSN 通过传播退化处理、取证特征增强与区域分组，输出篡改定位和来源关系。图源：Behavioural and Social Computing（BESC 2026 论文集，LNCS 17176），文献 [3]，原文图 1，第 433 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "在包含 Facebook、微信、微博和 WhatsApp 真实平台传播图像的 ImageForgeriesOSN 测试中，SAG-OSN 的平均像素级 F1 为 0.5882，对比方法 MVSS-Net 为 0.4207。这项结果针对该数据集中的篡改区域定位，说明传播条件本身应成为取证评测的重要部分。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文还在经过模拟平台退化的 SafireMS-Expert 数据上评估多来源区域分割，平均交并比达到 0.7806，反映预测区域与标注区域的重合程度；来源数量预测准确率为 40%。两项指标分别检查区域划分与来源计数，也提示后续研究需要同时改进定位质量和来源结构判断。"
+    },
+    {
+      "type": "paragraph",
+      "text": "从学术出版治理的角度看，这项工作提示我们：获取图像之后，还应关注它经历过怎样的处理，以及这些处理是否改变了检测工具的可靠性。"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "总结与展望：让检测能力进入可信治理流程",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "从五维治理框架到图文一致性评估，再到传播条件下的图像取证，本次分会呈现出一条清晰的研究线索：将科研诚信问题拆解为可检查的对象，将模型输出组织为可复核的证据，再嵌入人与工具协作的工作流程。"
+    },
+    {
+      "type": "paragraph",
+      "text": "面向下一步研究，有三类问题值得持续推进。首先，建立能够连接文本、引文、图像和数据的证据记录，让不同检测结果可以相互核验。其次，在跨学科、图像压缩、内容修改和新生成模型等条件下持续评测，关注误报与漏报如何影响真实审查。最后，把人工复核、作者回应与决策记录纳入系统设计，衡量工具能否帮助编辑更准确、高效地完成工作。"
+    },
+    {
+      "type": "paragraph",
+      "text": "在这一过程中，评价指标也需要随使用环节调整。初筛关注能否及时找出值得检查的问题，专家复核关注证据是否清楚、能否重复核验，编辑决策则需要完整记录作者回应与处理理由。把这些环节分别评价，才能看出工具究竟减少了哪类工作负担，以及哪些判断仍依赖领域知识。"
+    },
+    {
+      "type": "paragraph",
+      "text": "随着 AI 更深入地参与科研与学术传播，治理工具也需要同步发展。以 AI 治理 AI 的长期价值，在于让知识生产中的证据更清楚、审查更可靠、责任更可追溯。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "参考文献",
+      "id": "references"
+    },
+    {
+      "type": "paragraph",
+      "text": "[1] Li, M. Governing AI with AI in Scholarly Publishing: A Social-Computing Taxonomy of GenAI-Enabled Academic Forgery and Human-in-the-Loop Editorial Review. Behavioural and Social Computing, BESC 2026, LNCS 17176, 273–287. Springer, 2027."
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://link.springer.com/chapter/10.1007/978-981-92-6913-6_17"
+    },
+    {
+      "type": "paragraph",
+      "text": "[2] Ding, J., Ma, T.-Y., Tang, Z., et al. Paper Mill Detection Based on MLLM-Driven Academic Image–Text Consistency Assessment. Behavioural and Social Computing, BESC 2026, LNCS 17176, 441–456. Springer, 2027."
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://link.springer.com/chapter/10.1007/978-981-92-6913-6_28"
+    },
+    {
+      "type": "paragraph",
+      "text": "[3] Yan, Y. SAG-OSN: Source-Aware Grouping for OSN-Robust Image Forensics. Behavioural and Social Computing, BESC 2026, LNCS 17176, 431–440. Springer, 2027."
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://link.springer.com/chapter/10.1007/978-981-92-6913-6_27"
+    },
+    {
+      "type": "paragraph",
+      "text": "本文根据 BESC 2026 会议官网、鄂海红教授主持材料及论文正式发表版本整理。"
+    }
+  ]
+}
