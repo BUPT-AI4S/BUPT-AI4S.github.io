@@ -1,6 +1,6 @@
 const API='https://events.vercount.one/api/v2/log';
 export const LIVE_HOST='bupt-ai4s.github.io';
-const BASELINES={'lecture-01':286,'lecture-02':218,'lecture-03':157,'chairs-01':253};
+const BASELINES={'lecture-01':286,'lecture-02':218,'lecture-03':157,'lecture-04':78,'chairs-01':253};
 
 export function playBaseline(id){
   if(Object.hasOwn(BASELINES,id))return BASELINES[id];

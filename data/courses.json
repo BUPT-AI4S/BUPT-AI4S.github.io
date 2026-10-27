@@ -22,5 +22,11 @@
     "title": "第三讲 科学基础模型-鄂海红",
     "date": "2026-10-13",
     "data": "data/lecture-03.json"
+  },
+  {
+    "id": "lecture-04",
+    "title": "第四讲 Al+通信 从基础原理出发，走近无线通信的智能未来-张宇翔",
+    "date": "2026-10-20",
+    "data": "data/lecture-04.json"
   }
 ]
