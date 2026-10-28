@@ -1,6 +1,6 @@
 import * as pdfjs from '../vendor/pdfjs/pdf.mjs';
 import {EventBus,PDFViewer,PDFLinkService} from '../vendor/pdfjs/pdf_viewer.mjs';
-import {pdfSourceLinks,nativePdfSource} from './pdf-reader-core.mjs';
+import {pdfSourceLinks,openNativePdf} from './pdf-reader-core.mjs?v=20261028-native2';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),en=params.get('lang')==='en';
 const tr=(zh,english)=>en?english:zh;document.documentElement.lang=en?'en':'zh-CN';
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&window.parent!==window){event.preventDefault();window.parent.postMessage({type:'ai4s-pdf-exit'},location.origin);}});
@@ -10,8 +10,7 @@ const eventBus=new EventBus(),linkService=new PDFLinkService({eventBus,externalL
 const viewer=new PDFViewer({container:$('viewer-container'),viewer:$('pdf-viewer'),eventBus,linkService,textLayerMode:1,annotationMode:1,imageResourcesPath:assets+'images/'});linkService.setViewer(viewer);
 let task,documentPdf,loadVersion=0;
 function controls(ready){for(const id of ['previous','next','zoom-in','zoom-out','fit-width','page-number'])$(id).disabled=!ready;}
-for(const [id,zh,english] of [['previous','上一页','Previous'],['next','下一页','Next'],['fit-width','适合宽度','Fit width'],['pdf-download','原站 PDF','Original PDF'],['pdf-paper-page','论文页面','Paper page'],['reader-mode','浏览器阅读 · 如未显示，请打开原站 PDF','Browser reader · If blank, open Original PDF'],['retry-pdf','重试','Retry'],['page-label','页码','Page']])$(id).textContent=tr(zh,english);
-$('native-pdf').title=tr('浏览器 PDF 阅读器','Browser PDF reader');
+for(const [id,zh,english] of [['previous','上一页','Previous'],['next','下一页','Next'],['fit-width','适合宽度','Fit width'],['pdf-download','原站 PDF','Original PDF'],['pdf-paper-page','论文页面','Paper page'],['reader-mode','正在打开浏览器阅读','Opening browser reader'],['retry-pdf','重试','Retry'],['page-label','页码','Page']])$(id).textContent=tr(zh,english);
 function message(text,retry=false){$('pdf-message-text').textContent=text;$('pdf-message').hidden=!text;$('retry-pdf').hidden=!retry;}
 function update(){const page=viewer.currentPageNumber||1;$('page-number').value=page;$('previous').disabled=page<=1;$('next').disabled=page>=(documentPdf?.numPages||1);$('zoom-level').textContent=Math.round(viewer.currentScale*100)+'%';}
 eventBus.on('pagesinit',()=>{viewer.currentScaleValue='page-width';update();});
@@ -28,13 +27,14 @@ new ResizeObserver(entries=>{document.documentElement.style.setProperty('--pdf-t
 function useBrowserReader(url) {
   documentPdf=null;viewer.setDocument(null);controls(false);
   $('pdf-controls').hidden=true;$('viewer-container').hidden=true;
-  $('native-reader').hidden=false;$('reader-mode').hidden=false;
-  $('native-pdf').src=nativePdfSource(url);message('');
+  $('reader-mode').hidden=false;
+  const opened=openNativePdf(url);
+  message(opened?tr('正在跳转原站 PDF… 若未跳转，请点击右上角“原站 PDF”。','Opening the original PDF… If it does not open, use Original PDF above.'):tr('请点击右上角“原站 PDF”，直接在浏览器中阅读。','Use Original PDF above to read directly in your browser.'));
 }
 async function load(){
   const version=++loadVersion;let sources={pdf:'',paper:''};
   controls(false);message(tr('正在加载 PDF…','Loading PDF…'));documentPdf=null;viewer.setDocument(null);
-  $('native-reader').hidden=true;$('native-pdf').removeAttribute('src');$('reader-mode').hidden=true;
+  $('reader-mode').hidden=true;
   $('pdf-controls').hidden=false;$('viewer-container').hidden=false;
   for(const id of ['pdf-download','pdf-paper-page']){$(id).hidden=true;$(id).removeAttribute('href');}
   try{

@@ -67,10 +67,10 @@ function renderReader() {
   if(!paper)return;
   const host=$('paper-reader');
   const existing=host.querySelector('iframe'),language=root.lang==='en'?'en':'zh';
-  if(existing) {existing.title=tr('论文原文阅读器','Original paper reader');if(new URL(existing.src).searchParams.get('lang')!==language)existing.src='pdf-reader.html?'+new URLSearchParams({id:paper.id,lang:language});return;}
+  if(existing) {existing.title=tr('论文原文阅读器','Original paper reader');if(new URL(existing.src).searchParams.get('lang')!==language)existing.src='pdf-reader.html?'+new URLSearchParams({id:paper.id,lang:language,v:'20261028-native2'});return;}
   host.replaceChildren();
   const pdf=safeResource('',paper.pdfUrl);
-  if(pdf) {const frame=node('iframe');const params=new URLSearchParams({id:paper.id,lang:root.lang==='en'?'en':'zh'});frame.src='pdf-reader.html?'+params;frame.title=tr('论文原文阅读器','Original paper reader');frame.referrerPolicy='no-referrer';host.append(frame);}
+  if(pdf) {const frame=node('iframe');const params=new URLSearchParams({id:paper.id,lang:root.lang==='en'?'en':'zh',v:'20261028-native2'});frame.src='pdf-reader.html?'+params;frame.title=tr('论文原文阅读器','Original paper reader');frame.referrerPolicy='no-referrer';host.append(frame);}
   else host.append(node('p',tr('暂无可嵌入的 PDF，请通过上方论文页面阅读原文。','No PDF available. Read the original on the paper page above.'),'papers-message'));
 }
 function renderActions() {
@@ -133,7 +133,7 @@ function render() {
   for(const word of p.keywords||[])keywords.append(node('span',word));
   $('original-title').textContent=tr(p.titleZh||p.title,p.title);
   const originalResources=$('original-resources');originalResources.replaceChildren();
-  for(const [label,url] of [[tr('打开 PDF','Open PDF'),p.pdfUrl],[tr('论文页面','Paper page'),p.paperUrl||p.forumUrl]]) {const link=safeResource(label,url);if(link){if(url===p.pdfUrl)link.href='pdf-reader.html?'+new URLSearchParams({id:p.id,lang:root.lang==='en'?'en':'zh'});originalResources.append(link);}}
+  for(const [label,url] of [[tr('打开 PDF','Open PDF'),p.pdfUrl],[tr('论文页面','Paper page'),p.paperUrl||p.forumUrl]]) {const link=safeResource(label,url);if(link)originalResources.append(link);}
   syncFullscreen();
   renderRelated();
   const resources = $('reading-resources'); resources.replaceChildren();
@@ -141,7 +141,7 @@ function render() {
     try {
       const target = new URL(url);
       if (target.protocol !== 'https:') continue;
-      const link = node('a', label + ' ↗'); link.href = label==='PDF'?'pdf-reader.html?'+new URLSearchParams({id:p.id,lang:root.lang==='en'?'en':'zh'}):target.href; link.target = '_blank'; link.rel = 'noopener noreferrer'; resources.append(link);
+      const link = node('a', label + ' ↗'); link.href = target.href; link.target = '_blank'; link.rel = 'noopener noreferrer'; resources.append(link);
     } catch {}
   }
   $('reading-provenance').hidden=!!hasNotes;

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {pdfSourceLinks,nativePdfSource} from '../static/js/pdf-reader-core.mjs';
+import {pdfSourceLinks,nativePdfSource,openNativePdf} from '../static/js/pdf-reader-core.mjs';
 
 test('PDF and paper source links remain available independently',()=>{
   assert.deepEqual(pdfSourceLinks({pdfUrl:'https://aclanthology.org/2025.acl-long.26.pdf',paperUrl:'https://aclanthology.org/2025.acl-long.26/'}),{
@@ -16,7 +16,25 @@ test('unsafe or malformed sources never become embedded frames or source links',
   }
 });
 
-test('native PDF fallback preserves the source query and fits the reading area',()=>{
-  assert.equal(nativePdfSource('https://openreview.net/pdf?id=abc#page=3'),'https://openreview.net/pdf?id=abc#view=FitH');
-  assert.equal(nativePdfSource('https://aclanthology.org/2025.acl-long.26.pdf'),'https://aclanthology.org/2025.acl-long.26.pdf#view=FitH');
+test('native PDF navigation preserves the original URL without injected viewer options',()=>{
+  assert.equal(nativePdfSource('https://openreview.net/pdf?id=abc#page=3'),'https://openreview.net/pdf?id=abc#page=3');
+  assert.equal(nativePdfSource('https://aclanthology.org/2025.acl-long.26.pdf'),'https://aclanthology.org/2025.acl-long.26.pdf');
+});
+
+test('a standalone reader redirects directly to the PDF instead of embedding it',()=>{
+  const destinations=[],browser={location:{replace:url=>destinations.push(url)}};browser.parent=browser;
+  assert.equal(openNativePdf('https://aclanthology.org/2025.acl-long.26.pdf',browser),true);
+  assert.deepEqual(destinations,['https://aclanthology.org/2025.acl-long.26.pdf']);
+});
+
+test('an embedded reader navigates the top page and retains browser back navigation',()=>{
+  const destinations=[],browser={parent:{},top:{location:{assign:url=>destinations.push(url)}}};
+  assert.equal(openNativePdf('https://example.org/paper.pdf',browser),true);
+  assert.deepEqual(destinations,['https://example.org/paper.pdf']);
+});
+
+test('blocked or unsafe navigation leaves the original source links usable',()=>{
+  assert.equal(openNativePdf('javascript:alert(1)',{}),false);
+  const browser={parent:{},top:{get location(){throw new Error('Cross-origin parent');}}};
+  assert.equal(openNativePdf('https://example.org/paper.pdf',browser),false);
 });

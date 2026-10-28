@@ -119,7 +119,7 @@ function resourceLinks(p){
   const arxiv=arxivLink(p);
   const resources=[[tr('论文页面','Paper page'),p.paperUrl||p.forumUrl,'external'],['PDF',p.pdfUrl,'file'],[githubLink(p)?'GitHub':tr('代码','Code'),p.codeUrl,'code']];
   if(arxiv){if(resources[0][1]===arxiv)resources[0]=['arXiv',arxiv,'external'];else resources.unshift(['arXiv',arxiv,'external']);}
-  for(const [label,url,name] of resources){const a=resource(label,url,name);if(a){if(name==='file')a.href='pdf-reader.html?'+new URLSearchParams({id:p.id,lang:root.lang==='en'?'en':'zh'});box.append(a);}}
+  for(const [label,url,name] of resources){const a=resource(label,url,name);if(a)box.append(a);}
   if(arxiv&&p.arxivStatus==='verified')box.append(node('span',tr('arXiv 已验证','arXiv verified'),'resource-badge'));
   else if(['probable','needs-review'].includes(p.arxivStatus))box.append(node('span',tr('arXiv 待核对','arXiv needs review'),'resource-badge resource-review'));
   if(p.sample)box.append(node('span',tr('测试样例','Test entry'),'sample-badge'));if(p.imported)box.append(node('span',tr('元数据导入','Imported metadata'),'sample-badge'));if(p.classificationStatus==='needs-review')box.append(node('span',tr('分类待复核','Classification pending review'),'sample-badge'));return box;
