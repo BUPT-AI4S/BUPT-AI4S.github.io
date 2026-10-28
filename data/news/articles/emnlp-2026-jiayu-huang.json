@@ -1,0 +1,218 @@
+{
+  "id": "emnlp-2026-jiayu-huang",
+  "title": "黄加宇：大模型能否遵循医学专家逻辑？| EMNLP 2026",
+  "source": "BUPT Reasoning",
+  "subtitle": "学术现场 · EMNLP 2026",
+  "date": "2026-10-28",
+  "sourceSha256": "1feca9bc72bee9fe26ee4fbd412603120655877b7f82bbb244a9c994d71a11ae",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "循证医学 · 风险偏倚评估 · 层级逻辑一致性"
+    },
+    {
+      "type": "paragraph",
+      "text": "一项临床研究的风险偏倚评估，通常要从具体研究事实出发，依照医学专家制定的规则逐步形成判断。大模型即使给出了正确的总体结论，是否也遵循了这套推理逻辑？"
+    },
+    {
+      "type": "paragraph",
+      "text": "总体结论正确，不等于推理过程可靠。要判断模型是否真正遵循医学专家逻辑，还需要检查中间判断、层级汇总与证据依据。"
+    },
+    {
+      "type": "paragraph",
+      "text": "自然语言处理领域的重要国际会议 Empirical Methods in Natural Language Processing（EMNLP）2026 于 10 月 24—29 日在匈牙利布达佩斯举行。本届主会论文集中，实验室有两篇研究成果发表：一篇聚焦医学风险偏倚评估，另一篇关注知识图谱中的大规模知识导航。"
+    },
+    {
+      "type": "paragraph",
+      "text": "当地时间 10 月 26 日，北京邮电大学计算机学院（国家示范性软件学院）硕士研究生黄加宇（Jiayu Huang）在 EMNLP 2026 Oral Session “Clinical, Biomedical, and Code Models” 作口头报告，介绍论文 Can LLMs Follow Medical Expert Logic? A Benchmark for Hierarchical Logical Consistency in Risk-of-Bias Assessment。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-jiayu-huang/image1.jpeg",
+      "caption": "图 1｜黄加宇在 EMNLP 2026 主会作口头报告。图源：会议现场照片。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "报告回看",
+      "id": "report-video"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎通过下方视频，回看黄加宇在 EMNLP 2026 的专题报告。"
+    },
+    {
+      "type": "video",
+      "src": "https://ai4s-course-replay-2026.oss-cn-beijing.aliyuncs.com/%E9%BB%84%E5%8A%A0%E5%AE%87.mp4",
+      "poster": "data/news/assets/emnlp-2026-jiayu-huang/report-title-slide.jpg",
+      "caption": "黄加宇 EMNLP 2026 主会口头报告回看"
+    },
+    {
+      "type": "paragraph",
+      "text": "今天先从临床研究中的一个具体问题讲起：模型给出的风险标签正确，能否说明它真正理解了评估规则？LogiMed-RoB 将答案、推理步骤和证据支持分别纳入检验。"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "黄加宇报告解读：风险偏倚评估为何不能只看标签？",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "Can LLMs Follow Medical Expert Logic? A Benchmark for Hierarchical Logical Consistency in Risk-of-Bias Assessment"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者：Jiayu Huang、Zichen Tang、Qianhui Ling、Zemin Kuang、Haihong E"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者单位：北京邮电大学；首都医科大学附属北京安贞医院高血压中心"
+    },
+    {
+      "type": "paragraph",
+      "text": "通讯作者：Zemin Kuang（匡泽民）、Haihong E（鄂海红）"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表：Proceedings of EMNLP 2026，页码 42509–42549，ACL Anthology"
+    },
+    {
+      "type": "paragraph",
+      "text": "风险偏倚（Risk of Bias，RoB）评估用于判断临床研究设计和实施中的系统性问题会不会影响研究结果。以 Cochrane 的 RoB 2.0 为例，评估者先回答与随机化、干预偏离、缺失数据、结局测量和结果选择有关的条件问题，再据此给出五个领域的风险判断，最后形成总体结论。它是一套分层的证据评价流程，而不是单步分类[1]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "如果只看最终标签，模型可能凭借某个正确线索给出“高风险”或“低风险”，却在某个领域的判断上与自己前面的回答相矛盾。这样的错误会被另一个领域的高风险判断遮住，整体标签仍可能碰巧正确。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-jiayu-huang/image2.png",
+      "caption": "图 2｜同一总体标签可能对应不同的推理一致性。此图为报告中的示意例子，并非模型实测输出。图源：报告第 2 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "报告用一个简化例子说明这个问题：两次评估基于相同的原子答案，也都得到正确的“高风险”总体结论；但其中一次把某个领域直接判断为“低风险”，与依据原子答案和专家规则推导出的“高风险”相冲突。由于另一领域同样是高风险，总体标签没有改变。只核对最终标签，就会漏掉这处内部矛盾。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "LogiMed-RoB：把专家规则变成可检查的层级",
+      "id": "section-1-1",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "研究提出层级逻辑一致性（Hierarchical Logical Consistency，HLC）框架，把评估拆成四类互补检查：原子问题回答是否符合条件分支规则；模型直接给出的领域标签是否与专家规则从这些回答推导的结果一致；总体判断是否符合各领域的汇总规则；以及结论与参考证据之间是否有足够对应。前面三类围绕 RoB 2.0 的推理层级，证据忠实性则在另一条评测轨道上单独检查[1]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-jiayu-huang/image3.png",
+      "caption": "图 3｜HLC 将风险偏倚评估拆为原子、领域、汇总和证据四类检查。图源：报告第 4 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这种拆分让“哪里不一致”变得可定位。原子回答可能违反条件分支；领域结论可能没有遵循规则推导；总体风险可能与各领域等级的汇总关系不符；即便标签正确，证据也可能没有支撑判断。报告同时强调，一致性不等于事实正确：如果模型最初提取的研究事实有误，后续推理完全符合规则，也仍可能导向错误结论。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "两条评测轨道：专家逻辑与证据依据分开检查",
+      "id": "section-1-2",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "LogiMed-RoB 汇集 860 项随机对照试验，共设置 14,820 个评测查询，并将专家逻辑与证据忠实性分为两条互补轨道。Track A 依据 RoB 2.0 专家规则，覆盖 201 项试验、626 个结局层面的评估；每个评估包含 22 个问题，共形成 13,772 个查询。Track B 依据 RoB 1.0 检查证据依据，包含 659 项试验和 1,048 条有证据支撑的条目[1]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-jiayu-huang/image4.png",
+      "caption": "图 4｜基准由专家规则评测与证据忠实性评测组成，分别采用 RoB 2.0 和 RoB 1.0。图源：报告第 5 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "两条轨道回答不同的问题：Track A 检查模型是否遵守层级规则，Track B 观察模型给出的风险标签与参考证据是否对应。论文还邀请专家核查参考来源中的评估，并对证据窗口抽样检查。把二者分开报告，能避免把“推理步骤一致”误当作“已经找到并使用了正确证据”。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "评测结果：局部一致性高，完整推理仍有缺口",
+      "id": "section-1-3",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "团队在统一协议下评测了 10 个大语言模型。对单个条件问题的原子一致性指标 CAR，Gemini 3.1 Pro 达到 98.88%；但在更严格的端到端完整一致性（E2E）指标中，只有原子层、领域层和总体汇总层全部通过才算完整通过，该模型的比例为 45.13%，为本次比较中的最高值。两项指标的评测单位不同，不能直接视为同一准确率的前后变化[1]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-jiayu-huang/image5.png",
+      "caption": "图 5｜端到端完整一致性要求多个层级同时通过；单独的总体汇总一致性可能掩盖前序错误。图源：报告第 6 页。"
+    },
+    {
+      "type": "paragraph",
+      "text": "最能说明层级检查必要性的例子是 Llama 3.3 70B：其总体汇总检查为 100%，但 E2E 为 0%。这意味着总体结论符合汇总规则，并不能补回原子或领域层面此前已经出现的违规。六个开放权重模型中，有四个 E2E 不超过 1.44%；模型之间的表现差异也说明，评价不能被单一汇总指标代替。"
+    },
+    {
+      "type": "paragraph",
+      "text": "证据轨道呈现出另一种落差。报告设定证据重合阈值 τ=0.8，并使用 Jaccard 重合度作为证据对应的代理指标。强证据重合样本中的推理失败率 RFR 为 18.63%—40.05%；在全部预测中，标签正确但证据重合较低的盲猜率 BGR 为 31.58%—48.28%。这两项比例的分母不同，数值越低越好；它们共同提示，标签正确、证据相符和推理一致需要分别核验。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-jiayu-huang/image6.png",
+      "caption": "图 6｜证据重合度是证据对应关系的代理量；较高重合度仍不能保证结论正确。图源：报告第 7 页。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "从评测结果回到医学证据核验",
+      "id": "section-1-4",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "LogiMed-RoB 的价值，是把“答案正确吗”扩展为“依据哪些事实、经过哪些判断、是否遵循专家规则、最后怎样汇总”。层级指标能够揭示单一标签准确率看不到的内部矛盾，也为后续分析提供了更细的定位线索。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这项研究建立的是评测基准和事后审计框架。论文与报告都指出，逻辑一致性不能替代事实核验，证据重合也只是代理指标。下一步可以研究如何利用审计发现触发针对性事实核查、规则推导或专家复核；这些属于后续研究方向，仍需在具体任务中验证。"
+    },
+    {
+      "type": "paragraph",
+      "text": "对临床证据评价而言，这种区分尤其重要：可解释的推理步骤有助于发现错误，但最终结论仍须回到研究原文、评估规范和领域专家的判断。"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "明日预告：从医学专家逻辑到知识图谱导航",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "实验室另一篇发表于 EMNLP 2026 主会的论文是 Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy。明天将围绕这项工作展开解读，介绍论文如何通过认知循环与图谱—文本协同，在海量知识空间中导航并回答复杂问题[2]。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "参考文献",
+      "id": "references"
+    },
+    {
+      "type": "paragraph",
+      "text": "[1] Huang, J., Tang, Z., Ling, Q., Kuang, Z., & E, H. “Can LLMs Follow Medical Expert Logic? A Benchmark for Hierarchical Logical Consistency in Risk-of-Bias Assessment.” Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing, pp. 42509–42549, 2026. 论文链接：https://aclanthology.org/2026.emnlp-main.1866/"
+    },
+    {
+      "type": "paragraph",
+      "text": "[2] Zhou, G., Xu, J., Tang, Z., Xiang, S., E, H., & Liu, C.-L. “Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy.”Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing, pp. 31643–31674, 2026. 论文链接：https://aclanthology.org/2026.emnlp-main.1386/"
+    },
+    {
+      "type": "paragraph",
+      "text": "本文根据黄加宇报告海报、口头报告材料及论文正式发表版本整理。"
+    }
+  ]
+}

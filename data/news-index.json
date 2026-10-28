@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "emnlp-2026-jiayu-huang",
+      "title": "黄加宇：大模型能否遵循医学专家逻辑？| EMNLP 2026",
+      "titleEn": "Jiayu Huang at EMNLP 2026: Can LLMs Follow Medical Expert Logic?",
+      "summary": "黄加宇在 EMNLP 2026 主会作口头报告，介绍 LogiMed-RoB 如何分别检验风险偏倚评估中的答案、层级推理与证据支持，附报告视频。",
+      "summaryEn": "Jiayu Huang presents LogiMed-RoB at EMNLP 2026, examining answers, hierarchical reasoning and evidence in risk-of-bias assessment. Includes the talk recording.",
+      "source": "BUPT Reasoning · 学术现场",
+      "sourceEn": "BUPT Reasoning · Research events",
+      "date": "2026-10-28",
+      "cover": "data/news/assets/emnlp-2026-jiayu-huang/emnlp-report-cover.webp"
+    },
+    {
       "id": "besc-2026-haihong-e",
       "title": "鄂海红：以 AI 治理 AI，从生成式伪造检测到科研诚信治理 | BESC 2026",
       "titleEn": "Haihong E at BESC 2026: Governing AI with AI for Research Integrity",
