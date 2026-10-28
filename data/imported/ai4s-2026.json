@@ -88408,6 +88408,1969 @@
           ]
         }
       }
+    },
+    {
+      "id": "import-2026-aaai-3665c87098a1",
+      "title": "MdaIF: Robust One-Stop Multi-Degradation-Aware Image Fusion with Language-Driven Semantics",
+      "authors": [
+        "Li, Jing",
+        "Wang, Yifan",
+        "Yan, Jiafeng",
+        "Zhang, Renlong",
+        "Yang, Bin"
+      ],
+      "venue": "AAAI",
+      "year": "2026",
+      "abstract": "Infrared and visible image fusion aims to integrate complementary multi-modal information into a single fused result. However, existing methods 1) fail to account for the degradation visible images under adverse weather conditions, thereby compromising fusion performance; and 2) rely on fixed network architectures, limiting their adaptability to diverse degradation scenarios. To address these issues, we propose a one-stop degradation-aware image fusion framework for multi-degradation scenarios driven by a large language model (MdaIF). Given the distinct scattering characteristics of different degradation scenarios (e.g., haze, rain, and snow) in atmospheric transmission, a mixture-of-experts (MoE) system is introduced to tackle image fusion across multiple degradation scenarios. To adaptively extract diverse weather-aware degradation knowledge and scene feature representations, collectively referred to as the semantic prior, we employ a pre-trained vision-language model (VLM) in our framework. Guided by the semantic prior, we propose degradation-aware channel attention module (DCAM), which employ degradation prototype decomposition to facilitate multi-modal feature interaction in channel domain. In addition, to achieve effective expert routing, the semantic prior and channel-domain modulated features are utilized to guide the MoE, enabling robust image fusion in complex degradation scenarios. Extensive experiments validate the effectiveness of our MdaIF, demonstrating superior performance over SOTA methods.",
+      "paperUrl": "https://ojs.aaai.org/index.php/AAAI/article/view/37548",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "2026-03-14",
+      "dateRaw": "2026-03-14",
+      "datePrecision": "day",
+      "sourceDate": "2026-03-14",
+      "pdfAvailability": "unknown",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "10.1609/aaai.v40i8.37548"
+        ],
+        "sourceUrls": [
+          "https://ojs.aaai.org/index.php/AAAI/article/view/37548"
+        ],
+        "rawPublishedValues": [
+          "2026-03-14"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      },
+      "dateType": "public"
+    },
+    {
+      "id": "import-2026-aaai-48652be302e5",
+      "title": "RMFAT: Recurrent Multi-scale Feature Atmospheric Turbulence Mitigator",
+      "authors": [
+        "Liu, Zhiming",
+        "Anantrasirichai, Nantheera"
+      ],
+      "venue": "AAAI",
+      "year": "2026",
+      "abstract": "Atmospheric turbulence (AT) severely degrades video quality by introducing distortions such as geometric warping, blur, and temporal flickering, posing significant challenges to both visual clarity and temporal consistency. Current state-of-the-art methods are based on transformer, 3D architectures and require multi-frame input, but their large computational cost and memory usage limit real-time deployment. In this work, we propose RMFAT, Recurrent Multi-scale Feature Atmospheric Turbulence Mitigator, designed for efficient and temporally consistent video restoration under AT conditions. RMFAT adopts a lightweight recurrent framework that restores each frame using only two inputs at a time, significantly reducing temporal window size and computational burden. It further integrates multi-scale feature encoding and decoding with temporal warping modules at both encoder and decoder stages to enhance spatial detail and temporal coherence. Extensive experiments conducted on synthetic and real-world atmospheric turbulence datasets demonstrate that RMFAT not only outperforms existing methods in terms of clarity restoration (with nearly a 9% improvement in SSIM) but also achieves significantly improved inference speed (achieving a more than fourfold reduction), making it particularly suitable for real-time atmospheric turbulence suppression tasks.",
+      "paperUrl": "https://ojs.aaai.org/index.php/AAAI/article/view/37687",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "2026-03-14",
+      "dateRaw": "2026-03-14",
+      "datePrecision": "day",
+      "sourceDate": "2026-03-14",
+      "pdfAvailability": "unknown",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "10.1609/aaai.v40i9.37687"
+        ],
+        "sourceUrls": [
+          "https://ojs.aaai.org/index.php/AAAI/article/view/37687"
+        ],
+        "rawPublishedValues": [
+          "2026-03-14"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      },
+      "dateType": "public"
+    },
+    {
+      "id": "import-2026-aaai-d89b23082415",
+      "title": "DehazeGS: Seeing Through Fog with 3D Gaussian Splatting",
+      "authors": [
+        "Yu, Jinze",
+        "Wang, Yiqun",
+        "Jiang, Aiheng",
+        "Lu, Zhengda",
+        "Guo, Jianwei",
+        "Li, Yong",
+        "Qin, Hongxing",
+        "Zhang, Xiaopeng"
+      ],
+      "venue": "AAAI",
+      "year": "2026",
+      "abstract": "Current novel view synthesis methods are typically designed for high-quality and clean input images. However, in foggy scenes, scattering and attenuation can significantly degrade the quality of rendering. Although NeRF-based dehazing approaches have been developed, their reliance on deep fully connected neural networks and per-ray sampling strategies leads to high computational costs. Furthermore, NeRF's implicit representation limits its ability to recover fine-grained details from hazy scenes. To overcome these limitations, we propose DehazeGS, the first physics-driven 3D Gaussian Splatting (3DGS) framework for dehazing. We adopt an explicit Gaussian representation to model fog formation via a physically consistent forward rendering process, enabling reconstruction and rendering of fog-free scenes using only multi-view foggy images as input. Specifically, based on the atmospheric scattering model, we simulate the formation of fog by establishing the transmission function directly on Gaussian primitives via depth-to-transmission mapping. During training, we jointly learn the atmospheric light and scattering coefficients while optimizing the Gaussian representation of foggy scenes. At inference time, we remove the effects of scattering and attenuation in Gaussian distributions and directly render the scene to obtain dehazed views. Experiments on both real-world and synthetic foggy datasets demonstrate that DehazeGS achieves state-of-the-art performance.",
+      "paperUrl": "https://ojs.aaai.org/index.php/AAAI/article/view/38205",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "2026-03-14",
+      "dateRaw": "2026-03-14",
+      "datePrecision": "day",
+      "sourceDate": "2026-03-14",
+      "pdfAvailability": "unknown",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "10.1609/aaai.v40i14.38205"
+        ],
+        "sourceUrls": [
+          "https://ojs.aaai.org/index.php/AAAI/article/view/38205"
+        ],
+        "rawPublishedValues": [
+          "2026-03-14"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      },
+      "dateType": "public"
+    },
+    {
+      "id": "import-2026-aaai-85da8c083c17",
+      "title": "HATIR: Heat-Aware Diffusion for Turbulent Infrared Video Super-Resolution",
+      "authors": [
+        "Zou, Yang",
+        "Zhu, Xingyue",
+        "Han, Kaiqi",
+        "Ma, Jun",
+        "Li, Xingyuan",
+        "Jiang, Zhiying",
+        "Liu, Jinyuan"
+      ],
+      "venue": "AAAI",
+      "year": "2026",
+      "abstract": "Infrared video has been of great interest in visual tasks under challenging environments, but often suffers from severe atmospheric turbulence and compression degradation. Existing video super-resolution (VSR) methods either neglect the inherent modality gap between infrared and visible images or fail to restore turbulence-induced distortions. Directly cascading turbulence mitigation (TM) algorithms with VSR methods leads to error propagation and accumulation due to the decoupled modeling of degradation between turbulence and resolution. We introduce HATIR, a Heat-Aware Diffusion for Turbulent InfraRed Video Super-Resolution, which injects heat-aware deformation priors into the diffusion sampling path to jointly model the inverse process of turbulent degradation and structural detail loss. Specifically, HATIR constructs a Phasor-Guided Flow Estimator, rooted in the physical principle that thermally active regions exhibit consistent phasor responses over time, enabling reliable turbulence-aware flow to guide the reverse diffusion process. To ensure the fidelity of structural recovery under nonuniform distortions, a Turbulence-Aware Decoder is proposed to selectively suppress unstable temporal cues and enhance edge-aware feature aggregation via turbulence gating and structure-aware attention. We built FLIR-IVSR, the first dataset for turbulent infrared VSR, comprising paired LR-HR sequences from a FLIR T1050sc camera (1024 X 768) spanning 640 diverse scenes with varying camera and object motion conditions. This encourages future research in infrared VSR.",
+      "paperUrl": "https://ojs.aaai.org/index.php/AAAI/article/view/38421",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "2026-03-14",
+      "dateRaw": "2026-03-14",
+      "datePrecision": "day",
+      "sourceDate": "2026-03-14",
+      "pdfAvailability": "unknown",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "10.1609/aaai.v40i16.38421"
+        ],
+        "sourceUrls": [
+          "https://ojs.aaai.org/index.php/AAAI/article/view/38421"
+        ],
+        "rawPublishedValues": [
+          "2026-03-14"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      },
+      "dateType": "public"
+    },
+    {
+      "id": "import-2026-aaai-9f4665f9b762",
+      "title": "MoCast: Learning Turbulent Motions Under Physical Guidance for Precipitation Nowcasting",
+      "authors": [
+        "Wu, Binqing",
+        "Chen, Weiqi",
+        "Liu, Shiyu",
+        "Shang, Zongjiang",
+        "Wang, Haiou",
+        "Sun, Liang",
+        "Chen, Ling"
+      ],
+      "venue": "AAAI",
+      "year": "2026",
+      "abstract": "Precipitation nowcasting, a critical task for weather-sensitive applications, is highly challenging owing to the chaotic nature of atmospheric dynamics. Despite recent progress in deep learning, existing methods are limited in their capacity to model turbulent motions, one of the key drivers of precipitation evolution. Thus, we propose MoCast, the first work that incorporates turbulence knowledge to decompose turbulent motions into solvable components for precipitation nowcasting. Specifically, inspired by the continuity equation, MoCast introduces two core innovations: (1) a physics-guided motion module that learns turbulent motions from physically interpretable mean and fluctuating components based on Reynolds, Helmholtz, and Wavelet decomposition techniques, and (2) a motion-guided source-sink module that learns source-sink features considering the multi-scale impact from motions based on a mixture-of-experts architecture. Extensive experiments on three real-world datasets demonstrate that MoCast achieves the state-of-the-art performance. MoCast and its diffusion-based variant MoCast+ reduce CSI error by an average of 4.9% and 4.5% compared to the best deterministic and probabilistic baselines, respectively.",
+      "paperUrl": "https://ojs.aaai.org/index.php/AAAI/article/view/38628",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "2026-03-14",
+      "dateRaw": "2026-03-14",
+      "datePrecision": "day",
+      "sourceDate": "2026-03-14",
+      "pdfAvailability": "unknown",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "10.1609/aaai.v40i19.38628"
+        ],
+        "sourceUrls": [
+          "https://ojs.aaai.org/index.php/AAAI/article/view/38628"
+        ],
+        "rawPublishedValues": [
+          "2026-03-14"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      },
+      "dateType": "public"
+    },
+    {
+      "id": "import-2026-cvpr-ba487d175ed7",
+      "title": "High-Quality and Efficient Turbulence Mitigation with Events",
+      "authors": [
+        "Xiaoran Zhang",
+        "Jian Ding",
+        "Yuxing Duan",
+        "Haoyue Liu",
+        "Gang Chen",
+        "Yi Chang",
+        "Luxin Yan"
+      ],
+      "venue": "CVPR",
+      "year": "2026",
+      "abstract": "Turbulence mitigation (TM) is highly ill-posed due to the stochastic nature of atmospheric turbulence. Most methods rely on multiple frames recorded by conventional cameras to capture stable patterns in natural scenarios. However, they inevitably suffer from a trade-off between accuracy and efficiency: more frames enhance restoration at the cost of higher system latency and larger data overhead. Event cameras, equipped with microsecond temporal resolution and efficient sensing of dynamic changes, offer an opportunity to break the bottleneck. In this work, we present EHETM, a high-quality and efficient TM method inspired by the superiority of events to model motions in continuous sequences. We discover two key phenomena: (1) turbulence-induced events exhibit distinct polarity alternation correlated with sharp image gradients, providing structural cues for restoring scenes; and (2) dynamic objects form spatiotemporally coherent \"event tubes\" in contrast to irregular patterns within turbulent events, providing motion priors for disentangling objects from turbulence. Based on these insights, we design two complementary modules that respectively leverage polarity-weighted gradients for scene refinement and event-tube constraints for motion decoupling, achieving high-quality restoration with few frames. Furthermore, we construct two real-world event-frame turbulence datasets covering atmospheric and thermal cases. Extensive experiments show that EHETM outperforms SOTA methods, especially under scenes with dynamic objects, while reducing data overhead and system latency by approximately 77.3% and 89.5%, respectively.",
+      "paperUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_High-Quality_and_Efficient_Turbulence_Mitigation_with_Events_CVPR_2026_paper.html",
+      "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_High-Quality_and_Efficient_Turbulence_Mitigation_with_Events_CVPR_2026_paper.pdf",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Zhang_High-Quality_and_Efficient_Turbulence_Mitigation_with_Events_CVPR_2026_paper"
+        ],
+        "sourceUrls": [
+          "https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_High-Quality_and_Efficient_Turbulence_Mitigation_with_Events_CVPR_2026_paper.html",
+          "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_High-Quality_and_Efficient_Turbulence_Mitigation_with_Events_CVPR_2026_paper.pdf"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-cvpr-7f6009ebd11e",
+      "title": "Physically-Grounded Turbulence Mitigation with Frame-Shared Degradation Parameters",
+      "authors": [
+        "Dongxin Xie",
+        "Yan Huang",
+        "Yong Xu",
+        "Hui Ji"
+      ],
+      "venue": "CVPR",
+      "year": "2026",
+      "abstract": "Atmospheric turbulence causes spatially varying distortion and blur in long-range imaging, making restoration highly challenging in real-world applications. Supervised methods rely on synthetic training data, whose simulated degradation often cannot faithfully reflect real turbulence. Existing unsupervised methods usually estimate degradation parameters for each frame independently, without exploiting the shared correlations among frames from the same scene. We propose TMFS, an optimization-based and physics-grounded method for unsupervised turbulence restoration. TMFS is based on a physically motivated tilt-then-blur degradation model and represents frame degradations through a shared turbulence structure. By decomposing the distortion and blur of each frame into a scene-shared correlation function and per-frame noise maps, TMFS enables cross-frame information sharing and alleviates the ill-posedness of framewise estimation. Experiments on synthetic and real datasets demonstrate the effectiveness of TMFS and its strong generalization to real turbulence.",
+      "paperUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Xie_Physically-Grounded_Turbulence_Mitigation_with_Frame-Shared_Degradation_Parameters_CVPR_2026_paper.html",
+      "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Xie_Physically-Grounded_Turbulence_Mitigation_with_Frame-Shared_Degradation_Parameters_CVPR_2026_paper.pdf",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Xie_Physically-Grounded_Turbulence_Mitigation_with_Frame-Shared_Degradation_Parameters_CVPR_2026_paper"
+        ],
+        "sourceUrls": [
+          "https://openaccess.thecvf.com/content/CVPR2026/html/Xie_Physically-Grounded_Turbulence_Mitigation_with_Frame-Shared_Degradation_Parameters_CVPR_2026_paper.html",
+          "https://openaccess.thecvf.com/content/CVPR2026/papers/Xie_Physically-Grounded_Turbulence_Mitigation_with_Frame-Shared_Degradation_Parameters_CVPR_2026_paper.pdf"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-cvpr-ae563c99979b",
+      "title": "Continuous Exposure-Time Modeling for Realistic Atmospheric Turbulence Synthesis",
+      "authors": [
+        "Junwei Zeng",
+        "Dong Liang",
+        "Sheng-Jun Huang",
+        "Kun Zhan",
+        "Songcan Chen"
+      ],
+      "venue": "CVPR",
+      "year": "2026",
+      "abstract": "Atmospheric turbulence significantly degrades long-range imaging by introducing geometric warping and exposure-time-dependent blur, which adversely affects both visual quality and the performance of high-level vision tasks. Existing methods for synthesizing turbulence effects often oversimplify the relationship between blur and exposure-time, typically assuming fixed or binary exposure settings. This leads to unrealistic synthetic data and limited generalization capability of trained models. To address this gap, we revisit the modulation transfer function (MTF) formulation and propose a novel Exposure-Time-dependent MTF (ET-MTF) that models blur as a continuous function of exposure-time. For blur synthesis, we derive a tilt-invariant point spread function (PSF) from the ET-MTF, which, when integrated with a spatially varying blur-width field, provides a comprehensive and physically accurate characterization of turbulence-induced blur. Building on this synthesis pipeline, we construct ET-Turb, a large-scale synthetic turbulence dataset that explicitly incorporates continuous exposure-time modeling across diverse optical and atmospheric conditions. The dataset comprises 5,083 videos (2,005,835 frames), partitioned into 3,988 training and 1,095 test videos. Extensive experiments demonstrate that models trained on ET-Turb produce more realistic restorations and achieve superior generalization on real-world turbulence data compared to those trained on other datasets. The dataset is publicly available at: github.com/Jun-Wei-Zeng/ET-Turb.",
+      "paperUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zeng_Continuous_Exposure-Time_Modeling_for_Realistic_Atmospheric_Turbulence_Synthesis_CVPR_2026_paper.html",
+      "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zeng_Continuous_Exposure-Time_Modeling_for_Realistic_Atmospheric_Turbulence_Synthesis_CVPR_2026_paper.pdf",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Zeng_Continuous_Exposure-Time_Modeling_for_Realistic_Atmospheric_Turbulence_Synthesis_CVPR_2026_paper"
+        ],
+        "sourceUrls": [
+          "https://openaccess.thecvf.com/content/CVPR2026/html/Zeng_Continuous_Exposure-Time_Modeling_for_Realistic_Atmospheric_Turbulence_Synthesis_CVPR_2026_paper.html",
+          "https://openaccess.thecvf.com/content/CVPR2026/papers/Zeng_Continuous_Exposure-Time_Modeling_for_Realistic_Atmospheric_Turbulence_Synthesis_CVPR_2026_paper.pdf"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-cvpr-2a2334f6d7f5",
+      "title": "GenieDrive: Towards Physics-Aware Driving World Model with 4D Occupancy Guided Video Generation",
+      "authors": [
+        "Zhenya Yang",
+        "Zhe Liu",
+        "Yuxiang Lu",
+        "Liping Hou",
+        "Chenxuan Miao",
+        "Siyi Peng",
+        "Bailan Feng",
+        "Xiang Bai",
+        "Hengshuang Zhao"
+      ],
+      "venue": "CVPR",
+      "year": "2026",
+      "abstract": "Physics-aware driving world model is essential for drive planning, out-of-distribution data synthesis, and closed-loop evaluation. However, existing methods often rely on a single diffusion model to directly map driving actions to videos, which makes learning difficult and leads to physically inconsistent outputs. To overcome these challenges, we propose GenieDrive, a novel framework designed for physics-aware driving video generation. Our approach starts by generating 4D occupancy, which serves as a physics-informed foundation for subsequent video generation. 4D occupancy contains rich physical information, including high-resolution 3D structures and dynamics. To facilitate effective compression of such high-resolution occupancy, we propose a VAE that encodes occupancy into a latent tri-plane representation, reducing the latent size to only 58% of that used in previous methods. We further introduce Mutual Control Attention (MCA) to accurately model the influence of control on occupancy evolution, and we jointly train the VAE and the subsequent prediction module in an end-to-end manner to maximize forecasting accuracy. Together, these designs yield a 7.2% improvement in forecasting mIoU at an inference speed of 41 FPS, while using only 3.47 M parameters. Additionally, a Normalized Multi-View Attention is introduced in the video generation model to generate multi-view driving videos with guidance from our 4D occupancy, significantly improving video quality with a 20.7% reduction in FVD. Experiments demonstrate that GenieDrive enables highly controllable, multi-view consistent, and physics-aware driving video generation.",
+      "paperUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Yang_GenieDrive_Towards_Physics-Aware_Driving_World_Model_with_4D_Occupancy_Guided_CVPR_2026_paper.html",
+      "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Yang_GenieDrive_Towards_Physics-Aware_Driving_World_Model_with_4D_Occupancy_Guided_CVPR_2026_paper.pdf",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [
+        "mathematical-sciences"
+      ],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "rule-derived",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Yang_GenieDrive_Towards_Physics-Aware_Driving_World_Model_with_4D_Occupancy_Guided_CVPR_2026_paper"
+        ],
+        "sourceUrls": [
+          "https://openaccess.thecvf.com/content/CVPR2026/html/Yang_GenieDrive_Towards_Physics-Aware_Driving_World_Model_with_4D_Occupancy_Guided_CVPR_2026_paper.html",
+          "https://openaccess.thecvf.com/content/CVPR2026/papers/Yang_GenieDrive_Towards_Physics-Aware_Driving_World_Model_with_4D_Occupancy_Guided_CVPR_2026_paper.pdf"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "physics-informed"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {
+          "mathematical-sciences": [
+            "\\bphysics-informed(?: neural networks?)?\\b"
+          ]
+        },
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-cvpr-94f64f097882",
+      "title": "NimbusGS: Unified 3D Scene Reconstruction under Hybrid Weather",
+      "authors": [
+        "Yanying Li",
+        "Jinyang Li",
+        "Shengfeng He",
+        "Yangyang Xu",
+        "Junyu Dong",
+        "Yong Du"
+      ],
+      "venue": "CVPR",
+      "year": "2026",
+      "abstract": "We present NimbusGS, a unified framework for reconstructing high-quality 3D scenes from degraded multi-view inputs captured under diverse and mixed adverse weather conditions. Unlike existing methods that target specific weather types, NimbusGS addresses the broader challenge of generalization by modeling the dual nature of weather: a continuous, view-consistent medium that attenuates light, and dynamic, view-dependent particles that cause scattering and occlusion. To capture this structure, we decompose degradations into a global transmission field and per-view particulate residuals. The transmission field represents static atmospheric effects shared across views, while the residuals model transient disturbances unique to each input. To enable stable geometry learning under severe visibility degradation, we introduce a geometry-guided gradient scaling mechanism that mitigates gradient imbalance during the self-supervised optimization of 3D Gaussian representations. This physically grounded formulation allows NimbusGS to disentangle complex degradations while preserving scene structure, yielding superior geometry reconstruction and outperforming task-specific methods across diverse and challenging weather conditions.",
+      "paperUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Li_NimbusGS_Unified_3D_Scene_Reconstruction_under_Hybrid_Weather_CVPR_2026_paper.html",
+      "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_NimbusGS_Unified_3D_Scene_Reconstruction_under_Hybrid_Weather_CVPR_2026_paper.pdf",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Li_NimbusGS_Unified_3D_Scene_Reconstruction_under_Hybrid_Weather_CVPR_2026_paper"
+        ],
+        "sourceUrls": [
+          "https://openaccess.thecvf.com/content/CVPR2026/html/Li_NimbusGS_Unified_3D_Scene_Reconstruction_under_Hybrid_Weather_CVPR_2026_paper.html",
+          "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_NimbusGS_Unified_3D_Scene_Reconstruction_under_Hybrid_Weather_CVPR_2026_paper.pdf"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-cvpr-cdce37c592d7",
+      "title": "PMRNet: Physics-informed Multi-scale Refinement Network for Medical Image Segmentation",
+      "authors": [
+        "Boce Kang"
+      ],
+      "venue": "CVPR",
+      "year": "2026",
+      "abstract": "Medical image segmentation demands both high accuracy and computational efficiency, yet existing methods face a critical trade-off: CNNs lack global context while transformers incur prohibitive costs for deployment on resource-constrained devices. To address this challenge, we propose a Physics-informed Multi-scale Refinement Network (PMRNet), integrating symplectic geometry, renormalization group theory, and entropy diffusion to guide feature learning. PMRNet features three innovations: (1) a physics-informed encoder with Enhanced Symplectic Convolution for boundary detection and Renormalization Group-inspired Downsampling for information preservation; (2) a Pseudo-Global Receptive Field module achieving near-global context with linear complexity through entropy-driven diffusion; and (3) a boundary-aware decoder for precise delineation. With only 0.87M parameters and 3.43 GFLOPs, PMRNet achieves 87.25% IoU and 92.56% Dice on the challenging Clinic dataset, outperforming state-of-the-art (SOTA) models with even 100x more parameters across 12 medical imaging datasets while maintaining computational efficiency. Code is available at https://github.com/KangBoce/PMRNet.",
+      "paperUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Kang_PMRNet_Physics-informed_Multi-scale_Refinement_Network_for_Medical_Image_Segmentation_CVPR_2026_paper.html",
+      "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Kang_PMRNet_Physics-informed_Multi-scale_Refinement_Network_for_Medical_Image_Segmentation_CVPR_2026_paper.pdf",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [
+        "mathematical-sciences"
+      ],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "rule-derived",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Kang_PMRNet_Physics-informed_Multi-scale_Refinement_Network_for_Medical_Image_Segmentation_CVPR_2026_paper"
+        ],
+        "sourceUrls": [
+          "https://openaccess.thecvf.com/content/CVPR2026/html/Kang_PMRNet_Physics-informed_Multi-scale_Refinement_Network_for_Medical_Image_Segmentation_CVPR_2026_paper.html",
+          "https://openaccess.thecvf.com/content/CVPR2026/papers/Kang_PMRNet_Physics-informed_Multi-scale_Refinement_Network_for_Medical_Image_Segmentation_CVPR_2026_paper.pdf"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "physics-informed"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {
+          "mathematical-sciences": [
+            "\\bphysics-informed(?: neural networks?)?\\b"
+          ]
+        },
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-eccv-d0fbed6a92fe",
+      "title": "DiverseAD: A Large-Scale Driving Dataset with Diverse Atmospheric Conditions",
+      "authors": [
+        "Haoyu Wang",
+        "Baorui Ma",
+        "Donglin Di",
+        "Suhang Xuan",
+        "Hao Li",
+        "Shiliang Zhang"
+      ],
+      "venue": "ECCV",
+      "year": "2026",
+      "abstract": "",
+      "paperUrl": "https://eccv.ecva.net/virtual/2026/poster/4645",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [
+        "Embodied AI",
+        "Robotics & Autonomous Driving"
+      ],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "",
+      "datePrecision": "missing",
+      "sourceDate": "",
+      "pdfAvailability": "unresolved",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "missing-abstract",
+        "missing-date",
+        "unresolved-pdf-url",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "eccv-bf6dac8899e21682"
+        ],
+        "sourceUrls": [
+          "https://eccv.ecva.net/virtual/2026/poster/4645",
+          "https://doi.org/10.1007/978-3-032-36846-1_19"
+        ],
+        "rawPublishedValues": [],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-eccv-f22a188b555e",
+      "title": "Semantic-Aware, Physics-Informed, Geometry-Grounded Weather Synthesis",
+      "authors": [
+        "Chenghao Qian",
+        "Nedko Savov",
+        "Lingdong Kong",
+        "Yeying Jin",
+        "Rui Song",
+        "Wenjing Li",
+        "Zhun Zhong",
+        "Jiaqi Ma",
+        "Gustav Markkula",
+        "Luc Van Gool"
+      ],
+      "venue": "ECCV",
+      "year": "2026",
+      "abstract": "",
+      "paperUrl": "https://eccv.ecva.net/virtual/2026/poster/3762",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [
+        "Video Generation",
+        "Avatars & Dynamic Worlds"
+      ],
+      "disciplines": [
+        "mathematical-sciences"
+      ],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "",
+      "datePrecision": "missing",
+      "sourceDate": "",
+      "pdfAvailability": "unresolved",
+      "codeAvailability": "unknown",
+      "classificationStatus": "rule-derived",
+      "recordFlags": [
+        "missing-abstract",
+        "missing-date",
+        "unresolved-pdf-url",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "eccv-257294059523ecda"
+        ],
+        "sourceUrls": [
+          "https://eccv.ecva.net/virtual/2026/poster/3762",
+          "https://doi.org/10.1007/978-3-032-37020-4_18"
+        ],
+        "rawPublishedValues": [],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "physics-informed"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {
+          "mathematical-sciences": [
+            "\\bphysics-informed(?: neural networks?)?\\b"
+          ]
+        },
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-iclr-6bc96688bce9",
+      "title": "GenSR: Symbolic regression based on equation generative space",
+      "authors": [
+        "Qian Li",
+        "Yuxiao Hu",
+        "Juncheng Liu",
+        "Yuntian Chen"
+      ],
+      "venue": "ICLR",
+      "year": "2026",
+      "abstract": "Symbolic Regression (SR) tries to reveal the hidden equations behind observed data. However, most methods search within a discrete equation space, where the structural modifications of equations rarely align with their numerical behavior, leaving fitting error feedback too noisy to guide exploration. To address this challenge, we propose GenSR, a generative latent space–based SR framework following the \"map construction $\\rightarrow$ coarse localization $\\rightarrow$ fine search\" paradigm. Specifically, GenSR first pretrains a dual-branch Conditional Variational Autoencoder (CVAE) to reparameterize symbolic equations into a generative latent space with symbolic continuity and local numerical smoothness. This space can be regarded as a well-structured \"map\" of the equation space, providing directional signals for search. At inference, the CVAE coarsely localizes the input data to promising regions in the latent space. Then, a modified CMA-ES refines the candidate region, leveraging smooth latent gradients. From a Bayesian perspective, GenSR reframes SR task as maximizing the conditional distribution $p({\\rm Equ.}|{\\rm Num.})$, with CVAE training achieving this objective through the Evidence Lower Bound (ELBO). This new perspective provides a theoretical guarantee for the effectiveness of GenSR. Extensive experiments show that GenSR jointly optimizes predictive accuracy, expression simplicity, and computational efficiency, while remaining robust under noise.",
+      "paperUrl": "https://openreview.net/forum?id=8emIjwUQZg",
+      "pdfUrl": "https://openreview.net/pdf?id=8emIjwUQZg",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-04-24",
+      "datePrecision": "day",
+      "sourceDate": "2026-04-24",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "8emIjwUQZg"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=8emIjwUQZg",
+          "https://openreview.net/pdf?id=8emIjwUQZg"
+        ],
+        "rawPublishedValues": [
+          "2026-04-24"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-5dac8f23ea75",
+      "title": "How Hard Is Science?",
+      "authors": [
+        "Adil Soubki",
+        "Miles Cranmer"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Symbolic Regression (SR) is the task of finding a closed-form mathematical expression that optimizes some objective. Solving this task is NP-hard. However, SR software routinely discovers accurate, interpretable models without exhaustively searching function space. Motivated by this disconnect between worst-case theory and practical success, we study SR through the lens of \\emph{parameterized complexity theory}. In particular, we reanalyze tractability with respect to practically relevant parameters like expression depth, tree size, and number of primitives used. We show that SR is fixed-parameter tractable (FPT) when parameterized by expression depth or tree size, formalizing the tractable regime exploited by bounded-complexity search in popular SR algorithms. However, SR becomes W[1]-hard when parameterized by the number of variables or primitives used, identifying selection as a source of intractability. We further find lower bounds under the exponential time hypothesis, prove approximation hardness, and rule out polynomial kernels for the case where the primitive set is part of the input.",
+      "paperUrl": "https://openreview.net/forum?id=VnQJliq17X",
+      "pdfUrl": "https://openreview.net/pdf?id=VnQJliq17X",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-06",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-06",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "VnQJliq17X"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=VnQJliq17X",
+          "https://openreview.net/pdf?id=VnQJliq17X"
+        ],
+        "rawPublishedValues": [
+          "2026-07-06"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-9a797aa6a200",
+      "title": "Beyond Accuracy and Complexity: The Effective Information Criterion for Structurally Stable Symbolic Regression",
+      "authors": [
+        "Zihan Yu",
+        "Guanren Wang",
+        "Jingtao Ding",
+        "Huandong Wang",
+        "Yong Li"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Symbolic regression (SR) traditionally balances accuracy and complexity, implicitly assuming that simpler formulas are structurally more rational. We argue that this assumption is insufficient: existing algorithms often exploit this metric to discover accurate and compact but structurally irrational formulas that are numerically ill-conditioned and physically inexplicable. Inspired by the structural stability of real physical laws, we propose the Effective Information Criterion (EIC) to quantify formula rationality. EIC models formulas as information channels and measures the amplification of inherent rounding noise during recursive calculation, effectively distinguishing physically plausible structures from pathological ones without relying on ground truth. Our analysis reveals a stark structural stability gap between human-derived equations and SR-discovered results. By integrating EIC into SR workflows, we provide explicit structural guidance: for heuristic search, EIC steers algorithms toward stable regions to yield superior Pareto frontiers; for generative models, EIC-based filtering improves pre-training sample efficiency by 2–4 times and boosts generalization $R^2$ by 22.4\\%. Finally, an extensive study with 108 human experts shows that EIC aligns with human preferences in 70\\% of cases, validating structural stability as a critical prerequisite for human-perceived interpretability. We release our code at https://github.com/tsinghua-fib-lab/EIC",
+      "paperUrl": "https://openreview.net/forum?id=9mFx2t9RGj",
+      "pdfUrl": "https://openreview.net/pdf?id=9mFx2t9RGj",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [
+        "pretraining"
+      ],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-06",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-06",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "9mFx2t9RGj"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=9mFx2t9RGj",
+          "https://openreview.net/pdf?id=9mFx2t9RGj"
+        ],
+        "rawPublishedValues": [
+          "2026-07-06"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-d1c20ea8b1f2",
+      "title": "Softplus Attention with Re-weighting Boosts Length Extrapolation in Large Language Models",
+      "authors": [
+        "Bo Gao",
+        "Michael Spratling",
+        "Letizia Gionfrida"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Large language models have achieved remarkable success in recent years, primarily due to self-attention. However, traditional Softmax attention suffers from numerical instability and reduced performance as the number of inference tokens increases. This work addresses these issues by proposing a new design principle for attention, viewing it as a two-stage process. The first stage (normalisation) refines standard attention by replacing Softmax with the more numerically stable Softplus followed by $l_{1}$-normalisation. Furthermore, we introduce a dynamic scale factor based on invariance entropy. We show that this novel attention mechanism outperforms conventional Softmax attention, and state-of-the-art Softmax-free alternatives. Our second proposal is to introduce a second processing stage (sharpening) which consists of a re-weighting mechanism that amplifies significant attentional weights while diminishing weaker ones. This enables the model to concentrate more effectively on relevant tokens, mitigating the attention sink phenomenon, and fundamentally improving length extrapolation. This novel, two-stage, replacement for self-attention is shown to ensure numerical stability and dramatically improve length extrapolation, maintaining a nearly constant validation loss at 16$\\times$ the training length while achieving superior results on challenging long-context retrieval tasks and downstream benchmarks. Furthermore, symbolic regression experiments demonstrate that our method enables models to recover Newton's gravitational law from orbital trajectory sequences, providing evidence that appropriate attention mechanisms are crucial for foundation models to develop genuine physical world models. Our code is available at https://github.com/iminfine/freeattn .",
+      "paperUrl": "https://openreview.net/forum?id=cmTjoiRyyr",
+      "pdfUrl": "https://openreview.net/pdf?id=cmTjoiRyyr",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [
+        "scientific-foundation-models"
+      ],
+      "tags": [
+        "foundation-models"
+      ],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "",
+      "datePrecision": "missing",
+      "sourceDate": "",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "missing-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "cmTjoiRyyr"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=cmTjoiRyyr",
+          "https://openreview.net/pdf?id=cmTjoiRyyr"
+        ],
+        "rawPublishedValues": [],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {
+          "scientific-foundation-models": [
+            "\\bfoundation model\\w*\\b"
+          ]
+        },
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-4fdbd8397caa",
+      "title": "Mixture of Concept Bottleneck Experts",
+      "authors": [
+        "Francesco De Santis",
+        "Gabriele Ciravegna",
+        "Giovanni De Felice",
+        "Arianna Casanova",
+        "Francesco Giannini",
+        "Michelangelo Diligenti",
+        "Mateo Espinosa Zarlenga",
+        "Pietro Barbiero",
+        "Johannes Schneider",
+        "Danilo Giordano"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Concept Bottleneck Models (CBMs) promote interpretability by grounding predictions in human-understandable concepts. However, existing CBMs typically fix their task predictor to a single linear or Boolean expression, limiting both predictive accuracy and adaptability to diverse user needs. We propose Mixture of Concept Bottleneck Experts (M-CBEs), a framework that generalizes existing CBMs along two dimensions: the number of experts and the functional form of each expert, exposing an underexplored region of the design space. We investigate this region by instantiating two novel models: Linear M-CBE, which learns a finite set of linear expressions, and Symbolic M-CBE, which leverages symbolic regression to discover expert functions from data under user-specified operator vocabularies. Empirical evaluation demonstrates that varying the mixture size and functional form provides a robust framework for navigating the accuracy-interpretability trade-off, adapting to different user and task needs.",
+      "paperUrl": "https://openreview.net/forum?id=Jj8Vec8qSs",
+      "pdfUrl": "https://openreview.net/pdf?id=Jj8Vec8qSs",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-08",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-08",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Jj8Vec8qSs"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=Jj8Vec8qSs",
+          "https://openreview.net/pdf?id=Jj8Vec8qSs"
+        ],
+        "rawPublishedValues": [
+          "2026-07-08"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-c743c0098e7c",
+      "title": "Stabilizing Equation Learning via Zero-Point Constraints",
+      "authors": [
+        "Sannyuya Liu",
+        "Ao Chen",
+        "Lin Liu",
+        "Ruxia Liang",
+        "Xiaoxuan Shen",
+        "Jianwen Sun"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Symbolic Regression aims to discover interpretable mathematical expressions from data. Equation Learner (EQL) is a gradient-based method with strong fitting capability and expressive potential, yet it often activates redundant operators as model complexity grows, leading to over-complex expressions and unstable equation recovery. We analyze a gradient residual issue induced by operators that do not vanish at zero, which can prevent the ideal sparse expression from acting as a stable attractor during training and bias training toward unnecessarily complex structures, making exact recovery highly unreliable in practice. To address this, we propose EQL-Z, a structurally controllable symbolic regression framework. EQL-Z enforces zero-point constraints via zero-point consistent operator transformations to eliminate residual gradients on silent paths, and performs a small-to-large structure search that grows depth/width from a compact seed under a complexity-penalized validation score. After selecting a compact structure, we apply BFGS fine-tuning to refine coefficients. Experiments on synthetic and real-world datasets show that EQL-Z substantially improves exact equation recovery and in-/out-of-distribution generalization over vanilla EQL, achieving performance close to leading symbolic regression baselines. Code is available at https://github.com/Caaaa-a/EQL-Z.",
+      "paperUrl": "https://openreview.net/forum?id=zAuh9CGr9R",
+      "pdfUrl": "https://openreview.net/pdf?id=zAuh9CGr9R",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-09",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-09",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "zAuh9CGr9R"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=zAuh9CGr9R",
+          "https://openreview.net/pdf?id=zAuh9CGr9R"
+        ],
+        "rawPublishedValues": [
+          "2026-07-09"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-b2aeb8a729c9",
+      "title": "Neural–Evolutionary Symbolic Regression with Global Constraints: Constraint-Aware Decoding and Reward Shaping",
+      "authors": [
+        "Xiangdong Wu",
+        "wenjun wu",
+        "Ziyu Wei",
+        "Bingrun Chen",
+        "Zhenbo Song",
+        "Rongye Shi"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Symbolic regression aims to discover compact, interpretable mathematical expressions from data, but neural generation is challenging because expressions are tree-structured. Existing neural methods often linearize expression trees into token sequences, facilitating autoregressive modeling but obscuring hierarchical relations and complicating structure-dependent constraint enforcement. We propose GCN-SR, a graph-based symbolic regression framework that generates expressions in an explicit tree-aligned form, making structural context available during decoding. To enable batched generation over variable-topology expressions, we introduce Symbolic Perfect Binary Trees (SPBTs), a fixed-topology scaffold that preserves tree hierarchy while supporting graph-based node-attribute prediction. We further introduce Similarity-Weighted Policy Gradient (SWPG) to incorporate genetic programming (GP) refinement without directly imitating GP-refined elites; instead, refined expressions construct similarity-weighted rewards for samples drawn by the current generator. Experiments on standard symbolic regression benchmarks and ablations show that GCN-SR consistently improves exact recovery over strong neural and hybrid baselines under matched evaluation budgets.",
+      "paperUrl": "https://openreview.net/forum?id=eTe0x6Fye4",
+      "pdfUrl": "https://openreview.net/pdf?id=eTe0x6Fye4",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-07",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-07",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "eTe0x6Fye4"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=eTe0x6Fye4",
+          "https://openreview.net/pdf?id=eTe0x6Fye4"
+        ],
+        "rawPublishedValues": [
+          "2026-07-07"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-ade1c9e5b323",
+      "title": "Learning Randomized Reductions",
+      "authors": [
+        "Ferhat Erata",
+        "Orr Paradise",
+        "Thanos Typaldos",
+        "Timos Antonopoulos",
+        "ThanhVu Nguyen",
+        "Shafi Goldwasser",
+        "Ruzica Piskac"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Randomized self-reductions (RSRs) express $f(x)$ using $f$ evaluated at random correlated points, enabling self-correcting programs, instance-hiding protocols, and applications in complexity theory and cryptography. Yet discovering RSRs has required manual expert derivation for over 40 years, limiting their practical use. We present Bitween for automated RSR learning. First, we formalize RSR learning with sample complexity analysis under correlated sampling. Second, we develop Vanilla Bitween, which integrates multiple backends (linear regression, genetic programming, symbolic regression, and mixed-integer programming). The linear regression backend outperforms the others, discovering RSRs for 43 of 80 functions (54\\%) in RSR-Bench, our benchmark suite, including the first known reduction for sigmoid. Third, we introduce Agentic Bitween, a neuro-symbolic approach where LLM agents propose novel query functions beyond the fixed set ($x+r$, $x-r$, $x \\cdot r$, $x$, $r$) in prior work. Agentic Bitween discovers RSRs for 64 of 80 functions (80\\%), outperforming pure neural baselines in both RSR discovery and verification accuracy.",
+      "paperUrl": "https://openreview.net/forum?id=hCAEcqig2C",
+      "pdfUrl": "https://openreview.net/pdf?id=hCAEcqig2C",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-07",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-07",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "hCAEcqig2C"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=hCAEcqig2C",
+          "https://openreview.net/pdf?id=hCAEcqig2C"
+        ],
+        "rawPublishedValues": [
+          "2026-07-07"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-331df18e2518",
+      "title": "Weights to Code: Extracting Interpretable Algorithms from the Discrete Transformer",
+      "authors": [
+        "Yifan Zhang",
+        "Wei Bi",
+        "Kechi Zhang",
+        "Dongming Jin",
+        "Jie Fu",
+        "Zhi Jin"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Algorithm extraction aims to synthesize executable programs directly from models trained on algorithmic tasks, enabling *de novo* recovery of executable mechanisms from weights without relying on human-written target programs. However, applying this paradigm to Transformer is complicated by representation entanglement (e.g., superposition), where features encoded in overlapping directions substantially hinder the recovery of symbolic expressions. We propose the Discrete Transformer, an architecture explicitly designed to bridge the gap between continuous representations and discrete symbolic logic. By injecting discreteness through temperature-annealed sampling, our framework effectively leverages hypothesis testing and symbolic regression to extract human-readable programs. Empirically, the Discrete Transformer achieves performance comparable to the RNN-based MIPS baseline on shared discrete tasks, while broadening extraction to tasks with continuous-valued intermediate computations. Finally, we show that architectural inductive biases provide fine-grained control over synthesized programs, establishing the Discrete Transformer as a controllable testbed for algorithm extraction and Transformer interpretability.",
+      "paperUrl": "https://openreview.net/forum?id=nYzdAcLN5F",
+      "pdfUrl": "https://openreview.net/pdf?id=nYzdAcLN5F",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "",
+      "datePrecision": "missing",
+      "sourceDate": "",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "missing-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "nYzdAcLN5F"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=nYzdAcLN5F",
+          "https://openreview.net/pdf?id=nYzdAcLN5F"
+        ],
+        "rawPublishedValues": [],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-0e321538d23a",
+      "title": "ECSEL: Explainable Classification via Signomial Equation Learning",
+      "authors": [
+        "Adia C. Lumadjeng",
+        "Ilker Birbil",
+        "Erman Acar"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "We introduce ECSEL, an explainable classification method that learns formal expressions in the form of signomial equations, motivated by the observation that many symbolic regression benchmarks admit compact signomial structure. ECSEL directly constructs a structural, closed-form expression that serves as both a classifier and an explanation. On standard symbolic regression benchmarks, our method recovers a larger fraction of target equations than competing state-of-the-art approaches while requiring substantially less computation. Leveraging this efficiency, ECSEL achieves classification accuracy competitive with established machine learning models without sacrificing interpretability. Further, we show that ECSEL satisfies some desirable properties regarding global feature behaviour, decision-boundary analysis, and local feature attributions. Experiments on benchmark datasets and two real-world case studies i.e., e-commerce and fraud detection, demonstrate that the learned equations expose dataset biases, support counterfactual reasoning, and yield actionable insights.",
+      "paperUrl": "https://openreview.net/forum?id=2ztmXT3qpN",
+      "pdfUrl": "https://openreview.net/pdf?id=2ztmXT3qpN",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [
+        "reasoning"
+      ],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-07",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-07",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "2ztmXT3qpN"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=2ztmXT3qpN",
+          "https://openreview.net/pdf?id=2ztmXT3qpN"
+        ],
+        "rawPublishedValues": [
+          "2026-07-07"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-2b7d2c94272e",
+      "title": "Evaluating Newtonian Mechanics in Video Generative Models with Real Physical Systems",
+      "authors": [
+        "Antonios Tragoudaras",
+        "Chenyu Zhang",
+        "Daniil Cherniavskii",
+        "Antonis Vozikis",
+        "Thijmen Nijdam",
+        "Derck Prinzhorn",
+        "Márk Bodrácska",
+        "Nicu Sebe",
+        "Andrii Zadaianchuk",
+        "Efstratios Gavves"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Recent advances in image and video generation raise hopes that these models possess world modeling capabilities—the ability to generate realistic, physically plausible videos. This could revolutionize applications in robotics, autonomous driving, and scientific simulation. However, before treating these models as world models, we must ask: Do they adhere to physical laws? Current evaluation methods rely on subjective judgments or trajectory matching, limiting their usage for physical reasoning estimation, where many generations could be physically plausible. Thus, we introduce **Morpheus**, one of the first physics-informed evaluation frameworks for measuring the ability of video generation models to comprehend Newtonian dynamics. **Morpheus** features 130 real-world videos capturing physical phenomena, guided by conservation laws. Using those as conditioning for video generation, we assess physical plausibility leveraging interpretable metrics evaluated with respect to infallible conservation laws known per physical setting, leveraging advances in physics-informed neural networks and vision-language foundation models. Importantly, **Morpheus** targets controlled Newtonian rigid-body settings to enable quantitative checks. Our findings reveal that even with advanced prompting and video conditioning, contemporary models struggle to encode physical principles despite generating aesthetically pleasing videos. Code and data available [here](https://github.com/physics-from-video/Morpheus).",
+      "paperUrl": "https://openreview.net/forum?id=f4xAzcMug6",
+      "pdfUrl": "https://openreview.net/pdf?id=f4xAzcMug6",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [
+        "mathematical-sciences",
+        "scientific-foundation-models"
+      ],
+      "tags": [
+        "foundation-models",
+        "reasoning"
+      ],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-08",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-08",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "rule-derived",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "f4xAzcMug6"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=f4xAzcMug6",
+          "https://openreview.net/pdf?id=f4xAzcMug6"
+        ],
+        "rawPublishedValues": [
+          "2026-07-08"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "physics-informed"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {
+          "mathematical-sciences": [
+            "\\bphysics-informed(?: neural networks?)?\\b"
+          ],
+          "scientific-foundation-models": [
+            "\\bfoundation model\\w*\\b"
+          ]
+        },
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-6d0fd9f71ba4",
+      "title": "Breaking the Simplification Bottleneck in Amortized Neural Symbolic Regression",
+      "authors": [
+        "Paul Saegert",
+        "Ullrich Koethe"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Symbolic regression (SR) aims to discover interpretable analytical expressions that accurately describe observed data. Amortized SR promises to be much more efficient than the predominant genetic programming SR methods, but currently struggles to scale to realistic scientific complexity. We find that a key obstacle is the lack of a fast reduction of equivalent expressions to a concise normalized form. Amortized SR has addressed this with general-purpose Computer Algebra Systems (CAS) like SymPy, but the high computational cost severely limits training and inference speed. We propose **SimpliPy**, a rule-based simplification engine achieving a 100-fold speed-up over SymPy at comparable quality. This enables substantial improvements in amortized SR, including scalability to much larger training sets, more efficient use of the per-expression token budget, and systematic training set decontamination with respect to equivalent test expressions. We demonstrate these advantages in our **Flash-ANSR** framework, which achieves much better accuracy than amortized baselines (NeSymReS, E2E) on the FastSRB benchmark. Moreover, it performs on par with state-of-the-art direct optimization (PySR) while recovering more concise rather than more complex expressions with increasing inference budget.",
+      "paperUrl": "https://openreview.net/forum?id=Rem0zhold7",
+      "pdfUrl": "https://openreview.net/pdf?id=Rem0zhold7",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-08",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-08",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Rem0zhold7"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=Rem0zhold7",
+          "https://openreview.net/pdf?id=Rem0zhold7"
+        ],
+        "rawPublishedValues": [
+          "2026-07-08"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-73db3b9d052a",
+      "title": "Contrastive Symbolic Regression: Aligned Representations, Adaptive Prediction, and Diverse Ensembles",
+      "authors": [
+        "Hengzhe Zhang",
+        "Qi Chen",
+        "Bing Xue",
+        "Wolfgang Banzhaf",
+        "Mengjie Zhang"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Existing symbolic regression approaches primarily focus on learning explicit input-output mappings, often neglecting relational structures among data instances. This paper introduces Contrastive Symbolic Regression (CSR), a feature-construction-based symbolic regression approach that integrates evolutionary feature construction with contrastive learning to shape a representation space where geometric proximity reflects similarity in the target space. CSR employs a contrastive objective that optimizes a linear transformation of constructed features, with a closed-form solution for aligning the feature space with the target space. The constructed features are applied to K-nearest neighbor regression, where we propose an efficient leave-one-out cross-validation (LOOCV) method that addresses standard LOOCV's computational expense and adaptively selects the neighborhood size, along with a linear-rank weighted K-nearest neighbor variant for faithful assessment of representation quality during evolution. A determinantal point process-based ensemble selection mechanism further enhances robustness by jointly considering model quality and diversity. Extensive experiments on 58 real-world regression datasets demonstrate that CSR consistently surpasses both traditional symbolic regression and modern machine learning counterparts, highlighting CSR as a promising direction for interpretable and effective regression modeling.",
+      "paperUrl": "https://openreview.net/forum?id=h0317qKaeq",
+      "pdfUrl": "https://openreview.net/pdf?id=h0317qKaeq",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-06",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-06",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "h0317qKaeq"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=h0317qKaeq",
+          "https://openreview.net/pdf?id=h0317qKaeq"
+        ],
+        "rawPublishedValues": [
+          "2026-07-06"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-icml-7c8d827210fe",
+      "title": "Fully Zero-Shot Image Dehazing",
+      "authors": [
+        "Shuocheng Wang",
+        "Ruoxi Zhu",
+        "Jiaming Liu",
+        "Zhengyang Cao",
+        "Kun Wang",
+        "Chengkang Huang",
+        "Lizhuo Liu",
+        "Shichen Peng",
+        "Minge Jing",
+        "Yibo Fan"
+      ],
+      "venue": "ICML",
+      "year": "2026",
+      "abstract": "Image dehazing, an important image restoration problem, aims to recover clear scene content from images degraded by atmospheric haze. Existing dehazing methods rely on observing the distribution of hazy images during training: supervised approaches typically depend on synthetic datasets, leading to poor generalization in real-world scenarios; unsupervised methods are constrained by the limited diversity of observed haze conditions due to the difficulty of collecting real hazy images, and fail to generalize to unseen haze types. To address these challenges, we propose the first fully zero-shot dehazing framework that is trained without any hazy images. The framework is built upon a set of representations that remain invariant across clean and hazy images to bridge the two domains, which is both theoretically derived and experimentally validated. Consequently, we formulate dehazing as a conditional generative modeling problem and train a diffusion model solely with the invariant representations of the abundant and readily available clean images. During testing, the same representations extracted from hazy images serve as the conditional input to guide the diffusion process toward the clean image distribution. Quantitative analyses verify the effectiveness of the proposed representations, and extensive experiments across various real-world hazy datasets demonstrate our framework’s remarkable generalization ability, significantly outperforming existing methods. Our code will be available after the review process.",
+      "paperUrl": "https://openreview.net/forum?id=KjRmj39WfF",
+      "pdfUrl": "https://openreview.net/pdf?id=KjRmj39WfF",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-07-08",
+      "datePrecision": "day",
+      "sourceDate": "2026-07-08",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "KjRmj39WfF"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=KjRmj39WfF",
+          "https://openreview.net/pdf?id=KjRmj39WfF"
+        ],
+        "rawPublishedValues": [
+          "2026-07-08"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-kdd-d38957d7b386",
+      "title": "GRASP: Manifold-Aware Structural Guidance for Generative Atmospheric Super-Resolution",
+      "authors": [
+        "Yifan Sun",
+        "Tianrui Chen",
+        "Zhao Li",
+        "Chao Zhang",
+        "Lei Cheng"
+      ],
+      "venue": "KDD",
+      "year": "2026",
+      "abstract": "",
+      "paperUrl": "https://doi.org/10.1145/3770855.3819047",
+      "pdfUrl": "",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026",
+      "datePrecision": "year",
+      "sourceDate": "2026",
+      "pdfAvailability": "unresolved",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "missing-abstract",
+        "unresolved-pdf-url",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "10.1145/3770855.3819047"
+        ],
+        "sourceUrls": [
+          "https://doi.org/10.1145/3770855.3819047"
+        ],
+        "rawPublishedValues": [
+          "2026"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-neurips-d4d46165f534",
+      "title": "Mimicking the Physicist's Eye: A VLM-centric Approach for Physics Formula Discovery",
+      "authors": [
+        "Jiaqi Liu",
+        "Songning Lai",
+        "Pengze Li",
+        "Di Yu",
+        "Zhou wenjie",
+        "Yiyang Zhou",
+        "Peng Xia",
+        "Zijun Wang",
+        "Xi Chen",
+        "SHIXIANG TANG",
+        "LEI BAI",
+        "Wanli Ouyang",
+        "Mingyu Ding",
+        "Huaxiu Yao",
+        "Aoran Wang"
+      ],
+      "venue": "NEURIPS",
+      "year": "2026",
+      "abstract": "Automated discovery of governing equations remains challenging when models rely only on numerical tokens and ignore the phase-space and trajectory evidence that is informative in low-dimensional dynamics. We propose Visual Induction for Physics-based Equation Reasoning (VIPER-R1), a multimodal framework for visual formula discovery from phase portraits, trajectory plots, and aligned measurements. VIPER-R1 uses a supervised Motion Structure Induction (MSI) curriculum for joint rationale-and-equation generation, and is then refined by \\textbf{Reward-Guided Symbolic Calibration (RGSC)}, a GRPO-based stage optimized with a structure-aware reward that emphasizes topological correctness over coefficient matching. At inference time, we optionally apply Symbolic Residual Realignment (SR$^2$), an external symbolic regression module that models only the residual numerical mismatch of the base hypothesis. We release PhysSymbol, a 10{,}000-instance two-part multimodal corpus; the quantitative evaluation in this paper uses its Part 1 mechanics split, which provides paired visualizations, trajectory data, and expert C-CoT traces. On this benchmark, VIPER-R1-7B achieves the best structural score ($S_{\\mathrm{struct}}=0.812$), is effectively tied with VIPER-R1-3B on exact-match accuracy ($S_{\\mathrm{acc}}=0.487$ vs.\\ $0.488$), and, after optional SR$^2$ refinement, reaches a Post-SR$^2$ MSE of $0.032$, nearly $3\\times$ lower than the best VLM baseline. These results show that VIPER-R1 improves symbolic structure induction in focused low-dimensional dynamics by combining paired visual evidence with structure-aware calibration to produce stronger first-order hypotheses for downstream refinement.",
+      "paperUrl": "https://openreview.net/forum?id=6yBDMqMChG",
+      "pdfUrl": "https://openreview.net/pdf?id=6yBDMqMChG",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [
+        "reasoning"
+      ],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-12-07",
+      "datePrecision": "day",
+      "sourceDate": "2026-12-07",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "future-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "6yBDMqMChG"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=6yBDMqMChG",
+          "https://openreview.net/pdf?id=6yBDMqMChG"
+        ],
+        "rawPublishedValues": [
+          "2026-12-07"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-neurips-209e5d5b242f",
+      "title": "Physics-Informed Video Generation via Mixture-of-Experts Latent Alignment",
+      "authors": [
+        "Cong Wang",
+        "Hanxin Zhu",
+        "Jiayi Luo",
+        "Yonglin Tian",
+        "Xiaoqian Cheng",
+        "Peiyan Tu",
+        "Xin Jin",
+        "Long Chen",
+        "Zhibo Chen"
+      ],
+      "venue": "NEURIPS",
+      "year": "2026",
+      "abstract": "",
+      "paperUrl": "https://openreview.net/forum?id=7LkTMagsSg",
+      "pdfUrl": "https://openreview.net/pdf?id=7LkTMagsSg",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [
+        "mathematical-sciences"
+      ],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-12-07",
+      "datePrecision": "day",
+      "sourceDate": "2026-12-07",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "rule-derived",
+      "recordFlags": [
+        "missing-abstract",
+        "future-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "7LkTMagsSg"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=7LkTMagsSg",
+          "https://openreview.net/pdf?id=7LkTMagsSg"
+        ],
+        "rawPublishedValues": [
+          "2026-12-07"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "physics-informed"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {
+          "mathematical-sciences": [
+            "\\bphysics-informed(?: neural networks?)?\\b"
+          ]
+        },
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-neurips-3fe1d822d1a6",
+      "title": "SMILE: Bridging Continuous Optimization and Discrete Symbolic Recovery",
+      "authors": [
+        "Mansooreh Montazerin",
+        "Antonio Ortega",
+        "Ajitesh Srivastava"
+      ],
+      "venue": "NEURIPS",
+      "year": "2026",
+      "abstract": "Symbolic regression (SR) discovers closed-form mathematical expressions from data, offering interpretability beyond black-box models. Existing methods suffer from slow convergence in combinatorial search spaces and lack mechanisms to exploit compositional structure in the data. We introduce SMILE (Sine, Multiplication, Identity, Logarithm, Exponential), a hybrid framework that unifies continuous gradient-based optimization with discrete symbolic recovery through three stages: structural analysis of the data to identify the compositional hierarchy of the target expression, continuous optimization to learn parameters of a network that encodes the target expression using interpretable activations, and symbolic recovery through structured pruning, coefficient optimization, and rounding. This final stage distills the learned network into a compact expression with exact symbolic constants. We evaluate SMILE on SRBench across ground-truth and black-box datasets, with ablation studies validating each component. SMILE achieves the highest symbolic solution rate at the largest noise levels, demonstrating strong robustness where competing methods degrade substantially. It consistently lies on the Pareto front of accuracy versus complexity, recovering significantly simpler expressions in a fraction of the time required by the competing methods.",
+      "paperUrl": "https://openreview.net/forum?id=RCI7AIVyKg",
+      "pdfUrl": "https://openreview.net/pdf?id=RCI7AIVyKg",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-12-11",
+      "datePrecision": "day",
+      "sourceDate": "2026-12-11",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "future-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "RCI7AIVyKg"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=RCI7AIVyKg",
+          "https://openreview.net/pdf?id=RCI7AIVyKg"
+        ],
+        "rawPublishedValues": [
+          "2026-12-11"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-neurips-d74f5852d1b8",
+      "title": "Projected Neural Additive Models as Universal Approximators",
+      "authors": [
+        "Nhon N Phan",
+        "Qiang Du",
+        "John D Clayton",
+        "WaiChing Sun"
+      ],
+      "venue": "NEURIPS",
+      "year": "2026",
+      "abstract": "Neural additive models (NAMs) offer interpretability but lack expressivity due to their rigid additive structure, whereas multi-layer perceptrons (MLPs) achieve universal approximation at the cost of transparency. We establish the first theoretical foundation for projected neural additive models (PNAMs), which augment NAMs with a learnable linear transformation $\\boldsymbol{T}$ to capture cross-variable interactions. While standard NAMs cannot approximate even the simplest interaction term $\\chi_1 \\chi_2$ because their cross-derivatives are identically zero, we prove that PNAMs are universal approximators and characterize the minimum number of projections required for exact polynomial representation. Furthermore, we derive an approximation rate of $\\mathcal{O}(M^{-s / (N - 1)})$ for $\\mathcal{C}^s$ functions (i.e., functions with $s$ continuous derivatives), where $M$ denotes the number of projections and $N$ the input dimension; this rate is known to be optimal for ridge function approximation. To recover interpretability from the projected inputs, we introduce structured sparsity regularizers and post-hoc symbolic regression techniques that enable global input ranking, parameter pruning, and the conversion of learned bases into compact analytical expressions. Experiments on knot theory invariants, MNIST, and phase field fracture mechanics demonstrate that PNAMs match or surpass MLPs in accuracy while discovering salient features and yielding symbolic models with orders of magnitude fewer parameters.",
+      "paperUrl": "https://openreview.net/forum?id=6AZvfOFUIP",
+      "pdfUrl": "https://openreview.net/pdf?id=6AZvfOFUIP",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-12-11",
+      "datePrecision": "day",
+      "sourceDate": "2026-12-11",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "future-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "6AZvfOFUIP"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=6AZvfOFUIP",
+          "https://openreview.net/pdf?id=6AZvfOFUIP"
+        ],
+        "rawPublishedValues": [
+          "2026-12-11"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-neurips-133fc2fb5bd3",
+      "title": "Geometry-Constrained Kolmogorov–Arnold Networks: Learning Edge Geometry via Banach Duality",
+      "authors": [
+        "Senanayak Sesh Kumar Karri"
+      ],
+      "venue": "NEURIPS",
+      "year": "2026",
+      "abstract": "Kolmogorov–Arnold Networks (KANs) replace fixed activations in deep architectures with learnable univariate edge functions, making the choice of edge parametrisation central. Existing variants rely on fixed bases such as splines, polynomials, or Fourier features, which impose a function-space geometry before data are observed. We introduce geometry-constrained KANs, a family of edge activations derived from Banach duality maps in which the geometry itself is learned through a scalar exponent $p > 1$ per edge. This exponent controls the qualitative response: sub-Euclidean values produce sharp threshold-like behaviour, $p = 2$ recovers the linear regime, and larger values produce flatter responses near the origin. Beyond expressivity, the exponent also modulates sensitivity: smaller values reduce amplification of perturbations, providing an implicit regularisation effect without introducing an explicit shrinkage hyperparameter. Across 50 Feynman symbolic regression equations, geometry-constrained KANs match strong fixed-basis baselines on clean data while substantially improving robustness under distribution shift. In particular, they outperform cross-validated spline baselines in 85 of 90 data-scarcity settings and degrade significantly less under noise (3.7× versus 21.6× for splines). Learned exponents are interpretable and stable, revealing consistent geometric structure across equation families and input dimensions.",
+      "paperUrl": "https://openreview.net/forum?id=IYu64aV0LR",
+      "pdfUrl": "https://openreview.net/pdf?id=IYu64aV0LR",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-12-08",
+      "datePrecision": "day",
+      "sourceDate": "2026-12-08",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "future-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "IYu64aV0LR"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=IYu64aV0LR",
+          "https://openreview.net/pdf?id=IYu64aV0LR"
+        ],
+        "rawPublishedValues": [
+          "2026-12-08"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "symbolic regression"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
+    },
+    {
+      "id": "import-2026-neurips-018d61cf8447",
+      "title": "AeroMosaic:Transport-Aware Multimodal Evidence Fusion for Atmospheric Pollution Risk Inference",
+      "authors": [
+        "Muyang Zheng",
+        "Jiaming Ma",
+        "Zongyu Zhang",
+        "Qingsong Wen"
+      ],
+      "venue": "NEURIPS",
+      "year": "2026",
+      "abstract": "",
+      "paperUrl": "https://openreview.net/forum?id=Cwisp6UwX8",
+      "pdfUrl": "https://openreview.net/pdf?id=Cwisp6UwX8",
+      "codeUrl": "",
+      "projectUrl": "",
+      "keywords": [],
+      "disciplines": [],
+      "tags": [],
+      "imported": true,
+      "hasNotes": false,
+      "published": "",
+      "dateRaw": "2026-12-07",
+      "datePrecision": "day",
+      "sourceDate": "2026-12-07",
+      "pdfAvailability": "candidate",
+      "codeAvailability": "unknown",
+      "classificationStatus": "needs-review",
+      "recordFlags": [
+        "missing-abstract",
+        "future-date",
+        "taxonomy-rule-derived"
+      ],
+      "metadataProvenance": {
+        "source": "metadata(1).rar#metadata/2026/ai4s.json",
+        "originalIds": [
+          "Cwisp6UwX8"
+        ],
+        "sourceUrls": [
+          "https://openreview.net/forum?id=Cwisp6UwX8",
+          "https://openreview.net/pdf?id=Cwisp6UwX8"
+        ],
+        "rawPublishedValues": [
+          "2026-12-07"
+        ],
+        "selectionReason": "keyword",
+        "selectionHits": [
+          "atmospheric"
+        ],
+        "classificationMethod": "rules-v1",
+        "classificationEvidence": {},
+        "importedAt": "2026-10-28",
+        "importMode": "direct-field-mapping-no-candidate-filter",
+        "archiveSha256": "7f1134f2473d77ff825ca8f0c994e856c51a6898e192c23bc0960d1ca4535866"
+      }
     }
   ]
 }
