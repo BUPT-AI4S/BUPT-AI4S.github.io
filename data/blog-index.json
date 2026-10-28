@@ -596,6 +596,42 @@
       "titleEn": "How a Scientific Agent Harness Supports Research Execution",
       "summaryEn": "Using AI Scientist, explore how a harness organizes research ideas, staged experiments, execution records, paper writing and review to support scientific research tasks.",
       "collection": "agents"
+    },
+    {
+      "id": "hle-editorial",
+      "articleId": "hle",
+      "dataUrl": "data/blog/articles/hle.json",
+      "title": "HLE：常用试卷接近满分之后，怎样测量大模型的能力边界？",
+      "subtitle": "以 HLE 为例，理解专家级题目的构建、评测与能力边界。",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "以 Humanity’s Last Exam 为例，梳理专家级题目的构建、难度筛选与审核，理解准确率、置信度校准及专业答题与自主科研之间的能力边界。",
+      "categories": [
+        "evaluation"
+      ],
+      "keywords": [
+        "HLE",
+        "Humanity’s Last Exam",
+        "评测基准",
+        "置信度校准"
+      ],
+      "publicationYear": 2026,
+      "order": 15,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1038/s41586-025-09962-4"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/centerforaisafety/hle"
+        }
+      ],
+      "titleEn": "HLE: Measuring the Limits of Large Models Beyond Saturated Benchmarks",
+      "summaryEn": "Explore how Humanity’s Last Exam builds, screens and reviews expert-level questions, and what accuracy and confidence calibration reveal about the gap between answering questions and conducting research.",
+      "collection": "evaluation"
     }
   ]
 }
