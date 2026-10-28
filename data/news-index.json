@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "emnlp-2026-cognition-on-graph",
+      "title": "图谱与文本如何协同回答复杂问题？| EMNLP 2026",
+      "titleEn": "Graph–Text Synergy for Complex Questions: Cognition on Graph at EMNLP 2026",
+      "summary": "周庚显在 EMNLP 2026 主会展示 CoG 研究，介绍知识图谱与文本如何通过认知循环、证据整合和双向协同，完成复杂多跳问答。",
+      "summaryEn": "Gengxian Zhou presents Cognition on Graph at EMNLP 2026, connecting knowledge graphs and text through cognitive cycles, evidence synthesis and bidirectional synergy for multi-hop question answering.",
+      "source": "BUPT Reasoning · 学术现场",
+      "sourceEn": "BUPT Reasoning · Research events",
+      "date": "2026-10-28",
+      "cover": "data/news/assets/emnlp-2026-cognition-on-graph/cognition-on-graph-cover.webp"
+    },
+    {
       "id": "emnlp-2026-jiayu-huang",
       "title": "黄加宇：大模型能否遵循医学专家逻辑？| EMNLP 2026",
       "titleEn": "Jiayu Huang at EMNLP 2026: Can LLMs Follow Medical Expert Logic?",
@@ -9,8 +20,8 @@
       "summaryEn": "Jiayu Huang presents LogiMed-RoB at EMNLP 2026, examining answers, hierarchical reasoning and evidence in risk-of-bias assessment. Includes the talk recording.",
       "source": "BUPT Reasoning · 学术现场",
       "sourceEn": "BUPT Reasoning · Research events",
-      "date": "2026-10-28",
-      "cover": "data/news/assets/emnlp-2026-jiayu-huang/emnlp-report-cover.webp"
+      "date": "2026-10-27",
+      "cover": "data/news/assets/emnlp-2026-jiayu-huang/emnlp-report-cover-hd.webp"
     },
     {
       "id": "besc-2026-haihong-e",

@@ -1,0 +1,257 @@
+{
+  "id": "emnlp-2026-cognition-on-graph",
+  "title": "图谱与文本如何协同回答复杂问题？| EMNLP 2026",
+  "source": "BUPT Reasoning",
+  "subtitle": "学术现场 · EMNLP 2026",
+  "date": "2026-10-28",
+  "sourceSha256": "d9dcaea4fd80f485d47d8985c1b8de277ec5ae33559533c40b54041c6625d2cd",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "EMNLP 2026 · 知识图谱 · 多跳问答 · 图谱—文本协同"
+    },
+    {
+      "type": "paragraph",
+      "text": "复杂问题的答案，往往不在一个段落里。它可能需要沿着知识图谱追踪实体关系，再回到百科文本中确认细节；一次检索走偏，后续推理就可能沿着错误路径继续。"
+    },
+    {
+      "type": "paragraph",
+      "text": "CoG 将多跳检索组织成反复的计划、检索、证据整合与策略调整；文本中新发现的实体，还能反过来引导图谱探索。"
+    },
+    {
+      "type": "paragraph",
+      "text": "自然语言处理领域的重要国际会议 Empirical Methods in Natural Language Processing（EMNLP）2026 于 10 月 24—29 日在匈牙利布达佩斯举行。本届主会论文集中，实验室有两篇研究成果发表：上一篇介绍了黄加宇等人的医学风险偏倚评估研究；本篇继续解读周庚显等人的知识图谱研究。"
+    },
+    {
+      "type": "paragraph",
+      "text": "当地时间 10 月 25 日，北京邮电大学计算机学院（国家示范性软件学院）与北京中关村学院联培博士研究生周庚显（Gengxian Zhou）在EMNLP 2026 Poster Session 作海报展示，介绍论文 Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/cognition-on-graph-photo-hd.jpg",
+      "caption": "图 1｜周庚显在 EMNLP 2026 主会作海报展示。图源：会议现场照片。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者：Gengxian Zhou、Jian Xu、Zichen Tang、Shiming Xiang、Haihong E、Cheng-Lin Liu"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者单位：1 北京邮电大学；2 北京中关村学院；3 中国科学院自动化研究所；4 中国科学院大学人工智能学院"
+    },
+    {
+      "type": "paragraph",
+      "text": "通讯作者：Haihong E（鄂海红）、Cheng-Lin Liu（刘成林）"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表：Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing，pp. 31643–31674，2026"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究要点"
+    },
+    {
+      "type": "paragraph",
+      "text": "CoG 将知识图谱的关系结构与 Wikipedia 文本线索纳入同一条动态检索过程：先拆分问题、定位实体并收集证据，再根据检索进展决定继续还是调整路径；文本发现的新实体还可反过来引导图谱探索。论文在七个多跳问答基准上显示出总体性能优势，但多轮模型调用也带来延迟和成本。"
+    },
+    {
+      "type": "paragraph",
+      "text": "先看论文对既有探索策略的比较：从图谱遍历、回退、主动规划到文本剪枝，CoG 将这些能力组织在同一认知循环中，并让文本发现的实体成为跨越图谱缺口的线索[1]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/image2.png",
+      "caption": "图 2｜论文比较了多种知识探索策略，并突出文本线索对图谱探索的反向引导。图源：Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy，Fig. 1。"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "研究缘起：为什么多跳问答需要“导航”？",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "从一个具体问题看这项工作：要找出“曾为 Stanford Cardinals 效力、单赛季有 57 次接球、1,010 码和 14 次达阵的球员的中间名”，系统既要把赛季数据串起来，又要找到对应人物及其别名。论文用这个例子展示，答案需要跨越结构化事实与文本证据。"
+    },
+    {
+      "type": "paragraph",
+      "text": "检索增强生成（RAG）通过外部资料补充大语言模型的参数知识。遇到多跳问题时，系统还需要把分散的事实逐步连成证据链：知识图谱提供实体和关系，文本则保存更完整的语境、属性和细节。"
+    },
+    {
+      "type": "paragraph",
+      "text": "两类来源各有缺口。只沿图谱扩展，实体链接可能出错，关系也可能断在知识图谱未覆盖的地方；只检索文本，又可能拿到相似却无关的段落，难以确定下一步该找谁、查什么。若一开始就把搜索范围限制在“已知包含答案”的段落，评测也无法充分反映开放知识库中的噪声与歧义。"
+    },
+    {
+      "type": "paragraph",
+      "text": "CoG 面向的是全局知识环境中的多跳问答：图谱端使用 Wikidata，文本端使用 Wikipedia。系统从原始问题出发，自行拆分检索目标、识别实体并逐步收集证据，不依赖预先标注好的起始实体或预选答案段落。"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "模型设计：CoG 如何连接图谱与文本？",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者将 CoG 定义为无需专门训练导航策略的 GraphRAG 框架；实验仍调用预训练语言模型和嵌入模型完成推理、实体链接与检索。它的核心不是把图谱检索和文本检索简单并排，而是让检索状态持续影响下一步行动。下图沿用论文中的 Stanford 球员问题，展示了从初始计划、双源检索到证据综合和策略调整的完整过程[1]。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/image3.png",
+      "caption": "图 3｜CoG 的计划、双源检索、证据综合与反思调整框架。图源：Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy，Fig. 2。"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "计划：先把问题拆成可检索的线索",
+      "id": "subsection-1",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "CoG 直接分析原始问题，判断需要补齐哪些信息，再拆成若干子查询并为每个查询寻找起始实体。上述示例中，系统先把“球员是谁”和“中间名是什么”区分开，围绕接球数、码数和达阵数拟定检索目标。与依赖人工提供实体的做法相比，这一步让探索从问题本身启动。"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "探索：图谱查关系，文本补语境",
+      "id": "subsection-2",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "知识图谱侧先召回候选实体，再结合问题语境消歧；接着筛选相关关系，并从候选事实中保留可能回答子问题或通向下一条线索的内容。文本侧则先选取实体页面，浏览页面摘要和章节结构，再深入阅读相关章节。这样既利用图谱的结构化关系，也利用文本中更细的背景与统计信息。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "综合与反思：决定继续、作答还是换路",
+      "id": "subsection-3",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "每轮检索后，CoG 将图谱和文本证据整理成统一摘要，并判断当前证据是否足以回答问题。系统用笔记本保存已核实事实，用候选实体池保留暂未展开的线索，并记录交互历史。证据还不够但已有进展，就继续查询；若当前路径无效，就根据历史记录改写查询、回退或更换候选实体；只有判断证据充分后，才生成最终答案。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这构成“计划—探索—综合—反思”的认知循环。图谱与文本也因此形成双向协同：图谱帮助定位和验证关系，文本中发现的新实体又能成为图谱导航的新锚点。论文示例里，文本检索找到了 James Lofton 及其赛季统计，系统再借助图谱信息确认人物关系与别名，最后回到文本核对接球数据。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "实验结果：准确率之外，还要看检索代价",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文在七个多跳问答基准上进行评测，包含四个知识图谱问答任务（KGQAGen、CWQ、QALD10-en、WebQSP）和三个文本问答任务（2WikiMQA、AdvHotpotQA、MusiQue）。主要结果使用 Qwen3-32B（非思考模式）作为统一骨干模型，以 Exact Match（EM）为主要指标；重复实验报告三次独立运行的中位数。"
+    },
+    {
+      "type": "paragraph",
+      "text": "CoG 在七项任务中的五项取得最高 EM。KGQAGen 上为 74.70%，高于当组最强基线 ToG-2 的 55.61%；文本密集型任务 MusiQue 上为 27.80%，高于 IRCoT 的 20.60%。但优势并非覆盖所有数据集：在 QALD10-en 和 WebQSP 上，DoG 分别达到 55.86% 和 82.38%，略高于 CoG 的 55.26% 和 81.75%。因此，结果支持 CoG 在多类任务上的总体优势，也显示不同任务仍可能偏好不同探索策略。"
+    },
+    {
+      "type": "paragraph",
+      "text": "探索深度实验进一步显示，检索走得更深并不总会带来同等收益。WebQSP、2WikiMQA 等较简单任务在较浅深度后趋于稳定；KGQAGen、AdvHotpotQA 等较难任务则能从更深探索中继续获益。图中不同任务的曲线走势不同，说明探索深度需要结合问题难度和证据进展来理解，而不是固定追求更多轮次。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/image4.png",
+      "caption": "图 4｜不同任务的 EM 随最大探索深度变化；较难任务对更深探索的收益更明显。图源：Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy，Fig. 3。"
+    },
+    {
+      "type": "paragraph",
+      "text": "消融实验也支持图谱与文本之间的反馈作用。在六项任务的平均 EM 上，关闭“文本发现实体反向引导图谱探索”后，分数从 56.30% 降至 51.36%，下降 4.94 个百分点。单纯同时接入两种知识源还不够，文本线索需要真正影响后续图谱搜索。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "核算效率：访问文档数与模型调用成本",
+      "id": "subsection-4",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "论文报告，CoG 每题访问的唯一文档数约为 ToG-2 的 1/12.4，说明目标导向的探索能减少对无关文档的反复访问。但这是文档访问数量的比较，不等于响应速度提高 12.4 倍。CoG 需要多轮、部分串行的大语言模型调用，论文也将推理延迟与调用成本列为限制；复杂任务为获得更完整的证据，可能消耗更多时间和 token。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文还按规划、图谱检索、Wikipedia 检索和证据综合拆解了每轮平均耗时。不同任务的时间分布并不相同；在部分数据集中，文本检索占据较多时间，体现出多轮开放式探索的推理成本。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/image5.png",
+      "caption": "图 5｜每轮平均耗时按规划、图谱检索、文本检索和证据综合阶段拆分。图源：Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy，Fig. 4。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "答案匹配与推理可靠性：正确答案也可能来自错误路径",
+      "id": "subsection-5",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "Exact Match 只比较最终答案的字符串，不能单独判断中间推理是否有据。论文从 EM 判断正确的样本中抽取案例：Self-Consistency 与 ToG-2 都答出“German”，但前者把教练与球员经历错误连接，后者根据俱乐部国籍猜测答案；CoG 则检索到教练 Daniel Thioune 的前俱乐部 VfL Osnabrück，再沿关系确认德国国籍。相同的答案匹配结果，可能对应质量不同的证据链。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/image6.png",
+      "caption": "图 6｜相同的答案“German”背后，模型可能给出猜测路径，也可能沿证据关系逐步确认。图源：Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy，Fig. 5。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "错误分析：区分评测误差与系统自身失误",
+      "id": "subsection-6",
+      "level": 3
+    },
+    {
+      "type": "paragraph",
+      "text": "作者还对 EM 未通过的抽样案例进行了人工归因：71.1% 被归为外部因素，包括严格字符串匹配带来的指标假阴性、数据集问题和知识库时间差；28.9% 属于系统内部的探索或推理错误。这个比例描述的是论文抽查的错误样本，不代表所有测试题的错误构成。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/emnlp-2026-cognition-on-graph/image7.png",
+      "caption": "图 7｜抽样错误中，外部因素占 71.1%，系统内部错误占 28.9%。图源：Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy，Fig. 6。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "收获与思考：知识导航离自主科学发现还有多远？",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "CoG 的主要贡献，是把多跳问答从一次性检索推进为可继续、可回退的知识探索过程，并让结构化图谱与非结构化文本在过程中互相提供线索。实验表明，这种组合在多类开放知识问答任务中能够改善答案表现，同时把检索目标收得更集中。"
+    },
+    {
+      "type": "paragraph",
+      "text": "从 AI4S 视角看，持续检查证据、发现缺口后调整搜索路径，是科学文献与知识库问答值得探索的能力。这篇论文验证的是 Wikidata 与 Wikipedia 上的通用多跳问答，迁移到具体学科，还需要检验领域知识库的覆盖、证据来源的可追溯性，以及答案与研究原文之间的对应关系。"
+    },
+    {
+      "type": "heading",
+      "number": "",
+      "text": "参考文献",
+      "id": "references"
+    },
+    {
+      "type": "paragraph",
+      "text": "[1] Zhou, G., Xu, J., Tang, Z., Xiang, S., E, H., & Liu, C.-L. “Cognition on Graph: Navigating Massive Knowledge Space via Cognitive Cycles and Bidirectional Graph-Text Synergy.” Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing, pp. 31643–31674, 2026. 论文链接：https://aclanthology.org/2026.emnlp-main.1386/"
+    },
+    {
+      "type": "paragraph",
+      "text": "本文根据周庚显报告海报及论文正式发表版本整理。"
+    }
+  ]
+}
