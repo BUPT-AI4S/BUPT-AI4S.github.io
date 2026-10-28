@@ -75,10 +75,10 @@ function renderReader() {
 }
 function renderActions() {
   const box=$('reading-actions');box.replaceChildren();
-  for(const [key,zh,en] of [['ai4s-saved-papers',['收藏','已收藏'],['Save','Saved']],['ai4s-liked-papers',['点赞','已点赞'],['Like','Liked']]]) {
+  for(const [key,zh,en] of [['ai4s-saved-papers',['收藏','已收藏'],['Save','Saved']]]) {
     let values=[];try {const value=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(value))values=value;}catch{}
     const selected=values.includes(paper.id),button=node('button',tr(zh[Number(selected)],en[Number(selected)]));button.type='button';button.setAttribute('aria-pressed',String(selected));
-    button.addEventListener('click',()=>{values=selected?values.filter(id=>id!==paper.id):[...values,paper.id];try {localStorage.setItem(key,JSON.stringify(values));renderActions();box.children[key==='ai4s-saved-papers'?0:1].focus();}catch {button.textContent=tr('浏览器存储不可用','Browser storage unavailable');}});box.append(button);
+    button.addEventListener('click',()=>{values=selected?values.filter(id=>id!==paper.id):[...values,paper.id];try {localStorage.setItem(key,JSON.stringify(values));renderActions();box.firstElementChild.focus();}catch {button.textContent=tr('浏览器存储不可用','Browser storage unavailable');}});box.append(button);
   }
 }
 let tagTranslations = {};
@@ -98,7 +98,7 @@ function renderRelated() {
   const related=relatedPapers(paper,catalog);
   const list=node('div',undefined,'related-list');
   for(const entry of related.slice(0,relatedLimit)) {
-    const link=node('a',undefined,'related-entry');link.href=readingUrl(entry.id,new URL($('back-to-papers').href).search);
+    const link=node('a',undefined,'related-entry');link.href=readingUrl(entry.id,new URL($('back-to-papers').href).search);link.target='_blank';link.rel='noopener noreferrer';
     link.append(node('h3',tr(entry.titleZh||entry.title,entry.title)),node('p',[entry.venue,entry.year,...paperTags(entry).filter(tag=>paperTags(paper).includes(tag)).map(tag=>tagLabel(tag,root.lang,tagTranslations,tagLabelsEn))].filter(Boolean).join(' · ')));
     list.append(link);
   }

@@ -21,6 +21,7 @@ function icon(name){
   const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',paths[name]||paths.external);svg.append(path);return svg;
 }
 function button(text,cls,action){const b=node('button',text,cls);b.type='button';b.addEventListener('click',action);return b;}
+function paperLink(id,text){const a=node('a',text);a.href=readingUrl(id,location.search);a.target='_blank';a.rel='noopener noreferrer';return a;}
 function resource(label,url,name='external'){
   try{const parsed=new URL(url);if(parsed.protocol!=='https:')return null;const a=node('a');a.href=parsed.href;a.target='_blank';a.rel='noopener noreferrer';a.append(icon(name),document.createTextNode(label));return a;}catch{return null;}
 }
@@ -125,7 +126,7 @@ function resourceLinks(p){
 }
 function card(p,index){
   const article=node('article',undefined,'catalog-paper '+colorClass(p));article.dataset.paperId=p.id;
-  const heading=node('div',undefined,'card-heading'),title=node('h2'),link=node('a',p.title);link.href=readingUrl(p.id,location.search);title.append(link);
+  const heading=node('div',undefined,'card-heading'),title=node('h2'),link=paperLink(p.id,p.title);title.append(link);
   heading.append(node('span','#'+(papers.indexOf(p)+1),'card-number'),title,saveButton(p));article.append(heading);
   const authors=node('p',(p.authors||[]).join(', '),'card-authors');article.append(authors,renderLabels(p));
   const meta=node('div',undefined,'card-meta');meta.append(icon('calendar'),node('span',[p.venue,p.year,p.subfield].filter(Boolean).join(' · ')),node('span',p.published?tr('发表 ','Published ')+p.published:p.imported&&p.dateRaw?tr('来源日期 ','Source date ')+p.dateRaw:tr('发表日期待补充','Publication date unavailable')));article.append(meta,resourceLinks(p));
@@ -134,13 +135,13 @@ function card(p,index){
   const open=expanded.has(p.id);abstract.id='abstract-'+index;abstract.classList.toggle('is-expanded',open);article.append(abstract);
   const footer=node('div',undefined,'card-footer');
   if(text){const b=button(tr(open?'收起摘要':'展开摘要',open?'Collapse abstract':'Expand abstract'),'abstract-toggle',()=>{if(expanded.has(p.id))expanded.delete(p.id);else expanded.add(p.id);const isOpen=expanded.has(p.id);abstract.classList.toggle('is-expanded',isOpen);b.replaceChildren(document.createTextNode(tr(isOpen?'收起摘要':'展开摘要',isOpen?'Collapse abstract':'Expand abstract')),icon('chevron'));b.setAttribute('aria-expanded',String(isOpen));});b.append(icon('chevron'));b.setAttribute('aria-expanded',String(open));b.setAttribute('aria-controls',abstract.id);footer.append(b);}
-  const read=node('a',tr('查看解读','Read summary'));read.href=readingUrl(p.id,location.search);footer.append(read);article.append(footer);
+  const read=paperLink(p.id,tr('查看解读','Read summary'));footer.append(read);article.append(footer);
   return article;
 }
 function renderTable(entries){
   const table=node('table',undefined,'catalog-table'),caption=node('caption',tr('论文检索结果','Paper search results'),'sr-only'),head=node('thead'),row=node('tr');
   for(const text of ['#',tr('论文','Paper'),tr('作者','Authors'),tr('研究方向','Research area'),tr('来源 / 日期','Source / Date'),tr('资源','Resources'),tr('收藏','Save')]){const th=node('th',text);th.scope='col';row.append(th);}head.append(row);const body=node('tbody');
-  for(const p of entries){const r=node('tr');r.append(node('td',String(papers.indexOf(p)+1)));const title=node('td'),a=node('a',p.title);a.href=readingUrl(p.id,location.search);title.append(a);r.append(title,node('td',(p.authors||[]).join(', ')));const labels=node('td');labels.append(renderLabels(p));r.append(labels,node('td',[p.venue,p.year,p.published].filter(Boolean).join(' · ')));const links=node('td');links.append(resourceLinks(p));r.append(links);const save=node('td');save.append(saveButton(p));r.append(save);body.append(r);}table.append(caption,head,body);list.append(table);
+  for(const p of entries){const r=node('tr');r.append(node('td',String(papers.indexOf(p)+1)));const title=node('td'),a=paperLink(p.id,p.title);title.append(a);r.append(title,node('td',(p.authors||[]).join(', ')));const labels=node('td');labels.append(renderLabels(p));r.append(labels,node('td',[p.venue,p.year,p.published].filter(Boolean).join(' · ')));const links=node('td');links.append(resourceLinks(p));r.append(links);const save=node('td');save.append(saveButton(p));r.append(save);body.append(r);}table.append(caption,head,body);list.append(table);
 }
 function renderPagination(pagination,total){
   const host=$('catalog-pagination');host.replaceChildren();host.hidden=pagination.pages<=1;
