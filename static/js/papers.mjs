@@ -111,7 +111,7 @@ function renderResourceFacets(){
 }
 function renderLabels(p){
   const box=node('div',undefined,'card-labels');
-  for(const id of p.disciplines||[]){const b=button(disciplineLabel(id),'discipline-chip '+colorClass({disciplines:[id]}),()=>{selected=[id];refresh();});box.append(b);}
+  for(const id of p.disciplines||[]){const b=button(disciplineLabel(id),'discipline-chip '+colorClass({disciplines:[id]}),()=>{selected=[id];refresh();});if(DISCIPLINES[id])b.dataset.discipline=id;box.append(b);}
   for(const tag of paperTags(p)){const b=button(tagLabel(tag,root.lang,translations,englishLabels),'topic-chip',()=>{selectedTag=tag;refresh();});box.append(b);}return box;
 }
 function resourceLinks(p){
@@ -126,6 +126,7 @@ function resourceLinks(p){
 }
 function card(p,index){
   const article=node('article',undefined,'catalog-paper '+colorClass(p));article.dataset.paperId=p.id;
+  if(DISCIPLINES[p.disciplines?.[0]])article.dataset.discipline=p.disciplines[0];
   const heading=node('div',undefined,'card-heading'),title=node('h2'),link=paperLink(p.id,p.title);title.append(link);
   heading.append(node('span','#'+(papers.indexOf(p)+1),'card-number'),title,saveButton(p));article.append(heading);
   const authors=node('p',(p.authors||[]).join(', '),'card-authors');article.append(authors,renderLabels(p));

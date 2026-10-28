@@ -39,21 +39,21 @@
 .area-blue { --area-color:var(--blue); --area-fill:var(--blue-dim); }
 .area-teal { --area-color:var(--cyan); --area-fill:var(--cyan-dim); }
 .area-green { --area-color:var(--cyan); --area-fill:var(--cyan-dim); }
-/* Stable category colors are scoped to sidebar wayfinding. */
-.discipline-button[data-discipline="scientific-data"] { --category-rgb:40,105,204; }
-.discipline-button[data-discipline="scientific-knowledge-models"] { --category-rgb:137,73,185; }
-.discipline-button[data-discipline="scientific-foundation-models"] { --category-rgb:82,83,192; }
-.discipline-button[data-discipline="scientific-agents"] { --category-rgb:0,128,151; }
-.discipline-button[data-discipline="scientific-evaluation"] { --category-rgb:183,116,12; }
-.discipline-button[data-discipline="autonomous-labs"] { --category-rgb:184,70,109; }
-.discipline-button[data-discipline="mathematical-sciences"] { --category-rgb:65,94,179; }
-.discipline-button[data-discipline="life-sciences"] { --category-rgb:46,135,74; }
-.discipline-button[data-discipline="matter-sciences"] { --category-rgb:198,95,35; }
-.discipline-button[data-discipline="earth-space-sciences"] { --category-rgb:0,135,124; }
-.discipline-button[data-discipline="information-sciences"] { --category-rgb:28,125,175; }
-.discipline-button[data-discipline="social-sciences"] { --category-rgb:170,73,151; }
-.discipline-button[data-discipline] { --area-color:rgb(var(--category-rgb)); --area-fill:rgba(var(--category-rgb),.13); }
-html[data-theme="dark"] .discipline-button[data-discipline] { --area-color:color-mix(in srgb,rgb(var(--category-rgb)),white 32%); --area-fill:rgba(var(--category-rgb),.24); }
+/* Share category colors across sidebar navigation, paper cards and discipline labels. */
+[data-discipline="scientific-data"] { --category-rgb:40,105,204; }
+[data-discipline="scientific-knowledge-models"] { --category-rgb:137,73,185; }
+[data-discipline="scientific-foundation-models"] { --category-rgb:82,83,192; }
+[data-discipline="scientific-agents"] { --category-rgb:0,128,151; }
+[data-discipline="scientific-evaluation"] { --category-rgb:183,116,12; }
+[data-discipline="autonomous-labs"] { --category-rgb:184,70,109; }
+[data-discipline="mathematical-sciences"] { --category-rgb:65,94,179; }
+[data-discipline="life-sciences"] { --category-rgb:46,135,74; }
+[data-discipline="matter-sciences"] { --category-rgb:198,95,35; }
+[data-discipline="earth-space-sciences"] { --category-rgb:0,135,124; }
+[data-discipline="information-sciences"] { --category-rgb:28,125,175; }
+[data-discipline="social-sciences"] { --category-rgb:170,73,151; }
+[data-discipline] { --area-color:rgb(var(--category-rgb)); --area-fill:rgba(var(--category-rgb),.13); }
+html[data-theme="dark"] [data-discipline] { --area-color:color-mix(in srgb,rgb(var(--category-rgb)),white 32%); --area-fill:rgba(var(--category-rgb),.24); }
 .discipline-button { position:relative; width:100%; display:flex; gap:10px; align-items:center; text-align:left; min-height:54px; padding:7px 10px; border:1px solid transparent; border-radius:10px; background:transparent; color:var(--soft); isolation:isolate; }
 .discipline-fill { position:absolute; inset:0 auto 0 0; z-index:-1; border-radius:9px; background:var(--area-fill); }
 .discipline-button:hover { background:var(--btn-surface); }
