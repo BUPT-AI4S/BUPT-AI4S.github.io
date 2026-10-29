@@ -1,0 +1,83 @@
+{
+  "id": "lecture-preview-yuxiang-zhang",
+  "title": "课程预告｜张宇翔：AI + 通信，从基础原理走向智能未来",
+  "source": "BUPT Reasoning",
+  "subtitle": "科学智能原理与实践 · AI + 通信专题",
+  "date": "2026-10-18",
+  "sourceSha256": "a65243b0fb93113281568f185fb0212f179d60a64c7d314b7f5c27e587bbb954",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "从手机连接网络，到面向未来的智能通信系统，通信技术始终在回答怎样高效、可靠地传递信息。10 月 20 日，《科学智能原理与实践》课程邀请张宇翔副教授带来“AI + 通信”专题，和同学们一起走近无线通信与人工智能交汇的研究方向。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/lecture-preview-yuxiang-zhang/poster.jpg",
+      "caption": "张宇翔讲座预告海报（点击查看原图）"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "课程安排",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "课程主题：AI + 通信专题"
+    },
+    {
+      "type": "paragraph",
+      "text": "主讲教师：张宇翔，北京邮电大学副教授"
+    },
+    {
+      "type": "paragraph",
+      "text": "时间：2026 年 10 月 20 日，第 10—11 节（16:35—18:10）"
+    },
+    {
+      "type": "paragraph",
+      "text": "地点：3-239"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "主讲嘉宾",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "张宇翔为北京邮电大学副教授，入选北京市科协青年人才托举工程、首届全球 6G 星辰青年学者。其 30 余篇提案被 3GPP 采纳，形成 3GPP 标准 1 项，并获中国通信学会科技进步二等奖、中国电子学会科技进步一等奖等。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "讲座看点",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "通信与 AI 的融合演进：沿着从 1G 到 6G 的发展脉络，认识无线通信的变化与智能化方向。"
+    },
+    {
+      "type": "paragraph",
+      "text": "基础原理与关键挑战：从无线通信背后的基本问题出发，理解为什么需要引入新的智能方法。"
+    },
+    {
+      "type": "paragraph",
+      "text": "深度学习与大模型：了解它们怎样为无线通信研究提供工具与思路。"
+    },
+    {
+      "type": "paragraph",
+      "text": "从智能体到世界模型：关注 AI4 通信的新范式，思考通信系统与智能方法能够怎样协同。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "欢迎同学们关注",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎对 AI 与通信感兴趣的同学关注本次课程。无论你更熟悉机器学习还是通信原理，都可以从这次专题中寻找两者之间的连接，也可以提前准备一个想了解的通信场景，带着具体问题参与课堂学习。"
+    }
+  ]
+}

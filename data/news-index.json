@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "lecture-preview-haochen-li",
+      "title": "专家报告预告｜李昊辰：从物理信息神经网络到科学计算智能体",
+      "titleEn": "Expert Talk Preview | Haochen Li: From Physics-Informed Neural Networks to Scientific Computing Agents",
+      "summary": "11 月 3 日，李昊辰副教授将带来科学计算专题，介绍物理信息神经网络、微分方程智能求解与 Skill 设计，探索科学计算智能体的构建与应用。",
+      "summaryEn": "On November 3, Associate Professor Haochen Li will introduce physics-informed neural networks, differential-equation solving and Skill design, exploring the construction and use of scientific computing agents.",
+      "source": "BUPT Reasoning · 课程预告",
+      "sourceEn": "BUPT Reasoning · Lecture previews",
+      "date": "2026-10-29",
+      "cover": "data/news/assets/lecture-preview-haochen-li/cover.webp"
+    },
+    {
       "id": "emnlp-2026-cognition-on-graph",
       "title": "图谱与文本如何协同回答复杂问题？| EMNLP 2026",
       "titleEn": "Graph–Text Synergy for Complex Questions: Cognition on Graph at EMNLP 2026",
@@ -46,6 +57,17 @@
       "cover": "data/news/assets/wyss-2026-haihong-e/wyss-report-cover-original.webp"
     },
     {
+      "id": "lecture-preview-guangyi-liu",
+      "title": "专家报告预告｜刘光毅：6G 通感算智融合，赋能新型业务与终端",
+      "titleEn": "Expert Talk Preview | Guangyi Liu: Integrated Communication, Sensing, Computing and AI for 6G",
+      "summary": "10 月 27 日，中国移动通信集团公司首席专家刘光毅博士将介绍 6G 通感算智融合，从业务需求、技术挑战到融合方案与研究实践，连接智能方法与通信应用。",
+      "summaryEn": "On October 27, Dr. Guangyi Liu, Chief Expert at China Mobile, will discuss integrated communication, sensing, computing and AI for 6G, covering service needs, technical challenges and research practice.",
+      "source": "BUPT Reasoning · 课程预告",
+      "sourceEn": "BUPT Reasoning · Lecture previews",
+      "date": "2026-10-25",
+      "cover": "data/news/assets/lecture-preview-guangyi-liu/cover.webp"
+    },
+    {
       "id": "cncc-2026-haihong-e",
       "title": "鄂海红：从图谱智能体到自主发现系统，结构化知识赋能可信科学推理 | CNCC 2026",
       "titleEn": "Haihong E at CNCC 2026: Structured Knowledge for Trustworthy Scientific Reasoning",
@@ -57,6 +79,17 @@
       "cover": "data/news/assets/cncc-2026-haihong-e/cncc-report-cover.webp"
     },
     {
+      "id": "lecture-preview-yuxiang-zhang",
+      "title": "课程预告｜张宇翔：AI + 通信，从基础原理走向智能未来",
+      "titleEn": "Course Preview | Yuxiang Zhang: AI and Wireless Communications",
+      "summary": "10 月 20 日，张宇翔副教授带来 AI + 通信专题，从无线通信基础与发展脉络出发，介绍深度学习、大模型、智能体与世界模型带来的研究视角。",
+      "summaryEn": "On October 20, Associate Professor Yuxiang Zhang will introduce AI and wireless communications, connecting communication fundamentals with deep learning, large models, agents and world models.",
+      "source": "BUPT Reasoning · 课程预告",
+      "sourceEn": "BUPT Reasoning · Lecture previews",
+      "date": "2026-10-18",
+      "cover": "data/news/assets/lecture-preview-yuxiang-zhang/cover.webp"
+    },
+    {
       "id": "dialogue-with-researchers",
       "title": "与大咖对话，用AI探索科学——这门课等你来！",
       "titleEn": "Dialogue with Researchers: Exploring Science with AI",
@@ -66,6 +99,17 @@
       "sourceEn": "BUPT Reasoning · Course news",
       "date": "2026-10-16",
       "cover": "data/news/assets/dialogue-with-researchers/image1.jpeg"
+    },
+    {
+      "id": "lecture-preview-bo-wen-zhou",
+      "title": "大师讲堂预告｜周伯文：人工智能与科学发现，双轮驱动的新范式变革",
+      "titleEn": "Lecture Preview | Bo-Wen Zhou: AI and Scientific Discovery",
+      "summary": "9 月 24 日，周伯文教授将走进 AI4S 大师讲堂，围绕人工智能与科学发现的双向驱动，分享从 AI4S 到 AGI4S 的科研范式与关键技术。",
+      "summaryEn": "On September 24, Professor Bo-Wen Zhou will discuss how AI and scientific discovery drive each other, exploring research paradigms and key technologies from AI4S to AGI4S.",
+      "source": "BUPT Reasoning · 课程预告",
+      "sourceEn": "BUPT Reasoning · Lecture previews",
+      "date": "2026-09-22",
+      "cover": "data/news/assets/lecture-preview-bo-wen-zhou/cover.webp"
     }
   ]
 }

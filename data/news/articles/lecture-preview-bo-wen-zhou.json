@@ -1,0 +1,83 @@
+{
+  "id": "lecture-preview-bo-wen-zhou",
+  "title": "大师讲堂预告｜周伯文：人工智能与科学发现，双轮驱动的新范式变革",
+  "source": "BUPT Reasoning",
+  "subtitle": "AI4S 大师讲堂 · 人工智能与科学发现",
+  "date": "2026-09-22",
+  "sourceSha256": "091caab6ec51d9f0ea2f9a8ae73e400cd2953ea452a2f4476fdf4ccbcdf27a79",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "当人工智能走进科学研究，改变的不只是计算速度，还有提出问题、组织知识和探索未知的方式。AI4S 大师讲堂首讲邀请周伯文教授，以“人工智能与科学发现：双轮驱动的新范式变革”为题，与同学们一起讨论人工智能与科学研究怎样相互促进。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/lecture-preview-bo-wen-zhou/poster.png",
+      "caption": "周伯文讲座预告海报（点击查看原图）"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "课程安排",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "讲座主题：人工智能与科学发现：双轮驱动的新范式变革"
+    },
+    {
+      "type": "paragraph",
+      "text": "主讲嘉宾：周伯文 教授"
+    },
+    {
+      "type": "paragraph",
+      "text": "时间：2026 年 9 月 24 日（周四）上午 10:30"
+    },
+    {
+      "type": "paragraph",
+      "text": "地点：北京邮电大学西土城校区，教三楼 136 学术报告厅"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "主讲嘉宾",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "周伯文教授为上海人工智能实验室主任、首席科学家，清华大学讲席教授，国际电气与电子工程师协会会士。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本次讲座将把人工智能的方法进展与科学发现的需求联系起来，为同学们理解 AI for Science 提供跨学科视角。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "讲座看点",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "从 AI4S 到 AGI4S：人工智能如何参与科研范式的变革，科学问题又怎样推动智能方法发展？"
+    },
+    {
+      "type": "paragraph",
+      "text": "关键技术与基础原理：理解 AGI4S 背后的技术支撑，思考模型能力如何进入具体的研究过程。"
+    },
+    {
+      "type": "paragraph",
+      "text": "全链条创新：从科学问题到研究实践，认识人工智能时代科学研究的新可能。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "欢迎同学们关注",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎对人工智能与科学研究感兴趣的同学关注本次大师讲堂。可以提前想一想：在自己熟悉的学科里，哪些研究环节最需要人工智能的帮助，又有哪些问题需要科学知识来引导？带着问题走进讲堂，一起拓展 AI4S 的研究视野。"
+    }
+  ]
+}

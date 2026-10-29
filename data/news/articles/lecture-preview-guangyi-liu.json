@@ -1,0 +1,87 @@
+{
+  "id": "lecture-preview-guangyi-liu",
+  "title": "专家报告预告｜刘光毅：6G 通感算智融合，赋能新型业务与终端",
+  "source": "BUPT Reasoning",
+  "subtitle": "科学智能原理与实践 · 6G 通感算智融合专家报告",
+  "date": "2026-10-25",
+  "sourceSha256": "876913f1d212baaa62ce6352b9dd07d12c018d85d000975e78fc23b8c4ee314b",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "未来的通信网络不仅要连接终端，还将与感知、计算和人工智能能力相互配合。10 月 27 日，《科学智能原理与实践》课程邀请刘光毅博士作“6G 通感算智融合赋能新型业务与终端”专题报告，带领同学们从应用需求出发，理解通信与智能融合的技术问题。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/lecture-preview-guangyi-liu/poster.png",
+      "caption": "刘光毅讲座预告海报（点击查看原图）"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "课程安排",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "报告主题：6G 通感算智融合赋能新型业务与终端"
+    },
+    {
+      "type": "paragraph",
+      "text": "主讲嘉宾：刘光毅 博士，教授级高工，中国移动通信集团公司首席专家"
+    },
+    {
+      "type": "paragraph",
+      "text": "时间：2026 年 10 月 27 日，第 10—11 节（16:35—18:10）"
+    },
+    {
+      "type": "paragraph",
+      "text": "地点：3-239"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "主讲嘉宾",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "刘光毅博士为中国通信学会会士、享受国务院特殊津贴专家、全国劳模，先后负责中国移动 4G 演进、5G 和 6G 关键技术研究、标准化与产业化工作，发表学术论文 200 余篇。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本次报告将结合通信技术研究与应用实践，帮助同学们了解 6G 发展中的需求、方法与验证过程。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "讲座看点",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "发展需求：了解 6G 新型业务与终端的演进方向，思考应用需求如何牵引技术研究。"
+    },
+    {
+      "type": "paragraph",
+      "text": "技术挑战：关注算力共享、AI 部署与服务质量等问题，认识通信系统与智能能力协同的难点。"
+    },
+    {
+      "type": "paragraph",
+      "text": "融合方案：理解资源池化、能力开放与融合管控等思路，建立对通感算智融合的整体认识。"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究实践：走近仿真验证与样机研制，了解技术方案如何从设想进入验证。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "欢迎同学们关注",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎对 AI 与通信感兴趣的同学关注本次专家报告。可以结合自己关注的业务或终端，想一想它需要怎样的连接、感知和计算能力；在课堂中对照真实技术问题，探索 6G 与人工智能结合的研究机会。"
+    }
+  ]
+}
