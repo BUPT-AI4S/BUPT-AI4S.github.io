@@ -11,16 +11,19 @@ export function findMatches(rows, query) {
 }
 
 const isMasterclass = course => course.id.startsWith('chairs-') || course.title.includes('大师讲堂');
+const isExpertReport = course => course.id.startsWith('expert-') || course.title.includes('专家报告');
+const category = course => isExpertReport(course) ? '专家报告' : isMasterclass(course) ? '大师讲堂' : '课程';
+const categoryOrder = {'课程':0,'大师讲堂':1,'专家报告':2};
 
 export function sortCourses(courses) {
-  return [...courses].sort((a,b) => Number(isMasterclass(a))-Number(isMasterclass(b))
+  return [...courses].sort((a,b) => categoryOrder[category(a)]-categoryOrder[category(b)]
     || a.id.localeCompare(b.id, 'en', {numeric:true}));
 }
 
 export function courseLabels(courses) {
-  const counts = { '课程': 0, '大师讲堂': 0 };
+  const counts = { '课程': 0, '大师讲堂': 0, '专家报告': 0 };
   return courses.map(course => {
-    const label = isMasterclass(course) ? '大师讲堂' : '课程';
+    const label = category(course);
     return {label, number: String(++counts[label]).padStart(2, '0')};
   });
 }

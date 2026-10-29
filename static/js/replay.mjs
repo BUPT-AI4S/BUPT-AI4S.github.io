@@ -1,5 +1,5 @@
 import {mountMindMap} from './mind-map.mjs';
-import {formatTime,findMatches,activeSegment,sortCourses} from './replay-core.mjs';
+import {formatTime,findMatches,activeSegment,sortCourses} from './replay-core.mjs?v=20261029-expert-report';
 import {createReplayCounter,LIVE_HOST} from './replay-metrics.mjs';
 const $=id=>document.getElementById(id), video=$('video');
 let course, courses=[], rows=[], matches=[], matchIndex=-1, current=-1, panel='chapters', objectUrl, loadId=0, scale=1, lastSaved=0;

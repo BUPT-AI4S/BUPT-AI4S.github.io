@@ -28,5 +28,11 @@
     "title": "第四讲 Al+通信 从基础原理出发，走近无线通信的智能未来-张宇翔",
     "date": "2026-10-20",
     "data": "data/lecture-04.json"
+  },
+  {
+    "id": "expert-01",
+    "title": "专家报告1 6G通信和AI的融合-刘光毅",
+    "date": "2026-10-27",
+    "data": "data/expert-01.json"
   }
 ]
