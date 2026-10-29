@@ -5,9 +5,9 @@ let opener;
 
 function updateLabels() {
   const english = document.documentElement.lang === 'en';
-  dialog.setAttribute('aria-label', english ? 'Full poster for the expert talk by Guangyi Liu' : '刘光毅专家报告完整海报');
+  dialog.setAttribute('aria-label', english ? 'Full poster for the expert talk by Haochen Li' : '李昊辰专家报告完整海报');
   closeButton.setAttribute('aria-label', english ? 'Close poster' : '关闭海报');
-  thumbnail.setAttribute('aria-label', english ? 'View full poster for the expert talk by Guangyi Liu' : '查看刘光毅专家报告完整海报');
+  thumbnail.setAttribute('aria-label', english ? 'View full poster for the expert talk by Haochen Li' : '查看李昊辰专家报告完整海报');
 }
 
 for (const button of [thumbnail, document.querySelector('.lecture-poster-open')]) {

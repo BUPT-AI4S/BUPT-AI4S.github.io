@@ -1465,9 +1465,9 @@ html[data-theme="dark"] .home-news { --news-ink: var(--cyan); }
 .lecture-announcement-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; margin-top: 8px; }
 .lecture-announcement-location { margin: 0; }
 .lecture-announcement-location strong { margin-left: 5px; color: var(--text); }
-.lecture-poster-open { padding: 8px 13px; border: 1px solid var(--stroke); border-radius: 8px; color: var(--blue); background: var(--blue-dim); font: inherit; font-weight: 600; cursor: pointer; }
-.lecture-poster-open:hover, .lecture-poster-thumbnail:hover { border-color: var(--blue); }
-.lecture-announcement button:focus-visible, #lecture-poster-close:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+.lecture-poster-open, .lecture-preview-link { padding: 8px 13px; border: 1px solid var(--stroke); border-radius: 8px; color: var(--blue); background: var(--blue-dim); font: inherit; font-weight: 600; cursor: pointer; }
+.lecture-poster-open:hover, .lecture-preview-link:hover, .lecture-poster-thumbnail:hover { border-color: var(--blue); }
+.lecture-announcement button:focus-visible, .lecture-preview-link:focus-visible, #lecture-poster-close:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
 .lecture-poster-dialog {
   width: min(860px, calc(100vw - 32px));
   max-width: none;
