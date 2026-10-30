@@ -72,4 +72,30 @@ class PaperTagTests(unittest.TestCase):
             self.assertEqual(detail['tags'],['climate'])
             self.assertEqual(entry['sourceUrl'],'data/papers/demo.json')
 
+    def test_imported_keywords_join_existing_tags_and_generated_details(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,['climate'])
+            folder=root/'data/imported';folder.mkdir()
+            rows=[{'id':'a','title':'First','authors':[],'keywords':[' CLIMATE ','Protein Design; Self-supervised Learning','protein design']},
+                  {'id':'b','title':'Second','authors':[],'keywords':['self supervised learning','Protein Design']},
+                  {'id':'c','title':'No keywords','authors':[]}]
+            (folder/'ai4s-2026.json').write_text(json.dumps({'schemaVersion':1,'papers':rows}),encoding='utf-8')
+            index=self.module().write_index(root,ROOT/'data/papers.schema.json')
+            first,second,empty=index['papers'][1:]
+            self.assertEqual(len(first['tags']),3)
+            self.assertIn('climate',first['tags'])
+            self.assertEqual(set(first['tags'])-{'climate'},set(second['tags']))
+            self.assertEqual(empty.get('tags',[]),[])
+            self.assertEqual(first['tagIds'],first['tags'])
+            detail=json.loads((root/first['dataUrl']).read_text(encoding='utf-8'))
+            self.assertEqual(detail['tags'],first['tags'])
+            self.assertEqual(detail['keywords'],rows[0]['keywords'])
+            names={t['nameEn'] for t in index['tagVocabulary']}
+            self.assertEqual(len(names),3)
+            self.assertIn('Protein Design',names)
+            # Stable IDs must survive a source-record reorder.
+            (folder/'ai4s-2026.json').write_text(json.dumps({'schemaVersion':1,'papers':rows[::-1]}),encoding='utf-8')
+            reordered=self.module().write_index(root,ROOT/'data/papers.schema.json')
+            self.assertEqual({p['id']:p.get('tags',[]) for p in index['papers']},{p['id']:p.get('tags',[]) for p in reordered['papers']})
+
 if __name__=='__main__':unittest.main()

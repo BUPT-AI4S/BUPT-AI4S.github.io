@@ -9,6 +9,7 @@ import re
 import shutil
 import difflib
 import unicodedata
+import hashlib
 import yaml
 from markdown_it import MarkdownIt
 from urllib.parse import urlparse, unquote
@@ -64,9 +65,37 @@ def load_tag_vocabulary(root):
     except yaml.YAMLError as exc:raise ValueError(f'{path}: {exc}') from exc
     return data,validate_tag_vocabulary(data)
 
-def normalize_paper_tags(paper,vocabulary,label):
+def keyword_key(value):
+    return re.sub(r'\s+',' ',re.sub(r'[-\u2010-\u2015]+',' ',tag_key(value))).strip()
+
+def keyword_values(paper):
+    return [part.strip() for value in paper.get('keywords',[]) for part in re.split(r'[;；]',value) if part.strip()]
+
+def register_keyword_tags(vocabulary,papers):
+    data,lookup=vocabulary
+    matches={keyword_key(name):tag for name,tag in lookup.items()}
+    groups={}
+    for paper in papers:
+        for value in keyword_values(paper):groups.setdefault(keyword_key(value),set()).add(value)
+    for key,variants in sorted(groups.items()):
+        if key not in matches:
+            label=sorted(variants,key=lambda s:(len(s),s.casefold(),s))[0]
+            tag={'id':'keyword-'+hashlib.sha256(key.encode('utf-8')).hexdigest()[:16],
+                 'nameEn':label,'nameZh':label,'aliases':sorted(variants),
+                 'source':'metadata-keywords'}
+            data['tags'].append(tag);matches[key]=tag
+        else:
+            tag=matches[key]
+            tag['aliases']=list(dict.fromkeys(tag.get('aliases',[])+sorted(variants)))
+    lookup.clear();lookup.update(validate_tag_vocabulary(data))
+    return {key:tag['id'] for key,tag in matches.items()}
+
+def normalize_paper_tags(paper,vocabulary,label,keyword_tags=None):
     if vocabulary is None:raise ValueError('Missing tag vocabulary')
     _,lookup=vocabulary;paper=dict(paper);ids=[]
+    if keyword_tags is not None:
+        paper['tags']=list(dict.fromkeys(paper.get('tags',[])+[
+            keyword_tags[keyword_key(value)] for value in keyword_values(paper)]))
     for field in ('tags','topics'):
         if field not in paper:continue
         names=[]
@@ -244,6 +273,14 @@ def build_index(folder,schema_path,config,root,details=None):
     schema=read_json(schema_path)
     validate(config.get('tagTranslations',{}),schema['properties']['tagTranslations'],schema,'tagTranslations')
     vocabulary=load_tag_vocabulary(root)
+    imported_sources=[]
+    for source in sorted((root/'data/imported').glob('ai4s-*.json')):
+        if source.is_symlink():raise ValueError('Symlink not allowed for imported metadata')
+        imported=read_json(source)
+        if imported.get('schemaVersion')!=1 or not isinstance(imported.get('papers'),list):raise ValueError('Invalid imported catalog')
+        for paper in imported['papers']:validate_paper(paper,schema,root,str(paper.get('id','')))
+        imported_sources.append((source,imported['papers']))
+    keyword_tags=register_keyword_tags(vocabulary,[p for _,rows in imported_sources for p in rows])
     papers=[]; ids=set(); filenames=set()
     for file in paper_files(folder):
         if file.name.endswith(('.local.json','.local.md')): raise ValueError(f'Paper filename uses reserved local suffix: {file.name}')
@@ -278,16 +315,13 @@ def build_index(folder,schema_path,config,root,details=None):
     # when a normalized title and conference year identify the same record.
     title_key=lambda p:(''.join(c for c in unicodedata.normalize('NFKC',p['title']).casefold() if c.isalnum()),str(p.get('year','')))
     authored={title_key(p) for p in papers}
-    for source in sorted((root/'data/imported').glob('ai4s-*.json')):
-        if source.is_symlink():raise ValueError('Symlink not allowed for imported metadata')
-        imported=read_json(source)
-        if imported.get('schemaVersion')!=1 or not isinstance(imported.get('papers'),list):raise ValueError('Invalid imported catalog')
-        for original in imported['papers']:
+    for source,rows in imported_sources:
+        for original in rows:
             paper=dict(original)
             if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*',str(paper.get('id',''))):raise ValueError('Unsafe imported paper id')
             if any(key in paper for key in ('content','notes','notesMeta')):raise ValueError('Imported metadata cannot supply generated HTML or notes')
             validate_paper(paper,schema,root,paper['id'])
-            paper=normalize_paper_tags(paper,vocabulary,source.name)
+            paper=normalize_paper_tags(paper,vocabulary,source.name,keyword_tags)
             if title_key(paper) in authored:continue
             if paper['id'] in ids:raise ValueError('Duplicate imported paper id: '+paper['id'])
             if paper['id'].casefold() in filenames:raise ValueError('Duplicate imported detail filename: '+paper['id'])

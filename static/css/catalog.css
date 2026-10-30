@@ -76,6 +76,8 @@ html[data-theme="dark"] [data-discipline] { --area-color:color-mix(in srgb,rgb(v
 .resource-badge { padding:3px 7px; border-radius:5px; color:var(--soft); background:var(--cyan-dim); font-size:11px; }
 .resource-review { background:var(--note-bg); }
 .sidebar-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.result-info .sidebar-tags { max-height:128px; overflow:auto; min-width:0; padding:3px; overscroll-behavior:contain; }
+.sidebar-tags button,.card-labels button { max-width:100%; overflow-wrap:anywhere; white-space:normal; }
 .sidebar-tags button,.active-filters button { border:1px solid var(--stroke); border-radius:7px; padding:6px 9px; min-height:36px; color:var(--soft); background:var(--card-solid); font-size:12px; }
 .sidebar-tags button[aria-pressed="true"] { color:var(--pill-fg); background:var(--blue-dim); border-color:var(--blue); }
 .catalog-filterbar { padding:20px; margin-bottom:12px; background:var(--card-solid); border:1px solid var(--stroke); border-radius:12px; }

@@ -5,6 +5,7 @@ const fields={q:$('paper-search'),subfield:$('subfield-filter'),venue:$('venue-f
 const savedOnly=$('saved-only'), primary=$('primary-only'), searchField=$('search-field'), sort=$('paper-sort');
 const list=$('paper-list'), message=$('papers-message'), storageKey='ai4s-saved-papers';
 let papers=[],saved=[],selected=[],selectedTag='',matchMode='any',view='cards',loaded=false,storageAvailable=true;
+let tagLimit=60;
 let translations={},englishLabels={},vocabulary=[];
 let arxiv='all',github='all',sessions=[],rooms=[],page=1;
 const arxivOptions=[['all','全部','All'],['yes','有 arXiv','Has arXiv'],['strict','严格验证（标题+作者）','Verified (title + authors)'],['review','可能匹配 / 待核对','Possible match / Needs review'],['no','未找到 arXiv','No arXiv found'],['unknown','未收录 arXiv 信息','arXiv not recorded']];
@@ -54,7 +55,7 @@ function toggleSave(id){
 }
 function saveButton(p){const b=button('', 'paper-save',()=>toggleSave(p.id));b.dataset.save=p.id;b.append(icon('star'));b.setAttribute('aria-label',tr('收藏论文：','Save paper: ')+p.title);b.setAttribute('aria-pressed',String(saved.includes(p.id)));return b;}
 function filters(){return {query:fields.q.value,searchField:searchField.value,disciplines:selected,matchMode,primaryOnly:primary.checked,subfield:fields.subfield.value,venue:fields.venue.value,year:fields.year.value,savedOnly:savedOnly.checked,saved,arxiv,github,sessions,rooms};}
-function refresh(){page=1;syncUrl();render();}
+function refresh(){page=1;tagLimit=60;syncUrl();render();}
 function populateFilters(){
   const subset=filterPapers(papers,{disciplines:selected,matchMode,primaryOnly:primary.checked});
   for(const key of ['subfield','venue','year']){
@@ -80,10 +81,12 @@ function renderSidebar(){
   }
   for(const b of $('match-mode').children)b.setAttribute('aria-pressed',String(b.dataset.match===matchMode));
   const tags=$('tag-filters');tags.replaceChildren();
-  for(const [tag,count] of [['',filterPapers(papers,filters()).length],...tagCounts(filterPapers(papers,filters()))]){
+  const tagPool=filterPapers(papers,filters()),topicCounts=tagCounts(tagPool),visible=topicCounts.slice(0,tagLimit);
+  if(selectedTag&&!visible.some(([tag])=>tag===selectedTag))visible.push(topicCounts.find(([tag])=>tag===selectedTag)||[selectedTag,0]);
+  for(const [tag,count] of [['',tagPool.length],...visible]){
     const b=button((tag?tagLabel(tag,root.lang,translations,englishLabels):tr('全部标签','All tags'))+' · '+count,'',()=>{selectedTag=tag;refresh();[...tags.children].find(el=>el.dataset.tag===tag)?.focus();});b.dataset.tag=tag;b.setAttribute('aria-pressed',String(selectedTag===tag));tags.append(b);
   }
-  if(selectedTag&&![...tags.children].some(b=>b.dataset.tag===selectedTag)){const b=button(tagLabel(selectedTag,root.lang,translations,englishLabels)+' · 0','',()=>{selectedTag='';refresh();});b.setAttribute('aria-pressed','true');tags.append(b);}
+  if(topicCounts.length>tagLimit){const more=button(tr(`更多标签（${topicCounts.length-tagLimit}）`,`More tags (${topicCounts.length-tagLimit})`),'more-tags',()=>{const previous=tagLimit;tagLimit+=60;renderSidebar();tags.children[previous+1]?.focus();});more.title=tr('也可先搜索关键词，缩小标签范围','Search keywords to narrow the available tags');tags.append(more);}
   renderResourceFacets();
   $('storage-note').textContent=storageAvailable?tr('收藏仅保存在当前浏览器','Bookmarks stay in this browser'):tr('存储不可用，收藏仅本次有效','Storage unavailable; bookmarks last for this visit');
 }
