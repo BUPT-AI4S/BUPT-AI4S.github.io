@@ -1,0 +1,283 @@
+{
+  "id": "autonomous-labs-2a",
+  "title": "自主实验室（二）｜材料研究中的干湿闭环（上）",
+  "subtitle": "",
+  "byline": "BUPT Reasoning · AI4S 专栏 · 自主实验室系列 02",
+  "blocks": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "先看全貌"
+    },
+    {
+      "type": "paragraph",
+      "text": "计算预测一种材料值得研究之后，实验室还需要回答：能否制得目标材料，实际形成了什么，下一次应该怎样调整？下图以 A-Lab 为例，把计算筛选、文献经验、机器人合成和物相识别连接起来。沿着底部的反馈箭头，可以看到一次合成的结果如何成为下一轮配方选择的依据。"
+    },
+    {
+      "type": "image",
+      "src": "data/blog/assets/autonomous-labs-2a/image1.png",
+      "caption": "图 1｜A-Lab 的自主材料合成流程。图源：Szymanski 等，Nature（2023），文献 [1]，原文图 1。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[1] An autonomous laboratory for the accelerated synthesis of inorganic materials"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Nathan J. Szymanski、Bernardus Rendy、Yuxing Fei、Rishi E. Kumar 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：加州大学伯克利分校与劳伦斯伯克利国家实验室 Gerbrand Ceder、Yan Zeng 等团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Nature 624，86–91，2023 年 11 月 29 日在线发表。作者更正于 2026 年 1 月 19 日发表，Nature 650，E1。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s41586-023-06734-w"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者更正：https://doi.org/10.1038/s41586-025-09992-y"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：反应路线优化 https://github.com/njszym/ARROWS"
+    },
+    {
+      "type": "paragraph",
+      "text": "XRD 分析 https://github.com/njszym/XRD-AutoAnalyzer"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[2] Agentic LLM Reasoning in a Self-Driving Laboratory for Air-Sensitive Lithium Halide Spinel Conductors"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Yuxing Fei、Bernardus Rendy、Xiaochen Yang、Junhee Woo 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：加州大学伯克利分校、劳伦斯伯克利国家实验室及佛罗里达州立大学等合作团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：arXiv 预印本，2604.11957v1，2026 年 4 月 13 日提交。本文按该版本介绍。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://arxiv.org/abs/2604.11957v1"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/CederGroupHub/alab_gpss_public"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[3] Self-driving lab for the data-driven design of single-chain polymer nanoparticles"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Alexander Suponya、Elena Di Mare、Cesar Ramírez、Apostolos Maroulis 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：罗格斯大学 Adam J. Gormley 团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Cell Press Blue 1(3)，文章号 100033，2026 年 6 月 5 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1016/j.cpblue.2026.100033"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/GormleyLab/DLS-SDL"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[4] Predicting Faster Than We Can Make: Polymer-Specific Process Physics as a Frontier for Autonomous Soft-Matter Discovery"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Xian Jun Loh"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：新加坡材料研究与工程研究院。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Macromolecular Rapid Communications，文章号 e70420，2026 年 9 月 1 日在线发表，观点文章。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1002/marc.70420"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "研究要点"
+    },
+    {
+      "type": "paragraph",
+      "text": "材料研究的干湿闭环，需要把“能否合成出来”与“怎样获得目标性质”连接起来。本期从无机合成与高分子设计出发，观察物相识别、电导率和颗粒尺寸怎样成为下一轮实验的依据，也讨论加工历史与慢性质验证给闭环带来的限制。"
+    },
+    {
+      "type": "paragraph",
+      "text": "上一期从基础概念与化学实践出发，介绍计算决策如何与自动实验连接。本期先进入材料研究的前两个方向：无机材料与固态合成、高分子与软材料。前者关注目标物相及其性质，后者进一步呈现分子组成、尺寸与加工过程之间的联系。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "01无机材料与固态合成"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1.1A-Lab 怎样把合成结果用于下一轮配方"
+    },
+    {
+      "type": "paragraph",
+      "text": "Szymanski 等人的 A-Lab 将计算信息、文献中的合成经验和机器人实验连接起来。计算端先为目标材料选择前驱体与加热方案；实验端完成粉末加料、混合和加热，再通过 X 射线衍射（XRD）判断形成了哪些晶体物质。如果目标产物不足，系统就结合已观察到的物相和热力学信息，提出新的合成方案[1]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "开篇图1可以沿着三个问题来读。"
+    },
+    {
+      "type": "paragraph",
+      "text": "首先，合成什么？ 左上角的计算模块利用 Materials Project 和 Google DeepMind 的结构与稳定性信息，筛选在空气中可处理的目标。这里的密度泛函理论（DFT）计算与凸包分析，用于判断候选相对于其他可能物相的热力学稳定性；实验仍需检验实际的形成过程。"
+    },
+    {
+      "type": "paragraph",
+      "text": "随后，怎样合成？ 文献挖掘提供已报道的合成数据，模型据此提出原料与温度等候选条件。左下角的反应路径把前驱体、中间物和产物联系起来，图中的 600 °C、700 °C 是示意路径或条件的标记。机器人再把选定配方转化为粉末加料、加热和表征任务。右侧三张照片分别对应这些工作站。"
+    },
+    {
+      "type": "paragraph",
+      "text": "最后，实际做出了什么？ 右下角从原始衍射图谱出发，进行物相预测，并通过 Rietveld 精修进一步核对结构模型与测量图谱是否相符。目标产物与副产物的信息返回反应路线选择。系统据此比较哪些前驱体组合更有利于形成目标相，避开容易产生杂质的组合，再安排后续实验。一次未达到目标的实验，因此也能帮助排除不合适的路线。"
+    },
+    {
+      "type": "paragraph",
+      "text": "物相判断同时决定了结果能被怎样表述。2026 年的作者更正澄清，原先的新颖性表述意在指材料对预测平台而言是新的，不能直接理解为科学界首次发现；作者还人工重新分析了衍射数据，并据此修订成功结果。本文因此采用更正后的题名与结论，将它作为自主合成与反馈决策的案例，同时保留人工复核这一证据环节[1]。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1.2A-Lab GPSS 让智能体同时查看结构与电导率"
+    },
+    {
+      "type": "paragraph",
+      "text": "对空气敏感的材料，还需要把合成环境纳入系统。Fei 等人的 A-Lab GPSS 在保护气氛中开展锂卤化物尖晶石导体研究，让语言模型智能体根据已有的物相与离子电导率数据，提出新的组成或合成条件[2]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "不同智能体的任务有所区别：异常检测智能体关注与相近组成差异较大的结果，提出可能的解释和后续实验；模式发现智能体从积累的数据中寻找趋势；在后期，引入贝叶斯优化提供候选组成，再由语言模型结合已有趋势选择方案。新的结构与电导率测量继续进入下一轮设计。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文记录了一次具体的决策变化。智能体注意到一种含铟样品的电导率较高，提出疑问：这一表现来自锂空位等结构因素，还是来自未充分识别的含铟杂相？它随后设计了去掉铟、保留锂缺位的新组成。在作者的测量条件下，新样品的电导率为 0.0430 mS/cm，高于含铟样品的 0.0272 mS/cm。后续的模式发现智能体又将相关设计思路用于锰体系。这一过程展示了异常如何引出解释、解释如何改变组成选择，以及新的测量如何继续影响搜索[2]。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "02高分子与软材料"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2.1PolyCraft 用颗粒尺寸连接设计与测量"
+    },
+    {
+      "type": "paragraph",
+      "text": "Suponya 等人的 PolyCraft 选择了一个比较明确的任务：优化单链聚合物纳米颗粒在溶液中的尺寸。这类颗粒由聚合物链形成，单体组成和链长等因素会影响其在溶液中的状态[3]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "计算端利用已有的聚合物设计与尺寸数据建立预测模型，再通过贝叶斯优化选择下一批候选。实验端由液体操作机器人配制样品，在光照条件下进行聚合，随后完成稀释，并通过动态光散射（DLS）测量水动力学半径。这个半径反映颗粒在溶液中扩散时表现出的有效尺寸。"
+    },
+    {
+      "type": "image",
+      "src": "data/blog/assets/autonomous-labs-2a/image2.jpeg",
+      "caption": "图 2｜PolyCraft 的设计—构建—测试—学习循环。图源：Suponya 等，Cell Press Blue（2026），文献 [3]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这里影响下一轮设计的是“聚合物组成与链长—实测水动力学半径”之间的新数据。模型据此修正预测，改变下一批配方的选择。论文以减小水动力学半径验证了多轮主动学习流程，这一结果所支持的是尺寸优化；材料的力学表现、长期稳定性和生物功能，需要由各自对应的测量进入后续评价[3]。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2.2更复杂的软材料需要记录加工过程"
+    },
+    {
+      "type": "paragraph",
+      "text": "从尺寸优化走向更广泛的软材料性能，困难会增加。Loh 的观点文章指出，对于受加工过程显著影响、或者需要很长时间才能验证的性质，制备与验证速度已经成为自主软材料研究的重要限制[4]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "作者用热塑性材料和超分子水凝胶作比较。前者的表现受到熔融流动与加热冷却过程影响，后者则与水中分子的自组装有关。因此，计算端需要知道样品经历了什么加工，实验端也需要记录相应条件。否则，最终性能即使返回模型，同一配方得到不同结果的原因仍可能无法解释。"
+    },
+    {
+      "type": "paragraph",
+      "text": "因此，软材料的反馈数据需要同时记录原料与加工历史，才能解释相同配方为何产生不同性质。Loh 据此提出面向加工和慢性质验证的研究方向；这部分属于观点讨论，尚不能作为平台已经完成实验验证的结果[4]。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "03从合成反馈走向加工与验证"
+    },
+    {
+      "type": "paragraph",
+      "text": "从 A-Lab 到 PolyCraft，实验反馈的形式已经不同：前者借助物相识别判断合成路径，后者用颗粒尺寸更新聚合物配方。A-Lab GPSS 还展示了另一种决策方式：语言模型围绕异常测量提出解释，再把解释转化为后续实验。它们共同说明，反馈只有进入下一次选择，才真正参与了研究过程。"
+    },
+    {
+      "type": "paragraph",
+      "text": "一次闭环的价值，体现在实验结果是否改变了下一次选择，以及这种改变有没有可靠依据。 为此，样品身份、实际制备条件、测量数据和分析过程需要保持对应；失败、异常和不确定的结果，也应当进入后续判断。"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究者通过目标与指标设定、平台搭建、初始实验、结果复核和后续验证，参与这些系统的研究过程。哪些步骤已经自动化，哪些判断由模型承担，哪些结果还需要人工确认，都应当与每项工作的具体流程对应起来。"
+    },
+    {
+      "type": "paragraph",
+      "text": "下一期，我们继续讨论光电材料与器件，以及电池与电化学。 从薄膜和器件测量到需要等待的寿命结果，再看材料研究的反馈如何进入下一轮选择。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本文依据相关研究进行解读与整理，图表版权归原作者所有，如需引用请以原论文为准。"
+    }
+  ],
+  "sourceSha256": "0a6fdcd0df1c995629af2ed466653b92c8db76a4845b33c07a4e1ecd32e35e53",
+  "links": [
+    {
+      "label": "A-Lab",
+      "url": "https://doi.org/10.1038/s41586-023-06734-w"
+    },
+    {
+      "label": "A-Lab correction",
+      "url": "https://doi.org/10.1038/s41586-025-09992-y"
+    },
+    {
+      "label": "A-Lab GPSS",
+      "url": "https://arxiv.org/abs/2604.11957v1"
+    },
+    {
+      "label": "PolyCraft",
+      "url": "https://doi.org/10.1016/j.cpblue.2026.100033"
+    },
+    {
+      "label": "Soft-matter perspective",
+      "url": "https://doi.org/10.1002/marc.70420"
+    }
+  ]
+}

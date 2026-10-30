@@ -664,6 +664,40 @@
       "titleEn": "Autonomous Laboratories (I): Dry–Wet Loop Fundamentals and Chemical Practice",
       "summaryEn": "Explore the foundations of autonomous laboratories and dry–wet feedback loops through RoboChem-Flex, Flex-Cat and a mobile robotic chemist, following how experiment selection, execution and measurements guide the next step.",
       "collection": "labs"
+    },
+    {
+      "id": "autonomous-labs-2a-editorial",
+      "articleId": "autonomous-labs-2a",
+      "dataUrl": "data/blog/articles/autonomous-labs-2a.json",
+      "title": "自主实验室（二）｜材料研究中的干湿闭环（上）",
+      "subtitle": "",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "以 A-Lab、A-Lab GPSS 与 PolyCraft 为例，讨论无机材料合成和高分子设计中的干湿闭环，以及物相识别、电导率、颗粒尺寸与加工历史如何参与后续实验选择。",
+      "categories": [
+        "labs"
+      ],
+      "keywords": [
+        "自主实验室",
+        "材料研究",
+        "干湿闭环",
+        "A-Lab",
+        "A-Lab GPSS",
+        "PolyCraft",
+        "高分子与软材料"
+      ],
+      "order": 17,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1038/s41586-023-06734-w"
+        }
+      ],
+      "titleEn": "Autonomous Laboratories (II): Dry–Wet Loops in Materials Research (Part 1)",
+      "summaryEn": "Follow inorganic synthesis and polymer design through A-Lab, A-Lab GPSS and PolyCraft, examining how phase identification, conductivity, particle size and processing history inform subsequent experiments.",
+      "collection": "labs"
     }
   ]
 }
