@@ -4,13 +4,13 @@ import {readFileSync,existsSync} from 'node:fs';
 import {safeLink,readingLink,categoryName,COLLECTIONS,filterCollection,readCollection,seriesLabel} from '../static/js/blog-core.mjs';
 const catalog=JSON.parse(readFileSync(new URL('../data/blog-index.json',import.meta.url),'utf8'));
 
-test('sixteen editorials retain reading order and all body text and images resolve',()=>{
+test('seventeen editorials retain reading order and all body text and images resolve',()=>{
   assert.deepEqual(catalog.articles.map(entry=>entry.articleId),[
     'scientific-model-start','scientific-model-capabilities','scientific-model-scores',
     'scientific-agent-data','agentic-science','scientific-foundation-models',
     'scientific-knowledge-modeling','s1-omni','biomatrix','logos',
     'scientific-foundation-pretraining','scientific-data-ai4s',
-    'virtual-biotech-clinical-data','virtual-biotech-treatment-hypotheses','scientific-agent-harness','hle'
+    'virtual-biotech-clinical-data','virtual-biotech-treatment-hypotheses','scientific-agent-harness','hle','autonomous-labs-1'
   ]);
   assert.deepEqual(Object.keys(catalog),['articles']);
   for(const entry of catalog.articles){
@@ -45,13 +45,14 @@ test('new editorials join their topics while empty collections remain ready for 
   assert.deepEqual(filterCollection(catalog.articles,'agents').map(entry=>entry.articleId),['agentic-science','virtual-biotech-clinical-data','virtual-biotech-treatment-hypotheses','scientific-agent-harness']);
   assert.deepEqual(filterCollection(catalog.articles,'foundation').map(entry=>entry.articleId),['scientific-foundation-models','s1-omni','biomatrix','logos','scientific-foundation-pretraining']);
   assert.deepEqual(filterCollection(catalog.articles,'knowledge').map(entry=>entry.articleId),['scientific-knowledge-modeling']);
-  assert.equal(filterCollection(catalog.articles,'all').length,16);
-  assert.equal(catalog.articles.length,16);
+  assert.equal(filterCollection(catalog.articles,'all').length,17);
+  assert.equal(catalog.articles.length,17);
   assert.equal(seriesLabel(catalog.articles[2],'zh'),'精读（三）');
   assert.equal(seriesLabel(catalog.articles[2],'en'),'Part III');
   assert.deepEqual(filterCollection(catalog.articles,'data').map(entry=>entry.articleId),['scientific-data-ai4s']);
   assert.deepEqual(filterCollection(catalog.articles,'evaluation').map(entry=>entry.articleId),['hle']);
-  for(const id of ['labs','math-physics','life','matter','earth','information','social']){
+  assert.deepEqual(filterCollection(catalog.articles,'labs').map(entry=>entry.articleId),['autonomous-labs-1']);
+  for(const id of ['math-physics','life','matter','earth','information','social']){
     assert.deepEqual(filterCollection(catalog.articles,id),[]);
     assert.equal(readCollection('?category='+id),id);
     assert.ok(COLLECTIONS.find(group=>group.id===id).en);

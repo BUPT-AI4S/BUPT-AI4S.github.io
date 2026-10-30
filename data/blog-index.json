@@ -632,6 +632,38 @@
       "titleEn": "HLE: Measuring the Limits of Large Models Beyond Saturated Benchmarks",
       "summaryEn": "Explore how Humanity’s Last Exam builds, screens and reviews expert-level questions, and what accuracy and confidence calibration reveal about the gap between answering questions and conducting research.",
       "collection": "evaluation"
+    },
+    {
+      "id": "autonomous-labs-1-editorial",
+      "articleId": "autonomous-labs-1",
+      "dataUrl": "data/blog/articles/autonomous-labs-1.json",
+      "title": "自主实验室（一）：干湿闭环基本原理与化学实践",
+      "subtitle": "",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "从自主实验室与干湿闭环的基本原理出发，结合 RoboChem-Flex、Flex-Cat 与移动机器人化学家，理解实验选择、设备执行和测量反馈怎样连接成持续运行的研究过程。",
+      "categories": [
+        "labs"
+      ],
+      "keywords": [
+        "自主实验室",
+        "干湿闭环",
+        "RoboChem-Flex",
+        "Flex-Cat",
+        "移动机器人化学家"
+      ],
+      "order": 16,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1039/d5mh01984b"
+        }
+      ],
+      "titleEn": "Autonomous Laboratories (I): Dry–Wet Loop Fundamentals and Chemical Practice",
+      "summaryEn": "Explore the foundations of autonomous laboratories and dry–wet feedback loops through RoboChem-Flex, Flex-Cat and a mobile robotic chemist, following how experiment selection, execution and measurements guide the next step.",
+      "collection": "labs"
     }
   ]
 }

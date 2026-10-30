@@ -1,0 +1,368 @@
+{
+  "id": "autonomous-labs-1",
+  "title": "自主实验室（一）：干湿闭环基本原理与化学实践",
+  "subtitle": "",
+  "byline": "BUPT Reasoning · AI4S 专栏 · 自主实验室 01",
+  "blocks": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "先看全貌"
+    },
+    {
+      "type": "paragraph",
+      "text": "图 1 以 Flex-Cat 为例，展示计算决策怎样与自动实验相连。沿着图中的流程，可以看到目标和约束怎样进入条件选择，以及实测结果怎样返回模型，影响下一轮实验。"
+    },
+    {
+      "type": "image",
+      "src": "data/blog/assets/autonomous-labs-1/image1.png",
+      "caption": "图 1｜Flex-Cat 的决策与实验工作流。图源：Bennett 等，Nature Communications（2026），文献 [3]，原文图 5。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[1] Toward self-driving laboratory 2.0 for chemistry and materials discovery"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Heeseung Lee、Hyuk Jun Yoo、Hye Su Jang、Byeongho Park 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：韩国科学技术研究院（KIST）计算科学研究中心与高丽大学材料科学与工程系，Sang Soo Han、Yang Jeong Park 团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Materials Horizons 13(10)，4712–4739，2026 年 3 月 4 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1039/d5mh01984b"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[2] A flexible and affordable self-driving laboratory for automated reaction optimization"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Simone Pilon、Elia Savino、Oliver M. Bayley、Michael Vanzella 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：阿姆斯特丹大学 Timothy Noël 团队，联合该校分析化学、生物催化研究组及米兰大学、Zuyd 应用科学大学、TNO、科思创等合作单位。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Nature Synthesis 5，1552–1564，2026 年 4 月 13 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s44160-026-01053-0"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/Noel-Research-Group/Robochem_Flex"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[3] An autonomous lab for data-driven homogeneous catalysis"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Jeffrey A. Bennett、Negin Orouji、Alireza Velayati、Eamon F. Reynolds 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：美国北卡罗来纳州立大学 Milad Abolhasani 团队、北卡罗来纳大学教堂山分校 Alexander J. M. Miller 团队与伊士曼化工公司。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Nature Communications 17，文章号 7783，2026 年 6 月 20 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s41467-026-74425-x"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://zenodo.org/records/18930287"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[4] A mobile robotic chemist"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Benjamin Burger、Phillip M. Maffettone、Vladimir V. Gusev、Catherine M. Aitchison 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：英国利物浦大学 Andrew I. Cooper 团队，依托化学系、材料创新工厂（Materials Innovation Factory）与 Leverhulme 功能材料设计中心。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Nature 583，237–241，2020 年 7 月 8 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s41586-020-2442-2"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：工作流与实验台：https://bitbucket.org/ben_burger/kuka_workflow"
+    },
+    {
+      "type": "paragraph",
+      "text": "机器人控制：https://github.com/Taurnist/kuka_workflow_tantalus"
+    },
+    {
+      "type": "paragraph",
+      "text": "贝叶斯优化：https://github.com/CooperComputationalCaucus/kuka_optimizer"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "研究要点"
+    },
+    {
+      "type": "paragraph",
+      "text": "自主实验室将计算设计与真实实验连接起来：计算端提出方案，实验端完成验证，新的测量结果再参与下一轮选择。这种持续往返的干湿闭环，正在不同领域发展出各具特点的研究方式。它们的共同问题是，怎样把一次实验获得的信息，用到下一次选择中。"
+    },
+    {
+      "type": "paragraph",
+      "text": "做完一次实验之后，下一次应该改变什么？"
+    },
+    {
+      "type": "paragraph",
+      "text": "制备一种材料，要选择原料和加工条件；改造一种酶，要设计序列并测量功能；筛选药物候选，则需要观察分子在生物系统中的表现。研究对象不同，研究者都需要根据已有知识和最新结果，决定下一步值得尝试什么。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本系列将分四期，依次讨论基础概念与化学实践、材料研究、生命科学和药物研发。 不同领域的实验对象、测量指标和验证要求各不相同，我们将结合具体案例，说明计算如何提出方案、实验怎样提供反馈，以及这些反馈能支持怎样的判断。"
+    },
+    {
+      "type": "paragraph",
+      "text": "作为开篇，本期先介绍自主实验室与干湿闭环的基本原理，再从化学研究切入，通过反应条件优化、催化研究，观察这一过程怎样实际运行。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "01自主实验室是什么？"
+    },
+    {
+      "type": "paragraph",
+      "text": "科学研究通常需要反复实验。一个初始设想往往只能确定大致方向，具体方案还要根据结果调整。例如，制备一种材料时，需要比较不同原料和加热条件；寻找一种酶时，需要构建不同序列，再测量它们的功能。"
+    },
+    {
+      "type": "paragraph",
+      "text": "自主实验室是在研究者给定的目标和约束下，能够自动执行实验、分析结果，并据此选择后续实验的系统。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "02干湿实验怎样形成闭环？"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2.1一轮实验如何完成"
+    },
+    {
+      "type": "paragraph",
+      "text": "首先，计算端选择本轮方案。"
+    },
+    {
+      "type": "paragraph",
+      "text": "模型利用已有数据，估计不同候选的预期表现和不确定性，再决定哪些方案值得测试。输出需要具体到设备可以执行，例如原料的种类和用量、反应温度、停留时间，或下一批需要构建的蛋白质序列。"
+    },
+    {
+      "type": "paragraph",
+      "text": "随后，实验端获得真实结果。"
+    },
+    {
+      "type": "paragraph",
+      "text": "设备按照方案制备样品并测量性能。实测产率、酶活性或细胞状态，可能符合预测，也可能与预测存在差异。这些结果为下一轮判断提供依据。"
+    },
+    {
+      "type": "paragraph",
+      "text": "最后，测量结果返回计算端。"
+    },
+    {
+      "type": "paragraph",
+      "text": "系统需要将实测结果与样品身份、实际操作条件和质量检查记录放在一起。经过检查的数据用于更新预测模型、候选排序或实验选择策略，再产生下一轮方案。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这一过程不要求每轮都重新训练大型模型。一次反馈也可以只改变候选的优先顺序、搜索的重点区域，或设备接下来采取的控制动作。关键在于，新结果能够影响后续行动。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2.2持续运行需要哪些条件"
+    },
+    {
+      "type": "paragraph",
+      "text": "把计算和实验连接起来，还需要解决三个具体问题。"
+    },
+    {
+      "type": "paragraph",
+      "text": "第一，方案能否执行。 算法给出的条件必须符合设备能力和既定限制。如果某个温度、压力或加料量无法实现，预测再好也不能直接转化为实验。"
+    },
+    {
+      "type": "paragraph",
+      "text": "第二，结果能否解释。 一个低产率可能说明配方表现较差，也可能来自加料异常、仪器故障或样品混淆。系统需要保留相应记录，避免把操作问题直接当成候选本身的性质。"
+    },
+    {
+      "type": "paragraph",
+      "text": "第三，更新能否落实。 数据进入数据库之后，还需要被后续决策使用。只有新的判断实际改变了实验安排，反馈过程才完整。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这也是实验管理软件的重要作用。它负责记录样品和实际条件，协调设备顺序，并将测量数据交给正确的模型或选择程序。Lee 等人在 Materials Horizons 发表的综述中，将模块化硬件、决策算法，以及实验调度和数据管理共同纳入自主实验室的讨论。持续实验依赖这些部分协同工作[1]。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "03有机合成"
+    },
+    {
+      "type": "paragraph",
+      "text": "化学反应的条件优化，为理解干湿闭环提供了一个具体入口。同一种反应可以在许多不同条件下进行。改变原料比例、催化剂、光照强度或反应时间，都可能影响产率和产物组成。这些因素组合起来，形成了大量需要比较的候选方案。"
+    },
+    {
+      "type": "paragraph",
+      "text": "Pilon 等人在 Nature Synthesis 发表的 RoboChem-Flex 研究，将实验设备、控制软件和贝叶斯优化结合，用于自动寻找反应条件。其中，吡咯的光催化三氟甲基化反应清楚展示了干湿实验如何相互反馈[2]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这项任务要在吡咯衍生物中引入三氟甲基。研究人员需要同时选择原料浓度、试剂用量、光催化剂及氧化剂的种类与用量，并调整光照强度和反应停留时间。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这些选择既包含浓度、用量和停留时间等连续变量，也包含催化剂、氧化剂等类别变量；光照强度在该研究中按离散变量处理。例如，系统需要在五种光催化剂和两种氧化剂之间选择，并判断它们与其他条件怎样搭配。"
+    },
+    {
+      "type": "image",
+      "src": "data/blog/assets/autonomous-labs-1/image2.png",
+      "caption": "图 2｜RoboChem-Flex 的光催化反应优化。图源：Pilon 等，Nature Synthesis（2026），文献 [2]，原文图 2。"
+    },
+    {
+      "type": "paragraph",
+      "text": "计算端采用贝叶斯优化，根据已有测量预测候选条件的表现，同时估计哪些区域仍不确定。它需要兼顾两类选择：在已有较好条件附近继续改进，以及测试了解较少的条件。"
+    },
+    {
+      "type": "paragraph",
+      "text": "实验端按照算法选择完成加料和流动反应，再通过在线氟核磁共振测量产率。结果返回后，算法更新判断，提出下一组条件，设备随之开始新的实验。"
+    },
+    {
+      "type": "paragraph",
+      "text": "反馈还会改变搜索方式。当连续三次实验的产率相近时，算法会增加对不确定区域的探索。读右上角的曲线时，不能把优化后期出现的每个低产率点都理解为预测错误：部分实验承担的是探索任务。单看某次产率，也不足以判断算法的预测是否准确。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这个案例说明，实验反馈既能帮助算法调整具体条件，也能改变下一阶段的探索重点。图中标注的最优结果，是本次搜索找到的最佳结果，不能据此断言所有可能条件都已被穷尽。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "04催化研究"
+    },
+    {
+      "type": "paragraph",
+      "text": "反应进行得快，并不一定意味着目标产物所占的比例高。催化研究常常需要同时评价催化活性与产物选择性，再根据研究目标选择合适的组合。"
+    },
+    {
+      "type": "paragraph",
+      "text": "Bennett 等人在 Nature Communications 发表的 Flex-Cat 研究，以铑催化的丙烯氢甲酰化反应为对象，探索配体与反应条件的组合。配体是与金属配位、影响催化表现的分子；更换配体或改变条件，都可能影响反应活性以及直链、支链产物的比例[3]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这类实验还受到一个具体限制：同一块反应板上的各孔，可以使用不同配方，但需要共享温度、压力和气体组成等条件。 算法因此需要同时决定整块板的运行条件，以及每个孔中使用的配体和配方。"
+    },
+    {
+      "type": "paragraph",
+      "text": "开篇图1展示了这种分层安排。上方列出研究者预先给定的目标、参数范围和系统约束；下方则连接模型更新、整板条件选择、各孔方案选择与自动实验。"
+    },
+    {
+      "type": "paragraph",
+      "text": "在计算端，高斯过程模型根据已有实验，预测不同组合的区域选择性和周转频率，并估计预测的不确定性。区域选择性反映直链与支链产物的分布；周转频率用于衡量单位时间、单位催化剂对应的产物生成量。"
+    },
+    {
+      "type": "paragraph",
+      "text": "算法先选择整块反应板共享的条件，再在这些条件下安排各孔的配体及用量。随后，设备完成配料和反应，并通过气相色谱分析产物。新的活性和选择性数据返回模型，用于决定下一块反应板怎样安排。"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究设置了偏向直链产物、偏向支链产物，以及寻找可调选择性配体三类任务。最后一类关注的是，同一种配体能否随着反应条件改变，使产物分布在偏直链和偏支链之间调整。"
+    },
+    {
+      "type": "paragraph",
+      "text": "从这一案例可以看出，实验设备的限制会直接影响算法怎样安排搜索。一个计算上值得尝试的方案，还需要与同批次其他实验共同组成可执行的反应板。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "05移动机器人 连接实验设备"
+    },
+    {
+      "type": "paragraph",
+      "text": "除了把设备集中在一个平台中，干湿实验也可以通过移动机器人连接起来。"
+    },
+    {
+      "type": "paragraph",
+      "text": "Burger 等人在 Nature 发表的“移动机器人化学家”研究，让机器人在实验室的不同工作站之间移动，寻找更有效的光催化制氢配方[4]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "计算端采用批量贝叶斯搜索选择下一批配方。机器人则负责配制样品、执行光照实验，并完成相应检测操作。测得的制氢表现返回算法后，算法调整各组分的选择，再让机器人测试新的组合。"
+    },
+    {
+      "type": "paragraph",
+      "text": "系统在 8 天内完成了 688 次实验，找到的光催化混合物活性达到初始配方的 6 倍。这一结果对应论文所研究的配方空间和制氢任务，展示了机器人连续操作与算法持续选择相结合的作用。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这种方式使分散的工作站能够参与同一个研究过程。样品转移时，编号、实际操作条件和检测结果也需要保持对应，才能让每一次测量准确返回计算端，成为下一轮选择的依据。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "06对自主实验室的进一步思考"
+    },
+    {
+      "type": "paragraph",
+      "text": "由此理解自主实验室，关注点便可以落到三个具体问题上：系统下一次选择什么，设备怎样执行，以及新结果如何改变原先的判断。这三个问题也将贯穿后续各期。随着研究对象变化，需要选择的方案、实验返回的信息，以及判断方案是否有效的标准，都会随之改变。"
+    },
+    {
+      "type": "paragraph",
+      "text": "下一期，我们将走进材料研究。 从无机材料合成、高分子与软材料，到光电材料和电池，进一步讨论计算提出的候选怎样转化为真实样品，以及制备与性能测量怎样参与后续设计。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本文依据相关研究进行解读与整理，图表版权归原作者所有，如需引用请以原论文为准。"
+    }
+  ],
+  "sourceSha256": "5d1e330f34521865d0e2b78a408a1b4ac3a6d6902168131c54c2334fd7e9a3c9",
+  "links": [
+    {
+      "label": "Materials Horizons",
+      "url": "https://doi.org/10.1039/d5mh01984b"
+    },
+    {
+      "label": "RoboChem-Flex",
+      "url": "https://doi.org/10.1038/s44160-026-01053-0"
+    },
+    {
+      "label": "Flex-Cat",
+      "url": "https://doi.org/10.1038/s41467-026-74425-x"
+    },
+    {
+      "label": "Mobile robotic chemist",
+      "url": "https://doi.org/10.1038/s41586-020-2442-2"
+    }
+  ]
+}
