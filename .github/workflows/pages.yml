@@ -39,6 +39,7 @@ jobs:
           python -m unittest discover -s tests -p test_paper_tags.py
           python -m unittest discover -s tests -p test_clean_ai4s_metadata.py
           python -m unittest discover -s tests -p test_imported_catalog.py
+          python -m unittest discover -s tests -p test_metadata_update.py
           python -m unittest discover -s tests -p test_openreview.py
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'

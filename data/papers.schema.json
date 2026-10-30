@@ -41,7 +41,7 @@
         "arxivUrl": {"type": "string"}, "arxivStatus": {"type": "string", "enum": ["", "verified", "probable", "needs-review", "not-found"]},
         "githubSource": {"type": "string", "enum": ["", "page", "paper", "manual"]},
         "imported": {"type": "boolean"},
-        "classificationStatus": {"type": "string", "enum": ["rule-derived", "needs-review"]},
+        "classificationStatus": {"type": "string", "enum": ["rule-derived", "source-provided", "needs-review"]},
         "pdfAvailability": {"type": "string", "enum": ["candidate", "unresolved", "unknown"]},
         "codeAvailability": {"type": "string", "enum": ["available", "unknown", "none"]},
         "dateRaw": {"type": "string"}, "sourceDate": {"type": "string"},
