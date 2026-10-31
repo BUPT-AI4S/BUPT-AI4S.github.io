@@ -98,4 +98,24 @@ class PaperTagTests(unittest.TestCase):
             reordered=self.module().write_index(root,ROOT/'data/papers.schema.json')
             self.assertEqual({p['id']:p.get('tags',[]) for p in index['papers']},{p['id']:p.get('tags',[]) for p in reordered['papers']})
 
+    def test_translated_keyword_vocabulary_merges_synonyms_and_keeps_old_ids_as_aliases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);self.setup_site(root,['climate'])
+            folder=root/'data/imported';folder.mkdir()
+            row={'id':'llm-paper','title':'LLMs','authors':[],'keywords':['LLM','Large language models']}
+            (folder/'ai4s-2026.json').write_text(json.dumps({'schemaVersion':1,'papers':[row]}),encoding='utf-8')
+            registry={'schemaVersion':1,'tags':[{'id':'keyword-canonical','nameEn':'Large language models','nameZh':'大语言模型','aliases':['LLM','keyword-previous-id']}]}
+            (root/'data/keyword-tag-vocabulary.json').write_text(json.dumps(registry),encoding='utf-8')
+            index=self.module().write_index(root,ROOT/'data/papers.schema.json')
+            entry=index['papers'][1]
+            self.assertEqual(entry['tags'],['keyword-canonical'])
+            self.assertEqual(index['tagTranslations']['keyword-canonical'],'大语言模型')
+            tag=next(t for t in index['tagVocabulary'] if t['id']=='keyword-canonical')
+            self.assertIn('keyword-previous-id',tag['aliases'])
+            # New source terms cannot silently reintroduce untranslated labels.
+            row['keywords'].append('Untranslated new term')
+            (folder/'ai4s-2026.json').write_text(json.dumps({'schemaVersion':1,'papers':[row]}),encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'Untranslated.*Untranslated new term'):
+                self.module().write_index(root,ROOT/'data/papers.schema.json')
+
 if __name__=='__main__':unittest.main()

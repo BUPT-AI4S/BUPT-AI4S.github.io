@@ -71,7 +71,24 @@ def keyword_key(value):
 def keyword_values(paper):
     return [part.strip() for value in paper.get('keywords',[]) for part in re.split(r'[;；]',value) if part.strip()]
 
-def register_keyword_tags(vocabulary,papers):
+def load_keyword_vocabulary(root,vocabulary):
+    path=Path(root)/'data/keyword-tag-vocabulary.json'
+    if not path.exists():return False
+    if path.is_symlink():raise ValueError('Invalid keyword vocabulary path')
+    extra=read_json(path)
+    validate_tag_vocabulary(extra)
+    data,lookup=vocabulary;existing={t['id']:t for t in data['tags']}
+    for tag in extra['tags']:
+        if not re.search(r'[\u3400-\u9fff]',tag['nameZh']):raise ValueError('Keyword tag needs a Chinese name: '+tag['id'])
+        if tag['id'] in existing:
+            original=existing[tag['id']]
+            if any(original[key]!=tag[key] for key in ('nameEn','nameZh')):raise ValueError('Core tag names must be preserved: '+tag['id'])
+            original['aliases']=list(dict.fromkeys(original.get('aliases',[])+tag.get('aliases',[])))
+        else:data['tags'].append(tag)
+    lookup.clear();lookup.update(validate_tag_vocabulary(data))
+    return True
+
+def register_keyword_tags(vocabulary,papers,require_translations=False):
     data,lookup=vocabulary
     matches={keyword_key(name):tag for name,tag in lookup.items()}
     groups={}
@@ -80,6 +97,7 @@ def register_keyword_tags(vocabulary,papers):
     for key,variants in sorted(groups.items()):
         if key not in matches:
             label=sorted(variants,key=lambda s:(len(s),s.casefold(),s))[0]
+            if require_translations:raise ValueError('Untranslated metadata keyword: '+label)
             tag={'id':'keyword-'+hashlib.sha256(key.encode('utf-8')).hexdigest()[:16],
                  'nameEn':label,'nameZh':label,'aliases':sorted(variants),
                  'source':'metadata-keywords'}
@@ -273,6 +291,7 @@ def build_index(folder,schema_path,config,root,details=None):
     schema=read_json(schema_path)
     validate(config.get('tagTranslations',{}),schema['properties']['tagTranslations'],schema,'tagTranslations')
     vocabulary=load_tag_vocabulary(root)
+    translated_keywords=load_keyword_vocabulary(root,vocabulary)
     imported_sources=[]
     for source in sorted((root/'data/imported').glob('ai4s-*.json')):
         if source.is_symlink():raise ValueError('Symlink not allowed for imported metadata')
@@ -280,7 +299,7 @@ def build_index(folder,schema_path,config,root,details=None):
         if imported.get('schemaVersion')!=1 or not isinstance(imported.get('papers'),list):raise ValueError('Invalid imported catalog')
         for paper in imported['papers']:validate_paper(paper,schema,root,str(paper.get('id','')))
         imported_sources.append((source,imported['papers']))
-    keyword_tags=register_keyword_tags(vocabulary,[p for _,rows in imported_sources for p in rows])
+    keyword_tags=register_keyword_tags(vocabulary,[p for _,rows in imported_sources for p in rows],translated_keywords)
     papers=[]; ids=set(); filenames=set()
     for file in paper_files(folder):
         if file.name.endswith(('.local.json','.local.md')): raise ValueError(f'Paper filename uses reserved local suffix: {file.name}')
