@@ -35,6 +35,11 @@ export function tagCounts(papers) {
   for (const p of papers) for (const tag of paperTags(p)) counts.set(tag, (counts.get(tag) || 0) + 1);
   return [...counts].sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0]));
 }
+export function topicOptions(papers, vocabulary = [], query = '') {
+  const key=value=>value.normalize('NFKC').toLocaleLowerCase().trim();
+  const term=key(query), names=new Map(vocabulary.map(t=>[t.id,[t.nameZh,t.nameEn,...(t.aliases||[])].map(key)]));
+  return tagCounts(papers).filter(([id])=>!term||(names.get(id)||[key(id)]).some(name=>name.includes(term)));
+}
 const LIST_PARAMS = ['discipline', 'q', 'tag', 'subfield', 'venue', 'year', 'saved', 'period', 'date', 'page', 'field', 'match', 'primary', 'sort', 'view', 'arxiv', 'github', 'sessions', 'rooms', 'lang', 'theme'];
 export function listReturnUrl(search = '') {
   if (search && !search.startsWith('?')) return 'papers.html';

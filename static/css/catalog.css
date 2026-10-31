@@ -76,7 +76,7 @@ html[data-theme="dark"] [data-discipline] { --area-color:color-mix(in srgb,rgb(v
 .resource-badge { padding:3px 7px; border-radius:5px; color:var(--soft); background:var(--cyan-dim); font-size:11px; }
 .resource-review { background:var(--note-bg); }
 .sidebar-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
-.result-info .sidebar-tags { max-height:128px; overflow:auto; min-width:0; padding:3px; overscroll-behavior:contain; }
+.result-info .sidebar-tags { min-width:0; padding:3px; }
 .sidebar-tags button,.card-labels button { max-width:100%; overflow-wrap:anywhere; white-space:normal; }
 .sidebar-tags button,.active-filters button { border:1px solid var(--stroke); border-radius:7px; padding:6px 9px; min-height:36px; color:var(--soft); background:var(--card-solid); font-size:12px; }
 .sidebar-tags button[aria-pressed="true"] { color:var(--pill-fg); background:var(--blue-dim); border-color:var(--blue); }
@@ -85,6 +85,18 @@ html[data-theme="dark"] [data-discipline] { --area-color:color-mix(in srgb,rgb(v
 .catalog-field-row>div { min-width:0; }
 .catalog-field-row label { display:block; color:var(--muted); font-size:12px; margin-bottom:6px; }
 .catalog-field-row select { width:100%; min-height:40px; background:var(--card-solid); color:var(--soft); border:1px solid var(--stroke); border-radius:7px; padding:6px 8px; font-size:13px; }
+.topic-picker { position:relative; }
+.topic-picker>summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:40px; padding:6px 12px; border:1px solid var(--stroke); border-radius:7px; background:var(--card-solid); color:var(--soft); font-size:13px; cursor:pointer; list-style:none; }
+.topic-picker>summary::-webkit-details-marker { display:none; }
+.topic-picker>summary::after { content:'⌄'; flex:none; }
+.topic-picker[open]>summary { border-color:var(--blue); }
+.topic-menu { position:absolute; top:calc(100% + 8px); left:0; right:0; z-index:30; padding:12px; border:1px solid var(--stroke); border-radius:12px; background:var(--card-solid); box-shadow:0 12px 32px rgb(15 40 65 / 14%); }
+.topic-menu input { box-sizing:border-box; width:100%; min-height:40px; padding:8px 10px; border:1px solid var(--stroke); border-radius:7px; background:var(--card-solid); color:var(--text); font:inherit; font-size:13px; }
+.topic-options { display:flex; flex-direction:column; gap:3px; max-height:min(340px,45vh); overflow:auto; margin-top:8px; overscroll-behavior:contain; }
+.topic-options button { display:block; width:100%; min-height:40px; padding:9px 10px; border:0; border-radius:6px; background:transparent; color:var(--soft); text-align:left; white-space:normal; overflow-wrap:anywhere; font-size:13px; }
+.topic-options button:hover,.topic-options button[aria-pressed="true"] { background:var(--blue-dim); color:var(--pill-fg); }
+.topic-status { margin:10px 2px 0; color:var(--muted); font-size:12px; line-height:1.5; }
+.topic-picker :focus-visible { outline:2px solid var(--blue); outline-offset:2px; }
 .catalog-tag-row { display:flex; gap:16px; align-items:baseline; margin-top:20px; padding-top:16px; border-top:1px solid var(--stroke); }
 .catalog-tag-row h2 { flex-shrink:0; font-size:13px; color:var(--muted); font-weight:600; margin:0; }
 .catalog-tag-row .sidebar-tags { margin:0; }

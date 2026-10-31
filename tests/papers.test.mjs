@@ -2,6 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
+test('research topics search bilingual names and aliases within the filtered paper pool', async () => {
+  const {topicOptions,filterPapers}=await import('../static/js/papers-core.mjs');
+  const vocabulary=[{id:'protein',nameZh:'蛋白质设计',nameEn:'Protein design',aliases:['Protein engineering']},{id:'climate',nameZh:'气候',nameEn:'Climate',aliases:[]}];
+  const papers=[{id:'a',tags:['protein','protein'],disciplines:['life-sciences']},{id:'b',tags:['climate'],disciplines:['earth-space-sciences']},{id:'c',tags:['protein'],disciplines:['life-sciences']}];
+  assert.deepEqual(topicOptions(papers,vocabulary,'蛋白质'),[['protein',2]]);
+  assert.deepEqual(topicOptions(papers,vocabulary,'ENGINEERING'),[['protein',2]]);
+  assert.deepEqual(topicOptions(filterPapers(papers,{disciplines:['earth-space-sciences']}),vocabulary),[['climate',1]]);
+  assert.deepEqual(topicOptions(papers,vocabulary,'not-a-topic'),[]);
+});
+
 test('missing imported resource metadata is unknown rather than confirmed absent', async () => {
   const {filterPapers,paginatePapers}=await import('../static/js/papers-core.mjs');
   const papers=[{id:'unknown',title:'Imported',imported:true,codeAvailability:'unknown'}, {id:'no',title:'Known absent',codeAvailability:'none'}];
