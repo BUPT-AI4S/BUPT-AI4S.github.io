@@ -698,6 +698,40 @@
       "titleEn": "Autonomous Laboratories (II): Dry–Wet Loops in Materials Research (Part 1)",
       "summaryEn": "Follow inorganic synthesis and polymer design through A-Lab, A-Lab GPSS and PolyCraft, examining how phase identification, conductivity, particle size and processing history inform subsequent experiments.",
       "collection": "labs"
+    },
+    {
+      "id": "autonomous-labs-3-editorial",
+      "articleId": "autonomous-labs-3",
+      "dataUrl": "data/blog/articles/autonomous-labs-3.json",
+      "title": "自主实验室（三）｜材料研究中的干湿闭环（下）",
+      "subtitle": "",
+      "kind": "公众号解读",
+      "authors": [
+        "BUPT Reasoning"
+      ],
+      "summary": "结合异地异步有机激光材料发现、器件验证、快充策略与电解液探索，讨论材料研究中实验测量、寿命预测和候选多样性如何影响下一轮选择。",
+      "categories": [
+        "labs"
+      ],
+      "keywords": [
+        "自主实验室",
+        "干湿闭环",
+        "光电材料",
+        "器件验证",
+        "电池快充",
+        "电解液",
+        "嵌套汤普森采样"
+      ],
+      "order": 18,
+      "links": [
+        {
+          "label": "原始论文",
+          "url": "https://doi.org/10.1126/science.adk9227"
+        }
+      ],
+      "titleEn": "Autonomous Laboratories (III): Dry–Wet Loops in Materials Research (Part 2)",
+      "summaryEn": "Explore asynchronous organic laser discovery, device validation, battery fast charging and electrolyte search, examining how experimental measurements, lifetime predictions and candidate diversity inform the next round of decisions.",
+      "collection": "labs"
     }
   ]
 }

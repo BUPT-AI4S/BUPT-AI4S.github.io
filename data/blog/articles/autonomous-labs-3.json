@@ -1,0 +1,295 @@
+{
+  "id": "autonomous-labs-3",
+  "title": "自主实验室（三）｜材料研究中的干湿闭环（下）",
+  "subtitle": "",
+  "byline": "BUPT Reasoning · AI4S 专栏 · 自主实验室系列 03",
+  "blocks": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "本篇论文"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[1] Delocalized, asynchronous, closed-loop discovery of organic laser emitters"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Felix Strieth-Kalthoff、Han Hao、Vandana Rathore、Joshua Derasp 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：多伦多大学、伊利诺伊大学厄巴纳—香槟分校、不列颠哥伦比亚大学、格拉斯哥大学、九州大学等合作团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Science 384(6697)，文章号 eadk9227，2024 年 5 月 17 日发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1126/science.adk9227"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/the-matter-lab/acdc_laser"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[2] Discovery of tunable and soluble organic emitters for solid-state lasers with a self-driving laboratory"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Hyun Suk Park、Mahdi Mazaheri、Changhyeok Choi、Han Hao 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：多伦多大学 Alán Aspuru-Guzik 团队及九州大学等合作团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Nature Communications 17，文章号 2920，2026 年 2 月 19 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s41467-026-69233-2"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/seanhspark/Parallelized-DFT-ORCA"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[3] Recent advances in data-driven and artificial intelligence-integrated perovskite solar cells: From design to self-driving laboratories"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Jaehee Lee、Juhwan Noh、Hyunjun Lee、Yea-Lee Lee 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：韩国科学技术院与韩国化学研究院合作团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：InfoMat 8(4)，文章号 e70124，2026 年 2 月 20 日在线发表，综述。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1002/inf2.70124"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[4] Closed-loop optimization of fast-charging protocols for batteries with machine learning"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Peter M. Attia、Aditya Grover、Norman Jin、Kristen A. Severson 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：斯坦福大学、麻省理工学院及丰田研究院等合作团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：Nature 578，397–402，2020 年 2 月 19 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s41586-020-1994-5"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/chueh-ermon/battery-fast-charging-optimization"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文全名：[5] Collecting diverse near-optimal samples via nested Thompson sampling"
+    },
+    {
+      "type": "paragraph",
+      "text": "主要作者：Ryosuke Shibukawa、Shoichi Matsuda、Kazuha Nakamura、Ryo Tamura 等"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究团队：日本物质材料研究机构、东京大学与理化学研究所等合作团队。"
+    },
+    {
+      "type": "paragraph",
+      "text": "发表信息：npj Computational Materials 12，文章号 197，2026 年 4 月 7 日在线发表。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文链接：https://doi.org/10.1038/s41524-026-02067-0"
+    },
+    {
+      "type": "paragraph",
+      "text": "仓库地址：https://github.com/shibukawar/nimo"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "研究要点"
+    },
+    {
+      "type": "paragraph",
+      "text": "材料研究走向器件与电池时，反馈需要跨越更多制备步骤，也可能面对漫长的验证周期。本期关注异地实验如何共同更新候选、早期数据怎样支持快充方案选择，以及电解液探索为何同时保留性能与组成的多样性。测量指标、预测结果与最终验证，需要在闭环中保持清楚的对应。"
+    },
+    {
+      "type": "paragraph",
+      "text": "上一期从无机材料与高分子出发，讨论合成结果、物相和颗粒尺寸如何影响下一轮实验。本期继续进入光电材料与器件、电池与电化学。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "01光电材料与器件"
+    },
+    {
+      "type": "paragraph",
+      "text": "光电研究尤其需要区分分子在溶液中的性质、形成薄膜后的表现，以及完整器件的性能。前一个环节提供的好结果，需要经过后续制备和测量，才能判断是否适用于实际器件。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1.1异地实验怎样共同更新候选选择"
+    },
+    {
+      "type": "paragraph",
+      "text": "Strieth-Kalthoff 等人在 Science 发表的研究，以有机激光发光材料为目标，将不同地点的实验室连接起来。计算端根据已有数据安排候选分子，实验端完成合成、纯化与光学测量，新结果返回后再更新后续选择。异步协作使各实验单元可以按照自身进度开展工作，并持续利用已返回的数据[1]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "下图左侧从模块化分子设计走向自动化并行合成；右上角用物理信息引导的贝叶斯优化安排实验；右下角则把材料带入薄膜器件，测量放大自发辐射（ASE）。ASE 表示发出的光在材料中得到放大，是评价光学增益与激光应用潜力的重要实验信息。中间的云端连接说明任务怎样分布在不同地点：已返回的合成和测量数据进入统一的实验规划，影响后续候选的优先顺序。薄膜测量再进一步检验前期筛选结果能否支持器件方向的判断。"
+    },
+    {
+      "type": "image",
+      "src": "data/blog/assets/autonomous-labs-3/image1.png",
+      "caption": "图 1｜异地、异步协同的有机激光材料发现流程。图源：Strieth-Kalthoff 等，Science（2024），文献 [1]，研究流程示意图。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1.2溶解性和加工条件也决定候选能否继续研究"
+    },
+    {
+      "type": "paragraph",
+      "text": "候选分子即使具有较好的光学性质，如果难以溶解，也会增加纯化、检测与成膜的难度。Park 等人的后续研究因此进一步关注可溶的有机发光分子及其发射颜色，通过计算预筛选和自动化合成、表征，研究了 51 个候选，并对选定材料开展固态 ASE 测量[2]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "Park 等人将这项研究描述为计算引导的一轮自动化、相互连接的实验探索。因此，这个案例在此补充的是溶解性、颜色和固态表现之间的研究要求，其 51 个候选的考察不等同于上述 Science 工作持续根据新数据安排后续实验的过程[2]。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "1.3太阳能电池要把器件结果纳入反馈"
+    },
+    {
+      "type": "paragraph",
+      "text": "从有机发光分子走向钙钛矿太阳能电池，目标进一步涉及多个材料层、界面与制备步骤。Lee 等人的综述依次讨论数据平台、性能预测、材料设计与表征，继而介绍自动实验和自主实验室，呈现计算方法逐步进入真实制备与测量的过程[3]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "评价这类工作时，需要看清反馈指标。如果模型只接收薄膜发光强度，系统直接优化的就是这一指标。要进一步讨论器件层面的优化，需要让器件效率、稳定性等测量参与后续选择。该综述梳理的挑战也包括多个步骤共同影响完整器件性能的问题；部分材料或单一步骤的改进，仍需通过器件实验检验[3]。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "02电池与电化学"
+    },
+    {
+      "type": "paragraph",
+      "text": "光学测量通常能较快提供结果，电池寿命则可能需要数月甚至更长时间才能确认。因此，电池方向除了决定下一轮测什么，还要判断最终结果尚未得到时，哪些早期数据足以支持下一轮选择。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2.1用早期实测数据预测寿命，再安排快充测试"
+    },
+    {
+      "type": "paragraph",
+      "text": "Attia 等人的快充策略研究，将两项计算任务连接起来：寿命预测模型利用前期充放电数据估计最终循环寿命；优化算法利用这些估计，选择下一批需要测试的充电方案。真实电池再按方案运行，新测量继续进入决策[4]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "论文报告，在 16 天内从 224 个候选策略中识别出循环寿命较高的方案，并进行了后续验证。这里的 224 是候选策略空间，不能理解为每个策略都已在 16 天内完成完整寿命测试。提前预测减少了等待，但返回优化算法的寿命仍是估计值，需要与最终测得的寿命区分[4]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这样，模型可以在完整寿命结果尚未返回时安排下一批测试。研究者仍需确认早期数据与最终寿命之间的关系适用于当前电池和充电条件，并用后续寿命测量检查前期选择。预测在这里承担的是缩短决策等待的作用。"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "2.2电解液探索可以保留多种表现较好的配方"
+    },
+    {
+      "type": "paragraph",
+      "text": "充电策略之外，电解液研究可以形成更直接的材料反馈。Shibukawa 等人将嵌套汤普森采样（NTS）接入机器人电化学平台：计算端选择电解液添加剂组合，实验端配制样品并测试，实测结果再用于选择下一批组合[5]。"
+    },
+    {
+      "type": "paragraph",
+      "text": "这一方法希望获得多个表现较好、组成又有所不同的候选。它根据已有数据建立预测，再从达到一定预期表现的多个区域选择下一批实验，避免所有选择过早集中在一个很窄的配方附近。"
+    },
+    {
+      "type": "paragraph",
+      "text": "下图 a 展示 NTS 通过 NIMO 软件提交每批 48 个候选，连接微孔板配液与高通量测量。图 b 的纵轴是规定条件下的放电时间；图 c 用 #Circles 衡量候选之间的多样性，曲线越靠右上，表示在相应距离尺度下能区分出的候选越多；图 d 用降维图辅助呈现组成分布。后两个面板有助于理解，作者为何同时考察性能与候选多样性。"
+    },
+    {
+      "type": "image",
+      "src": "data/blog/assets/autonomous-labs-3/image2.png",
+      "caption": "图 2｜利用 NAREE 系统与 NTS 探索电解液。图源：Shibukawa 等，npj Computational Materials（2026），文献 [5]，原文图 4，保留 a–d 全部子图。"
+    },
+    {
+      "type": "paragraph",
+      "text": "每轮新增的放电时间数据会更新预测，并改变下一批可探索的组成区域。由此保留下来的多种近优候选，可供研究者再按成本、稳定性等要求开展比较[5]。"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "03从器件测量到长期验证"
+    },
+    {
+      "type": "paragraph",
+      "text": "光电与电池案例进一步展示了材料研究对反馈的不同要求：异地实验需要让已返回的数据持续进入共同规划，器件研究需要连接材料性质与完整器件表现，快充优化则借助早期数据缩短决策等待。电解液探索还提醒我们，组成不同而表现接近的候选，可以为后续比较保留更多选择。"
+    },
+    {
+      "type": "paragraph",
+      "text": "一次闭环的价值，体现在实验结果是否改变了下一次选择，以及这种改变有没有可靠依据。 为此，样品身份、实际制备条件、测量数据和分析过程需要保持对应；失败、异常和不确定的结果，也应当进入后续判断。"
+    },
+    {
+      "type": "paragraph",
+      "text": "研究者通过目标与指标设定、平台搭建、初始实验、结果复核和后续验证，参与这些系统的研究过程。哪些步骤已经自动化，哪些判断由模型承担，哪些结果还需要人工确认，都应当与每项工作的具体流程对应起来。"
+    },
+    {
+      "type": "paragraph",
+      "text": "对材料研究而言，接下来的具体问题是：当目标从容易测量的单项性质走向加工可行性、器件性能和长期可靠性，怎样仍然获得足以支持下一步行动的反馈？让计算提出的方案与真实实验持续往返，并在每次往返中积累更有用的证据，正是这些工作共同指向的研究问题。"
+    },
+    {
+      "type": "paragraph",
+      "text": "本文依据相关研究进行解读与整理，图表版权归原作者所有，如需引用请以原论文为准。"
+    }
+  ],
+  "sourceSha256": "452b383001b6b14d5da2cb38b262610be2ab610e1a73d9b1ff3b1027f115c1fb",
+  "links": [
+    {
+      "label": "Asynchronous laser discovery",
+      "url": "https://doi.org/10.1126/science.adk9227"
+    },
+    {
+      "label": "Soluble organic emitters",
+      "url": "https://doi.org/10.1038/s41467-026-69233-2"
+    },
+    {
+      "label": "Perovskite solar cells",
+      "url": "https://doi.org/10.1002/inf2.70124"
+    },
+    {
+      "label": "Battery fast charging",
+      "url": "https://doi.org/10.1038/s41586-020-1994-5"
+    },
+    {
+      "label": "Nested Thompson sampling",
+      "url": "https://doi.org/10.1038/s41524-026-02067-0"
+    }
+  ]
+}
