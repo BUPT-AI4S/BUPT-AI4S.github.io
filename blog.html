@@ -6,7 +6,7 @@
   <title data-zh="科学智能博客 · BUPT AI4S" data-en="AI4S Blog · BUPT">科学智能博客 · BUPT AI4S</title>
   <meta name="description" content="BUPT Reasoning 的科学智能文章解读：从科学数据、基础模型，到智能体与科学发现。">
   <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="static/css/blog.css?v=20261023-blog-release">
+  <link rel="stylesheet" href="static/css/blog.css?v=20261104-navigation">
   <script>try{const p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('ai4s-theme'),l=p.get('lang')||localStorage.getItem('ai4s-lang');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;if(l==='en')document.documentElement.lang='en';}catch{}</script>
 </head>
 <body class="blog-catalog">
@@ -14,7 +14,16 @@
   <header class="blog-header">
     <div class="container header-inner">
       <a class="blog-brand" href="index.html" aria-label="AI4S 首页" data-label-zh="AI4S 首页" data-label-en="AI4S home"><img src="static/images/favicon.svg" width="34" height="34" alt=""><span>AI4S</span></a>
-      <nav aria-label="站点导航" data-label-zh="站点导航" data-label-en="Site navigation"><a href="index.html" class="home-link" data-zh="课程首页" data-en="Course home">课程首页</a><a href="papers.html" data-zh="前沿速递" data-en="Research frontier">前沿速递</a><button id="category-toggle" type="button" aria-expanded="false" aria-controls="category-drawer" data-zh="分类 ☷" data-en="Topics ☷">分类 ☷</button><button id="lang-toggle" type="button" aria-label="Switch to English">EN</button><button id="theme-toggle" type="button" aria-label="切换深浅主题">☾ 深色</button></nav>
+      <nav aria-label="站点导航" data-label-zh="站点导航" data-label-en="Site navigation">
+        <a href="index.html" class="home-link"><span aria-hidden="true">← </span><span class="home-label-full" data-zh="返回课程主页" data-en="Course home">返回课程主页</span><span class="home-label-short" data-zh="首页" data-en="Home">首页</span></a>
+        <a href="papers.html" data-zh="前沿速递" data-en="Research frontier">前沿速递</a>
+        <button id="category-toggle" type="button" aria-expanded="false" aria-controls="category-drawer" data-zh="分类 ☷" data-en="Topics ☷">分类 ☷</button>
+        <button id="theme-toggle" type="button" data-icon-only aria-label="切换深色主题">
+          <svg class="theme-to-dark" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/></svg>
+          <svg class="theme-to-light" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+        </button>
+        <button id="lang-toggle" type="button" aria-label="Switch to English">EN</button>
+      </nav>
     </div>
   </header>
   <main class="container blog-main">
@@ -40,6 +49,6 @@
     <div class="category-drawer-heading"><h2 id="category-drawer-title" data-zh="选择文章分类" data-en="Choose a topic">选择文章分类</h2><button id="category-close" type="button" aria-label="关闭分类" data-label-zh="关闭分类" data-label-en="Close topics">×</button></div>
     <div id="category-options" class="category-options"></div>
   </dialog>
-  <script type="module" src="static/js/blog.mjs?v=20261023-blog-release"></script>
+  <script type="module" src="static/js/blog.mjs?v=20261104-navigation"></script>
 </body>
 </html>

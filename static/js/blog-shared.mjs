@@ -20,7 +20,7 @@ export function setupLanguage(onChange=()=>{}){
 }
 export function setupTheme(){
   const root=document.documentElement,button=document.getElementById('theme-toggle');
-  function update(){const dark=root.dataset.theme==='dark';button.textContent=dark?tr('☀ 浅色','☀ Light'):tr('☾ 深色','☾ Dark');button.setAttribute('aria-label',dark?tr('切换浅色主题','Switch to light theme'):tr('切换深色主题','Switch to dark theme'));}
+  function update(){const dark=root.dataset.theme==='dark';if(!button.hasAttribute('data-icon-only'))button.textContent=dark?tr('☀ 浅色','☀ Light'):tr('☾ 深色','☾ Dark');button.setAttribute('aria-label',dark?tr('切换浅色主题','Switch to light theme'):tr('切换深色主题','Switch to dark theme'));}
   button.onclick=()=>{const theme=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=theme;try{localStorage.setItem('ai4s-theme',theme);}catch{}update();};update();
   document.addEventListener('ai4s-language-change',update);
 }

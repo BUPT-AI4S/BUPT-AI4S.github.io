@@ -159,3 +159,19 @@ body{background:radial-gradient(900px 480px at 12% -10%,var(--glow-a),transparen
 @media(max-width:800px){.article-layout{gap:24px;padding-top:24px}.article-sidebar .back-catalog,.article-sidebar .back-top{display:none}.article-sidebar summary{margin:0}.article-sidebar details[open] summary{margin-bottom:12px}.article-sidebar nav{max-height:45dvh;overflow:auto}.article-heading h1{margin-top:16px}}
 @media(max-width:600px){.blog-catalog .header-inner{gap:8px}.blog-catalog .header-inner nav{gap:7px}.blog-catalog .home-link{max-width:66px;line-height:1.4}#category-toggle{font-size:11px;padding:6px 9px}.category-drawer{inset:74px 16px auto auto;padding:18px;max-height:calc(100dvh - 90px)}.category-option{font-size:12px;padding:9px}.chapter-navigation{gap:8px}.chapter-navigation button{padding:9px 13px;font-size:14px}.chapter-heading{gap:10px;font-size:13px}}
 @media(max-width:360px){.blog-catalog .home-link{display:none}}
+
+/* Match the research frontier's header controls without changing the chapter reader. */
+.blog-catalog .blog-header{background:var(--card)}
+.blog-catalog .header-inner nav{gap:8px}
+.blog-catalog .header-inner nav>a{align-self:center;padding:8px 10px;font-size:13px;white-space:nowrap}
+.blog-catalog .header-inner nav>.home-link{color:#3b62d9;font-weight:600;max-width:none}
+html[data-theme=dark] .blog-catalog .header-inner nav>.home-link{color:#6b8cff}
+.home-label-short{display:none}
+.blog-catalog #category-toggle,.blog-catalog #theme-toggle,.blog-catalog #lang-toggle{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--muted);font-size:13px;flex-shrink:0}
+.blog-catalog #category-toggle{padding-inline:12px}
+.blog-catalog #category-toggle:hover,.blog-catalog #theme-toggle:hover,.blog-catalog #lang-toggle:hover{border-color:var(--green);color:var(--green)}
+.blog-catalog #theme-toggle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.blog-catalog .theme-to-light,html[data-theme=dark] .blog-catalog .theme-to-dark{display:none}
+html[data-theme=dark] .blog-catalog .theme-to-light{display:block}
+#all-articles{min-height:44px;padding:10px 22px;font-size:15px;font-weight:600;border-radius:12px}
+@media(max-width:600px){.blog-catalog .header-inner nav{gap:6px}.blog-catalog .header-inner nav>a{padding:8px 6px;font-size:12px}.home-label-full{display:none}.home-label-short{display:inline}.blog-catalog #category-toggle{padding-inline:8px}}

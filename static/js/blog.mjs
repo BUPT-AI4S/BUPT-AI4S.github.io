@@ -1,5 +1,5 @@
 import {COLLECTIONS,collectionName,filterCollection,readCollection,seriesLabel,readingLink} from './blog-core.mjs?v=20261023-chapters';
-import {setupTheme,setupLanguage,getLanguage,tr,node,link} from './blog-shared.mjs';
+import {setupTheme,setupLanguage,getLanguage,tr,node,link} from './blog-shared.mjs?v=20261104-navigation';
 setupTheme();
 const list=document.getElementById('article-list'),status=document.getElementById('load-status');
 let entries=null,failed=false;
@@ -14,9 +14,9 @@ function selectCollection(id){
   const url=new URL(location.href);if(id==='all')url.searchParams.delete('category');else url.searchParams.set('category',id);
   url.hash='';history.replaceState(null,'',url);render();
   if(drawer.open)drawer.close();
-  document.getElementById('article-panel').scrollIntoView({behavior:'instant',block:'start'});
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)list.animate([{opacity:.4,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:230,easing:'ease-out'});
   document.getElementById(id==='all'?'all-articles':'pocket-'+id)?.focus({preventScroll:true});
+  window.scrollTo({top:0,left:0,behavior:'instant'});
 }
 function renderPockets(){
   const buttons=COLLECTIONS.map(group=>{
@@ -66,11 +66,11 @@ function renderCard(entry,index){
   top.append(node('span',String((entry.order??index)+1).padStart(2,'0'),'card-number'));
   if(entry.seriesPart)top.append(node('span',seriesLabel(entry,getLanguage()),'series-part'));
   const english=getLanguage()==='en';
-  const heading=node('h3');heading.append(link(english?entry.titleEn||entry.title:entry.title,readingLink(entry.articleId,collection)));
+  const heading=node('h3');heading.append(link(english?entry.titleEn||entry.title:entry.title,readingLink(entry.articleId,collection),true));
   const tags=node('div',undefined,'tags');
   tags.append(node('span',collectionName(entry.collection,getLanguage())));
   const actions=node('div',undefined,'card-actions');
-  const read=link(tr('阅读全文','Read article'),readingLink(entry.articleId,collection));read.className='card-read';
+  const read=link(tr('阅读全文','Read article'),readingLink(entry.articleId,collection),true);read.className='card-read';
   const arrow=node('span','↗');arrow.setAttribute('aria-hidden','true');read.append(arrow);actions.append(read);
   for(const resource of entry.links||[]){const a=link((resource.label==='原始论文'?tr('原始论文','Original paper'):resource.label)+' ↗',resource.url,true);a.className='paper-link';actions.append(a);}
   card.append(top,heading,node('p',english?entry.summaryEn||entry.summary:entry.summary,'card-summary'),tags,node('p',(entry.authors||['BUPT Reasoning']).join(' · '),'card-author'),actions);
