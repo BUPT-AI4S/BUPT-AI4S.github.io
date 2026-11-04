@@ -19,10 +19,10 @@ function selectCollection(id){
   window.scrollTo({top:0,left:0,behavior:'instant'});
 }
 function renderPockets(){
-  const buttons=COLLECTIONS.map(group=>{
-    const button=node('button',undefined,'pocket-tab');button.type='button';button.id='pocket-'+group.id;button.dataset.collection=group.id;
+  const buttons=[...COLLECTIONS,{id:'all'}].map(group=>{
+    const button=node('button',undefined,'pocket-tab');button.type='button';button.id=group.id==='all'?'all-articles':'pocket-'+group.id;button.dataset.collection=group.id;
     button.setAttribute('aria-pressed',String(collection===group.id));button.setAttribute('aria-controls','article-panel');
-    if(entries&&!entries.some(entry=>entry.collection===group.id))button.classList.add('pocket-empty');
+    if(entries&&group.id!=='all'&&!entries.some(entry=>entry.collection===group.id))button.classList.add('pocket-empty');
     for(const cls of ['pocket-back','pocket-paper paper-one','pocket-paper paper-two']){
       const decoration=node('span',undefined,cls);decoration.setAttribute('aria-hidden','true');button.append(decoration);
     }
@@ -37,7 +37,6 @@ function renderPockets(){
     button.append(node('span',collectionName(group.id,getLanguage())),node('span',entries?String(filterCollection(entries,group.id).length):'…','category-count'));
     button.onclick=()=>selectCollection(group.id);return button;
   }));
-  document.getElementById('all-articles').setAttribute('aria-pressed',String(collection==='all'));
   document.getElementById('article-panel').dataset.collection=collection;
   document.getElementById('collection-title').textContent=collectionName(collection,getLanguage());
   const series=document.getElementById('series-description');series.hidden=collection!=='reviews';
@@ -56,7 +55,6 @@ function render(){
     const retry=node('button',tr('重新加载','Try again'));retry.onclick=load;status.append(retry);
   }else status.textContent=tr('正在加载文章…','Loading articles…');
 }
-document.getElementById('all-articles').onclick=()=>selectCollection('all');
 window.addEventListener('popstate',()=>{collection=readCollection(location.search);render();});
 setupLanguage(render);
 
