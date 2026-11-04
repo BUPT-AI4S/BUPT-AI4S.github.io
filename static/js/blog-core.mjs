@@ -22,11 +22,19 @@ export function readCollection(search){
   return COLLECTIONS.some(group=>group.id===id)?id:'all';
 }
 export const filterCollection=(entries,id)=>COLLECTIONS.some(group=>group.id===id)?entries.filter(entry=>entry.collection===id):[...entries];
+export function filterBlogArticles(entries,collection,query=''){
+  const normalize=value=>String(value??'').normalize('NFKC').toLowerCase();
+  const terms=normalize(query).trim().split(/\s+/).filter(Boolean);
+  return filterCollection(entries,collection).filter(entry=>{
+    const text=normalize([entry.title,entry.titleEn,entry.subtitle,entry.summary,entry.summaryEn,...(entry.keywords||[])].filter(Boolean).join(' '));
+    return terms.every(term=>text.includes(term));
+  });
+}
 export function seriesLabel(entry,lang='zh'){
   if(![1,2,3,4].includes(entry.seriesPart))return '';
   return lang==='en'?'Part '+['I','II','III','IV'][entry.seriesPart-1]:'精读（'+['一','二','三','四'][entry.seriesPart-1]+'）';
 }
-export const readingLink=(id,collection)=>'blog-article.html?id='+encodeURIComponent(id)+(COLLECTIONS.some(group=>group.id===collection)?'&category='+encodeURIComponent(collection):'');
+export const readingLink=(id,collection,query='')=>'blog-article.html?id='+encodeURIComponent(id)+(COLLECTIONS.some(group=>group.id===collection)?'&category='+encodeURIComponent(collection):'')+(query.trim()?'&q='+encodeURIComponent(query.trim()):'');
 export function safeLink(value){
   if(typeof value!=='string'||!value.trim()||/[\u0000-\u0020\\]/.test(value)||value.startsWith('//'))return null;
   if(/^https?:\/\//i.test(value)){try{return new URL(value).href;}catch{return null;}}

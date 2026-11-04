@@ -83,7 +83,9 @@ async function load(){
     entry=catalog.articles.find(item=>item.articleId===params.get('id'));if(!entry)throw Error('missing');
     const result=await fetch(entry.dataUrl);if(!result.ok)throw Error();article=await result.json();
     const collection=readCollection(location.search);
-    const returnUrl='blog.html'+(collection==='all'?'':'?category='+encodeURIComponent(collection))+'#'+encodeURIComponent(entry.articleId);
+    const returnSearch=new URLSearchParams();if(collection!=='all')returnSearch.set('category',collection);
+    const query=params.get('q')?.trim();if(query)returnSearch.set('q',query);
+    const returnUrl='blog.html'+(returnSearch.size?'?'+returnSearch.toString():'')+'#'+encodeURIComponent(entry.articleId);
     for(const id of ['back-link','back-catalog','reader-return'])$(id).href=returnUrl;
     chapters=splitChapters(article.blocks);current=chapterFromHash(chapters,location.hash);renderChrome();
     if(location.hash)requestAnimationFrame(scrollToChapter);

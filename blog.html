@@ -6,7 +6,7 @@
   <title data-zh="科学智能博客 · BUPT AI4S" data-en="AI4S Blog · BUPT">科学智能博客 · BUPT AI4S</title>
   <meta name="description" content="BUPT Reasoning 的科学智能文章解读：从科学数据、基础模型，到智能体与科学发现。">
   <link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="static/css/blog.css?v=20261104-all-folder">
+  <link rel="stylesheet" href="static/css/blog.css?v=20261104-search">
   <script>try{const p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('ai4s-theme'),l=p.get('lang')||localStorage.getItem('ai4s-lang');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;if(l==='en')document.documentElement.lang='en';}catch{}</script>
 </head>
 <body class="blog-catalog">
@@ -30,6 +30,15 @@
     <header class="collection-heading">
       <div><p class="eyebrow">BUPT REASONING / AI FOR SCIENCE</p><h1><span data-zh="科学智能博客" data-en="AI4S Blog">科学智能博客</span><span aria-hidden="true">.</span></h1><p class="collection-description" data-zh="从数据与模型，到科学发现。把研究读深一点。" data-en="From data and models to scientific discovery. Read beyond the surface.">从数据与模型，到科学发现。把研究读深一点。</p></div>
     </header>
+    <form id="blog-search-form" class="blog-search-bar" role="search">
+      <label class="sr-only" for="blog-search" data-zh="搜索博客" data-en="Search blog articles">搜索博客</label>
+      <div class="blog-search-field">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+        <input id="blog-search" name="q" type="search" placeholder="搜索标题、摘要或关键词" autocomplete="off" aria-controls="article-list">
+        <button id="search-clear" type="button" data-zh="清除" data-en="Clear" hidden>清除</button>
+      </div>
+      <p id="search-status" role="status" aria-live="polite"></p>
+    </form>
     <section class="pocket-library" aria-label="文章分类" data-label-zh="文章分类" data-label-en="Article collections">
       <div class="pocket-toolbar"><h2 data-zh="按主题阅读" data-en="Explore by topic">按主题阅读</h2></div>
       <div id="pocket-tabs" class="pocket-tabs" role="group" aria-label="选择文章分类" data-label-zh="选择文章分类" data-label-en="Choose a collection"></div>
@@ -49,6 +58,6 @@
     <div class="category-drawer-heading"><h2 id="category-drawer-title" data-zh="选择文章分类" data-en="Choose a topic">选择文章分类</h2><button id="category-close" type="button" aria-label="关闭分类" data-label-zh="关闭分类" data-label-en="Close topics">×</button></div>
     <div id="category-options" class="category-options"></div>
   </dialog>
-  <script type="module" src="static/js/blog.mjs?v=20261104-all-folder"></script>
+  <script type="module" src="static/js/blog.mjs?v=20261104-search"></script>
 </body>
 </html>

@@ -1,9 +1,11 @@
-import {COLLECTIONS,collectionName,filterCollection,readCollection,seriesLabel,readingLink} from './blog-core.mjs?v=20261023-chapters';
+import {COLLECTIONS,collectionName,filterCollection,filterBlogArticles,readCollection,seriesLabel,readingLink} from './blog-core.mjs?v=20261104-search';
 import {setupTheme,setupLanguage,getLanguage,tr,node,link} from './blog-shared.mjs?v=20261104-navigation';
 setupTheme();
 const list=document.getElementById('article-list'),status=document.getElementById('load-status');
 let entries=null,failed=false;
 let collection=readCollection(location.search);
+let query=new URLSearchParams(location.search).get('q')||'';
+const searchInput=document.getElementById('blog-search'),searchClear=document.getElementById('search-clear');
 const drawer=document.getElementById('category-drawer'),categoryToggle=document.getElementById('category-toggle');
 categoryToggle.onclick=()=>{drawer.showModal();categoryToggle.setAttribute('aria-expanded','true');};
 document.getElementById('category-close').onclick=()=>drawer.close();
@@ -44,10 +46,17 @@ function renderPockets(){
 }
 function render(){
   renderPockets();
+  if(searchInput.value!==query)searchInput.value=query;
+  searchInput.placeholder=tr('搜索标题、摘要或关键词','Search titles, summaries or keywords');
+  searchClear.hidden=!query;
   if(entries){
-    const visible=filterCollection(entries,collection);
+    const visible=filterBlogArticles(entries,collection,query);
     list.replaceChildren(...visible.map(renderCard));status.replaceChildren();
-    document.getElementById('empty-collection').hidden=visible.length>0;
+    const empty=document.getElementById('empty-collection');empty.hidden=visible.length>0;
+    const searching=Boolean(query.trim())&&filterCollection(entries,collection).length>0;
+    empty.querySelector('h3').textContent=searching?tr('没有找到匹配文章','No matching articles'):tr('新内容，正在路上','More to explore, soon');
+    empty.querySelector('p').textContent=searching?tr('试试其他关键词，或清除搜索后查看当前分类的全部文章。','Try different keywords, or clear the search to see all articles in this topic.'):tr('该分类暂未收录文章，后续会陆续补充。','Articles for this topic will be added here.');
+    document.getElementById('search-status').textContent=query.trim()?tr(`找到 ${visible.length} 篇匹配文章`,`${visible.length} matching articles`):tr(`共 ${visible.length} 篇文章`,`${visible.length} articles`);
     document.getElementById('collection-status').textContent=tr('当前显示：','Showing: ')+collectionName(collection,getLanguage());
   }
   else if(failed){
@@ -55,7 +64,15 @@ function render(){
     const retry=node('button',tr('重新加载','Try again'));retry.onclick=load;status.append(retry);
   }else status.textContent=tr('正在加载文章…','Loading articles…');
 }
-window.addEventListener('popstate',()=>{collection=readCollection(location.search);render();});
+function updateSearch(value){
+  query=value;
+  const url=new URL(location.href);if(query.trim())url.searchParams.set('q',query.trim());else url.searchParams.delete('q');
+  url.hash='';history.replaceState(null,'',url);render();
+}
+searchInput.oninput=()=>updateSearch(searchInput.value);
+searchClear.onclick=()=>{updateSearch('');searchInput.focus({preventScroll:true});};
+document.getElementById('blog-search-form').onsubmit=event=>{event.preventDefault();updateSearch(searchInput.value);};
+window.addEventListener('popstate',()=>{collection=readCollection(location.search);query=new URLSearchParams(location.search).get('q')||'';render();});
 setupLanguage(render);
 
 function renderCard(entry,index){
@@ -64,11 +81,11 @@ function renderCard(entry,index){
   top.append(node('span',String((entry.order??index)+1).padStart(2,'0'),'card-number'));
   if(entry.seriesPart)top.append(node('span',seriesLabel(entry,getLanguage()),'series-part'));
   const english=getLanguage()==='en';
-  const heading=node('h3');heading.append(link(english?entry.titleEn||entry.title:entry.title,readingLink(entry.articleId,collection),true));
+  const heading=node('h3');heading.append(link(english?entry.titleEn||entry.title:entry.title,readingLink(entry.articleId,collection,query),true));
   const tags=node('div',undefined,'tags');
   tags.append(node('span',collectionName(entry.collection,getLanguage())));
   const actions=node('div',undefined,'card-actions');
-  const read=link(tr('阅读全文','Read article'),readingLink(entry.articleId,collection),true);read.className='card-read';
+  const read=link(tr('阅读全文','Read article'),readingLink(entry.articleId,collection,query),true);read.className='card-read';
   const arrow=node('span','↗');arrow.setAttribute('aria-hidden','true');read.append(arrow);actions.append(read);
   for(const resource of entry.links||[]){const a=link((resource.label==='原始论文'?tr('原始论文','Original paper'):resource.label)+' ↗',resource.url,true);a.className='paper-link';actions.append(a);}
   card.append(top,heading,node('p',english?entry.summaryEn||entry.summary:entry.summary,'card-summary'),tags,node('p',(entry.authors||['BUPT Reasoning']).join(' · '),'card-author'),actions);
@@ -85,7 +102,7 @@ async function load(){
     if(target&&collection!=='all'&&target.collection!==collection)collection=target.collection;
     render();
     if(target){
-      document.getElementById(target.articleId).scrollIntoView({behavior:'instant',block:'start'});
+      document.getElementById(target.articleId)?.scrollIntoView({behavior:'instant',block:'start'});
     }
   }catch{
     failed=true;render();

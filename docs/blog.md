@@ -2,6 +2,8 @@
 
 `blog.html` 展示公众号文章卡片，以十三个紧凑文件夹口袋作为分类入口，“全部文章”作为第十四个文件夹放在末尾。桌面分类七列两行，较窄屏幕五列，手机三列。页面整体滚动，标题和分类随页面移出视野；顶部固定导航的“分类”按钮可随时打开分类弹层，显示各类文章数量，支持点击选择、关闭按钮和 Escape 关闭。切换口袋分类、弹层分类及“全部文章”后均返回整页顶部，保留标题与全部分类入口。右上角沿用前沿速递的返回主页链接、圆角方框按钮和主题图标样式，“全部文章”与分类文件夹采用相同的大小、装饰和选中样式。文章卡片桌面三列、平板两列、手机单列。列表页和阅读页沿用课程介绍页的背景、渐变与深浅主题配色。
 
+标题下方的搜索框实时搜索中文／英文标题、摘要、副标题及关键词，空格分开的词需同时匹配；搜索与当前分类叠加。清除搜索保留分类。`?q=关键词` 保存搜索状态，刷新、语言切换、打开详情新标签页及从详情返回列表均保留搜索词。页面显示当前匹配数量，区分没有匹配文章与分类尚未收录文章。
+
 分类由目录中的 `collection` 指定：`reviews`（综述，前四篇，`seriesPart` 为1至4）、`agents`（科学智能体）、`foundation`（科学基础模型）、`knowledge`（科学知识建模）、`data`（科学数据）。口袋和文章颜色按分类保持一致，中英文和深色模式均适配。分类保存为 `?category=reviews` 等 URL 参数，文章标题和“阅读全文”均在新标签页打开详情，保留原列表标签页；从详情返回列表仍会恢复分类并定位原文章。既有 `categories` 保留为文章研究主题元数据，页面归类以 `collection` 为准。
 
 `evaluation`（评测）已收录 HLE 解读，`labs`（自主实验室）已收录干湿闭环与化学实践解读。保留 `math-physics`、`life`、`matter`、`earth`、`information`、`social` 六个 AI4 学科方向。空分类保留可点击入口，以虚线区分，进入后显示待补充状态，不添加模拟文章。后续只需给新文章设置相应 `collection`，该分类即自动显示文章。
@@ -22,6 +24,6 @@
 
 新增文章时可运行 `python tools/import_blog_docx.py "文章.docx" --id article-id`，然后在目录中添加标题、摘要、分类和 `order`。同一 ID 会覆盖原文章，导入后请核对内容和图片。每张图片只将首个紧随其后的图注段落作为图注，后续读图说明保留为正文，避免覆盖来源。原始 Word 文件无需上传到网站。
 
-通过 `python -m http.server 8081 --bind 127.0.0.1` 预览，打开 `http://127.0.0.1:8081/blog.html`。使用纯静态资源，现有 Pages 打包会自动包含新页面、正文和图片。博客内容完整性及分章检查：`node --test tests/blog.test.mjs tests/blog-chapters.test.mjs`；文档导入检查：`python -m unittest discover -s tests -p test_blog_import.py`。
+通过 `python -m http.server 8081 --bind 127.0.0.1` 预览，打开 `http://127.0.0.1:8081/blog.html`。使用纯静态资源，现有 Pages 打包会自动包含新页面、正文和图片。博客内容完整性及分章检查：`node --test tests/blog.test.mjs tests/blog-chapters.test.mjs tests/blog-search.test.mjs`；文档导入检查：`python -m unittest discover -s tests -p test_blog_import.py`。
 
-列表交互浏览器回归：先启动本地预览，在可加载 Playwright 且安装 Chrome 的环境运行 `node --test tests/blog-navigation.browser.cjs`；默认访问 `http://127.0.0.1:8082/`，可通过 `AI4S_PREVIEW_URL` 指定预览地址。覆盖分类返回页首和标题／阅读全文的新标签页行为。
+列表交互浏览器回归：先启动本地预览，在可加载 Playwright 且安装 Chrome 的环境运行 `node --test tests/blog-navigation.browser.cjs`；默认访问 `http://127.0.0.1:8082/`，可通过 `AI4S_PREVIEW_URL` 指定预览地址。覆盖分类返回页首、标题／阅读全文的新标签页行为、搜索与分类叠加、清除搜索及搜索上下文恢复。
