@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "lecture-preview-zaiwen-wen",
+      "title": "专家报告预告｜文再文：智能数学推理，从问题探索到形式化验证",
+      "titleEn": "Expert Talk Preview | Zaiwen Wen: Intelligent Mathematical Reasoning, from Problem Exploration to Formal Verification",
+      "summary": "11 月 10 日，北京大学博雅特聘教授文再文将带来智能数学推理专题，介绍数学定理证明、数学知识图谱、建模与算法设计，以及融合专家判断、智能探索与形式化验证的智能体实践。",
+      "summaryEn": "On November 10, Professor Zaiwen Wen of Peking University will discuss intelligent mathematical reasoning, covering theorem proving, mathematical knowledge graphs, modeling and algorithm design, and agents that combine expert judgment, intelligent exploration and formal verification.",
+      "source": "BUPT Reasoning · 课程预告",
+      "sourceEn": "BUPT Reasoning · Lecture previews",
+      "date": "2026-11-04",
+      "cover": "data/news/assets/lecture-preview-zaiwen-wen/cover.webp"
+    },
+    {
       "id": "lecture-preview-haochen-li",
       "title": "专家报告预告｜李昊辰：从物理信息神经网络到科学计算智能体",
       "titleEn": "Expert Talk Preview | Haochen Li: From Physics-Informed Neural Networks to Scientific Computing Agents",

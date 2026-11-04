@@ -1,0 +1,87 @@
+{
+  "id": "lecture-preview-zaiwen-wen",
+  "title": "专家报告预告｜文再文：智能数学推理，从问题探索到形式化验证",
+  "source": "BUPT Reasoning",
+  "subtitle": "科学智能原理与实践 · 智能数学推理专家报告",
+  "date": "2026-11-04",
+  "sourceSha256": "0cfa168f54009fee8bb3642d553cecfafbee079eda839fba25750d467a2a6698",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "人工智能怎样从提出数学问题走向严谨的证明？当自然语言中的探索与形式化语言中的验证相连接，数学研究又会有哪些新的工作方式？11 月 10 日，《科学智能原理与实践》课程邀请北京大学博雅特聘教授文再文作“智能数学推理：从问题探索到形式化验证”专题报告，带领同学们认识人工智能与数学研究的交汇。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/lecture-preview-zaiwen-wen/poster.png",
+      "caption": "文再文专家报告预告海报（点击查看原图）"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "课程安排",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "报告主题：智能数学推理：从问题探索到形式化验证"
+    },
+    {
+      "type": "paragraph",
+      "text": "主讲嘉宾：文再文，北京大学博雅特聘教授"
+    },
+    {
+      "type": "paragraph",
+      "text": "时间：2026 年 11 月 10 日，第 10—11 节（16:35—18:10）"
+    },
+    {
+      "type": "paragraph",
+      "text": "地点：西土城路校区，教三 239"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "主讲嘉宾",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "文再文为北京大学博雅特聘教授、中国运筹学会会士、国家级高层次人才，主要研究最优化算法与理论、机器学习与人工智能。曾获中国青年科技奖、北京市科学技术奖自然科学奖二等奖、王选杰出青年学者奖、中国运筹学会运筹研究奖等。"
+    },
+    {
+      "type": "paragraph",
+      "text": "文再文任中国运筹学会副理事长及 Mathematics of Operations Research 等期刊编委；其最优化教材入选教育部 101 计划核心教材、国家级规划教材，累计印刷 17 次、4 万余册。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "讲座看点",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "数学定理证明：通过 PACE，了解数学猜想生成、自然语言证明与形式化证明之间的连接，思考问题探索如何走向可验证的推理。"
+    },
+    {
+      "type": "paragraph",
+      "text": "数学知识构建：认识 ReasLib 与 ReasAtlas，了解自然语言和形式化语言数学知识图谱，关注数学知识怎样被组织和关联。"
+    },
+    {
+      "type": "paragraph",
+      "text": "建模与算法设计：通过 OptAgent 与 Math Modeling，了解人工智能辅助数学建模与算法设计的研究思路，连接具体问题、模型表达与求解过程。"
+    },
+    {
+      "type": "paragraph",
+      "text": "智能体实践：了解 ReasLab 如何融合专家判断、智能探索与形式化验证，思考智能体怎样参与数学研究中的探索与核验。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "欢迎同学们关注",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎对 AI 与数学研究感兴趣的同学提前关注，安排好时间参与本次报告。可以带着自己在数学证明、最优化、建模或智能体实践中遇到的问题来到课堂，从问题探索出发，走近可信数学推理。"
+    }
+  ]
+}
