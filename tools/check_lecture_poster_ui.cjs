@@ -34,6 +34,8 @@ const server = http.createServer((req, res) => {
       assert.equal(await page.locator('#home-news-details').getAttribute('href'), 'news-article.html?id=lecture-preview-zaiwen-wen');
       assert((await page.locator('#home-news-title').innerText()).includes(lang === 'en' ? 'Zaiwen Wen' : '文再文'));
       assert.equal(await page.locator('#home-news-date').innerText(), '2026-11-04');
+      assert((await page.locator('.lecture-announcement-label').innerText()).includes(lang === 'en' ? 'Distinguished lecture' : '大师讲堂'));
+      assert((await page.locator('#home-news-title').innerText()).includes(lang === 'en' ? 'Distinguished Lecture Preview' : '大师讲堂预告'));
       const geometry = await page.evaluate(() => {
         const rect = selector => document.querySelector(selector).getBoundingClientRect();
         const card = rect('#lecture-announcement'), news = rect('#home-news'), hero = rect('.hero-inner'), nav = rect('.nav');
@@ -60,7 +62,7 @@ const server = http.createServer((req, res) => {
       assert.equal(await page.evaluate(() => document.activeElement.id), 'lecture-poster-close');
       await page.keyboard.press('Shift+Tab');
       assert.equal(await page.evaluate(() => document.activeElement.id), 'lecture-poster-close');
-      assert.equal(await page.locator('#lecture-poster-dialog img').getAttribute('src'), 'data/news/assets/lecture-preview-zaiwen-wen/poster.png');
+      assert.equal(await page.locator('#lecture-poster-dialog img').getAttribute('src'), 'data/news/assets/lecture-preview-zaiwen-wen/poster-master.png');
       assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).overflow), 'hidden');
       await page.keyboard.press('Escape');
       assert.equal(await page.locator('#lecture-poster-dialog').evaluate(dialog => dialog.open), false);
@@ -87,7 +89,7 @@ const server = http.createServer((req, res) => {
     const articleText = await page.locator('#news-detail-content').innerText();
     for (const phrase of ['11 月 10 日', '16:35—18:10', '教三 239', 'PACE', 'ReasLib', 'ReasAtlas', 'OptAgent', 'Math Modeling', 'ReasLab']) assert(articleText.includes(phrase), phrase);
     await page.locator('#news-detail-content img').evaluate(image => image.decode());
-    assert.equal(await page.locator('#news-detail-content img').evaluate(image => image.naturalWidth), 1058);
+    assert.equal(await page.locator('#news-detail-content img').evaluate(image => image.naturalWidth), 1055);
     await page.screenshot({ path: path.join(output, 'article-320-zh.png'), fullPage: true });
     await page.goto(base + 'news.html?lang=zh');
     await page.locator('.news-item').first().waitFor();

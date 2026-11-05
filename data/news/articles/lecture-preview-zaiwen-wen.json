@@ -1,10 +1,10 @@
 {
   "id": "lecture-preview-zaiwen-wen",
-  "title": "专家报告预告｜文再文：智能数学推理，从问题探索到形式化验证",
+  "title": "大师讲堂预告｜文再文：智能数学推理，从问题探索到形式化验证",
   "source": "BUPT Reasoning",
-  "subtitle": "科学智能原理与实践 · 智能数学推理专家报告",
+  "subtitle": "科学智能原理与实践 · AI4S 大师讲堂",
   "date": "2026-11-04",
-  "sourceSha256": "0cfa168f54009fee8bb3642d553cecfafbee079eda839fba25750d467a2a6698",
+  "sourceSha256": "c1aafc281ca0902035cb720867ae141e2c5dbe5f88c51e733bd8dae71ef1a3d8",
   "blocks": [
     {
       "type": "paragraph",
@@ -12,8 +12,8 @@
     },
     {
       "type": "image",
-      "src": "data/news/assets/lecture-preview-zaiwen-wen/poster.png",
-      "caption": "文再文专家报告预告海报（点击查看原图）"
+      "src": "data/news/assets/lecture-preview-zaiwen-wen/poster-master.png",
+      "caption": "文再文大师讲堂预告海报（点击查看原图）"
     },
     {
       "type": "heading",

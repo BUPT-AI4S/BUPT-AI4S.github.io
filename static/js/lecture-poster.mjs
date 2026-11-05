@@ -5,9 +5,9 @@ let opener;
 
 function updateLabels() {
   const english = document.documentElement.lang === 'en';
-  dialog.setAttribute('aria-label', english ? 'Full poster for the expert talk by Zaiwen Wen' : '文再文专家报告完整海报');
+  dialog.setAttribute('aria-label', english ? 'Full poster for the distinguished lecture by Zaiwen Wen' : '文再文大师讲堂完整海报');
   closeButton.setAttribute('aria-label', english ? 'Close poster' : '关闭海报');
-  thumbnail.setAttribute('aria-label', english ? 'View full poster for the expert talk by Zaiwen Wen' : '查看文再文专家报告完整海报');
+  thumbnail.setAttribute('aria-label', english ? 'View full poster for the distinguished lecture by Zaiwen Wen' : '查看文再文大师讲堂完整海报');
 }
 
 for (const button of [thumbnail, document.querySelector('.lecture-poster-open')]) {
