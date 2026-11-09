@@ -1,0 +1,59 @@
+name: Generate paper review action lists
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'metadata/**/snapshot.json'
+      - 'reviews/**'
+      - '!reviews/**/actions/**'
+      - '.github/workflows/review-actions.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: review-actions
+  cancel-in-progress: false
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: crawler
+          lfs: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /metadata/*/snapshot.json
+            /reviews/venue-review.csv
+            /reviews/*/*.json
+            /reviews/*/*/coverage.json
+            /reviews/*/*/coverage.csv
+            /reviews/*/feedback/*.json
+            /reviews/*/actions/*.md
+            /monitor-feedback-format.md
+      - uses: actions/checkout@v6
+        with:
+          repository: BUPT-AI4S/BUPT-AI4S.github.io
+          path: monitor-tools
+          sparse-checkout: |
+            tools/build_review_monitor.py
+            tools/generate_review_actions.py
+            static/review-monitor-guide.md
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Generate action lists
+        run: |
+          python monitor-tools/tools/build_review_monitor.py --source crawler --output "$RUNNER_TEMP/review-monitor.json"
+          python monitor-tools/tools/generate_review_actions.py --input "$RUNNER_TEMP/review-monitor.json" --reviews crawler/reviews
+          cp monitor-tools/static/review-monitor-guide.md crawler/monitor-feedback-format.md
+      - name: Commit changed action lists
+        working-directory: crawler
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reviews monitor-feedback-format.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m '更新论文审核行动清单'
+          git push origin HEAD:main
