@@ -124,6 +124,7 @@ def build(root):
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
+        owner_source_counts = {}
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
             if not isinstance(records, list): continue
@@ -134,6 +135,22 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                owner = str(review.get('owner') or '').strip()
+                if owner:
+                    bucket = owner_source_counts.setdefault(owner, {}).setdefault(code, {
+                        'papers': 0, 'usable_abstract': 0, 'missing_abstract': 0, 'reviewed': 0,
+                    })
+                    bucket['papers'] += 1
+                    abstract = record.get('abstract')
+                    verified = review.get('verified_metadata') or {}
+                    if not isinstance(abstract, str) or not abstract.strip():
+                        abstract = verified.get('abstract')
+                    if isinstance(abstract, str) and abstract.strip():
+                        bucket['usable_abstract'] += 1
+                    else:
+                        bucket['missing_abstract'] += 1
+                    if decision in ('include', 'exclude', 'pending'):
+                        bucket['reviewed'] += 1
                 if review.get('snapshot_at') != snapshot.get('captured_at'):
                     warning = '逐篇交付与当前采集快照不同或未标注，需核对批次后再比较。'
                     if warning not in source_map[code]['issues']:
@@ -154,6 +171,12 @@ def build(root):
                     rel = path.relative_to(root).as_posix()
                     if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
+        # 王梦冉的负责人分屏沿用原五张卡片，但卡片数据改用完整责任台账口径；其他负责人保持原逻辑。
+        for code, row in owner_source_counts.get('王梦冉', {}).items():
+            if code in source_map:
+                source_map[code]['papers'] = row['papers']
+                source_map[code]['candidates'] = row['reviewed']
+                source_map[code]['missing_abstract'] = row['missing_abstract']
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
