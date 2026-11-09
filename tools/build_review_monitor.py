@@ -136,8 +136,7 @@ def build(root):
                 if not key[1]: continue
                 decision = review.get('decision')
                 owner = str(review.get('owner') or '').strip()
-                if owner and key not in progress_seen:
-                    progress_seen.add(key)
+                if owner:
                     row = progress.setdefault(owner, {
                         'records_total': 0, 'abstract_usable': 0, 'abstract_missing': 0,
                         'include': 0, 'exclude': 0, 'pending': 0, 'unreviewed': 0,
@@ -153,11 +152,13 @@ def build(root):
                         row['abstract_usable'] += 1
                     else:
                         row['abstract_missing'] += 1
-                    if decision in ('include', 'exclude', 'pending', 'unreviewed'):
-                        row[decision] += 1
-                    batch_id = str(review.get('batch_id') or '')
-                    if batch_id.endswith('-abstract-audit'):
-                        row[f'semantic_{decision}'] = row.get(f'semantic_{decision}', 0) + 1
+                    if key not in progress_seen:
+                        progress_seen.add(key)
+                        if decision in ('include', 'exclude', 'pending', 'unreviewed'):
+                            row[decision] += 1
+                        batch_id = str(review.get('batch_id') or '')
+                        if batch_id.endswith('-abstract-audit'):
+                            row[f'semantic_{decision}'] = row.get(f'semantic_{decision}', 0) + 1
                 # 补录论文也应进入负责人完整台账统计；只有来源级统计需要映射到当前快照。
                 if code not in source_map: continue
                 if review.get('snapshot_at') != snapshot.get('captured_at'):
