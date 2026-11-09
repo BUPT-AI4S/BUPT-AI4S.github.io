@@ -5,7 +5,9 @@ import json
 import subprocess
 from collections import Counter
 from datetime import datetime, timezone
+from ipaddress import ip_address
 from pathlib import Path
+from urllib.parse import urlsplit
 
 REPO = 'https://github.com/BUPT-AI4S/ai4s-crawler/blob/'
 
@@ -19,6 +21,37 @@ def number(value):
         return int(value) if value is not None and str(value).strip() != '' else None
     except (TypeError, ValueError):
         return None
+
+
+def has_public_evidence(urls):
+    if not isinstance(urls, list): return False
+    for value in urls:
+        if not isinstance(value, str): continue
+        try:
+            url = urlsplit(value.strip())
+            host = (url.hostname or '').rstrip('.').lower()
+        except ValueError:
+            continue
+        if url.scheme not in ('http', 'https') or not host or url.username or url.password: continue
+        if host == 'localhost' or host.endswith(('.localhost', '.local')) or any(c.isspace() for c in host): continue
+        try:
+            if ip_address(host).is_global: return True
+        except ValueError:
+            if '.' in host: return True
+    return False
+
+
+def verified_abstract_text(review, snapshot_at):
+    if not isinstance(snapshot_at, str) or not snapshot_at.strip() or review.get('snapshot_at') != snapshot_at: return None
+    metadata = review.get('verified_metadata')
+    if not isinstance(metadata, dict): return None
+    abstract = metadata.get('abstract')
+    if not isinstance(abstract, str) or not abstract.strip() or not has_public_evidence(metadata.get('evidence_urls')): return None
+    verification = review.get('abstract_verification')
+    if verification is not None:
+        if not isinstance(verification, dict): return None
+        if 'status' in verification and verification['status'] != 'verified_original_abstract': return None
+    return ' '.join(abstract.split())
 
 
 STATUS_ORDER = {'not_started': 0, 'in_progress': 1, 'complete': 2}
@@ -96,7 +129,7 @@ def build(root):
                 raise ValueError(f'Invalid source assignments: {assignments_path}')
             assignments = {r['code']: r for r in assignment_doc['sources']}
             if len(assignments) != len(assignment_doc['sources']): raise ValueError('Duplicate source assignments')
-        candidate_counts, candidate_missing = Counter(), Counter()
+        candidate_counts, candidate_missing, candidate_missing_keys = Counter(), Counter(), Counter()
         if candidate_path.exists():
             candidate_records = read_json(candidate_path)
             if not isinstance(candidate_records, list): raise ValueError(f'Invalid AI4S candidates: {candidate_path}')
@@ -104,7 +137,9 @@ def build(root):
                 if not isinstance(record, dict) or record.get('year') != year or not record.get('venue'): continue
                 code = record['venue']; candidate_counts[code] += 1
                 abstract = record.get('abstract')
-                if not isinstance(abstract, str) or not abstract.strip(): candidate_missing[code] += 1
+                if not isinstance(abstract, str) or not abstract.strip():
+                    candidate_missing[code] += 1
+                    if record.get('id'): candidate_missing_keys[(code, year, record['id'])] += 1
         if not snapshot_path.exists():
             codes = assignments.keys() if assignments is not None else candidate_counts.keys()
             snapshot['sources'] = [{'source': code, 'state': 'unknown'} for code in codes]
@@ -120,10 +155,11 @@ def build(root):
             source_map[code] = {'code':code, 'title':assignment.get('title') or info.get('title') or code, 'owner':assignment.get('owner') or ((info.get('owner') or '') if year == 2024 and assignments is None else ''),
                 'venue_decision':('清单保留' if assignments is not None else (info.get('是否建议纳入') or '') if year == 2024 else ''), 'state':item.get('state') or 'unknown',
                 'papers':papers, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
+                'backfilled_abstract':0 if candidate_path.exists() else None, 'remaining_missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
                 'official_total':None, 'official_scope':'', 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
-        counts, seen, conflicts = {}, {}, set()
+        counts, seen, conflicts, abstract_texts = {}, {}, set(), {}
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
             if not isinstance(records, list): continue
@@ -133,6 +169,13 @@ def build(root):
                 if code not in source_map or not isinstance(review, dict): continue
                 key = (code, record.get('id'))
                 if not key[1]: continue
+                candidate_key = (code, year, key[1])
+                if candidate_key in candidate_missing_keys:
+                    text = verified_abstract_text(review, snapshot.get('captured_at'))
+                    if text is not None:
+                        abstract_texts.setdefault(candidate_key, set()).add(text)
+                        rel = path.relative_to(root).as_posix()
+                        if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
                 decision = review.get('decision')
                 if review.get('snapshot_at') != snapshot.get('captured_at'):
                     warning = '逐篇交付与当前采集快照不同或未标注，需核对批次后再比较。'
@@ -154,6 +197,18 @@ def build(root):
                     rel = path.relative_to(root).as_posix()
                     if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
+        for candidate_key, texts in abstract_texts.items():
+            source = source_map[candidate_key[0]]
+            if len(texts) == 1:
+                source['backfilled_abstract'] += candidate_missing_keys[candidate_key]
+            else:
+                warning = '同一候选论文的已核摘要存在冲突，未计入补齐统计。'
+                if warning not in source['issues']:
+                    source['issues'].append(warning)
+                    source['actions'].append('核对重复交付的原始摘要及公开证据，统一摘要文本后重新提交。')
+        for source in source_map.values():
+            if source['missing_abstract'] is not None:
+                source['remaining_missing_abstract'] = source['missing_abstract'] - source['backfilled_abstract']
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
@@ -220,7 +275,7 @@ def build(root):
             elif s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，记录统计口径及证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
-            if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
+            if s['remaining_missing_abstract'] is not None and s['remaining_missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['remaining_missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
         owner_rows = summarize_owners(source_map.values(), activity['owners'])
