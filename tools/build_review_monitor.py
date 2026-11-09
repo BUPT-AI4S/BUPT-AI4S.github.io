@@ -21,6 +21,50 @@ def number(value):
         return None
 
 
+STATUS_ORDER = {'not_started': 0, 'in_progress': 1, 'complete': 2}
+
+
+def load_owner_activity(root):
+    """Per-owner git activity, produced by tools/build_owner_activity.py."""
+    path = Path(root) / 'reviews' / 'owner-activity.json'
+    if not path.exists():
+        return {'available': False, 'owners': {}, 'generated_at': None, 'history_available': None, 'commit': None, 'commits_scanned': None}
+    doc = read_json(path)
+    return {'available': True, 'owners': doc.get('owners') or {}, 'generated_at': doc.get('generated_at'),
+            'history_available': doc.get('history_available'), 'commit': doc.get('commit'),
+            'commits_scanned': doc.get('commits_scanned')}
+
+
+def classify_owner(row):
+    """未开始/进行中/已交齐 for one owner in one year (delivery, not crawl completion)."""
+    if not row['delivered']:
+        return 'not_started' if row['sources'] else 'unknown'
+    if row['delivered'] >= row['sources'] and not row['pending'] and row['official'] >= row['sources'] and not row['open_issues']:
+        return 'complete'
+    return 'in_progress'
+
+
+def summarize_owners(sources, activity):
+    rows = {}
+    for s in sources:
+        name = (s.get('owner') or '').strip()
+        if not name: continue
+        row = rows.setdefault(name, {'owner': name, 'sources': 0, 'delivered': 0, 'official': 0, 'pending': 0, 'open_issues': 0})
+        row['sources'] += 1
+        if s.get('decisions') is not None: row['delivered'] += 1
+        if s.get('official_total') is not None: row['official'] += 1
+        decisions = s.get('decisions') or {}
+        row['pending'] += number(decisions.get('pending')) or 0
+        row['pending'] += number(decisions.get('unreviewed')) or 0
+        if s.get('issues'): row['open_issues'] += 1
+    for row in rows.values():
+        row['status'] = classify_owner(row)
+        act = activity.get(row['owner']) or {}
+        row['last_update'] = act.get('last')
+        row['commits_7d'] = act.get('commits_7d') or 0
+    return sorted(rows.values(), key=lambda r: (STATUS_ORDER.get(r['status'], 3), -r['sources'], r['owner']))
+
+
 def build(root):
     root = Path(root)
     try:
@@ -33,7 +77,8 @@ def build(root):
     if csv_path.exists():
         with csv_path.open(encoding='utf-8-sig', newline='') as f:
             venues = {row['source_code']: row for row in csv.DictReader(f) if row.get('source_code')}
-    years = []
+    activity = load_owner_activity(root)
+    years, merged = [], {}
     for year_dir in sorted((root / 'metadata').glob('[0-9][0-9][0-9][0-9]')):
         if not year_dir.is_dir(): continue
         snapshot_path = year_dir / 'snapshot.json'
@@ -178,8 +223,23 @@ def build(root):
             if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
-        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'snapshot_file':snapshot_path.relative_to(root).as_posix() if snapshot_path.exists() else None,'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
-    return {'generated_at':datetime.now(timezone.utc).isoformat(), 'commit':commit, 'repository':REPO+ref+'/', 'years':years}
+        owner_rows = summarize_owners(source_map.values(), activity['owners'])
+        for row in owner_rows:
+            slot = merged.setdefault(row['owner'], {'owner': row['owner'], 'years': {}})
+            slot['years'][str(year)] = {k: row[k] for k in ('sources', 'delivered', 'official', 'pending', 'open_issues', 'status')}
+        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'owners':owner_rows,'snapshot_file':snapshot_path.relative_to(root).as_posix() if snapshot_path.exists() else None,'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
+    owners = []
+    for name, slot in merged.items():
+        act = activity['owners'].get(name) or {}
+        slot['sources'] = sum(v['sources'] for v in slot['years'].values())
+        slot['delivered'] = sum(v['delivered'] for v in slot['years'].values())
+        slot['not_started'] = sorted(k for k, v in slot['years'].items() if v['status'] == 'not_started')
+        slot['last_update'] = act.get('last')
+        slot['commits_7d'] = act.get('commits_7d') or 0
+        owners.append(slot)
+    owners.sort(key=lambda m: (-len(m['not_started']), -sum(1 for v in m['years'].values() if v['status'] != 'complete'), -m['sources'], m['owner']))
+    return {'generated_at':datetime.now(timezone.utc).isoformat(), 'commit':commit, 'repository':REPO+ref+'/', 'years':years, 'owners':owners,
+            'owner_activity':{k:v for k,v in activity.items() if k != 'owners'}}
 
 
 def main():

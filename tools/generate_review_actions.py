@@ -7,8 +7,29 @@ from pathlib import Path
 from urllib.parse import quote
 
 
+AREA_LABEL = {'reviews': '审核交付', 'metadata': '采集元数据', 'other': '其他文件'}
+
+
+def activity_lines(owner, owners_index):
+    """Human-readable 上次更新 block for one owner, from the monitor owners index."""
+    info = owners_index.get(owner) or {}
+    last = info.get('last_update') or {}
+    if not last.get('at'):
+        return ['- 上次更新：仓库历史中没有该负责人的提交记录。']
+    lines = [f"- 上次更新：{last['at'][:16].replace('T', ' ')}（{last.get('author') or '未知作者'} 提交，"
+             f"{AREA_LABEL.get(last.get('area'), '其他文件')}）"]
+    if last.get('subject'):
+        lines.append(f"- 最近一次改动：{last['subject']}")
+    years = info.get('years') or {}
+    if years:
+        parts = [f"{year} {row['delivered']}/{row['sources']}" for year, row in sorted(years.items())]
+        lines.append('- 逐篇交付进度：' + '；'.join(parts))
+    return lines
+
+
 def write_actions(data, review_root):
     review_root = Path(review_root)
+    owners_index = {row['owner']: row for row in data.get('owners') or []}
     written = []
     for year in data['years']:
         by_owner = defaultdict(list)
@@ -24,6 +45,7 @@ def write_actions(data, review_root):
                 '> 自动汇总的工作提示，具体处理以负责人核验及原始证据为准。请勿直接编辑本文件。', '',
                 f"- 输入仓库提交：`{data.get('commit') or '未知'}`",
                 f"- 采集快照：`{year.get('captured_at') or '未知'}`",
+                *activity_lines(owner, owners_index),
                 '- 反馈格式：[阶段反馈说明](../../../monitor-feedback-format.md)',
                 '- 先拉取最新仓库和词表，确认分工及快照；完成后提交逐篇审核和阶段反馈。', '']
             for s in sources:

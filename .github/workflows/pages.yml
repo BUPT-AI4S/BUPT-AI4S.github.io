@@ -34,6 +34,8 @@ jobs:
             /metadata/*/snapshot.json
             /metadata/*/ai4s.json
             /reviews/venue-review.csv
+            /reviews/owners.json
+            /reviews/owner-activity.json
             /reviews/source-assignments-*.json
             /reviews/*/*.json
             /reviews/*/*/coverage.json
@@ -56,6 +58,7 @@ jobs:
         run: |
           node --test tests/review-monitor-live.test.mjs tests/papers.test.mjs tests/pdf-reader.test.mjs tests/replay.test.mjs tests/replay-metrics.test.mjs tests/blog.test.mjs tests/blog-chapters.test.mjs tests/blog-search.test.mjs tests/news.test.mjs
           python -m unittest discover -s tests -p test_review_monitor.py
+          python -m unittest discover -s tests -p test_review_owner_activity.py
           python -m unittest discover -s tests -p test_blog_import.py
           python -m unittest discover -s tests -p test_news_import.py
           python -m unittest discover -s tests -p test_paper_index.py

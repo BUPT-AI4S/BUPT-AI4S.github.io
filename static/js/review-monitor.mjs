@@ -24,6 +24,45 @@ function render() {
     const evidence=s.evidence_urls.map(safeUrl).filter(Boolean).map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener">核验依据 ${i+1}</a>`).join('');
     return `<details><summary><span class="source-name"><strong>${esc(s.title)}</strong><small>${esc(s.code)} · ${esc(s.venue_decision || '刊会结论未填写')}</small></span><span class="summary-owner">${esc(s.owner || '负责人未知')}</span><span class="tag ${s.issues.length?'':'ok'}">${s.issues.length ? `${s.issues.length} 项待关注` : '暂无自动提示'}</span></summary><div class="detail"><div><h3>采集与总量核验</h3><p>采集状态：${esc(s.state)}<br>采集 ${fmt(s.papers)} 篇 · 官网 ${fmt(s.official_total)} 篇${s.official_scope ? `（${esc(s.official_scope)}）` : ''}<br>${esc(s.coverage_note || '未提供同口径核验说明')}</p></div><div><h3>元信息与精筛</h3><p>AI4S候选缺摘要 ${fmt(s.missing_abstract)} 篇<br>当前候选文件 ${fmt(s.candidates)} 篇（快照候选 ${fmt(s.snapshot_candidates)} 篇）<br>${esc(decisions)}</p></div><div><h3>当前问题</h3><ul>${s.issues.length?s.issues.map(x=>`<li>${esc(x)}</li>`).join(''):'<li>暂无自动提示，请核对原始材料。</li>'}</ul></div><div><h3>下一步行动</h3><ul>${s.actions.length?s.actions.map(x=>`<li>${esc(x)}</li>`).join(''):'<li>查看原始材料并按需反馈。</li>'}</ul></div><div class="wide links">${ref}${evidence}</div></div></details>`;
   }).join('');
+  renderOwners(data.years.map(y => String(y.year)));
+}
+const STATUS = {not_started: ['未开始', 'st-todo'], in_progress: ['进行中', 'st-wip'], complete: ['已交齐', 'st-done']};
+function shortTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso); if (Number.isNaN(d.getTime())) return '';
+  const p = n => String(n).padStart(2, '0');
+  return `${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function renderOwners(yearList) {
+  const rows = data.owners || [], box = $('#owner-progress');
+  box.hidden = rows.length === 0;
+  if (!rows.length) return;
+  $('#owner-summary').textContent = `${rows.length} 位负责人 · ` + yearList.map(y => {
+    const started = rows.filter(o => o.years?.[y] && o.years[y].status !== 'not_started').length;
+    const done = rows.filter(o => o.years?.[y]?.status === 'complete').length;
+    return `${y}：${started} 人有交付 / ${done} 人交齐`;
+  }).join(' · ') + '（状态只看逐篇审核交付，不代表采集完成）';
+  $('#owner-table').innerHTML = `<table><thead><tr><th>负责人</th><th>来源合计</th>${yearList.map(y => `<th>${esc(y)}</th>`).join('')}<th>上次更新</th><th>近 7 天</th></tr></thead><tbody>` + rows.map(o => {
+    const lu = o.last_update || null;
+    const last = lu ? `<span>${esc(shortTime(lu.at))}</span><small>${esc(lu.author || '未知')}${lu.subject ? ' · ' + esc(lu.subject.slice(0, 26)) : ''}</small>` : '<small class="muted">暂无提交</small>';
+    const cells = yearList.map(y => {
+      const v = o.years?.[y];
+      if (!v) return '<td class="muted">—</td>';
+      const [label, cls] = STATUS[v.status] || ['未知', ''];
+      return `<td><span class="badge ${cls}">${label}</span><small>${v.delivered}/${v.sources}</small></td>`;
+    }).join('');
+    return `<tr data-owner="${esc(o.owner)}"><th scope="row">${esc(o.owner)}</th><td>${o.delivered}/${o.sources}</td>${cells}<td class="last">${last}</td><td>${esc(o.commits_7d ?? 0)}</td></tr>`;
+  }).join('') + '</tbody></table>';
+  for (const tr of $('#owner-table').querySelectorAll('tr[data-owner]')) {
+    tr.classList.toggle('active', tr.dataset.owner === owner.value);
+    tr.addEventListener('click', () => {
+      const name = tr.dataset.owner;
+      if (![...owner.options].some(o => o.value === name)) return;
+      owner.value = owner.value === name ? '' : name;
+      render();
+      document.querySelector('.sources')?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+  }
 }
 $('#download').addEventListener('click',()=>{const y=year.value; const text=`# ${y} 论文审核行动清单\n\n数据快照：${data.years.find(x=>String(x.year)===y)?.captured_at || '未知'}\n来源提交：${data.commit || '未知'}\n负责人筛选：${owner.value || '全部'}\n\n`+selected.map(s=>`## ${s.title}（${s.code}）\n负责人：${s.owner || '未知'}\n问题：${s.issues.join('；') || '暂无自动提示'}\n行动：${s.actions.join('；') || '查看原始材料'}\n证据：${s.files.map(f=>data.repository+f).join(' ; ')}\n`).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'}));a.download=`ai4s-actions-${y}.md`;a.click();URL.revokeObjectURL(a.href)});
 for(const el of [year,owner,search,status]) el.addEventListener(el===search?'input':'change',render);
