@@ -33,7 +33,7 @@ def write_actions(data, review_root):
                 if s['files']:
                     lines.append('原始交付：' + '；'.join('[文件](' + data['repository'] + '/'.join(quote(part) for part in f.split('/')) + ')' for f in s['files']))
                     lines.append('')
-            path.write_text('\n'.join(lines)+'\n', encoding='utf8')
+            path.write_text('\n'.join(lines).rstrip()+'\n', encoding='utf8')
             written.append(path)
     return written
 
