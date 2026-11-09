@@ -30,7 +30,9 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /metadata/*/snapshot.json
+            /metadata/*/ai4s.json
             /reviews/venue-review.csv
+            /reviews/source-assignments-*.json
             /reviews/*/*.json
             /reviews/*/*/coverage.json
             /reviews/*/*/coverage.csv

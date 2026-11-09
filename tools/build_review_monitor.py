@@ -39,15 +39,36 @@ def build(root):
         year = snapshot.get('year')
         if not isinstance(year, int) or not isinstance(snapshot.get('sources'), list):
             continue
+        assignments_path = root / 'reviews' / f'source-assignments-{year}.json'
+        assignments = None
+        if assignments_path.exists():
+            assignment_doc = read_json(assignments_path)
+            if assignment_doc.get('year') != year or not isinstance(assignment_doc.get('sources'), list):
+                raise ValueError(f'Invalid source assignments: {assignments_path}')
+            assignments = {r['code']: r for r in assignment_doc['sources']}
+            if len(assignments) != len(assignment_doc['sources']): raise ValueError('Duplicate source assignments')
+        candidate_path = root / 'metadata' / str(year) / 'ai4s.json'
+        candidate_counts, candidate_missing = Counter(), Counter()
+        if candidate_path.exists():
+            candidate_records = read_json(candidate_path)
+            if not isinstance(candidate_records, list): raise ValueError(f'Invalid AI4S candidates: {candidate_path}')
+            for record in candidate_records:
+                if not isinstance(record, dict) or record.get('year') != year or not record.get('venue'): continue
+                code = record['venue']; candidate_counts[code] += 1
+                abstract = record.get('abstract')
+                if not isinstance(abstract, str) or not abstract.strip(): candidate_missing[code] += 1
         source_map = {}
         for item in snapshot['sources']:
+
             code = item.get('source')
             if not code: continue
+            if assignments is not None and code not in assignments: continue
             info = venues.get(code, {})
-            papers, abstract = number(item.get('papers')), number(item.get('with_abstract'))
-            source_map[code] = {'code':code, 'title':info.get('title') or code, 'owner':(info.get('owner') or '') if year == 2024 else '',
-                'venue_decision':(info.get('是否建议纳入') or '') if year == 2024 else '', 'state':item.get('state') or 'unknown',
-                'papers':papers, 'candidates':number(item.get('ai4s')), 'missing_abstract':papers-abstract if papers is not None and abstract is not None and 0 <= abstract <= papers else None,
+            assignment = assignments.get(code, {}) if assignments is not None else {}
+            papers = number(item.get('papers'))
+            source_map[code] = {'code':code, 'title':assignment.get('title') or info.get('title') or code, 'owner':assignment.get('owner') or ((info.get('owner') or '') if year == 2024 and assignments is None else ''),
+                'venue_decision':('清单保留' if assignments is not None else (info.get('是否建议纳入') or '') if year == 2024 else ''), 'state':item.get('state') or 'unknown',
+                'papers':papers, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
                 'official_total':None, 'official_scope':'', 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
@@ -134,10 +155,10 @@ def build(root):
             if s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，记录统计口径及证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
-            if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('快照中缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('评估摘要缺失对召回的影响，补摘要并复查漏筛。')
-            if s['venue_decision'] == '建议纳入' and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
+            if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
+            if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
-        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'snapshot_file':snapshot_path.relative_to(root).as_posix()})
+        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'snapshot_file':snapshot_path.relative_to(root).as_posix(),'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
     return {'generated_at':datetime.now(timezone.utc).isoformat(), 'commit':commit, 'repository':REPO+ref+'/', 'years':years}
 
 

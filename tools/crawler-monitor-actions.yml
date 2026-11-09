@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'metadata/**/snapshot.json'
+      - 'metadata/**/ai4s.json'
       - 'reviews/**'
       - '!reviews/**/actions/**'
       - '.github/workflows/review-actions.yml'
@@ -24,7 +25,9 @@ jobs:
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /metadata/*/snapshot.json
+            /metadata/*/ai4s.json
             /reviews/venue-review.csv
+            /reviews/source-assignments-*.json
             /reviews/*/*.json
             /reviews/*/*/coverage.json
             /reviews/*/*/coverage.csv

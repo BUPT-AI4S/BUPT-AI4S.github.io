@@ -7,6 +7,7 @@ class MonitorTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024').mkdir(parents=True)
             (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'2026-01-01','sources':[{'source':'v','state':'completed','papers':10,'with_abstract':7,'ai4s':2}]}), encoding='utf8')
+            (p/'metadata/2024/ai4s.json').write_text(json.dumps([{'venue':'v','year':2024,'id':str(i),'abstract':None} for i in range(3)]),encoding='utf8')
             (p/'reviews/venue-review.csv').write_text('source_code,title,owner,是否建议纳入\nv,Venue,A,建议纳入\n',encoding='utf8')
             (p/'reviews/2024/a.json').write_text(json.dumps([{'venue':'v','year':2024,'id':'1','ai4s_review':{'owner':'A','decision':'include'}},{'venue':'v','year':2024,'id':'2','ai4s_review':{'owner':'A','decision':'pending'}}]),encoding='utf8')
             x=build(p); v=x['years'][0]['sources'][0]
@@ -62,3 +63,19 @@ class ActionFilesTest(unittest.TestCase):
             out=Path(d); write_actions(data,out)
             text=(out/'2024/actions/A.md').read_text(encoding='utf8')
             self.assertIn('Venue',text); self.assertIn('gap',text); self.assertIn('abc',text); self.assertNotIn('Other',text)
+
+class CurrentScopeAndCandidateTest(unittest.TestCase):
+    def test_current_scope_overrides_old_assignment_and_counts_candidate_abstracts(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews').mkdir()
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'x','sources':[{'source':'v','state':'completed','papers':100,'with_abstract':10,'ai4s':3},{'source':'removed','state':'completed','papers':7,'with_abstract':0,'ai4s':0}]}),encoding='utf8')
+            (p/'reviews/venue-review.csv').write_text('source_code,title,owner,是否建议纳入\nv,Venue,Old,不建议纳入\n',encoding='utf8')
+            (p/'reviews/source-assignments-2024.json').write_text(json.dumps({'year':2024,'sources':[{'code':'v','title':'Venue','owner':'New'}]}),encoding='utf8')
+            (p/'metadata/2024/ai4s.json').write_text(json.dumps([{'venue':'v','year':2024,'id':'1','abstract':'abc'},{'venue':'v','year':2024,'id':'2','abstract':None},{'venue':'v','year':2024,'id':'3','abstract':'  '}]),encoding='utf8')
+            rows=build(p)['years'][0]['sources']; self.assertEqual(len(rows),1)
+            self.assertEqual(rows[0]['owner'],'New'); self.assertEqual(rows[0]['missing_abstract'],2); self.assertEqual(rows[0]['candidates'],3)
+    def test_missing_candidate_file_yields_unknown_abstract_count(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'sources':[{'source':'v','papers':100,'with_abstract':10,'ai4s':3}]}),encoding='utf8')
+            self.assertIsNone(build(p)['years'][0]['sources'][0]['missing_abstract'])
