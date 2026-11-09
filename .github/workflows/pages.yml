@@ -51,7 +51,18 @@ jobs:
       - name: Install paper build dependencies
         run: python -m pip install -r tools/papers-requirements.txt
       - name: Generate review monitor snapshot
-        run: python tools/build_review_monitor.py --source .crawler-source
+        shell: bash
+        run: |
+          set +e
+          python tools/build_review_monitor.py --source .crawler-source > /tmp/snapshot.log 2>&1
+          code=$?
+          if [ $code -ne 0 ]; then
+            echo "::error::crawler source entries: $(ls -1 .crawler-source 2>&1 | head -n 8 | tr '\n' '|')"
+            echo "::error::python: $(command -v python) $(python --version 2>&1)"
+            tail -n 8 /tmp/snapshot.log | while IFS= read -r line; do echo "::error::${line}"; done
+            exit $code
+          fi
+          tail -n 2 /tmp/snapshot.log
       - name: Validate papers and generate index
         run: python tools/build_paper_index.py --site
       - name: Test catalog and collector
