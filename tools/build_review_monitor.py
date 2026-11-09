@@ -34,11 +34,15 @@ def build(root):
         with csv_path.open(encoding='utf-8-sig', newline='') as f:
             venues = {row['source_code']: row for row in csv.DictReader(f) if row.get('source_code')}
     years = []
-    for snapshot_path in sorted((root / 'metadata').glob('*/snapshot.json')):
-        snapshot = read_json(snapshot_path)
+    for year_dir in sorted((root / 'metadata').glob('[0-9][0-9][0-9][0-9]')):
+        if not year_dir.is_dir(): continue
+        snapshot_path = year_dir / 'snapshot.json'
+        candidate_path = year_dir / 'ai4s.json'
+        if not snapshot_path.exists() and not candidate_path.exists(): continue
+        snapshot = read_json(snapshot_path) if snapshot_path.exists() else {'year': int(year_dir.name), 'sources': []}
         year = snapshot.get('year')
-        if not isinstance(year, int) or not isinstance(snapshot.get('sources'), list):
-            continue
+        if not isinstance(year, int) or year != int(year_dir.name) or not isinstance(snapshot.get('sources'), list):
+            raise ValueError(f'Invalid snapshot: {snapshot_path}')
         assignments_path = root / 'reviews' / f'source-assignments-{year}.json'
         assignments = None
         if assignments_path.exists():
@@ -47,7 +51,6 @@ def build(root):
                 raise ValueError(f'Invalid source assignments: {assignments_path}')
             assignments = {r['code']: r for r in assignment_doc['sources']}
             if len(assignments) != len(assignment_doc['sources']): raise ValueError('Duplicate source assignments')
-        candidate_path = root / 'metadata' / str(year) / 'ai4s.json'
         candidate_counts, candidate_missing = Counter(), Counter()
         if candidate_path.exists():
             candidate_records = read_json(candidate_path)
@@ -57,6 +60,9 @@ def build(root):
                 code = record['venue']; candidate_counts[code] += 1
                 abstract = record.get('abstract')
                 if not isinstance(abstract, str) or not abstract.strip(): candidate_missing[code] += 1
+        if not snapshot_path.exists():
+            codes = assignments.keys() if assignments is not None else candidate_counts.keys()
+            snapshot['sources'] = [{'source': code, 'state': 'unknown'} for code in codes]
         source_map = {}
         for item in snapshot['sources']:
 
@@ -141,31 +147,32 @@ def build(root):
                 s = source_map.get(row.get('source_code'))
                 if not s: continue
                 s['files'].append(path.relative_to(root).as_posix())
-                if row.get('snapshot_at') != snapshot.get('captured_at'):
-                    s['issues'].append('阶段反馈对应的采集快照不一致，需重新核对。'); continue
+                s['issues'].extend(str(x) for x in row.get('issues',[]) if isinstance(x,str))
+                s['actions'].extend(str(x) for x in row.get('next_actions',[]) if isinstance(x,str))
+                if not snapshot.get('captured_at') or row.get('snapshot_at') != snapshot.get('captured_at'):
+                    s['issues'].append('阶段反馈对应的采集快照缺失或不一致，需重新核对。'); continue
                 total, scope = number(row.get('official_total')), str(row.get('official_scope') or '').strip()
                 if total is not None and total >= 0 and scope:
                     s['official_total'], s['official_scope'] = total, scope
                 s['coverage_note'] = str(row.get('coverage_note') or s['coverage_note'])
-                s['issues'].extend(str(x) for x in row.get('issues',[]) if isinstance(x,str))
-                s['actions'].extend(str(x) for x in row.get('next_actions',[]) if isinstance(x,str))
                 if isinstance(row.get('evidence_urls'), list): s['evidence_urls'].extend(x for x in row['evidence_urls'] if isinstance(x,str))
         for s in source_map.values():
             if not s['owner']: s['issues'].append('负责人尚未明确。'); s['actions'].append('确认并登记负责人。')
-            if s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
+            if s['state'] == 'unknown': s['issues'].append('缺少该年份的采集快照，采集总数和状态未知。'); s['actions'].append('提交或更新年度采集快照，核对采集范围和状态。')
+            elif s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，记录统计口径及证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
             if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
-        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'snapshot_file':snapshot_path.relative_to(root).as_posix(),'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
+        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'snapshot_file':snapshot_path.relative_to(root).as_posix() if snapshot_path.exists() else None,'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
     return {'generated_at':datetime.now(timezone.utc).isoformat(), 'commit':commit, 'repository':REPO+ref+'/', 'years':years}
 
 
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--source',type=Path,required=True); p.add_argument('--output',type=Path,default=Path('data/review-monitor.json')); args=p.parse_args()
     result=build(args.source)
-    if not result['years']: raise SystemExit('No valid snapshot.json found')
+    if not result['years']: raise SystemExit('No annual snapshot or AI4S candidate file found')
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Built',args.output, 'years:', ', '.join(str(y['year']) for y in result['years']))

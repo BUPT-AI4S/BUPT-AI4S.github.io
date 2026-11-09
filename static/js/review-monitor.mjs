@@ -12,9 +12,9 @@ function render() {
   selected = y.sources.filter(s => (!owner.value || s.owner === owner.value) && (!query || `${s.title} ${s.code}`.toLowerCase().includes(query)) && (status.value === 'all' || (status.value === 'issues' && s.issues.length) || (status.value === 'missing' && s.official_total == null) || (status.value === 'pending' && s.decisions && (s.decisions.pending || s.decisions.unreviewed))));
   const ownerActions = $('#owner-actions'); ownerActions.hidden = !owner.value; if (owner.value) ownerActions.href = `https://github.com/BUPT-AI4S/ai4s-crawler/blob/main/reviews/${y.year}/actions/${encodeURIComponent(owner.value)}.md`;
   $('#view-title').textContent = owner.value ? `${owner.value} · 工作分屏` : '工作总览';
-  $('#scope').textContent = `统计当前筛选的 ${selected.length} 个来源；采集快照 ${y.captured_at || '未知'}。`;
+  $('#scope').textContent = `统计当前筛选的 ${selected.length} 个来源；采集快照 ${y.captured_at || '未提供'}。`;
   const sum = key => selected.reduce((n,s)=>n+(s[key] ?? 0),0);
-  const metrics = [['来源条目',selected.length],['快照采集论文',sum('papers')],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]];
+  const metrics = [['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]];
   $('#metrics').innerHTML=metrics.map(([name,value])=>`<div class="metric"><strong>${fmt(value)}</strong><span>${name}</span></div>`).join('');
   $('#count').textContent=`${selected.length} 个来源`; $('#empty').hidden=selected.length>0;
   $('#list').innerHTML=selected.map(s=>{

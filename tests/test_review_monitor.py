@@ -79,3 +79,35 @@ class CurrentScopeAndCandidateTest(unittest.TestCase):
             p=Path(d); (p/'metadata/2024').mkdir(parents=True)
             (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'sources':[{'source':'v','papers':100,'with_abstract':10,'ai4s':3}]}),encoding='utf8')
             self.assertIsNone(build(p)['years'][0]['sources'][0]['missing_abstract'])
+
+class CandidateOnlyYearTest(unittest.TestCase):
+    def test_discovers_year_without_snapshot_and_preserves_unknown_totals(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2025').mkdir(parents=True)
+            (p/'metadata/2025/ai4s.json').write_text(json.dumps([{'venue':'cvpr','year':2025,'id':'x','abstract':'study'},{'venue':'cvpr','year':2025,'id':'y','abstract':None}]),encoding='utf8')
+            year=build(p)['years'][0]; self.assertEqual(year['year'],2025)
+            self.assertIsNone(year['captured_at']); self.assertIsNone(year['snapshot_file'])
+            self.assertEqual(len(year['sources']),1); row=year['sources'][0]
+            self.assertEqual(row['candidates'],2); self.assertEqual(row['missing_abstract'],1)
+            self.assertIsNone(row['papers']); self.assertEqual(row['owner'],'')
+            self.assertTrue(any('快照' in x for x in row['issues']))
+
+class CandidateYearFeedbackTest(unittest.TestCase):
+    def test_unavailable_snapshot_does_not_validate_feedback_totals(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2025').mkdir(parents=True); (p/'reviews/2025/feedback').mkdir(parents=True)
+            (p/'metadata/2025/ai4s.json').write_text(json.dumps([{'venue':'v','year':2025,'id':'x','abstract':'a'}]),encoding='utf8')
+            (p/'reviews/2025/feedback/a.json').write_text(json.dumps({'year':2025,'source_code':'v','snapshot_at':None,'official_total':1,'official_scope':'official','issues':['实际问题'],'next_actions':['实际行动']}),encoding='utf8')
+            row=build(p)['years'][0]['sources'][0]
+            self.assertIsNone(row['official_total']); self.assertIn('实际问题',row['issues']); self.assertIn('实际行动',row['actions'])
+            self.assertTrue(any('快照' in x for x in row['issues']))
+
+class CandidateOnlyAssignedYearTest(unittest.TestCase):
+    def test_assignments_keep_zero_candidate_sources_without_inventing_totals(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2025').mkdir(parents=True); (p/'reviews').mkdir()
+            (p/'metadata/2025/ai4s.json').write_text(json.dumps([{'venue':'v','year':2025,'id':'x','abstract':'a'}]),encoding='utf8')
+            (p/'reviews/source-assignments-2025.json').write_text(json.dumps({'year':2025,'sources':[{'code':'v','owner':'A','title':'Venue'},{'code':'w','owner':'B','title':'Other'}]}),encoding='utf8')
+            rows={r['code']:r for r in build(p)['years'][0]['sources']}
+            self.assertEqual(set(rows),{'v','w'}); self.assertEqual(rows['w']['candidates'],0)
+            self.assertEqual(rows['w']['owner'],'B'); self.assertIsNone(rows['w']['papers'])
