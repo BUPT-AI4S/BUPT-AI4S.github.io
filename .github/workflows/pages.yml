@@ -7,19 +7,20 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: '17 * * * *'
-    - cron: '47 * * * *'
+    # 每小时两次的部署会互相抢占，且每次都完整 checkout 几百 MB 的爬虫仓库。
+    # 每 6 小时兜底刷新一次即可，数据变更主要由爬虫推送的 commit 触发。
+    - cron: '17 */6 * * *'
 
 permissions:
   contents: read
 
-concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 构建是可丢弃的：新提交可以抢占旧构建，省掉重复的几分钟。
+    concurrency:
+      group: pages-build-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v6
       - name: Checkout crawler data
@@ -76,11 +77,33 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    # GitHub Pages 同一时刻只允许一个部署。这里排队等待、绝不取消：
+    # 被中途打断的部署会在 Pages 服务端留下永远 "in progress" 的锁，
+    # 之后所有部署都会被 400 拒绝（Failed to create deployment ... in progress deployment）。
+    concurrency:
+      group: pages-deploy-${{ github.ref }}
+      cancel-in-progress: false
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
       - uses: actions/configure-pages@v5
       - name: Deploy website
         id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Wait before retry
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 60
+      - name: Deploy website (retry)
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Wait before final retry
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        run: sleep 120
+      - name: Deploy website (final retry)
+        id: deployment_final
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
         uses: actions/deploy-pages@v4
