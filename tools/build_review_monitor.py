@@ -120,7 +120,7 @@ def build(root):
             source_map[code] = {'code':code, 'title':assignment.get('title') or info.get('title') or code, 'owner':assignment.get('owner') or ((info.get('owner') or '') if year == 2024 and assignments is None else ''),
                 'venue_decision':('清单保留' if assignments is not None else (info.get('是否建议纳入') or '') if year == 2024 else ''), 'state':item.get('state') or 'unknown',
                 'papers':papers, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
-                'official_total':None, 'official_scope':'', 'coverage_complete':False, 'abstract_backfill_remaining':None, 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
+                'official_total':None, 'official_scope':'', 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
@@ -209,11 +209,6 @@ def build(root):
                 s['actions'].extend(str(x) for x in row.get('next_actions',[]) if isinstance(x,str))
                 if not snapshot.get('captured_at') or row.get('snapshot_at') != snapshot.get('captured_at'):
                     s['issues'].append('阶段反馈对应的采集快照缺失或不一致，需重新核对。'); continue
-                if row.get('coverage_complete') is True:
-                    s['coverage_complete'] = True
-                remaining = row.get('abstract_backfill_remaining')
-                if type(remaining) is int and remaining >= 0:
-                    s['abstract_backfill_remaining'] = remaining
                 total, scope = number(row.get('official_total')), str(row.get('official_scope') or '').strip()
                 if total is not None and total >= 0 and scope:
                     s['official_total'], s['official_scope'] = total, scope
@@ -222,10 +217,10 @@ def build(root):
         for s in source_map.values():
             if not s['owner']: s['issues'].append('负责人尚未明确。'); s['actions'].append('确认并登记负责人。')
             if s['state'] == 'unknown': s['issues'].append('缺少该年份的采集快照，采集总数和状态未知。'); s['actions'].append('提交或更新年度采集快照，核对采集范围和状态。')
-            elif not s['coverage_complete'] and s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
-            if not s['coverage_complete'] and s['official_total'] is None and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，记录统计口径及证据。')
-            if not s['coverage_complete'] and s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
-            if s['abstract_backfill_remaining'] is None and s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
+            elif s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
+            if s['official_total'] is None and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，记录统计口径及证据。')
+            if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
+            if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
         owner_rows = summarize_owners(source_map.values(), activity['owners'])
