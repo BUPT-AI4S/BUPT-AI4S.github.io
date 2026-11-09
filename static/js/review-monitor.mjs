@@ -21,11 +21,11 @@ function render() {
     ['完整责任台账', progress.records_total],
     ['已有可用摘要', progress.abstract_usable],
     ['仍缺摘要', progress.abstract_missing],
-    ['已完成相关性审核', progress.include + progress.exclude + progress.pending],
-    ['纳入 AI4S', progress.include],
-    ['排除', progress.exclude],
-    ['待定', progress.pending],
-    ['未审核', progress.unreviewed],
+    ['已完成相关性审核', progress.semantic_include + progress.semantic_exclude + progress.semantic_pending],
+    ['纳入 AI4S', progress.semantic_include],
+    ['排除', progress.semantic_exclude],
+    ['待定', progress.semantic_pending],
+    ['未审核', progress.semantic_unreviewed],
   ] : [
     ['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]
   ];
