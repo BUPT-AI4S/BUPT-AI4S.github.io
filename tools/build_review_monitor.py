@@ -124,7 +124,6 @@ def build(root):
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
-        progress, progress_seen = {}, set()
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
             if not isinstance(records, list): continue
@@ -135,24 +134,6 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
-                owner = str(review.get('owner') or '').strip()
-                if owner and key not in progress_seen:
-                    progress_seen.add(key)
-                    row = progress.setdefault(owner, {
-                        'records_total': 0, 'abstract_usable': 0, 'abstract_missing': 0,
-                        'include': 0, 'exclude': 0, 'pending': 0, 'unreviewed': 0,
-                    })
-                    row['records_total'] += 1
-                    verified = review.get('verified_metadata') or {}
-                    abstract = record.get('abstract')
-                    if not isinstance(abstract, str) or not abstract.strip():
-                        abstract = verified.get('abstract')
-                    if isinstance(abstract, str) and abstract.strip():
-                        row['abstract_usable'] += 1
-                    else:
-                        row['abstract_missing'] += 1
-                    if decision in ('include', 'exclude', 'pending', 'unreviewed'):
-                        row[decision] += 1
                 if review.get('snapshot_at') != snapshot.get('captured_at'):
                     warning = '逐篇交付与当前采集快照不同或未标注，需核对批次后再比较。'
                     if warning not in source_map[code]['issues']:
@@ -246,7 +227,7 @@ def build(root):
         for row in owner_rows:
             slot = merged.setdefault(row['owner'], {'owner': row['owner'], 'years': {}})
             slot['years'][str(year)] = {k: row[k] for k in ('sources', 'delivered', 'official', 'pending', 'open_issues', 'status')}
-        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'owners':owner_rows,'owner_progress':progress,'snapshot_file':snapshot_path.relative_to(root).as_posix() if snapshot_path.exists() else None,'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
+        years.append({'year':year,'captured_at':snapshot.get('captured_at'),'sources':list(source_map.values()),'owners':owner_rows,'snapshot_file':snapshot_path.relative_to(root).as_posix() if snapshot_path.exists() else None,'candidate_file':candidate_path.relative_to(root).as_posix() if candidate_path.exists() else None,'assignments_file':assignments_path.relative_to(root).as_posix() if assignments_path.exists() else None})
     owners = []
     for name, slot in merged.items():
         act = activity['owners'].get(name) or {}
