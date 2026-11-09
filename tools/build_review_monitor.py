@@ -131,7 +131,7 @@ def build(root):
             for record in records:
                 if not isinstance(record, dict) or record.get('year') != year: continue
                 code = record.get('venue'); review = record.get('ai4s_review') or {}
-                if code not in source_map or not isinstance(review, dict): continue
+                if not isinstance(review, dict): continue
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
@@ -153,6 +153,8 @@ def build(root):
                         row['abstract_missing'] += 1
                     if decision in ('include', 'exclude', 'pending', 'unreviewed'):
                         row[decision] += 1
+                # 补录论文也应进入负责人完整台账统计；只有来源级统计需要映射到当前快照。
+                if code not in source_map: continue
                 if review.get('snapshot_at') != snapshot.get('captured_at'):
                     warning = '逐篇交付与当前采集快照不同或未标注，需核对批次后再比较。'
                     if warning not in source_map[code]['issues']:
