@@ -15,20 +15,7 @@ function render() {
   $('#view-title').textContent = owner.value ? `${owner.value} · 工作分屏` : '工作总览';
   $('#scope').textContent = `统计当前筛选的 ${selected.length} 个来源；采集快照 ${y.captured_at || '未提供'}。${lastUpdateText(y)}`;
   const sum = key => selected.reduce((n,s)=>n+(s[key] ?? 0),0);
-  const progress = owner.value ? (y.owner_progress?.[owner.value] || null) : null;
-  const metrics = progress ? [
-    ['来源条目', selected.length],
-    ['完整责任台账', progress.records_total],
-    ['已有可用摘要', progress.abstract_usable],
-    ['仍缺摘要', progress.abstract_missing],
-    ['已完成相关性审核', progress.include + progress.exclude + progress.pending],
-    ['纳入 AI4S', progress.include],
-    ['排除', progress.exclude],
-    ['待定', progress.pending],
-    ['未审核', progress.unreviewed],
-  ] : [
-    ['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]
-  ];
+  const metrics = [['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]];
   $('#metrics').innerHTML=metrics.map(([name,value])=>`<div class="metric"><strong>${fmt(value)}</strong><span>${name}</span></div>`).join('');
   $('#count').textContent=`${selected.length} 个来源`; const empty=$('#empty'); if (empty) empty.hidden=selected.length>0;
   $('#list').innerHTML=selected.map(s=>{
