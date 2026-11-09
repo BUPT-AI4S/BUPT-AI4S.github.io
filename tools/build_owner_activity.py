@@ -110,6 +110,20 @@ def area_of(paths):
     return 'other'
 
 
+IGNORED_PATHS = {'reviews/owners.json', 'reviews/owner-activity.json', 'reviews/monitor-data.json',
+                 'reviews/venue-review.csv', 'monitor-feedback-format.md'}
+
+
+def is_relevant(path):
+    """Repo-level or generated files say nothing about who did review work."""
+    if path in IGNORED_PATHS or path.startswith('reviews/source-assignments-'):
+        return False
+    parts = path.split('/')
+    if parts[0] == 'reviews' and 'actions' in parts[1:]:
+        return False
+    return path.startswith('reviews/') or path.startswith('metadata/')
+
+
 def build(root, limit):
     root = Path(root)
     try:
@@ -125,8 +139,11 @@ def build(root, limit):
 
     track = {name: {'last': None, 'review': None, 'metadata': None, 'counts': []} for name in names}
     for item in commits:
+        paths = [path for path in item['paths'] if is_relevant(path)]
+        if not paths:
+            continue
         touched = set()
-        for path in item['paths']:
+        for path in paths:
             account = review_account(path, shared)
             if account and account in by_account:
                 touched.add(by_account[account])
@@ -137,8 +154,8 @@ def build(root, limit):
         for name in touched:
             slot = track[name]
             record = {'when': item['when'], 'author': item['author'], 'sha': item['sha'],
-                      'subject': item['subject'], 'area': area_of(item['paths']),
-                      'paths': item['paths'][:4]}
+                      'subject': item['subject'], 'area': area_of(paths),
+                      'paths': paths[:4]}
             if slot['last'] is None or record['when'] > slot['last']['when']:
                 slot['last'] = record
             if record['area'] == 'reviews' and (slot['review'] is None or record['when'] > slot['review']['when']):

@@ -7,6 +7,18 @@ from tools.build_owner_activity import build as build_activity
 from tools.build_owner_activity import parse_history, review_account
 
 
+class RelevantPathTest(unittest.TestCase):
+    def test_repo_level_and_generated_paths_do_not_count_as_owner_work(self):
+        from tools.build_owner_activity import is_relevant
+        for path in ['reviews/owners.json', 'reviews/owner-activity.json', 'reviews/monitor-data.json',
+                     'reviews/venue-review.csv', 'monitor-feedback-format.md',
+                     'reviews/source-assignments-2024.json', 'reviews/2024/actions/乔徐阳.md']:
+            self.assertFalse(is_relevant(path), path)
+        for path in ['reviews/2024/Roman100021.json', 'reviews/2024/feedback/nydiii.json',
+                     'reviews/venue-review-dlj.csv', 'metadata/2024/snapshot.json', 'metadata/icml/2025/papers.json']:
+            self.assertTrue(is_relevant(path), path)
+
+
 class ReviewAccountTest(unittest.TestCase):
     def test_owner_paths_resolve_and_shared_or_generated_paths_do_not(self):
         shared = {'lixueting-haozhuodi': ['李雪婷', '郝卓迪']}
