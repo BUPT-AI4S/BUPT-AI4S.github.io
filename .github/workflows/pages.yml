@@ -7,9 +7,9 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # 每小时两次的部署会互相抢占，且每次都完整 checkout 几百 MB 的爬虫仓库。
-    # 每 6 小时兜底刷新一次即可，数据变更主要由爬虫推送的 commit 触发。
-    - cron: '17 */6 * * *'
+    # 部署已在 deploy job 里串行排队并带重试，可以回到每小时刷新一次，
+    # 让网站自带的数据快照跟得上审核进度（部分网络访问不了 raw.githubusercontent）。
+    - cron: '17 * * * *'
 
 permissions:
   contents: read

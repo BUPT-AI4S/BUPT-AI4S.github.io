@@ -11,13 +11,13 @@ function render() {
   const old = owner.value; const owners = [...new Set(y.sources.map(s => s.owner).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'zh-CN')); options(owner, owners, '全部负责人'); owner.value = owners.includes(old) ? old : '';
   const query = search.value.trim().toLowerCase();
   selected = y.sources.filter(s => (!owner.value || s.owner === owner.value) && (!query || `${s.title} ${s.code}`.toLowerCase().includes(query)) && (status.value === 'all' || (status.value === 'issues' && s.issues.length) || (status.value === 'missing' && s.official_total == null) || (status.value === 'pending' && s.decisions && (s.decisions.pending || s.decisions.unreviewed))));
-  const ownerActions = $('#owner-actions'); ownerActions.hidden = !owner.value; if (owner.value) ownerActions.href = `https://github.com/BUPT-AI4S/ai4s-crawler/blob/main/reviews/${y.year}/actions/${encodeURIComponent(owner.value)}.md`;
+  const ownerActions = $('#owner-actions'); if (ownerActions) { ownerActions.hidden = !owner.value; if (owner.value) ownerActions.href = `https://github.com/BUPT-AI4S/ai4s-crawler/blob/main/reviews/${y.year}/actions/${encodeURIComponent(owner.value)}.md`; }
   $('#view-title').textContent = owner.value ? `${owner.value} · 工作分屏` : '工作总览';
   $('#scope').textContent = `统计当前筛选的 ${selected.length} 个来源；采集快照 ${y.captured_at || '未提供'}。${lastUpdateText(y)}`;
   const sum = key => selected.reduce((n,s)=>n+(s[key] ?? 0),0);
   const metrics = [['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]];
   $('#metrics').innerHTML=metrics.map(([name,value])=>`<div class="metric"><strong>${fmt(value)}</strong><span>${name}</span></div>`).join('');
-  $('#count').textContent=`${selected.length} 个来源`; $('#empty').hidden=selected.length>0;
+  $('#count').textContent=`${selected.length} 个来源`; const empty=$('#empty'); if (empty) empty.hidden=selected.length>0;
   $('#list').innerHTML=selected.map(s=>{
     const decisions=s.decisions ? `纳入 ${s.decisions.include} · 排除 ${s.decisions.exclude} · 待定 ${s.decisions.pending} · 未审 ${s.decisions.unreviewed}` : '暂无逐篇交付';
     const ref=s.files.map((file,i)=>`<a href="${esc(data.repository + file.split('/').map(encodeURIComponent).join('/'))}" target="_blank" rel="noopener">交付文件 ${i+1}</a>`).join('');
@@ -55,14 +55,14 @@ async function refreshSnapshot() {
     }
     const changed = !data || data.generated_at !== result.data.generated_at || data.commit !== result.data.commit;
     data = result.data;
-    $('#error').textContent = result.live ? '' : '暂时无法读取仓库实时汇总，正在显示网站发布快照。';
+    $('#error').textContent = '';
     $('#provenance').textContent = `汇总生成：${data.generated_at || '未知'}\n仓库提交：${data.commit?.slice(0,12) || '未知'}\n数据来源：${result.live ? '仓库实时汇总' : '网站发布快照'}`;
     $('#provenance').style.whiteSpace = 'pre-line';
     if (!changed) return;
     const previousYear = year.value;
     options(year,data.years.map(y=>String(y.year)),'选择年份');
     year.value = data.years.some(y=>String(y.year)===previousYear) ? previousYear : String(data.years.find(y=>y.year===2024)?.year ?? data.years.at(-1).year);
-    $('#content').hidden = false;
+    const content = $('#content'); if (content) content.hidden = false;
     render();
   } catch(e) {
     if (!data) $('#provenance').textContent = '数据加载失败';
