@@ -1,3 +1,4 @@
+import {loadMonitorSnapshot} from './review-monitor-live.mjs';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = (n) => n == null ? '未知' : Number(n).toLocaleString('zh-CN');
@@ -26,4 +27,28 @@ function render() {
 }
 $('#download').addEventListener('click',()=>{const y=year.value; const text=`# ${y} 论文审核行动清单\n\n数据快照：${data.years.find(x=>String(x.year)===y)?.captured_at || '未知'}\n来源提交：${data.commit || '未知'}\n负责人筛选：${owner.value || '全部'}\n\n`+selected.map(s=>`## ${s.title}（${s.code}）\n负责人：${s.owner || '未知'}\n问题：${s.issues.join('；') || '暂无自动提示'}\n行动：${s.actions.join('；') || '查看原始材料'}\n证据：${s.files.map(f=>data.repository+f).join(' ; ')}\n`).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'}));a.download=`ai4s-actions-${y}.md`;a.click();URL.revokeObjectURL(a.href)});
 for(const el of [year,owner,search,status]) el.addEventListener(el===search?'input':'change',render);
-try { const response=await fetch('data/review-monitor.json'); if(!response.ok) throw Error(`HTTP ${response.status}`); data=await response.json(); if(!data.years?.length) throw Error('没有可用快照'); options(year,data.years.map(y=>String(y.year)),'选择年份'); year.value=String(data.years.find(y=>y.year===2024)?.year ?? data.years.at(-1).year); $('#provenance').textContent=`汇总生成：${data.generated_at || '未知'}\n仓库提交：${data.commit?.slice(0,12) || '未知'}`; $('#provenance').style.whiteSpace='pre-line'; $('#content').hidden=false; render(); } catch(e) { $('#provenance').textContent='数据加载失败'; $('#error').textContent=`无法读取监控快照：${e.message}。请检查数据文件并重新构建。`; }
+async function refreshSnapshot() {
+  try {
+    const result = await loadMonitorSnapshot(fetch);
+    if (!result.live && data?.generated_at && result.data.generated_at && result.data.generated_at < data.generated_at) {
+      $('#error').textContent = '暂时无法读取最新仓库数据，正在显示上次成功读取的结果。';
+      return;
+    }
+    const changed = !data || data.generated_at !== result.data.generated_at || data.commit !== result.data.commit;
+    data = result.data;
+    $('#error').textContent = result.live ? '' : '暂时无法读取仓库实时汇总，正在显示网站发布快照。';
+    $('#provenance').textContent = `汇总生成：${data.generated_at || '未知'}\n仓库提交：${data.commit?.slice(0,12) || '未知'}\n数据来源：${result.live ? '仓库实时汇总' : '网站发布快照'}`;
+    $('#provenance').style.whiteSpace = 'pre-line';
+    if (!changed) return;
+    const previousYear = year.value;
+    options(year,data.years.map(y=>String(y.year)),'选择年份');
+    year.value = data.years.some(y=>String(y.year)===previousYear) ? previousYear : String(data.years.find(y=>y.year===2024)?.year ?? data.years.at(-1).year);
+    $('#content').hidden = false;
+    render();
+  } catch(e) {
+    if (!data) $('#provenance').textContent = '数据加载失败';
+    $('#error').textContent = `无法读取监控快照：${e.message}。请稍后重试。`;
+  }
+}
+await refreshSnapshot();
+setInterval(refreshSnapshot, 120000);

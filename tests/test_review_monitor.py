@@ -111,3 +111,14 @@ class CandidateOnlyAssignedYearTest(unittest.TestCase):
             rows={r['code']:r for r in build(p)['years'][0]['sources']}
             self.assertEqual(set(rows),{'v','w'}); self.assertEqual(rows['w']['candidates'],0)
             self.assertEqual(rows['w']['owner'],'B'); self.assertIsNone(rows['w']['papers'])
+
+class ConferenceCrawlFeedbackTest(unittest.TestCase):
+    def test_conference_blocking_reasons_and_next_actions_are_visible(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/reviewer').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'sources':[{'source':'sigmod','state':'completed','papers':10,'ai4s':0}]}),encoding='utf8')
+            (p/'reviews/2024/reviewer/conference-crawl-check.csv').write_text('source_code,directory_status,blocking_reason,next_action,official_urls\nsigmod,尚未对齐,论文集访问受限,核对 ACM 目录,https://example.org\n',encoding='utf8')
+            row=build(p)['years'][0]['sources'][0]
+            self.assertIn('论文集访问受限',row['issues']); self.assertIn('核对 ACM 目录',row['actions'])
+            self.assertIn('reviews/2024/reviewer/conference-crawl-check.csv',row['files'])
+            self.assertIn('https://example.org',row['evidence_urls'])

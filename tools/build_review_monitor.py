@@ -140,6 +140,19 @@ def build(root):
                     if total is not None and total >= 0 and scope and row.get('snapshot_at') == snapshot.get('captured_at'):
                         s['official_total'], s['official_scope'] = total, scope
                     s['evidence_urls'] = [v.strip() for v in (row.get('evidence_urls') or '').split('|') if v.strip()]
+        # Conference audit handoffs list per-source blockers and concrete follow-up.
+        for path in sorted(review_dir.glob('*/conference-crawl-check.csv')):
+            with path.open(encoding='utf-8-sig', newline='') as f:
+                for row in csv.DictReader(f):
+                    s = source_map.get(row.get('source_code'))
+                    if not s: continue
+                    s['files'].append(path.relative_to(root).as_posix())
+                    issue = (row.get('blocking_reason') or '').strip()
+                    action = (row.get('next_action') or '').strip()
+                    if issue: s['issues'].append(issue)
+                    if action: s['actions'].append(action)
+                    links = [v.strip() for v in (row.get('official_urls') or '').split('|') if v.strip()]
+                    s['evidence_urls'].extend(v for v in links if v not in s['evidence_urls'])
         for path in sorted((review_dir / 'feedback').glob('*.json')):
             obj = read_json(path); rows = obj if isinstance(obj,list) else [obj]
             for row in rows:
