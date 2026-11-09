@@ -42,7 +42,7 @@ function renderOwners(yearList) {
     const done = rows.filter(o => o.years?.[y]?.status === 'complete').length;
     return `${y}：${started} 人有交付 / ${done} 人交齐`;
   }).join(' · ') + '（状态只看逐篇审核交付，不代表采集完成）';
-  $('#owner-table').innerHTML = `<table><thead><tr><th>负责人</th><th>来源合计</th>${yearList.map(y => `<th>${esc(y)}</th>`).join('')}<th>上次更新</th><th>近 7 天</th></tr></thead><tbody>` + rows.map(o => {
+  $('#owner-table').innerHTML = `<table><thead><tr><th>负责人</th><th>交付/合计</th>${yearList.map(y => `<th>${esc(y)}</th>`).join('')}<th>上次更新</th><th>近 7 天</th></tr></thead><tbody>` + rows.map(o => {
     const lu = o.last_update || null;
     const last = lu ? `<span>${esc(shortTime(lu.at))}</span><small>${esc(lu.author || '未知')}${lu.subject ? ' · ' + esc(lu.subject.slice(0, 26)) : ''}</small>` : '<small class="muted">暂无提交</small>';
     const cells = yearList.map(y => {
