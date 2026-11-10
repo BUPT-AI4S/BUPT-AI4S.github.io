@@ -106,7 +106,10 @@ reviews/monitor-data.json、data/papers-index.json、reviews/owner-activity.json
 | 机制 | 位置 | 作用 |
 | --- | --- | --- |
 | 自动恢复 | `tools/restore_abstracts.py`，由爬虫 `review-actions.yml` 每次生成前调用 | 拿上一版 `main` 对比，只把「原本有、现在空」的摘要和对应 `screening_status` 补回来，其余字段一个字节不动 |
+| 历史回溯 | 同一脚本 `--from-history` | 逐版扫描 `metadata/<年>/ai4s.json`，取每条记录**最近一次非空**的摘要。用于修复「好几轮重写之前就已经丢了」的数据（自动恢复只对比上一版，补不回来） |
 | 人工修复入口 | 同一脚本 `--owner <姓名>` | 需要只修某人的 venue 时手动跑，例如补回丁利军那 49 条 |
+
+2026-11-10 用 `--from-history` 做过一次全量回溯：2024 补回 62 条（丁利军 49、郝卓迪 13），2025/2026 没有可恢复的。补完后 `metadata/2024/ai4s.json` 里仍有 832 条候选没有摘要，这些在 `papers.json` 里同样是 `null`，属于真的还没采集，不是丢失。
 
 规则写进协作约定：**摘要只增不删**。确实需要清空某条错误摘要时，必须走人工 PR 并在描述里说明是哪条、为什么。
 
