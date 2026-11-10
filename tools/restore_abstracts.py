@@ -13,6 +13,8 @@ through byte for byte and the diff stays readable.
 Usage:
     python tools/restore_abstracts.py --repo <crawler checkout> --year 2024 \
         --base-rev 76cf5f2 --owner 乔徐阳 --dry-run
+    python tools/restore_abstracts.py --repo <crawler checkout> --year 2024 \
+        --from-history --dry-run
 """
 
 from __future__ import annotations
@@ -55,6 +57,39 @@ def load_base(repo: Path, rev: str, path: str) -> dict:
     return {row['id']: row for row in records if isinstance(row, dict) and row.get('id')}
 
 
+def history_revisions(repo: Path, path: str, limit: int) -> list[str]:
+    proc = subprocess.run(
+        ['git', 'log', f'-n{limit}', '--format=%H', '--', path],
+        cwd=repo, capture_output=True, check=False, text=True, encoding='utf-8',
+    )
+    if proc.returncode != 0:
+        raise SystemExit(f'git log {path} failed: {proc.stderr}')
+    revisions = [line.strip() for line in proc.stdout.splitlines() if line.strip()]
+    revisions.reverse()
+    return revisions
+
+
+def load_history(repo: Path, path: str, limit: int) -> tuple[dict, int]:
+    """Most recent non-empty abstract per id across every revision of the file."""
+    best: dict[str, dict] = {}
+    scanned = 0
+    for rev in history_revisions(repo, path, limit):
+        try:
+            records = json.loads(git_show(repo, rev, path).decode('utf-8'))
+        except (SystemExit, json.JSONDecodeError):
+            continue
+        scanned += 1
+        for row in records:
+            if not isinstance(row, dict):
+                continue
+            identifier = row.get('id')
+            abstract = row.get('abstract')
+            if not identifier or not isinstance(abstract, str) or not abstract.strip():
+                continue
+            best[identifier] = row
+    return best, scanned
+
+
 def decide(record: dict, base: dict, venues: set[str] | None) -> tuple[str, str | None] | None:
     """Return (abstract, screening_status) to write, or None to leave alone."""
     if venues is not None and record.get('venue') not in venues:
@@ -80,7 +115,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', default='.', help='crawler checkout')
     parser.add_argument('--year', type=int, required=True)
-    parser.add_argument('--base-rev', required=True, help='revision that still has the abstracts')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--base-rev', help='revision that still has the abstracts')
+    group.add_argument(
+        '--from-history',
+        action='store_true',
+        help='use the most recent non-empty abstract found in any revision of the file',
+    )
+    parser.add_argument('--history-limit', type=int, default=80, help='revisions to scan with --from-history')
     parser.add_argument('--owner', help='only restore venues assigned to this owner')
     parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args(argv)
@@ -92,7 +134,11 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(f'missing {target}')
 
     venues = load_owner_venues(repo, args.year, args.owner) if args.owner else None
-    base = load_base(repo, args.base_rev, rel)
+    if args.from_history:
+        base, scanned = load_history(repo, rel, args.history_limit)
+        print(f'scanned {scanned} revisions of {rel}, {len(base)} ids with a recorded abstract')
+    else:
+        base = load_base(repo, args.base_rev, rel)
 
     report: list[dict] = []
     out: list[str] = []

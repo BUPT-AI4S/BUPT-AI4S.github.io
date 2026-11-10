@@ -117,6 +117,25 @@ class RestoreAbstractsTest(unittest.TestCase):
         self.assertEqual((self.repo / 'metadata' / '2024' / 'ai4s.json')
                          .read_text(encoding='utf-8'), before)
 
+    def test_from_history_finds_abstracts_dropped_earlier(self):
+        self.write_records([record('p1', 'j-a', 'Abstract A.'), record('p2', 'j-b', 'Abstract B.')])
+        self.commit('with abstracts')
+        self.write_records([record('p1', 'j-a', None, 'needs_abstract'), record('p2', 'j-b', None, 'needs_abstract')])
+        self.commit('both dropped')
+        rewritten = [record('p1', 'j-a', None, 'needs_abstract'), record('p2', 'j-b', None, 'needs_abstract')]
+        for row in rewritten:
+            row['title'] = 'Rewritten ' + row['id']
+        self.write_records(rewritten)
+        self.commit('unrelated rewrite on top')
+
+        self.assertEqual(restore_abstracts.main([
+            '--repo', str(self.repo), '--year', '2024', '--from-history']), 0)
+
+        rows = {row['id']: row for row in self.load()}
+        self.assertEqual(rows['p1']['abstract'], 'Abstract A.')
+        self.assertEqual(rows['p2']['abstract'], 'Abstract B.')
+        self.assertEqual(rows['p1']['screening_status'], 'ready')
+
 
 if __name__ == '__main__':
     unittest.main()
