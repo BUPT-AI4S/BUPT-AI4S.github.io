@@ -34,5 +34,11 @@
     "title": "专家报告1 6G通信和AI的融合-刘光毅",
     "date": "2026-10-27",
     "data": "data/expert-01.json"
+  },
+  {
+    "id": "expert-02",
+    "title": "专家报告2 物理信息神经网络PINN及科学计算智能体构建-李昊辰",
+    "date": "2026-11-03",
+    "data": "data/expert-02.json"
   }
 ]
