@@ -40,5 +40,11 @@
     "title": "专家报告2 物理信息神经网络PINN及科学计算智能体构建-李昊辰",
     "date": "2026-11-03",
     "data": "data/expert-02.json"
+  },
+  {
+    "id": "chairs-02",
+    "title": "大师讲堂2 智能数学推理 从问题探索到形式化验证-文再文",
+    "date": "2026-11-10",
+    "data": "data/chairs-02.json"
   }
 ]
