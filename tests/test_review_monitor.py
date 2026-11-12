@@ -122,3 +122,146 @@ class ConferenceCrawlFeedbackTest(unittest.TestCase):
             self.assertIn('论文集访问受限',row['issues']); self.assertIn('核对 ACM 目录',row['actions'])
             self.assertIn('reviews/2024/reviewer/conference-crawl-check.csv',row['files'])
             self.assertIn('https://example.org',row['evidence_urls'])
+
+
+class VerifiedAbstractTest(unittest.TestCase):
+    def setUp(self):
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        self.write('metadata/2024/snapshot.json', {
+            'year': 2024, 'captured_at': 'current',
+            'sources': [{'source': 'v', 'state': 'completed', 'papers': 20, 'ai4s': 9}],
+        })
+
+    def write(self, path, value):
+        target = self.root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(value), encoding='utf8')
+
+    def candidate(self, id='1', abstract=None):
+        return {'venue': 'v', 'year': 2024, 'id': id, 'abstract': abstract}
+
+    def review(self, id='1', abstract='Original scientific abstract.'):
+        return {'venue': 'v', 'year': 2024, 'id': id, 'ai4s_review': {
+            'decision': 'include', 'snapshot_at': 'current',
+            'verified_metadata': {'abstract': abstract, 'evidence_urls': ['https://example.org/paper']},
+            'abstract_verification': {'status': 'verified_original_abstract'},
+        }}
+
+    def source(self):
+        return build(self.root)['years'][0]['sources'][0]
+
+    def test_nine_verified_abstracts_remove_only_the_automatic_missing_task(self):
+        candidates = [self.candidate(str(i)) for i in range(9)]
+        reviews = [self.review(str(i), f'Original abstract {i}.') for i in range(9)]
+        for i, record in enumerate(reviews):
+            record['ai4s_review']['decision'] = ('include', 'exclude', 'pending')[i % 3]
+        self.write('metadata/2024/ai4s.json', candidates)
+        self.write('reviews/2024/a.json', reviews)
+        self.write('reviews/2024/feedback/a.json', {
+            'year': 2024, 'source_code': 'v', 'snapshot_at': 'current',
+            'issues': ['Separate scientific question'], 'next_actions': ['Check that question'],
+        })
+        source = self.source()
+        self.assertEqual((source['missing_abstract'], source['backfilled_abstract'], source['remaining_missing_abstract']), (9, 9, 0))
+        self.assertFalse(any('缺少摘要' in text for text in source['issues']))
+        self.assertFalse(any('为缺摘要' in text for text in source['actions']))
+        self.assertIn('Separate scientific question', source['issues'])
+        self.assertIn('Check that question', source['actions'])
+        self.assertEqual(source['decisions'], {'include': 3, 'exclude': 3, 'pending': 3, 'unreviewed': 0})
+        self.assertEqual(json.loads((self.root / 'metadata/2024/ai4s.json').read_text()), candidates)
+        self.assertEqual(json.loads((self.root / 'reviews/2024/a.json').read_text()), reviews)
+
+    def test_legacy_verified_metadata_counts_without_new_status_field(self):
+        record = self.review()
+        del record['ai4s_review']['abstract_verification']
+        self.write('metadata/2024/ai4s.json', [self.candidate()])
+        self.write('reviews/2024/a.json', [record])
+        self.assertEqual(self.source()['backfilled_abstract'], 1)
+
+    def test_empty_text_nonoriginal_status_and_nonpublic_evidence_do_not_count(self):
+        variants = []
+        for value in [None, '', '  ', {'summary': 'AI-generated summary'}]:
+            record = self.review(abstract=value); variants.append(('abstract ' + repr(value), record))
+        for status in ['not_provided_by_official_source', 'access_restricted_original_text', 'not_retrieved', 'summary', None]:
+            record = self.review(); record['ai4s_review']['abstract_verification']['status'] = status
+            variants.append(('status ' + repr(status), record))
+        for urls in [[], None, [''], ['file:///tmp/paper.txt'], ['/paper'], ['https://'], ['http://localhost/paper'], ['http://127.0.0.1/paper'], ['http://192.168.1.1/paper']]:
+            record = self.review(); record['ai4s_review']['verified_metadata']['evidence_urls'] = urls
+            variants.append(('evidence ' + repr(urls), record))
+        record = self.review(abstract=None)
+        record['ai4s_review']['verified_metadata']['summary'] = 'Reviewed from a summary.'
+        record['ai4s_review']['rationale'] = 'Abstract was completed.'
+        variants.append(('summary and prose only', record))
+        self.write('metadata/2024/ai4s.json', [self.candidate()])
+        for name, record in variants:
+            with self.subTest(name=name):
+                self.write('reviews/2024/a.json', [record])
+                source = self.source()
+                self.assertEqual(source['backfilled_abstract'], 0)
+                self.assertEqual(source['remaining_missing_abstract'], 1)
+
+    def test_only_exact_candidate_identity_and_same_nonempty_snapshot_count(self):
+        variants = []
+        for field, value in [('venue', 'other'), ('year', 2023), ('id', 'supplement')]:
+            record = self.review(); record[field] = value; variants.append(record)
+        for stamp in ['old', None, '']:
+            record = self.review(); record['ai4s_review']['snapshot_at'] = stamp; variants.append(record)
+        self.write('metadata/2024/ai4s.json', [self.candidate()])
+        self.write('reviews/2024/a.json', variants)
+        self.assertEqual(self.source()['backfilled_abstract'], 0)
+        for stamp in [None, '', '   ']:
+            with self.subTest(snapshot=stamp):
+                self.write('metadata/2024/snapshot.json', {'year': 2024, 'captured_at': stamp, 'sources': [{'source': 'v'}]})
+                record = self.review(); record['ai4s_review']['snapshot_at'] = stamp
+                self.write('reviews/2024/a.json', [record])
+                self.assertEqual(self.source()['backfilled_abstract'], 0)
+
+    def test_duplicate_review_copies_count_once_and_ignore_unverified_conflicts(self):
+        self.write('metadata/2024/ai4s.json', [self.candidate()])
+        self.write('reviews/2024/a.json', [self.review()])
+        duplicate = self.review(abstract='  Original\nscientific   abstract. ')
+        rejected = self.review(abstract='A different unverified text.')
+        rejected['ai4s_review']['abstract_verification']['status'] = 'not_retrieved'
+        self.write('reviews/2024/b.json', [duplicate, rejected])
+        source = self.source()
+        self.assertEqual(source['backfilled_abstract'], 1)
+        self.assertEqual(source['remaining_missing_abstract'], 0)
+        self.assertFalse(any('摘要' in text and '冲突' in text for text in source['issues']))
+
+    def test_conflicting_verified_texts_remain_missing_with_one_warning(self):
+        self.write('metadata/2024/ai4s.json', [self.candidate()])
+        self.write('reviews/2024/a.json', [self.review()])
+        self.write('reviews/2024/b.json', [self.review(abstract='A different original abstract.'), self.review()])
+        source = self.source()
+        self.assertEqual((source['backfilled_abstract'], source['remaining_missing_abstract']), (0, 1))
+        self.assertEqual(sum('摘要' in text and '冲突' in text for text in source['issues']), 1)
+        self.assertTrue(any('摘要' in text for text in source['actions']))
+
+    def test_later_duplicate_with_valid_abstract_keeps_its_evidence_file_link(self):
+        self.write('metadata/2024/ai4s.json', [self.candidate()])
+        self.write('reviews/2024/a.json', [self.review(abstract=None)])
+        self.write('reviews/2024/b.json', [self.review()])
+        source = self.source()
+        self.assertEqual((source['backfilled_abstract'], source['remaining_missing_abstract']), (1, 0))
+        self.assertEqual(source['decisions']['include'], 1)
+        self.assertIn('reviews/2024/a.json', source['files'])
+        self.assertEqual(source['files'].count('reviews/2024/b.json'), 1)
+
+    def test_candidate_duplicates_keep_record_count_and_existing_abstracts_get_no_credit(self):
+        self.write('metadata/2024/ai4s.json', [self.candidate(), self.candidate(), self.candidate(abstract='Already present'), self.candidate('2'), self.candidate(None)])
+        self.write('reviews/2024/a.json', [self.review(), self.review()])
+        source = self.source()
+        self.assertEqual(source['candidates'], 5)
+        self.assertEqual((source['missing_abstract'], source['backfilled_abstract'], source['remaining_missing_abstract']), (4, 2, 2))
+        self.assertTrue(any('2 篇' in text and '缺少摘要' in text for text in source['issues']))
+        self.write('metadata/2024/ai4s.json', [self.candidate(abstract='Already present')])
+        source = self.source()
+        self.assertEqual((source['missing_abstract'], source['backfilled_abstract'], source['remaining_missing_abstract']), (0, 0, 0))
+
+    def test_missing_candidate_file_keeps_all_abstract_counts_unknown(self):
+        self.write('reviews/2024/a.json', [self.review()])
+        source = self.source()
+        for field in ['missing_abstract', 'backfilled_abstract', 'remaining_missing_abstract']:
+            self.assertIsNone(source[field])
