@@ -2,6 +2,7 @@ import {loadMonitorSnapshot} from './review-monitor-live.mjs';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = (n) => n == null ? '未知' : Number(n).toLocaleString('zh-CN');
+const requiredAbstracts = s => s.abstract_supplement_required ?? s.missing_abstract;
 const safeUrl = (u) => { try { const x = new URL(u); return ['https:','http:'].includes(x.protocol) ? x.href : ''; } catch { return ''; } };
 let data, selected = [];
 const year = $('#year'), owner = $('#owner'), search = $('#search'), status = $('#status');
@@ -15,14 +16,14 @@ function render() {
   $('#view-title').textContent = owner.value ? `${owner.value} · 工作分屏` : '工作总览';
   $('#scope').textContent = `统计当前筛选的 ${selected.length} 个来源；采集快照 ${y.captured_at || '未提供'}。${lastUpdateText(y)}`;
   const sum = key => selected.reduce((n,s)=>n+(s[key] ?? 0),0);
-  const metrics = [['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选缺摘要',selected.some(s=>s.missing_abstract!=null)?sum('missing_abstract'):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]];
+  const metrics = [['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],['初筛候选',sum('candidates')],['候选待补摘要',selected.some(s=>requiredAbstracts(s)!=null)?selected.reduce((n,s)=>n+(requiredAbstracts(s) ?? 0),0):null],['官网总数未知',selected.filter(s=>s.official_total==null).length]];
   $('#metrics').innerHTML=metrics.map(([name,value])=>`<div class="metric"><strong>${fmt(value)}</strong><span>${name}</span></div>`).join('');
   $('#count').textContent=`${selected.length} 个来源`; const empty=$('#empty'); if (empty) empty.hidden=selected.length>0;
   $('#list').innerHTML=selected.map(s=>{
     const decisions=s.decisions ? `纳入 ${s.decisions.include} · 排除 ${s.decisions.exclude} · 待定 ${s.decisions.pending} · 未审 ${s.decisions.unreviewed}` : '暂无逐篇交付';
     const ref=s.files.map((file,i)=>`<a href="${esc(data.repository + file.split('/').map(encodeURIComponent).join('/'))}" target="_blank" rel="noopener">交付文件 ${i+1}</a>`).join('');
     const evidence=s.evidence_urls.map(safeUrl).filter(Boolean).map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener">核验依据 ${i+1}</a>`).join('');
-    return `<details><summary><span class="source-name"><strong>${esc(s.title)}</strong><small>${esc(s.code)} · ${esc(s.venue_decision || '刊会结论未填写')}</small></span><span class="summary-owner">${esc(s.owner || '负责人未知')}</span><span class="tag ${s.issues.length?'':'ok'}">${s.issues.length ? `${s.issues.length} 项待关注` : '暂无自动提示'}</span></summary><div class="detail"><div><h3>采集与总量核验</h3><p>采集状态：${esc(s.state)}<br>采集 ${fmt(s.papers)} 篇 · 官网 ${fmt(s.official_total)} 篇${s.official_scope ? `（${esc(s.official_scope)}）` : ''}<br>${esc(s.coverage_note || '未提供同口径核验说明')}</p></div><div><h3>元信息与精筛</h3><p>AI4S候选缺摘要 ${fmt(s.missing_abstract)} 篇<br>当前候选文件 ${fmt(s.candidates)} 篇（快照候选 ${fmt(s.snapshot_candidates)} 篇）<br>${esc(decisions)}</p></div><div><h3>当前问题</h3><ul>${s.issues.length?s.issues.map(x=>`<li>${esc(x)}</li>`).join(''):'<li>暂无自动提示，请核对原始材料。</li>'}</ul></div><div><h3>下一步行动</h3><ul>${s.actions.length?s.actions.map(x=>`<li>${esc(x)}</li>`).join(''):'<li>查看原始材料并按需反馈。</li>'}</ul></div><div class="wide links">${ref}${evidence}</div></div></details>`;
+    return `<details><summary><span class="source-name"><strong>${esc(s.title)}</strong><small>${esc(s.code)} · ${esc(s.venue_decision || '刊会结论未填写')}</small></span><span class="summary-owner">${esc(s.owner || '负责人未知')}</span><span class="tag ${s.issues.length?'':'ok'}">${s.issues.length ? `${s.issues.length} 项待关注` : '暂无自动提示'}</span></summary><div class="detail"><div><h3>采集与总量核验</h3><p>采集状态：${esc(s.state)}<br>采集 ${fmt(s.papers)} 篇 · 官网 ${fmt(s.official_total)} 篇${s.official_scope ? `（${esc(s.official_scope)}）` : ''}<br>${esc(s.coverage_note || '未提供同口径核验说明')}</p></div><div><h3>元信息与精筛</h3><p>AI4S候选待补摘要 ${fmt(requiredAbstracts(s))} 篇${s.abstract_not_required ? `<br>官方无独立摘要、无需补摘要 ${fmt(s.abstract_not_required)} 篇（原始缺摘要 ${fmt(s.missing_abstract)} 篇）` : ''}<br>当前候选文件 ${fmt(s.candidates)} 篇（快照候选 ${fmt(s.snapshot_candidates)} 篇）<br>${esc(decisions)}</p></div><div><h3>当前问题</h3><ul>${s.issues.length?s.issues.map(x=>`<li>${esc(x)}</li>`).join(''):'<li>暂无自动提示，请核对原始材料。</li>'}</ul></div><div><h3>下一步行动</h3><ul>${s.actions.length?s.actions.map(x=>`<li>${esc(x)}</li>`).join(''):'<li>查看原始材料并按需反馈。</li>'}</ul></div><div class="wide links">${ref}${evidence}</div></div></details>`;
   }).join('');
 }
 function shortTime(iso) {
