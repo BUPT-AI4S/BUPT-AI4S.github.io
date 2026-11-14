@@ -5,6 +5,8 @@ const http = require('node:http');
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '..');
+const newsCatalog = JSON.parse(fs.readFileSync(path.join(root, 'data/news-index.json'), 'utf8')).articles;
+const latestNews = newsCatalog.reduce((latest, item) => !latest || item.date > latest.date ? item : latest, null);
 const output = path.join(root, '.tmp', 'lecture-poster-checks');
 fs.mkdirSync(output, { recursive: true });
 const server = http.createServer((req, res) => {
@@ -31,11 +33,10 @@ const server = http.createServer((req, res) => {
       await page.goto(base + 'index.html?lang=' + lang + '&theme=' + theme);
       await page.locator('#lecture-announcement').waitFor({ timeout: 3000 });
       await page.locator('#home-news:not([hidden])').waitFor();
-      assert.equal(await page.locator('#home-news-details').getAttribute('href'), 'news-article.html?id=lecture-preview-zaiwen-wen');
-      assert((await page.locator('#home-news-title').innerText()).includes(lang === 'en' ? 'Zaiwen Wen' : '文再文'));
-      assert.equal(await page.locator('#home-news-date').innerText(), '2026-11-04');
+      assert.equal(await page.locator('#home-news-details').getAttribute('href'), 'news-article.html?id=' + latestNews.id);
+      assert.equal(await page.locator('#home-news-title').innerText(), lang === 'en' ? latestNews.titleEn : latestNews.title);
+      assert.equal(await page.locator('#home-news-date').innerText(), latestNews.date);
       assert((await page.locator('.lecture-announcement-label').innerText()).includes(lang === 'en' ? 'Distinguished lecture' : '大师讲堂'));
-      assert((await page.locator('#home-news-title').innerText()).includes(lang === 'en' ? 'Distinguished Lecture Preview' : '大师讲堂预告'));
       const geometry = await page.evaluate(() => {
         const rect = selector => document.querySelector(selector).getBoundingClientRect();
         const card = rect('#lecture-announcement'), news = rect('#home-news'), hero = rect('.hero-inner'), nav = rect('.nav');
@@ -93,8 +94,8 @@ const server = http.createServer((req, res) => {
     await page.screenshot({ path: path.join(output, 'article-320-zh.png'), fullPage: true });
     await page.goto(base + 'news.html?lang=zh');
     await page.locator('.news-item').first().waitFor();
-    assert((await page.locator('.news-item h3').first().innerText()).includes('文再文'));
-    assert.equal(await page.locator('.news-item').count(), 11);
+    assert.equal(await page.locator('.news-item h3').first().innerText(), latestNews.title);
+    assert.equal(await page.locator('.news-item').count(), newsCatalog.length);
     await page.locator('.news-thumbnail img').first().evaluate(image => image.decode());
     assert.deepEqual(errors, []);
     console.log('PASS: 20 responsive/language/theme cases; original aspect ratio; news, course and book retained; poster/button opening; close/Escape/focus return and keyboard containment; live language labels; no horizontal overflow.');

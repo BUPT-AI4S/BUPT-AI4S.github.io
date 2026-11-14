@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "caet-2026-haihong-e",
+      "title": "鄂海红：教育科技双向赋能，探索科学智能创新人才培养 | 第九届中国教育技术创新发展与应用成果大会",
+      "titleEn": "Haihong E: Connecting Education and Technology to Cultivate AI for Science Talent | CAET 2026",
+      "summary": "鄂海红教授在无锡分享“三融一体”科学智能育人实践，并参与“科学智能进课堂：从赋能到融合”圆桌交流，探讨课程、平台与真实科研任务如何连接。",
+      "summaryEn": "At CAET 2026 in Wuxi, Haihong E presents BUPT’s integrated approach to AI for Science education and joins a panel on bringing AI for Science into the classroom, connecting courses, platforms and authentic research tasks.",
+      "source": "BUPT Reasoning · 学术现场",
+      "sourceEn": "BUPT Reasoning · Research events",
+      "date": "2026-11-14",
+      "cover": "data/news/assets/caet-2026-haihong-e/cover.webp"
+    },
+    {
       "id": "lecture-preview-zaiwen-wen",
       "title": "大师讲堂预告｜文再文：智能数学推理，从问题探索到形式化验证",
       "titleEn": "Distinguished Lecture Preview | Zaiwen Wen: Intelligent Mathematical Reasoning, from Problem Exploration to Formal Verification",
