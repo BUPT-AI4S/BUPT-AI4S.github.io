@@ -3,6 +3,7 @@ import argparse
 import csv
 import json
 import subprocess
+from urllib.parse import urlparse
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -65,6 +66,21 @@ def summarize_owners(sources, activity):
     return sorted(rows.values(), key=lambda r: (STATUS_ORDER.get(r['status'], 3), -r['sources'], r['owner']))
 
 
+def abstract_not_required(record):
+    requirement = record.get('abstract_requirement') or {}
+    if not isinstance(requirement, dict): return False
+    links = requirement.get('evidence_urls')
+    try:
+        has_evidence = isinstance(links, list) and any(
+            isinstance(u, str) and urlparse(u).scheme == 'https' and urlparse(u).netloc for u in links)
+    except ValueError:
+        return False
+    return (requirement.get('status') == 'not_required'
+            and requirement.get('reason') == 'official_source_has_no_independent_abstract'
+            and bool(requirement.get('checked_at')) and bool(requirement.get('checked_by'))
+            and has_evidence)
+
+
 def build(root):
     root = Path(root)
     try:
@@ -97,6 +113,7 @@ def build(root):
             assignments = {r['code']: r for r in assignment_doc['sources']}
             if len(assignments) != len(assignment_doc['sources']): raise ValueError('Duplicate source assignments')
         candidate_counts, candidate_missing = Counter(), Counter()
+        candidate_records = []
         if candidate_path.exists():
             candidate_records = read_json(candidate_path)
             if not isinstance(candidate_records, list): raise ValueError(f'Invalid AI4S candidates: {candidate_path}')
@@ -124,6 +141,7 @@ def build(root):
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
+        abstract_exemption_reviews = set()
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
             if not isinstance(records, list): continue
@@ -134,6 +152,11 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                if (decision == 'exclude' and snapshot.get('captured_at')
+                        and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']
+                        and abstract_not_required({'abstract_requirement': review.get('abstract_requirement')})):
+                    abstract_exemption_reviews.add(key)
                 if review.get('snapshot_at') != snapshot.get('captured_at'):
                     warning = '逐篇交付与当前采集快照不同或未标注，需核对批次后再比较。'
                     if warning not in source_map[code]['issues']:
@@ -154,6 +177,19 @@ def build(root):
                     rel = path.relative_to(root).as_posix()
                     if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
+        # Keep physical missingness, but distinguish verified non-actionable records.
+        no_abstract_required = Counter()
+        for record in candidate_records:
+            if not isinstance(record, dict) or record.get('year') != year: continue
+            key = (record.get('venue'), record.get('id'))
+            abstract = record.get('abstract')
+            if (key in abstract_exemption_reviews and key not in conflicts and seen.get(key) == 'exclude'
+                    and (not isinstance(abstract, str) or not abstract.strip()) and abstract_not_required(record)):
+                no_abstract_required[key[0]] += 1
+        for code, source in source_map.items():
+            source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
+            missing = source['missing_abstract']
+            source['abstract_supplement_required'] = max(0, missing - no_abstract_required[code]) if missing is not None else None
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
@@ -220,7 +256,7 @@ def build(root):
             elif s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，记录统计口径及证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
-            if s['missing_abstract'] is not None and s['missing_abstract'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['missing_abstract'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
+            if s['abstract_supplement_required'] is not None and s['abstract_supplement_required'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['abstract_supplement_required'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
         owner_rows = summarize_owners(source_map.values(), activity['owners'])

@@ -1,6 +1,47 @@
 import json, tempfile, unittest
+from copy import deepcopy
 from pathlib import Path
 from tools.build_review_monitor import build
+
+class OfficialNoAbstractTest(unittest.TestCase):
+    def test_verified_exclusion_is_not_actionable_but_raw_missingness_is_retained(self):
+        requirement = {'status':'not_required','reason':'official_source_has_no_independent_abstract',
+                       'checked_at':'2026-11-13','checked_by':'A','evidence_urls':['https://publisher.example/article']}
+        candidate = {'venue':'v','year':2024,'id':'1','abstract':None,'abstract_requirement':requirement}
+        review = {'venue':'v','year':2024,'id':'1','ai4s_review':{
+            'decision':'exclude','owner':'A','snapshot_at':'current','abstract_requirement':requirement}}
+        cases = [('verified', candidate, review, None, 0)]
+        for field in ('evidence_urls','reason','checked_at','checked_by'):
+            c = deepcopy(candidate); del c['abstract_requirement'][field]
+            cases.append((field, c, review, None, 1))
+        for links in ([], ['https://['], ['not a URL']):
+            c = deepcopy(candidate); c['abstract_requirement']['evidence_urls'] = links
+            cases.append(('invalid evidence '+str(links), c, review, None, 1))
+        for field, value in [('decision','include'),('snapshot_at','old'),('owner','B')]:
+            r = deepcopy(review); r['ai4s_review'][field] = value
+            cases.append((field, candidate, r, None, 1))
+        r = deepcopy(review); del r['ai4s_review']['abstract_requirement']
+        cases.append(('unverified review', candidate, r, None, 1))
+        r = deepcopy(review); r['ai4s_review']['decision'] = 'pending'
+        cases.append(('conflicting review', candidate, review, r, 1))
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/feedback').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'current',
+                'sources':[{'source':'v','state':'completed','papers':1}]}), encoding='utf8')
+            (p/'reviews/source-assignments-2024.json').write_text(json.dumps({'year':2024,
+                'sources':[{'code':'v','owner':'A'}]}), encoding='utf8')
+            (p/'reviews/2024/feedback/a.json').write_text(json.dumps({'year':2024,'source_code':'v',
+                'snapshot_at':'current','official_total':1,'official_scope':'all types'}), encoding='utf8')
+            for name, c, r, extra, expected in cases:
+                with self.subTest(name=name):
+                    (p/'metadata/2024/ai4s.json').write_text(json.dumps([c]), encoding='utf8')
+                    (p/'reviews/2024/a.json').write_text(json.dumps([r]+([extra] if extra else [])), encoding='utf8')
+                    s = build(p)['years'][0]['sources'][0]
+                    self.assertEqual(s['missing_abstract'], 1)
+                    self.assertEqual(s['abstract_supplement_required'], expected)
+                    self.assertEqual(s['abstract_not_required'], 1-expected)
+                    self.assertEqual(any('AI4S候选缺少摘要' in x for x in s['issues']), bool(expected))
+                    if name == 'verified': self.assertEqual(s['issues'], [])
 
 class MonitorTest(unittest.TestCase):
     def test_snapshot_review_and_feedback_keep_unknown_distinct(self):
