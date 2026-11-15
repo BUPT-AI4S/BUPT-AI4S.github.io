@@ -123,3 +123,33 @@ class WithdrawnOnlyNormalizationTest(unittest.TestCase):
             with self.subTest(key=key):
                 x=self.fixture();x[6]['raw_only_before_overlay'][0]['withdrawal_evidence'].pop(key)
                 self.assertTrue(NonresearchOverlayTest().render(x)[0]['issues'])
+
+
+class EmptyCatalogueCandidateTest(unittest.TestCase):
+    def fixture(self):
+        x=HistoricalAbstractStateTest().fixture()
+        x[1].clear();x[2].clear()
+        x[3].update(candidate_count=0,own_review_count=0,work_status='complete',
+            own_review_counts=dict.fromkeys(('include','exclude','pending','unreviewed'),0))
+        x[3]['collection_state_resolution']['reason']='full_catalogue_no_candidates'
+        return x
+
+    def test_explicit_audited_zero_candidates_close_without_placeholder_reviews(self):
+        source,other=HistoricalAbstractStateTest().render(self.fixture())
+        self.assertEqual(source['issues'],[])
+        self.assertEqual(source['candidates'],0)
+        self.assertEqual(source['state'],'abstract_incomplete')
+        self.assertTrue(other['issues'])
+
+    def test_empty_missing_or_nonzero_work_is_not_implicitly_complete(self):
+        cases=[lambda x:x[3].pop('candidate_count'),
+            lambda x:x[3].update(own_review_count=1),
+            lambda x:x[3].update(work_status='partial'),
+            lambda x:x[3]['own_review_counts'].update(pending=1),
+            lambda x:x[3]['catalogue_reconciliation'].update(same_scope_missing=1),
+            lambda x:x[3].update(official_total=3),
+            lambda x:x[3]['collection_state_resolution'].update(reason='full_catalogue_abstract_gap_candidates_complete'),
+            lambda x:x[1].append({'year':2025,'venue':'v','id':'one','abstract':'Original abstract'})]
+        for change in cases:
+            x=self.fixture();change(x)
+            self.assertTrue(HistoricalAbstractStateTest().render(x)[0]['issues'])

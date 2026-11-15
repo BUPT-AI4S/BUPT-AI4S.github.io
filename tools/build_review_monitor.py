@@ -269,7 +269,8 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews,
             or resolution.get('original_state') != source['state']
             or resolution.get('reason') not in ('full_catalogue_abstract_gap_candidates_complete',
                 'full_catalogue_with_nonresearch_additions_candidates_complete',
-                'full_catalogue_with_documented_normalization_candidates_complete')
+                'full_catalogue_with_documented_normalization_candidates_complete',
+                'full_catalogue_no_candidates')
             or resolution.get('checked_by') != source['owner']
             or not resolution.get('checked_at')
             or source['abstract_supplement_required'] != 0
@@ -283,7 +284,7 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews,
         return False
     reconciliation = row.get('catalogue_reconciliation')
     if not isinstance(reconciliation, dict): return False
-    if resolution['reason'] == 'full_catalogue_abstract_gap_candidates_complete':
+    if resolution['reason'] in ('full_catalogue_abstract_gap_candidates_complete', 'full_catalogue_no_candidates'):
         if (source['official_total'] != source['papers']
                 or any(reconciliation.get(k) != 0 for k in ('same_scope_missing','same_scope_extra','same_scope_duplicate'))): return False
     elif resolution['reason'] == 'full_catalogue_with_documented_normalization_candidates_complete':
@@ -294,7 +295,17 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews,
     if reconciliation.get('current_raw_count') != source['papers']: return False
     records = [r for r in candidates if isinstance(r, dict) and r.get('venue') == source['code']]
     ids = [r.get('id') for r in records]
-    if not ids or not all(ids) or len(set(ids)) != len(ids): return False
+    if not ids:
+        return (resolution['reason'] == 'full_catalogue_no_candidates'
+                and source.get('candidates') == 0
+                and row.get('candidate_count') == 0
+                and row.get('own_review_count') == 0
+                and row.get('work_status') == 'complete'
+                and row.get('own_review_counts') == dict.fromkeys(('include','exclude','pending','unreviewed'), 0)
+                and not any(key[0] == source['code'] for key in completed_reviews)
+                and not any((source['decisions'] or {}).values()))
+    if resolution['reason'] == 'full_catalogue_no_candidates': return False
+    if not all(ids) or len(set(ids)) != len(ids): return False
     decisions = source['decisions'] or {}
     return (not decisions.get('pending') and not decisions.get('unreviewed')
             and all((source['code'], key) in completed_reviews for key in ids))
