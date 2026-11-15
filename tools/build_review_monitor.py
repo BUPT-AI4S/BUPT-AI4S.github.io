@@ -81,7 +81,170 @@ def abstract_not_required(record):
             and has_evidence)
 
 
-def historical_abstract_gap_resolved(source, row, candidates, completed_reviews):
+def owner_closed_abstract(record, owner):
+    """An explicit access-limited exclusion is distinct from an absent publisher abstract."""
+    proof = record.get('abstract_requirement')
+    if not isinstance(proof, dict): return False
+    links = proof.get('evidence_urls')
+    try:
+        evidence = isinstance(links, list) and any(isinstance(u, str)
+            and urlparse(u).scheme == 'https' and urlparse(u).netloc for u in links)
+    except ValueError:
+        return False
+    return (proof.get('status') == 'closed_by_owner'
+            and proof.get('reason') == 'access_restricted_excluded_by_owner'
+            and proof.get('checked_by') == owner and bool(proof.get('checked_at'))
+            and bool(proof.get('user_instruction')) and bool(proof.get('access_status'))
+            and evidence)
+
+
+def catalogue_audit_inputs(root, year, source, row):
+    """Read a self-contained owner audit in sparse builds, otherwise full source evidence."""
+    audit = row.get('catalogue_audit')
+    if audit is not None:
+        if (not isinstance(audit, dict) or audit.get('source_code') != source['code']
+                or audit.get('year') != year or audit.get('owner') != source['owner']
+                or audit.get('snapshot_at') != source['snapshot_at']
+                or audit.get('details_file') != f"metadata/{source['code']}/{year}/catalogue-reconciliation.json"
+                or not isinstance(audit.get('input_main_commit'),str) or len(audit['input_main_commit']) != 40
+                or any(c not in '0123456789abcdef' for c in audit['input_main_commit'])
+                or not isinstance(audit.get('raw_sha256'),str) or len(audit['raw_sha256']) != 64
+                or any(c not in '0123456789abcdef' for c in audit['raw_sha256'])):
+            raise ValueError('Invalid self-contained catalogue audit')
+        return audit.get('raw_identities'), audit.get('additions'), audit.get('report')
+    directory = Path(root) / 'metadata' / source['code'] / str(year)
+    return (read_json(directory / 'papers.json'), read_json(directory / 'catalogue-additions.json'),
+            read_json(directory / 'catalogue-reconciliation.json'))
+
+
+def verified_catalogue_normalization(root, year, source, row):
+    """Verify a documented nonresearch addition and withdrawn unassigned raw extra."""
+    if root is None or type(year) is not int: return False
+    code = source['code']
+    if not isinstance(code, str) or '/' in code or code in ('.', '..'): return False
+    try:
+        raw, additions, report = catalogue_audit_inputs(root, year, source, row)
+    except (OSError, ValueError, TypeError): return False
+    if not isinstance(report, dict) or not isinstance(raw, list) or not isinstance(additions, list): return False
+    official = report.get('matched_canonical_records')
+    canonical = report.get('canonical_resolution')
+    if not isinstance(official, list) or not isinstance(canonical, dict): return False
+    if (report.get('source_code') != code or report.get('year') != year
+            or report.get('owner') != source['owner'] or report.get('snapshot_at') != source['snapshot_at']
+            or report.get('official_total') != source['official_total']
+            or canonical.get('status') != 'complete' or canonical.get('canonical_missing') != []
+            or canonical.get('canonical_extra') != [] or report.get('raw_page_differences') != []): return False
+    def unique(records):
+        if not all(isinstance(x, dict) and isinstance(x.get('id'), str) and x['id'] for x in records): return None
+        result = {x['id']: x for x in records}
+        return result if len(result) == len(records) else None
+    raw_by, add_by, official_by = unique(raw), unique(additions), unique(official)
+    removed = canonical.get('excluded_raw_ids')
+    extras = report.get('raw_only_before_overlay')
+    missing = report.get('raw_missing_before_overlay')
+    if (raw_by is None or add_by is None or official_by is None or not add_by
+            or not isinstance(removed, list) or not removed or not all(isinstance(x,str) for x in removed)
+            or len(set(removed)) != len(removed) or not set(removed) <= raw_by.keys()
+            or raw_by.keys() & add_by.keys() or len(raw_by) != source['papers']
+            or (raw_by.keys() - set(removed)) | add_by.keys() != official_by.keys()
+            or len(official_by) != source['official_total'] or canonical.get('canonical_total') != len(official_by)
+            or not isinstance(extras, list) or not all(isinstance(x,dict) for x in extras)
+            or {x.get('id') for x in extras} != set(removed) or len(extras) != len(removed)
+            or not isinstance(missing, list) or len(missing) != len(additions)
+            or not all(isinstance(x,dict) for x in missing)
+            or any(x.get('venue') != code or x.get('year') != year for x in raw)): return False
+    rec = row.get('catalogue_reconciliation') or {}
+    if (rec.get('same_scope_missing') != len(additions) or rec.get('same_scope_extra') != len(removed)
+            or rec.get('same_scope_duplicate') != 0 or rec.get('canonical_missing') != 0
+            or rec.get('canonical_extra') != 0 or rec.get('canonical_total') != len(official_by)): return False
+    for id in removed:
+        if not raw_by[id].get('title', '').startswith('WITHDRAWN:'): return False
+    link = canonical.get('evidence_url')
+    if not isinstance(link,str) or not link.startswith('https://www.sciencedirect.com/science/article/pii/'): return False
+    if not canonical.get('excluded_raw_reason') or not all(x.get('pii') and link.endswith(x['pii']) for x in extras): return False
+    for id, item in add_by.items():
+        entry = official_by[id]
+        if (item.get('venue') != code or item.get('year') != year
+                or item.get('article_type') not in ('Corrigendum', 'Erratum', 'Correction')
+                or item.get('screening_disposition') != 'exclude_non_original_corrigendum'
+                or item.get('title') != entry.get('title') or item.get('pii') != entry.get('pii')
+                or item.get('url') != entry.get('url') or item.get('url') not in item.get('evidence_urls', [])
+                or not any(x.get('pii') == item.get('pii') for x in missing if isinstance(x,dict))): return False
+    return True
+
+
+def verified_nonresearch_additions(root, year, source, row):
+    """Accept only a complete, identity-matched official overlay of excluded nonresearch items."""
+    if root is None or type(year) is not int: return False
+    code = source['code']
+    if not isinstance(code, str) or '/' in code or code in ('.', '..'): return False
+    try:
+        raw, additions, report = catalogue_audit_inputs(root, year, source, row)
+    except (OSError, ValueError, TypeError):
+        return False
+    if (not isinstance(raw, list) or not isinstance(additions, list) or not additions
+            or not isinstance(report, dict) or not isinstance(report.get('rows'), list)
+            or not isinstance(report.get('missing'), list)):
+        return False
+    if (report.get('source_code') != code or report.get('year') != year
+            or report.get('owner') != source['owner']
+            or report.get('snapshot_at') != source['snapshot_at']
+            or report.get('official_total') != source['official_total']
+            or report.get('extra') != [] or report.get('duplicates') != 0):
+        return False
+    def ids(records):
+        values = [r.get('id') for r in records if isinstance(r, dict)]
+        if (len(values) != len(records) or not all(isinstance(v, str) and v for v in values)
+                or len(set(values)) != len(values)):
+            return None
+        return set(values)
+    raw_ids, add_ids, official_ids = ids(raw), ids(additions), ids(report['rows'])
+    if (raw_ids is None or add_ids is None or official_ids is None
+            or len(raw_ids) != source['papers'] or raw_ids & add_ids
+            or raw_ids | add_ids != official_ids
+            or len(official_ids) != source['official_total']
+            or not all(isinstance(v, str) for v in report['missing'])
+            or len(report['missing']) != len(additions)
+            or set(report['missing']) != add_ids
+            or any(r.get('venue') != code or r.get('year') != year for r in raw)):
+        return False
+    reconciliation = row.get('catalogue_reconciliation') or {}
+    if (reconciliation.get('same_scope_missing') != len(additions)
+            or reconciliation.get('verified_nonresearch_additions') != len(additions)
+            or reconciliation.get('canonical_unresolved_missing') != 0):
+        return False
+    nonresearch = {'Research Highlight', 'Milestone', 'Milestones', 'Nature Briefing',
+                   'Author Correction', 'Publisher Correction', 'Correction',
+                   'Research Briefing', 'Editorial', 'News', 'News & Views', 'Comment'}
+    official = {r['id']: r for r in report['rows']}
+    for record in additions:
+        proof = record.get('catalogue_supplement')
+        entry = official[record['id']]
+        if not isinstance(proof, dict): return False
+        links = proof.get('evidence_urls')
+        if (record.get('venue') != code or record.get('year') != year
+                or record.get('document_type') not in nonresearch
+                or record.get('document_type') != entry.get('type')
+                or not record.get('title') or record['title'] != entry.get('title')
+                or record.get('url') != entry.get('url')
+                or record.get('published') != entry.get('date')
+                or proof.get('owner') != source['owner']
+                or proof.get('snapshot_at') != source['snapshot_at']
+                or not proof.get('checked_at')
+                or proof.get('reason') != 'official_catalogue_item_missing_from_fixed_raw'
+                or proof.get('disposition') not in ('exclude_nonoriginal',
+                    'exclude_nonoriginal_research_highlight')
+                or not isinstance(links, list) or entry.get('url') not in links):
+            return False
+        try:
+            parsed = urlparse(record['url'])
+            if parsed.scheme != 'https' or not parsed.netloc: return False
+        except ValueError:
+            return False
+    return True
+
+
+def historical_abstract_gap_resolved(source, row, candidates, completed_reviews, root=None, year=None):
     """Resolve only an explicitly audited historical full-catalogue abstract gap."""
     resolution = row.get('collection_state_resolution')
     if not isinstance(resolution, dict): return False
@@ -89,11 +252,13 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews)
             or row.get('owner') != source['owner']
             or resolution.get('status') != 'resolved_for_candidate_review'
             or resolution.get('original_state') != source['state']
-            or resolution.get('reason') != 'full_catalogue_abstract_gap_candidates_complete'
+            or resolution.get('reason') not in ('full_catalogue_abstract_gap_candidates_complete',
+                'full_catalogue_with_nonresearch_additions_candidates_complete',
+                'full_catalogue_with_documented_normalization_candidates_complete')
             or resolution.get('checked_by') != source['owner']
             or not resolution.get('checked_at')
             or source['abstract_supplement_required'] != 0
-            or source['official_total'] != source['papers'] or not source['official_scope']):
+            or not source['official_scope']):
         return False
     links = resolution.get('evidence_urls')
     try:
@@ -103,7 +268,13 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews)
         return False
     reconciliation = row.get('catalogue_reconciliation')
     if not isinstance(reconciliation, dict): return False
-    if any(reconciliation.get(k) != 0 for k in ('same_scope_missing', 'same_scope_extra', 'same_scope_duplicate')):
+    if resolution['reason'] == 'full_catalogue_abstract_gap_candidates_complete':
+        if (source['official_total'] != source['papers']
+                or any(reconciliation.get(k) != 0 for k in ('same_scope_missing','same_scope_extra','same_scope_duplicate'))): return False
+    elif resolution['reason'] == 'full_catalogue_with_documented_normalization_candidates_complete':
+        if not verified_catalogue_normalization(root, year, source, row): return False
+    elif any(reconciliation.get(k) != 0 for k in ('same_scope_extra', 'same_scope_duplicate')): return False
+    elif not verified_nonresearch_additions(root, year, source, row):
         return False
     if reconciliation.get('current_raw_count') != source['papers']: return False
     records = [r for r in candidates if isinstance(r, dict) and r.get('venue') == source['code']]
@@ -175,6 +346,7 @@ def build(root):
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
         abstract_exemption_reviews = set()
+        owner_closed_reviews = {}
         completed_reviews = set()
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
@@ -186,6 +358,10 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                if (decision == 'exclude' and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and snapshot.get('captured_at') and review.get('owner') == source_map[code]['owner']
+                        and owner_closed_abstract(review, source_map[code]['owner'])):
+                    owner_closed_reviews[key] = review['abstract_requirement']
                 if (decision in ('include', 'exclude') and snapshot.get('captured_at')
                         and review.get('snapshot_at') == snapshot.get('captured_at')
                         and review.get('owner') == source_map[code]['owner']):
@@ -217,6 +393,7 @@ def build(root):
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
         # Keep physical missingness, but distinguish verified non-actionable records.
         no_abstract_required = Counter()
+        owner_closed = Counter()
         for record in candidate_records:
             if not isinstance(record, dict) or record.get('year') != year: continue
             key = (record.get('venue'), record.get('id'))
@@ -224,10 +401,16 @@ def build(root):
             if (key in abstract_exemption_reviews and key not in conflicts and seen.get(key) == 'exclude'
                     and (not isinstance(abstract, str) or not abstract.strip()) and abstract_not_required(record)):
                 no_abstract_required[key[0]] += 1
+            elif (key in owner_closed_reviews and key not in conflicts and seen.get(key) == 'exclude'
+                    and (not isinstance(abstract, str) or not abstract.strip())
+                    and record.get('abstract_requirement') == owner_closed_reviews[key]
+                    and owner_closed_abstract(record, source_map[key[0]]['owner'])):
+                owner_closed[key[0]] += 1
         for code, source in source_map.items():
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
+            source['abstract_closed_by_owner'] = owner_closed[code] if candidate_path.exists() else None
             missing = source['missing_abstract']
-            source['abstract_supplement_required'] = max(0, missing - no_abstract_required[code]) if missing is not None else None
+            source['abstract_supplement_required'] = max(0, missing - no_abstract_required[code] - owner_closed[code]) if missing is not None else None
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
@@ -299,7 +482,7 @@ def build(root):
         for s in source_map.values():
             resolution_row = resolution_rows.get(s['code'], {})
             if historical_abstract_gap_resolved(s, resolution_row, [r for r in candidate_records
-                    if isinstance(r, dict) and r.get('year') == year], completed_reviews):
+                    if isinstance(r, dict) and r.get('year') == year], completed_reviews, root, year):
                 s['collection_state_resolution'] = resolution_row['collection_state_resolution']
             if not s['owner']: s['issues'].append('负责人尚未明确。'); s['actions'].append('确认并登记负责人。')
             if s['state'] == 'unknown': s['issues'].append('缺少该年份的采集快照，采集总数和状态未知。'); s['actions'].append('提交或更新年度采集快照，核对采集范围和状态。')
