@@ -24,6 +24,8 @@
 
 `year`、`source_code` 和 `snapshot_at` 必填，快照存在时，快照时间必须与该年 `metadata/<年份>/snapshot.json` 的 `captured_at` 完全一致；不一致的反馈会提示重新核对。若快照尚未上传，可暂填 `null` 并保留问题和行动；官网总数待快照补齐并核对口径后才进入汇总。无法确认的 `official_total` 填 `null`，不得填零代替未知。记录官网统计的文献类型、年份口径，给出可核验链接；官网数与采集数只有在口径相同时才能比较。摘要、文献类型和来源取数范围的差异都须在说明中写清。
 
+官网无法核验时，使用适合该刊会的 Crossref、OpenAlex、DBLP 或 Europe PMC 等来源同口径逐项对账；对账完成且差异已处理后，在反馈对象增加 `reference_check`，例如：`{"status":"complete","source":"Crossref","total":733,"scope":"2024 正式出版年研究及综述论文","query_url":"https://api.crossref.org/example","checked_at":"2026-11-15","unresolved":0}`。示例数字和链接仅用于说明格式。填写实际来源、参考总数、统计口径、可复现查询链接、核对日期和未解决差异数；只有 `status` 为 `complete`、`unresolved` 为 0、必填字段齐全且反馈匹配当前快照时，才按替代来源核对完成处理。`official_total` 保持 `null`，不要把参考数写成官网数。完成后清除已解决的旧问题和行动；其他摘要、精筛及未决差异仍须处理。
+
 `issues`、`next_actions` 使用字符串数组；行动须具体、可执行。针对摘要缺失，仅说明 AI4S 候选中的缺失情况、补充来源和处理计划；针对精筛，继续在 `reviews/<年份>/<用户名>.json` 中逐篇交付 `include`、`exclude`、`pending` 或 `unreviewed`。在刊会核验表中继续维护负责人和来源结论。原始论文字段及正式核验证据应按团队既有交付规范保留。
 
 ## 数字口径与限制
