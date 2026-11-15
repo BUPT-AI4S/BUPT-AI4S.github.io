@@ -142,7 +142,7 @@ def verified_catalogue_normalization(root, year, source, row):
     removed = canonical.get('excluded_raw_ids')
     extras = report.get('raw_only_before_overlay')
     missing = report.get('raw_missing_before_overlay')
-    if (raw_by is None or add_by is None or official_by is None or not add_by
+    if (raw_by is None or add_by is None or official_by is None
             or not isinstance(removed, list) or not removed or not all(isinstance(x,str) for x in removed)
             or len(set(removed)) != len(removed) or not set(removed) <= raw_by.keys()
             or raw_by.keys() & add_by.keys() or len(raw_by) != source['papers']
@@ -159,9 +159,24 @@ def verified_catalogue_normalization(root, year, source, row):
             or rec.get('canonical_extra') != 0 or rec.get('canonical_total') != len(official_by)): return False
     for id in removed:
         if not raw_by[id].get('title', '').startswith('WITHDRAWN:'): return False
+    if not canonical.get('excluded_raw_reason'): return False
     link = canonical.get('evidence_url')
-    if not isinstance(link,str) or not link.startswith('https://www.sciencedirect.com/science/article/pii/'): return False
-    if not canonical.get('excluded_raw_reason') or not all(x.get('pii') and link.endswith(x['pii']) for x in extras): return False
+    if link:
+        if (not isinstance(link,str) or not link.startswith('https://www.sciencedirect.com/science/article/pii/')
+                or not all(x.get('pii') and link.endswith(x['pii']) for x in extras)): return False
+    else:
+        for item in extras:
+            proof = item.get('withdrawal_evidence')
+            if (not isinstance(proof,dict) or proof.get('status') != 'withdrawn_unassigned_online'
+                    or proof.get('id') != item['id'] or proof.get('pii') != item.get('pii')
+                    or not item.get('pii') or not proof.get('checked_at')
+                    or proof.get('checked_by') != source['owner']
+                    or not proof.get('publisher_withdrawal_notice')
+                    or not isinstance(proof.get('evidence_urls'),list)
+                    or not any(isinstance(u,str) and (u.startswith('https://pubmed.ncbi.nlm.nih.gov/')
+                        or u.startswith('https://www.journal-of-hepatology.eu/article/')
+                        or u.startswith('https://www.sciencedirect.com/science/article/pii/'))
+                        for u in proof['evidence_urls'])): return False
     for id, item in add_by.items():
         entry = official_by[id]
         if (item.get('venue') != code or item.get('year') != year
