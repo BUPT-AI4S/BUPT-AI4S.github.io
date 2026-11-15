@@ -97,3 +97,29 @@ class SparseCatalogueAuditTest(unittest.TestCase):
                 with self.subTest(fixture=fixture,key=key):
                     y=deepcopy(x);y[3]['catalogue_audit'][key]=value
                     self.assertTrue(NonresearchOverlayTest().render(y,False)[0]['issues'])
+
+
+class WithdrawnOnlyNormalizationTest(unittest.TestCase):
+    def fixture(self):
+        x=NormalizedCatalogueTest().fixture();s,c,r,f,raw,adds,report=x
+        adds.clear();f['official_total']=1
+        f['catalogue_reconciliation'].update(same_scope_missing=0,canonical_total=1)
+        report.update(official_total=1,matched_canonical_records=[{'id':'one'}],raw_missing_before_overlay=[])
+        report['canonical_resolution'].update(canonical_total=1)
+        report['canonical_resolution'].pop('evidence_url')
+        report['raw_only_before_overlay'][0]['withdrawal_evidence']={
+            'status':'withdrawn_unassigned_online','id':'two','pii':'P2','checked_at':'2026-11-15',
+            'checked_by':'A','publisher_withdrawal_notice':'Withdrawn due to publisher error',
+            'evidence_urls':['https://pubmed.ncbi.nlm.nih.gov/123/']}
+        return x
+
+    def test_no_addition_is_needed_when_all_difference_is_verified_withdrawal(self):
+        source=NonresearchOverlayTest().render(self.fixture())[0]
+        self.assertEqual(source['issues'],[])
+        self.assertEqual(source['papers'],2);self.assertEqual(source['official_total'],1)
+
+    def test_no_unverified_extra_can_be_dismissed(self):
+        for key in ['status','id','pii','checked_at','checked_by','publisher_withdrawal_notice','evidence_urls']:
+            with self.subTest(key=key):
+                x=self.fixture();x[6]['raw_only_before_overlay'][0]['withdrawal_evidence'].pop(key)
+                self.assertTrue(NonresearchOverlayTest().render(x)[0]['issues'])
