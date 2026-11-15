@@ -44,6 +44,31 @@ class OfficialNoAbstractTest(unittest.TestCase):
                     if name == 'verified': self.assertEqual(s['issues'], [])
 
 class MonitorTest(unittest.TestCase):
+    def test_reference_check_can_complete_without_claiming_official_total(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/feedback').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'same','sources':[{'source':'v','state':'completed','papers':10,'ai4s':1}]}),encoding='utf8')
+            (p/'reviews/venue-review.csv').write_text('source_code,title,owner,是否建议纳入\nv,Venue,A,建议纳入\n',encoding='utf8')
+            (p/'reviews/2024/a.json').write_text(json.dumps([{'venue':'v','year':2024,'id':'1','ai4s_review':{'decision':'include','snapshot_at':'same'}}]),encoding='utf8')
+            check={'status':'complete','source':'Crossref','total':10,'scope':'2024 research articles','query_url':'https://api.crossref.org/example','checked_at':'2026-11-15','unresolved':0}
+            feedback={'year':2024,'source_code':'v','snapshot_at':'same','reference_check':check,'issues':[],'next_actions':[]}
+            path=p/'reviews/2024/feedback/a.json'; path.write_text(json.dumps(feedback),encoding='utf8')
+            year=build(p)['years'][0]; row=year['sources'][0]
+            self.assertIsNone(row['official_total']); self.assertEqual(row['reference_check'],check)
+            self.assertFalse(any('官网同口径总数尚未确认' in i for i in row['issues']))
+            self.assertEqual(year['owners'][0]['status'],'complete')
+            feedback['snapshot_at']='old'; path.write_text(json.dumps(feedback),encoding='utf8')
+            self.assertTrue(any('官网同口径总数尚未确认' in i for i in build(p)['years'][0]['sources'][0]['issues']))
+
+    def test_incomplete_reference_check_does_not_clear_action(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/feedback').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'same','sources':[{'source':'v','state':'completed','papers':10,'ai4s':0}]}),encoding='utf8')
+            check={'status':'complete','source':'Crossref','total':10,'scope':'2024 research articles','query_url':'https://api.crossref.org/example','checked_at':'2026-11-15','unresolved':1}
+            (p/'reviews/2024/feedback/a.json').write_text(json.dumps({'year':2024,'source_code':'v','snapshot_at':'same','reference_check':check}),encoding='utf8')
+            row=build(p)['years'][0]['sources'][0]
+            self.assertTrue(any('官网同口径总数尚未确认' in i for i in row['issues']))
+
     def test_snapshot_review_and_feedback_keep_unknown_distinct(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024').mkdir(parents=True)
