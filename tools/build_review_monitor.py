@@ -81,6 +81,39 @@ def abstract_not_required(record):
             and has_evidence)
 
 
+def historical_abstract_gap_resolved(source, row, candidates, completed_reviews):
+    """Resolve only an explicitly audited historical full-catalogue abstract gap."""
+    resolution = row.get('collection_state_resolution')
+    if not isinstance(resolution, dict): return False
+    if (source['state'] != 'abstract_incomplete' or source['issues']
+            or row.get('owner') != source['owner']
+            or resolution.get('status') != 'resolved_for_candidate_review'
+            or resolution.get('original_state') != source['state']
+            or resolution.get('reason') != 'full_catalogue_abstract_gap_candidates_complete'
+            or resolution.get('checked_by') != source['owner']
+            or not resolution.get('checked_at')
+            or source['abstract_supplement_required'] != 0
+            or source['official_total'] != source['papers'] or not source['official_scope']):
+        return False
+    links = resolution.get('evidence_urls')
+    try:
+        if not isinstance(links, list) or not any(isinstance(u, str) and urlparse(u).scheme == 'https'
+                and urlparse(u).netloc for u in links): return False
+    except ValueError:
+        return False
+    reconciliation = row.get('catalogue_reconciliation')
+    if not isinstance(reconciliation, dict): return False
+    if any(reconciliation.get(k) != 0 for k in ('same_scope_missing', 'same_scope_extra', 'same_scope_duplicate')):
+        return False
+    if reconciliation.get('current_raw_count') != source['papers']: return False
+    records = [r for r in candidates if isinstance(r, dict) and r.get('venue') == source['code']]
+    ids = [r.get('id') for r in records]
+    if not ids or not all(ids) or len(set(ids)) != len(ids): return False
+    decisions = source['decisions'] or {}
+    return (not decisions.get('pending') and not decisions.get('unreviewed')
+            and all((source['code'], key) in completed_reviews for key in ids))
+
+
 def build(root):
     root = Path(root)
     try:
@@ -142,6 +175,7 @@ def build(root):
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
         abstract_exemption_reviews = set()
+        completed_reviews = set()
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
             if not isinstance(records, list): continue
@@ -152,6 +186,10 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                if (decision in ('include', 'exclude') and snapshot.get('captured_at')
+                        and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']):
+                    completed_reviews.add(key)
                 if (decision == 'exclude' and snapshot.get('captured_at')
                         and review.get('snapshot_at') == snapshot.get('captured_at')
                         and review.get('owner') == source_map[code]['owner']
@@ -234,6 +272,7 @@ def build(root):
                     if action: s['actions'].append(action)
                     links = [v.strip() for v in (row.get('official_urls') or '').split('|') if v.strip()]
                     s['evidence_urls'].extend(v for v in links if v not in s['evidence_urls'])
+        resolution_rows = {}
         for path in sorted((review_dir / 'feedback').glob('*.json')):
             obj = read_json(path); rows = obj if isinstance(obj,list) else [obj]
             for row in rows:
@@ -245,6 +284,9 @@ def build(root):
                 s['actions'].extend(str(x) for x in row.get('next_actions',[]) if isinstance(x,str))
                 if not snapshot.get('captured_at') or row.get('snapshot_at') != snapshot.get('captured_at'):
                     s['issues'].append('阶段反馈对应的采集快照缺失或不一致，需重新核对。'); continue
+                if (path.stem == row.get('github_username') and row.get('owner') == s['owner']
+                        and row.get('collection_state_resolution')):
+                    resolution_rows[s['code']] = row
                 total, scope = number(row.get('official_total')), str(row.get('official_scope') or '').strip()
                 if total is not None and total >= 0 and scope:
                     s['official_total'], s['official_scope'] = total, scope
@@ -255,9 +297,13 @@ def build(root):
                 s['coverage_note'] = str(row.get('coverage_note') or s['coverage_note'])
                 if isinstance(row.get('evidence_urls'), list): s['evidence_urls'].extend(x for x in row['evidence_urls'] if isinstance(x,str))
         for s in source_map.values():
+            resolution_row = resolution_rows.get(s['code'], {})
+            if historical_abstract_gap_resolved(s, resolution_row, [r for r in candidate_records
+                    if isinstance(r, dict) and r.get('year') == year], completed_reviews):
+                s['collection_state_resolution'] = resolution_row['collection_state_resolution']
             if not s['owner']: s['issues'].append('负责人尚未明确。'); s['actions'].append('确认并登记负责人。')
             if s['state'] == 'unknown': s['issues'].append('缺少该年份的采集快照，采集总数和状态未知。'); s['actions'].append('提交或更新年度采集快照，核对采集范围和状态。')
-            elif s['state'] not in ('completed','not_held'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
+            elif s['state'] not in ('completed','not_held') and not s.get('collection_state_resolution'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and not s['reference_check'] and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，或使用可靠替代来源完成同口径对账并记录证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
             if s['abstract_supplement_required'] is not None and s['abstract_supplement_required'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['abstract_supplement_required'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')

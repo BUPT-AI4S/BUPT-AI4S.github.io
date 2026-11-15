@@ -188,3 +188,71 @@ class ConferenceCrawlFeedbackTest(unittest.TestCase):
             self.assertIn('论文集访问受限',row['issues']); self.assertIn('核对 ACM 目录',row['actions'])
             self.assertIn('reviews/2024/reviewer/conference-crawl-check.csv',row['files'])
             self.assertIn('https://example.org',row['evidence_urls'])
+
+
+class HistoricalAbstractStateTest(unittest.TestCase):
+    def fixture(self):
+        return [
+            {'year':2025,'captured_at':'current','sources':[
+                {'source':'v','state':'abstract_incomplete','papers':2,'with_abstract':1},
+                {'source':'untouched','state':'abstract_incomplete','papers':2}]},
+            [{'year':2025,'venue':'v','id':'one','abstract':'Original abstract'}],
+            [{'year':2025,'venue':'v','id':'one','ai4s_review':{
+                'owner':'A','snapshot_at':'current','decision':'include'}}],
+            {'year':2025,'source_code':'v','owner':'A','github_username':'a',
+             'snapshot_at':'current','official_total':2,'official_scope':'all formal issues',
+             'catalogue_reconciliation':{'current_raw_count':2,'same_scope_missing':0,
+                'same_scope_extra':0,'same_scope_duplicate':0},
+             'collection_state_resolution':{'status':'resolved_for_candidate_review',
+                'original_state':'abstract_incomplete',
+                'reason':'full_catalogue_abstract_gap_candidates_complete',
+                'checked_at':'2026-11-15','checked_by':'A',
+                'evidence_urls':['https://publisher.example/toc']}}]
+
+    def render(self, fixture, filename='a'):
+        snapshot, candidates, reviews, feedback = fixture
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2025').mkdir(parents=True)
+            (p/'reviews/2025/feedback').mkdir(parents=True)
+            docs={'metadata/2025/snapshot.json':snapshot, 'metadata/2025/ai4s.json':candidates,
+                'reviews/source-assignments-2025.json':{'year':2025,'sources':[
+                    {'code':'v','owner':'A'},{'code':'untouched','owner':'A'}]},
+                'reviews/2025/a.json':reviews, f'reviews/2025/feedback/{filename}.json':feedback}
+            for path,obj in docs.items(): (p/path).write_text(json.dumps(obj),encoding='utf8')
+            return build(p)['years'][0]['sources']
+
+    def test_audited_source_closes_and_snapshot_state_is_retained(self):
+        source, untouched=self.render(self.fixture())
+        self.assertEqual(source['issues'],[])
+        self.assertEqual(source['state'],'abstract_incomplete')
+        self.assertIn('collection_state_resolution',source)
+        self.assertIn('采集状态尚未完成：abstract_incomplete',untouched['issues'])
+        self.assertNotIn('collection_state_resolution',untouched)
+
+    def test_invalid_audits_retain_state_issue(self):
+        cases=[
+            ('no resolution',lambda s,c,r,f:f.pop('collection_state_resolution')),
+            ('failed state',lambda s,c,r,f:s['sources'][0].update(state='failed')),
+            ('missing abstract',lambda s,c,r,f:c[0].update(abstract=None)),
+            ('missing review',lambda s,c,r,f:r[0].update(id='different')),
+            ('pending',lambda s,c,r,f:r[0]['ai4s_review'].update(decision='pending')),
+            ('wrong reviewer',lambda s,c,r,f:r[0]['ai4s_review'].update(owner='B')),
+            ('old review',lambda s,c,r,f:r[0]['ai4s_review'].update(snapshot_at='old')),
+            ('old feedback',lambda s,c,r,f:f.update(snapshot_at='old')),
+            ('wrong owner',lambda s,c,r,f:f.update(owner='B')),
+            ('different total',lambda s,c,r,f:f.update(official_total=3)),
+            ('catalogue gap',lambda s,c,r,f:f['catalogue_reconciliation'].update(same_scope_missing=1)),
+            ('no reconciliation',lambda s,c,r,f:f.pop('catalogue_reconciliation')),
+            ('blocker',lambda s,c,r,f:f.update(issues=['unresolved evidence'])),
+            ('no evidence',lambda s,c,r,f:f['collection_state_resolution'].update(evidence_urls=[])),
+            ('bad URL',lambda s,c,r,f:f['collection_state_resolution'].update(evidence_urls=['https://['])),
+            ('duplicate candidate',lambda s,c,r,f:c.append(deepcopy(c[0]))),
+            ('conflicting review',lambda s,c,r,f:r.append(dict(deepcopy(r[0]),ai4s_review={
+                'owner':'A','snapshot_at':'current','decision':'exclude'}))),
+        ]
+        for name,change in cases:
+            with self.subTest(name=name):
+                fixture=self.fixture(); change(*fixture); source=self.render(fixture)[0]
+                self.assertNotIn('collection_state_resolution',source)
+                self.assertTrue(any(x.startswith('采集状态尚未完成：') for x in source['issues']))
+        self.assertNotIn('collection_state_resolution',self.render(self.fixture(),'other')[0])
