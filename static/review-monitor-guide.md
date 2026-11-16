@@ -66,3 +66,13 @@
 - `abstract_resolution.status: "publisher_no_text_abstract_full_text_reviewed"`、`requires_abstract_backfill: false`、`original_abstract_preserved: true`。
 
 仅当前负责人、当前快照、无判定冲突且上述证据齐全的 `include` 记录适用。页面单列“官方无独立摘要、已完成全文审核”，保留原始缺摘要数，不再提示补写一个出版方不存在的摘要。其他待定、访问受限但未结案、缺少全文证据的记录继续保留真实待办。
+
+## 当前负责人的候选批次与目录备查
+
+同一来源出现前后任负责人的交付，或全量目录记录被误当作必须逐篇补摘要的候选时，当前负责人可在本人反馈中登记 `review_scope`，明确本次委托范围。`status` 为 `current_candidates_and_verified_additions`，并提供当前 `review_file`、`checked_by`、`checked_at`、`scope_instruction`、`audit_file`、`candidate_file`、`candidate_count` 和 `candidate_ids_sha256`。
+
+摘要指标和当前候选集合保持原样。构建器须核对：当前分工及采集快照、本人交付文件和全部当前候选覆盖、候选ID无重复，以及排序后的候选ID数组（UTF-8 JSON、无额外空白）的SHA-256。任一项不符就不采用该范围声明。历史交付保留链接，不再把前任的待办重复分配给现任。
+
+尚未确认应提升为AI4S候选的全量目录记录，可在本人 `ai4s_review.review_scope` 中标记 `status: reference_only`、`reason: unverified_catalogue_record_outside_current_candidates`，附同一负责人、核对日期和审计文件。该标记只有在来源范围声明有效、记录不在当前候选集合、原判定为 `pending` 或 `unreviewed` 时才适用。
+
+这些记录保留原始字段、原判定及证据缺口，页面单列“目录备查”，不计作已完成精筛或科学排除。任何当期候选即使带有该标记，也仍按实际待定/未审状态提示；已确认需要补录的研究仍须正常审核。绿灯表示所声明候选批次的事项已结案，不表示全量目录中每条记录都已精筛。
