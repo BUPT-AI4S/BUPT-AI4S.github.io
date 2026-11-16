@@ -153,3 +153,43 @@ class EmptyCatalogueCandidateTest(unittest.TestCase):
         for change in cases:
             x=self.fixture();change(x)
             self.assertTrue(HistoricalAbstractStateTest().render(x)[0]['issues'])
+
+
+class ReferenceCatalogueClosureTest(unittest.TestCase):
+    def fixture(self):
+        x=HistoricalAbstractStateTest().fixture();s,c,r,f=x
+        f['official_total']=None;f['official_scope']=''
+        f['reference_check']={'status':'complete','source':'Crossref + PubMed','total':2,
+            'scope':'formal print2025 all types','query_url':'https://api.crossref.org/journals/1234/works',
+            'checked_at':'2026-11-15','unresolved':0}
+        f['collection_state_resolution']['reason']='full_reference_catalogue_candidates_complete'
+        f['catalogue_audit']={'source_code':'v','year':2025,'owner':'A','snapshot_at':'current',
+            'input_main_commit':'a'*40,'raw_sha256':'b'*64,
+            'details_file':'metadata/v/2025/catalogue-reconciliation.json',
+            'raw_identities':[{'id':i,'venue':'v','year':2025}for i in ['one','two']],
+            'additions':[],'report':{'source_code':'v','year':2025,'owner':'A','snapshot_at':'current',
+                'reference_check':deepcopy(f['reference_check']),'matched_reference_ids':['one','two']}}
+        return x
+
+    def test_exact_reference_catalogue_closes_without_inventing_official_total(self):
+        a,b=HistoricalAbstractStateTest().render(self.fixture())
+        self.assertEqual(a['issues'],[]);self.assertIsNone(a['official_total'])
+        self.assertEqual(a['reference_check']['total'],2)
+        self.assertEqual(a['state'],'abstract_incomplete');self.assertTrue(b['issues'])
+
+    def test_partial_stale_or_conflicting_reference_audits_do_not_close(self):
+        cases=[lambda x:x[3]['catalogue_audit']['report']['matched_reference_ids'].pop(),
+            lambda x:x[3]['catalogue_audit']['report'].update(matched_reference_ids=['one','one']),
+            lambda x:x[3]['catalogue_audit']['report'].update(matched_reference_ids=['one','wrong']),
+            lambda x:x[3]['catalogue_audit'].update(owner='B'),
+            lambda x:x[3]['catalogue_audit'].update(snapshot_at='old'),
+            lambda x:x[3]['catalogue_audit']['raw_identities'][0].update(year=2024),
+            lambda x:x[3]['reference_check'].update(unresolved=1),
+            lambda x:x[3]['reference_check'].update(total=1),
+            lambda x:x[3]['catalogue_reconciliation'].update(same_scope_extra=1),
+            lambda x:x[3].update(official_total=2,official_scope='unsupported official'),
+            lambda x:x[2][0]['ai4s_review'].update(decision='pending'),
+            lambda x:x[1][0].update(abstract=None)]
+        for change in cases:
+            x=self.fixture();change(x)
+            self.assertTrue(HistoricalAbstractStateTest().render(x)[0]['issues'])
