@@ -98,6 +98,36 @@ def owner_closed_abstract(record, owner):
             and evidence)
 
 
+def full_text_abstract_exemption(review, owner):
+    """Close an unavailable publisher abstract only with a completed full-text review."""
+    proof = review.get('abstract_requirement') or {}
+    metadata = review.get('verified_metadata') or {}
+    resolution = review.get('abstract_resolution') or {}
+    if not all(isinstance(value, dict) for value in (proof, metadata, resolution)):
+        return False
+    full_text_url = proof.get('full_text_url')
+    if not isinstance(full_text_url, str) or not isinstance(metadata.get('evidence_urls'), list):
+        return False
+    try:
+        full_text = urlparse(full_text_url)
+    except ValueError:
+        return False
+    return (abstract_not_required(review)
+            and proof.get('checked_by') == owner
+            and proof.get('review_basis') == 'verified_full_text'
+            and full_text.scheme == 'https' and bool(full_text.netloc)
+            and full_text_url in proof.get('evidence_urls', [])
+            and full_text_url in (metadata.get('evidence_urls') or [])
+            and metadata.get('abstract_status') == 'not_provided_by_publisher'
+            and isinstance(metadata.get('full_text_evidence_location'), str)
+            and bool(metadata['full_text_evidence_location'].strip())
+            and isinstance(metadata.get('full_text_summary_zh'), str)
+            and bool(metadata['full_text_summary_zh'].strip())
+            and resolution.get('status') == 'publisher_no_text_abstract_full_text_reviewed'
+            and resolution.get('requires_abstract_backfill') is False
+            and resolution.get('original_abstract_preserved') is True)
+
+
 def catalogue_audit_inputs(root, year, source, row):
     """Read a self-contained owner audit in sparse builds, otherwise full source evidence."""
     audit = row.get('catalogue_audit')
@@ -401,6 +431,7 @@ def build(root):
         review_dir = root / 'reviews' / str(year)
         counts, seen, conflicts = {}, {}, set()
         abstract_exemption_reviews = set()
+        full_text_exemption_reviews = {}
         owner_closed_reviews = {}
         completed_reviews = set()
         for path in sorted(review_dir.glob('*.json')):
@@ -413,6 +444,11 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                if (decision == 'include' and snapshot.get('captured_at')
+                        and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']
+                        and full_text_abstract_exemption(review, source_map[code]['owner'])):
+                    full_text_exemption_reviews[key] = review['abstract_requirement']
                 if (decision == 'exclude' and review.get('snapshot_at') == snapshot.get('captured_at')
                         and snapshot.get('captured_at') and review.get('owner') == source_map[code]['owner']
                         and owner_closed_abstract(review, source_map[code]['owner'])):
@@ -448,6 +484,7 @@ def build(root):
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
         # Keep physical missingness, but distinguish verified non-actionable records.
         no_abstract_required = Counter()
+        full_text_reviewed = Counter()
         owner_closed = Counter()
         for record in candidate_records:
             if not isinstance(record, dict) or record.get('year') != year: continue
@@ -456,6 +493,10 @@ def build(root):
             if (key in abstract_exemption_reviews and key not in conflicts and seen.get(key) == 'exclude'
                     and (not isinstance(abstract, str) or not abstract.strip()) and abstract_not_required(record)):
                 no_abstract_required[key[0]] += 1
+            elif (key in full_text_exemption_reviews and key not in conflicts and seen.get(key) == 'include'
+                    and (not isinstance(abstract, str) or not abstract.strip())
+                    and record.get('abstract_requirement') == full_text_exemption_reviews[key]):
+                full_text_reviewed[key[0]] += 1
             elif (key in owner_closed_reviews and key not in conflicts and seen.get(key) == 'exclude'
                     and (not isinstance(abstract, str) or not abstract.strip())
                     and record.get('abstract_requirement') == owner_closed_reviews[key]
@@ -463,9 +504,10 @@ def build(root):
                 owner_closed[key[0]] += 1
         for code, source in source_map.items():
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
+            source['abstract_full_text_reviewed'] = full_text_reviewed[code] if candidate_path.exists() else None
             source['abstract_closed_by_owner'] = owner_closed[code] if candidate_path.exists() else None
             missing = source['missing_abstract']
-            source['abstract_supplement_required'] = max(0, missing - no_abstract_required[code] - owner_closed[code]) if missing is not None else None
+            source['abstract_supplement_required'] = max(0, missing - no_abstract_required[code] - full_text_reviewed[code] - owner_closed[code]) if missing is not None else None
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
