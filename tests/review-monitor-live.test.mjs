@@ -28,12 +28,41 @@ test('uses current crawler summary before the deployed snapshot', async () => {
   const calls=[]; const fetcher=async url=>{calls.push(url);return {ok:true,json:async()=>({years:[{year:2025}],commit:'live'})}};
   const result=await loadMonitorSnapshot(fetcher,123);
   assert.equal(result.data.commit,'live'); assert.equal(result.live,true);
-  assert.match(calls[0],/raw\.githubusercontent\.com/); assert.equal(calls.length,1);
+  assert.match(calls[0],/raw\.githubusercontent\.com/); assert.equal(calls.length,2);
 });
 
 test('falls back to the deployed snapshot when the crawler summary cannot load', async () => {
   const calls=[]; const fetcher=async url=>{calls.push(url); if(calls.length===1) throw new Error('offline'); return {ok:true,json:async()=>({years:[{year:2024}],commit:'published'})}};
   const result=await loadMonitorSnapshot(fetcher,123);
   assert.equal(result.data.commit,'published'); assert.equal(result.live,false);
-  assert.equal(calls[1],'data/review-monitor.json');
+  assert.match(calls[1],/^data\/review-monitor\.json\?v=123$/);
+});
+
+
+test('prefers the newer published snapshot over stale live cache', async () => {
+  const fetcher=async url=>({ok:true,json:async()=>url.startsWith('https:')
+    ? {years:[{year:2024}],commit:'stale',generated_at:'2026-11-16T15:11:35Z'}
+    : {years:[{year:2024}],commit:'current',generated_at:'2026-11-16T15:16:07Z'}});
+  const result=await loadMonitorSnapshot(fetcher,123);
+  assert.equal(result.data.commit,'current');
+  assert.equal(result.live,false);
+  assert.equal(result.staleLive,true);
+});
+
+test('prefers live when newer and survives a failed published request', async () => {
+  for (const failPublished of [false,true]) {
+    const fetcher=async url=>{
+      if (failPublished && !url.startsWith('https:')) throw new Error('published offline');
+      return {ok:true,json:async()=>url.startsWith('https:')
+        ? {years:[{year:2024}],commit:'current',generated_at:'2026-11-16T15:16:07Z'}
+        : {years:[{year:2024}],commit:'old',generated_at:'2026-11-16T15:11:35Z'}};
+    };
+    const result=await loadMonitorSnapshot(fetcher,123);
+    assert.equal(result.data.commit,'current');
+    assert.equal(result.live,true);
+  }
+});
+
+test('fails visibly if neither snapshot can be read', async () => {
+  await assert.rejects(loadMonitorSnapshot(async()=>{throw new Error('both offline');},123),/both offline/);
 });

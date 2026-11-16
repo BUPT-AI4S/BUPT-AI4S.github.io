@@ -1,4 +1,4 @@
-import {loadMonitorSnapshot} from './review-monitor-live.mjs';
+import {loadMonitorSnapshot} from './review-monitor-live.mjs?v=20261116-owner-scope-cache-1';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = (n) => n == null ? '未知' : Number(n).toLocaleString('zh-CN');
@@ -52,14 +52,14 @@ for(const el of [year,owner,search,status]) el.addEventListener(el===search?'inp
 async function refreshSnapshot() {
   try {
     const result = await loadMonitorSnapshot(fetch);
-    if (!result.live && data?.generated_at && result.data.generated_at && result.data.generated_at < data.generated_at) {
+    if (data?.generated_at && result.data.generated_at && Date.parse(result.data.generated_at) < Date.parse(data.generated_at)) {
       $('#error').textContent = '暂时无法读取最新仓库数据，正在显示上次成功读取的结果。';
       return;
     }
     const changed = !data || data.generated_at !== result.data.generated_at || data.commit !== result.data.commit;
     data = result.data;
     $('#error').textContent = '';
-    $('#provenance').textContent = `汇总生成：${data.generated_at || '未知'}\n仓库提交：${data.commit?.slice(0,12) || '未知'}\n数据来源：${result.live ? '仓库实时汇总' : '网站发布快照'}`;
+    $('#provenance').textContent = `汇总生成：${data.generated_at || '未知'}\n仓库提交：${data.commit?.slice(0,12) || '未知'}\n数据来源：${result.live ? '仓库实时汇总' : result.staleLive ? '网站发布快照（仓库缓存较旧）' : '网站发布快照'}`;
     $('#provenance').style.whiteSpace = 'pre-line';
     if (!changed) return;
     const previousYear = year.value;
