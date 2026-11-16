@@ -256,3 +256,89 @@ class HistoricalAbstractStateTest(unittest.TestCase):
                 self.assertNotIn('collection_state_resolution',source)
                 self.assertTrue(any(x.startswith('采集状态尚未完成：') for x in source['issues']))
         self.assertNotIn('collection_state_resolution',self.render(self.fixture(),'other')[0])
+
+class CurrentReviewScopeTest(unittest.TestCase):
+    def fixture(self):
+        import hashlib
+        audit = 'metadata/2024/owner-scope.json'
+        scope = {'status':'current_candidates_and_verified_additions',
+                 'review_file':'reviews/2024/a.json','checked_by':'A','checked_at':'2026-11-16',
+                 'candidate_file':'metadata/2024/ai4s.json','candidate_count':1,
+                 'candidate_ids_sha256':hashlib.sha256(b'["one"]').hexdigest(),
+                 'scope_instruction':'Review current candidates; keep unverified catalogue entries separate.',
+                 'audit_file':audit}
+        ref = {'status':'reference_only','reason':'unverified_catalogue_record_outside_current_candidates',
+               'checked_by':'A','checked_at':'2026-11-16','audit_file':audit}
+        return {
+            'metadata/2024/snapshot.json':{'year':2024,'captured_at':'current','sources':[
+                {'source':'v','state':'completed','papers':3},{'source':'w','state':'completed','papers':1}]},
+            'metadata/2024/ai4s.json':[{'venue':'v','year':2024,'id':'one','abstract':'Original abstract'}],
+            'reviews/source-assignments-2024.json':{'year':2024,'sources':[
+                {'code':'v','owner':'A'},{'code':'w','owner':'B'}]},
+            'reviews/2024/a.json':[
+                {'venue':'v','year':2024,'id':'one','ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}},
+                {'venue':'v','year':2024,'id':'reference','ai4s_review':{'owner':'A','snapshot_at':'current',
+                    'decision':'pending','review_scope':ref}}],
+            'reviews/2024/b.json':[
+                {'venue':'v','year':2024,'id':'one','ai4s_review':{'owner':'B','snapshot_at':'current','decision':'exclude'}},
+                {'venue':'v','year':2024,'id':'legacy','ai4s_review':{'owner':'B','snapshot_at':'current','decision':'pending'}},
+                {'venue':'w','year':2024,'id':'other-owner','ai4s_review':{'owner':'B','snapshot_at':'current','decision':'pending'}}],
+            'reviews/2024/feedback/a.json':{'year':2024,'source_code':'v','owner':'A','snapshot_at':'current',
+                'official_total':3,'official_scope':'all formal types','review_scope':scope},
+            'reviews/2024/feedback/b.json':{'year':2024,'source_code':'v','owner':'B','snapshot_at':'current',
+                'issues':['Historical owner backlog'],'next_actions':['Recheck historical owner records.']}}
+
+    def render(self, docs):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            for path,value in docs.items():
+                dest=root/path;dest.parent.mkdir(parents=True,exist_ok=True)
+                dest.write_text(json.dumps(value),encoding='utf8')
+            return {s['code']:s for s in build(root)['years'][0]['sources']}
+
+    def test_explicit_scope_preserves_references_and_history_without_changing_other_owners(self):
+        rows=self.render(self.fixture());v=rows['v'];w=rows['w']
+        self.assertEqual(v['decisions'],{'include':1,'exclude':0,'pending':0,'unreviewed':0})
+        self.assertEqual(v['catalogue_reference_records'],1)
+        self.assertEqual(v['issues'],[])
+        self.assertEqual(set(v['historical_review_files']),{'reviews/2024/b.json','reviews/2024/feedback/b.json'})
+        self.assertEqual(w['decisions']['pending'],1)
+        self.assertTrue(w['issues'])
+
+    def test_incomplete_stale_foreign_and_invalid_scopes_cannot_close_tasks(self):
+        cases=[
+            ('no scope',lambda d:d['reviews/2024/feedback/a.json'].pop('review_scope')),
+            ('wrong candidate digest',lambda d:d['reviews/2024/feedback/a.json']['review_scope'].update(candidate_ids_sha256='bad')),
+            ('wrong count',lambda d:d['reviews/2024/feedback/a.json']['review_scope'].update(candidate_count=0)),
+            ('wrong owner',lambda d:d['reviews/2024/feedback/a.json']['review_scope'].update(checked_by='B')),
+            ('stale feedback',lambda d:d['reviews/2024/feedback/a.json'].update(snapshot_at='old')),
+            ('foreign review file',lambda d:d['reviews/2024/feedback/a.json']['review_scope'].update(review_file='reviews/2024/b.json')),
+            ('outside file',lambda d:d['reviews/2024/feedback/a.json']['review_scope'].update(review_file='../outside.json')),
+            ('missing candidate',lambda d:d['reviews/2024/a.json'].pop(0)),
+            ('duplicate candidate',lambda d:d['metadata/2024/ai4s.json'].append(deepcopy(d['metadata/2024/ai4s.json'][0]))),
+        ]
+        for name,mutate in cases:
+            with self.subTest(name=name):
+                docs=self.fixture();mutate(docs);v=self.render(docs)['v']
+                self.assertNotIn('active_review_file',v)
+                self.assertTrue(v['issues'])
+
+    def test_actual_candidate_pending_cannot_be_hidden_as_reference(self):
+        import hashlib
+        docs=self.fixture();docs['metadata/2024/ai4s.json'].append({'venue':'v','year':2024,'id':'reference','abstract':'Original'})
+        docs['reviews/2024/feedback/a.json']['review_scope'].update(candidate_count=2,
+            candidate_ids_sha256=hashlib.sha256(b'["one","reference"]').hexdigest())
+        v=self.render(docs)['v']
+        self.assertEqual(v['decisions']['pending'],1)
+        self.assertEqual(v['catalogue_reference_records'],0)
+        self.assertTrue(v['issues'])
+
+    def test_unmarked_or_unauthorized_supplement_remains_pending(self):
+        for change in ('unmarked','wrong owner'):
+            docs=self.fixture();review=docs['reviews/2024/a.json'][1]['ai4s_review']
+            if change=='unmarked':review.pop('review_scope')
+            else:review['review_scope']['checked_by']='B'
+            v=self.render(docs)['v']
+            self.assertEqual(v['decisions']['pending'],1)
+            self.assertEqual(v['catalogue_reference_records'],0)
+            self.assertTrue(v['issues'])

@@ -1,6 +1,7 @@
 """Build a public, source-linked snapshot from an ai4s-crawler checkout."""
 import argparse
 import csv
+import hashlib
 import json
 import subprocess
 from urllib.parse import urlparse
@@ -370,6 +371,63 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews,
             and all((source['code'], key) in completed_reviews for key in ids))
 
 
+def current_review_scopes(root, year, sources, snapshot, candidates):
+    """Validate an owner's explicit batch scope against the current candidate identities."""
+    scopes, documents = {}, {}
+    captured_at = snapshot.get('captured_at')
+    if not captured_at:
+        return scopes
+    for path in sorted((root / 'reviews' / str(year) / 'feedback').glob('*.json')):
+        document = read_json(path)
+        for row in document if isinstance(document, list) else [document]:
+            if not isinstance(row, dict) or row.get('year') != year:
+                continue
+            code = row.get('source_code')
+            source = sources.get(code)
+            proof = row.get('review_scope')
+            if (not source or not isinstance(proof, dict)
+                    or row.get('owner') != source['owner'] or row.get('snapshot_at') != captured_at
+                    or proof.get('status') != 'current_candidates_and_verified_additions'
+                    or proof.get('checked_by') != source['owner'] or not proof.get('checked_at')
+                    or proof.get('candidate_file') != f'metadata/{year}/ai4s.json'
+                    or not proof.get('scope_instruction') or not proof.get('audit_file')):
+                continue
+            rel = proof.get('review_file')
+            if not isinstance(rel, str):
+                continue
+            parts = Path(rel).parts
+            if (len(parts) != 3 or parts[:2] != ('reviews', str(year))
+                    or Path(rel).suffix != '.json' or not (root / rel).is_file()
+                    or not (root / rel).resolve().is_relative_to((root / 'reviews' / str(year)).resolve())):
+                continue
+            ids = [r.get('id') for r in candidates if isinstance(r, dict)
+                   and r.get('year') == year and r.get('venue') == code]
+            if not all(ids) or len(set(ids)) != len(ids):
+                continue
+            digest = hashlib.sha256(json.dumps(sorted(ids), ensure_ascii=False,
+                                              separators=(',', ':')).encode()).hexdigest()
+            if type(proof.get('candidate_count')) is not int or proof.get('candidate_count') != len(ids) or proof.get('candidate_ids_sha256') != digest:
+                continue
+            if rel not in documents:
+                documents[rel] = read_json(root / rel)
+            records = documents[rel]
+            if not isinstance(records, list):
+                continue
+            own = [r for r in records if isinstance(r, dict) and r.get('year') == year
+                   and r.get('venue') == code]
+            reviews = [r.get('ai4s_review') for r in own]
+            own_ids = [r.get('id') for r in own]
+            if (not all(own_ids) or len(set(own_ids)) != len(own_ids) or not set(ids).issubset(own_ids)
+                    or any(not isinstance(r, dict) or r.get('owner') != source['owner']
+                           or r.get('snapshot_at') != captured_at
+                           or r.get('decision') not in ('include', 'exclude', 'pending', 'unreviewed')
+                           for r in reviews)):
+                continue
+            scopes[code] = {'review_file': rel, 'feedback_file': path.relative_to(root).as_posix(),
+                            'candidate_ids': set(ids), 'proof': proof}
+    return scopes
+
+
 def build(root):
     root = Path(root)
     try:
@@ -429,6 +487,10 @@ def build(root):
                 'official_total':None, 'official_scope':'', 'reference_check':None, 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
+        scopes = current_review_scopes(root, year, source_map, snapshot, candidate_records)
+        for code, scope in scopes.items():
+            source_map[code].update(active_review_file=scope['review_file'],
+                                    catalogue_reference_records=0, historical_review_files=[])
         counts, seen, conflicts = {}, {}, set()
         abstract_exemption_reviews = set()
         full_text_exemption_reviews = {}
@@ -441,9 +503,26 @@ def build(root):
                 if not isinstance(record, dict) or record.get('year') != year: continue
                 code = record.get('venue'); review = record.get('ai4s_review') or {}
                 if code not in source_map or not isinstance(review, dict): continue
+                scope = scopes.get(code)
+                rel = path.relative_to(root).as_posix()
+                if scope and rel != scope['review_file']:
+                    historical = source_map[code]['historical_review_files']
+                    if rel not in historical: historical.append(rel)
+                    continue
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                queue = review.get('review_scope')
+                if (scope and key[1] not in scope['candidate_ids']
+                        and decision in ('pending', 'unreviewed') and isinstance(queue, dict)
+                        and queue.get('status') == 'reference_only'
+                        and queue.get('reason') == 'unverified_catalogue_record_outside_current_candidates'
+                        and queue.get('checked_by') == source_map[code]['owner']
+                        and queue.get('checked_at') and queue.get('audit_file') == scope['proof']['audit_file']):
+                    source_map[code]['catalogue_reference_records'] += 1
+                    counts.setdefault(code, Counter())
+                    if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
+                    continue
                 if (decision == 'include' and snapshot.get('captured_at')
                         and review.get('snapshot_at') == snapshot.get('captured_at')
                         and review.get('owner') == source_map[code]['owner']
@@ -559,6 +638,12 @@ def build(root):
                 if not isinstance(row,dict) or row.get('year') != year: continue
                 s = source_map.get(row.get('source_code'))
                 if not s: continue
+                scope = scopes.get(s['code'])
+                if scope and path.relative_to(root).as_posix() != scope['feedback_file']:
+                    historical = s['historical_review_files']
+                    rel = path.relative_to(root).as_posix()
+                    if rel not in historical: historical.append(rel)
+                    continue
                 s['files'].append(path.relative_to(root).as_posix())
                 s['issues'].extend(str(x) for x in row.get('issues',[]) if isinstance(x,str))
                 s['actions'].extend(str(x) for x in row.get('next_actions',[]) if isinstance(x,str))
