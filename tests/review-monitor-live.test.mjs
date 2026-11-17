@@ -24,6 +24,26 @@ test('renders official-no-abstract records as not requiring supplementation', as
   }
 });
 
+test('shows reviewed inclusions missing from the candidate file and their abstract gaps', async () => {
+  const ids = ['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
+  const elements = Object.fromEntries(ids.map(id => [id, {value:id==='year'?'2024':id==='status'?'all':'',style:{},addEventListener(){}}]));
+  const globals = {document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
+  globalThis.document = {querySelector:selector=>elements[selector.slice(1)]};
+  globalThis.setInterval = ()=>0;
+  globalThis.fetch = async ()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2024,sources:[{
+    code:'v',title:'Venue',owner:'A',issues:['存在待同步论文'],actions:[],files:[],evidence_urls:[],candidates:2,
+    missing_abstract:0,abstract_supplement_required:0,unsynced_included:3,unsynced_missing_abstract:2
+  }]}]})});
+  try {
+    await import('../static/js/review-monitor.mjs?test=unsynced');
+    assert.match(elements.metrics.innerHTML,/<strong>3<\/strong><span>已纳入待同步/);
+    assert.match(elements.metrics.innerHTML,/<strong>2<\/strong><span>待同步缺摘要/);
+    assert.match(elements.list.innerHTML,/已纳入待同步 3 篇，其中缺摘要 2 篇/);
+  } finally {
+    Object.assign(globalThis,globals);
+  }
+});
+
 test('uses current crawler summary before the deployed snapshot', async () => {
   const calls=[]; const fetcher=async url=>{calls.push(url);return {ok:true,json:async()=>({years:[{year:2025}],commit:'live'})}};
   const result=await loadMonitorSnapshot(fetcher,123);

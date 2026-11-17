@@ -44,6 +44,23 @@ class OfficialNoAbstractTest(unittest.TestCase):
                     if name == 'verified': self.assertEqual(s['issues'], [])
 
 class MonitorTest(unittest.TestCase):
+    def test_reviewed_inclusions_outside_candidate_file_are_visible(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'current','sources':[{'source':'v','state':'completed','papers':6}]}),encoding='utf8')
+            (p/'reviews/source-assignments-2024.json').write_text(json.dumps({'year':2024,'sources':[{'code':'v','owner':'A'}]}),encoding='utf8')
+            (p/'metadata/2024/ai4s.json').write_text(json.dumps([{'year':2024,'venue':'v','id':'in','abstract':'full'}]),encoding='utf8')
+            def rec(id,decision='include',owner='A',snapshot='current',abstract=None,verified=None):
+                return {'year':2024,'venue':'v','id':id,'abstract':abstract,'ai4s_review':{'owner':owner,'snapshot_at':snapshot,'decision':decision,'verified_metadata':{'abstract':verified}}}
+            records=[rec('in',abstract='full'),rec('missing'),rec('full',verified='publisher abstract'),rec('excluded',decision='exclude'),rec('other',owner='B'),rec('old',snapshot='old'),rec('missing'),rec('conflict'),rec('conflict',decision='exclude')]
+            (p/'reviews/2024/a.json').write_text(json.dumps(records),encoding='utf8')
+            s=build(p)['years'][0]['sources'][0]
+            self.assertEqual(s.get('unsynced_included'),2)
+            self.assertEqual(s.get('unsynced_missing_abstract'),1)
+            self.assertEqual(s['missing_abstract'],0)
+            self.assertTrue(any('尚未同步候选总集' in issue for issue in s['issues']))
+            self.assertTrue(any('补充' in action and '摘要' in action for action in s['actions']))
+
     def test_reference_check_can_complete_without_claiming_official_total(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/feedback').mkdir(parents=True)
