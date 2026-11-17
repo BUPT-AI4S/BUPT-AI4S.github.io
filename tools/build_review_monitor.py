@@ -560,6 +560,7 @@ def build(root):
         full_text_exemption_reviews = {}
         owner_closed_reviews = {}
         completed_reviews = set()
+        recovered_abstract_reviews = {}
         for path in sorted(review_dir.glob('*.json')):
             records = read_json(path)
             if not isinstance(records, list): continue
@@ -576,6 +577,21 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                metadata = review.get('verified_metadata')
+                if (decision in ('include', 'exclude', 'pending', 'unreviewed')
+                        and snapshot.get('captured_at')
+                        and review.get('snapshot_at') == snapshot['captured_at']
+                        and review.get('owner') == source_map[code]['owner']
+                        and isinstance(metadata, dict)
+                        and isinstance(metadata.get('abstract'), str) and metadata['abstract'].strip()):
+                    links = metadata.get('evidence_urls')
+                    try:
+                        has_evidence = isinstance(links, list) and any(isinstance(u, str)
+                            and urlparse(u).scheme == 'https' and urlparse(u).netloc for u in links)
+                    except ValueError:
+                        has_evidence = False
+                    if has_evidence:
+                        recovered_abstract_reviews.setdefault(key, set()).add(metadata['abstract'].strip())
                 queue = review.get('review_scope')
                 if (scope and key[1] not in scope['candidate_ids']
                         and decision in ('pending', 'unreviewed') and isinstance(queue, dict)
@@ -628,12 +644,16 @@ def build(root):
         # Keep physical missingness, but distinguish verified non-actionable records.
         no_abstract_required = Counter()
         full_text_reviewed = Counter()
+        recovered_abstracts = Counter()
         owner_closed = Counter()
         for record in candidate_records:
             if not isinstance(record, dict) or record.get('year') != year: continue
             key = (record.get('venue'), record.get('id'))
             abstract = record.get('abstract')
-            if (key in abstract_exemption_reviews and key not in conflicts and seen.get(key) == 'exclude'
+            if (key not in conflicts and len(recovered_abstract_reviews.get(key, ())) == 1
+                    and (not isinstance(abstract, str) or not abstract.strip())):
+                recovered_abstracts[key[0]] += 1
+            elif (key in abstract_exemption_reviews and key not in conflicts and seen.get(key) == 'exclude'
                     and (not isinstance(abstract, str) or not abstract.strip()) and abstract_not_required(record)):
                 no_abstract_required[key[0]] += 1
             elif (key in full_text_exemption_reviews and key not in conflicts and seen.get(key) == 'include'
@@ -646,11 +666,12 @@ def build(root):
                     and owner_closed_abstract(record, source_map[key[0]]['owner'])):
                 owner_closed[key[0]] += 1
         for code, source in source_map.items():
+            source['abstract_recovered'] = recovered_abstracts[code] if candidate_path.exists() else None
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
             source['abstract_full_text_reviewed'] = full_text_reviewed[code] if candidate_path.exists() else None
             source['abstract_closed_by_owner'] = owner_closed[code] if candidate_path.exists() else None
             missing = source['missing_abstract']
-            source['abstract_supplement_required'] = max(0, missing - no_abstract_required[code] - full_text_reviewed[code] - owner_closed[code]) if missing is not None else None
+            source['abstract_supplement_required'] = max(0, missing - recovered_abstracts[code] - no_abstract_required[code] - full_text_reviewed[code] - owner_closed[code]) if missing is not None else None
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
