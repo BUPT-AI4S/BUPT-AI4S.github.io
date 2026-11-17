@@ -315,6 +315,66 @@ def verified_reference_catalogue(root, year, source, row):
             and all(reconciliation.get(k) == 0 for k in ('same_scope_missing','same_scope_extra','same_scope_duplicate')))
 
 
+def verified_audited_catalogue(root, year, source, row):
+    """Close authorized Nydiii 2026 history only after exact per-record audits."""
+    if root is None or type(year) is not int or year != 2026 or source.get('owner') != '南耀笛': return False
+    try:
+        raw, additions, report = catalogue_audit_inputs(root, year, source, row)
+    except (OSError, ValueError, TypeError): return False
+    if (not isinstance(report, dict) or report.get('source_code') != source['code']
+            or report.get('year') != year or report.get('owner') != source['owner']
+            or report.get('snapshot_at') != source['snapshot_at']
+            or report.get('extra') != [] or report.get('duplicates') != 0
+            or report.get('unresolved') != [] or not report.get('scope')): return False
+    total = source.get('official_total')
+    if total is not None:
+        if report.get('official_total') != total or report['scope'] != source.get('official_scope'): return False
+    else:
+        check = source.get('reference_check')
+        if (not isinstance(check, dict) or check != row.get('reference_check')
+                or check != report.get('reference_check') or check.get('status') != 'complete'
+                or check.get('unresolved') != 0 or not check.get('scope')
+                or report['scope'] != check['scope']): return False
+        total = check.get('total')
+    if type(total) is not int or total < 0 or report.get('normalized_count') != total: return False
+    def index(records):
+        if not isinstance(records, list) or not all(isinstance(z,dict)
+                and isinstance(z.get('id'),str) and z['id'] and z.get('title') for z in records): return None
+        result = {z['id']:z for z in records}
+        return result if len(result) == len(records) else None
+    rb, ab, cb, eb = (index(x) for x in (raw, additions, report.get('canonical_records'), report.get('scope_exclusions')))
+    if (any(x is None for x in (rb,ab,cb,eb)) or len(rb) != source['papers']
+            or rb.keys() & ab.keys() or not eb.keys() <= rb.keys()
+            or (rb.keys() - eb.keys()) | ab.keys() != cb.keys() or len(cb) != total
+            or any(z.get('venue') != source['code'] or z.get('year') != year for z in raw)
+            or not isinstance(report.get('missing'), list) or len(report['missing']) != len(ab)
+            or not all(isinstance(k,str) and k for k in report['missing'])
+            or set(report['missing']) != ab.keys()): return False
+    def proof(z):
+        if z.get('checked_by') != source['owner'] or not z.get('checked_at'): return False
+        links = z.get('evidence_urls')
+        try:
+            return isinstance(links,list) and bool(links) and all(isinstance(u,str)
+                and urlparse(u).scheme == 'https' and urlparse(u).netloc for u in links)
+        except ValueError: return False
+    for key,z in ab.items():
+        if (not proof(z) or z.get('venue') != source['code'] or z.get('year') != year
+                or z['title'] != cb[key]['title'] or not z.get('published')
+                or z.get('url') != cb[key].get('url') or z['url'] not in z['evidence_urls']): return False
+    for key,z in eb.items():
+        status, verified = z.get('status'), z.get('verified_year')
+        if not proof(z) or z['title'] != rb[key]['title']: return False
+        if status in ('different_formal_year','different_publisher_published_year'):
+            if type(verified) is not int or verified == year or not z.get('verified_volume'): return False
+        elif status == 'unassigned_formal_volume':
+            if verified is not None or z.get('verified_volume') is not None: return False
+        else: return False
+    rec = row.get('catalogue_reconciliation')
+    return (isinstance(rec,dict) and rec.get('normalized_count') == total
+            and rec.get('same_scope_missing') == len(ab) and rec.get('same_scope_extra') == 0
+            and rec.get('same_scope_duplicate') == 0 and rec.get('canonical_unresolved_missing') == 0)
+
+
 def historical_abstract_gap_resolved(source, row, candidates, completed_reviews, root=None, year=None):
     """Resolve only an explicitly audited historical full-catalogue abstract gap."""
     resolution = row.get('collection_state_resolution')
@@ -327,11 +387,13 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews,
                 'full_catalogue_with_nonresearch_additions_candidates_complete',
                 'full_catalogue_with_documented_normalization_candidates_complete',
                 'full_catalogue_no_candidates',
-                'full_reference_catalogue_candidates_complete')
+                'full_reference_catalogue_candidates_complete',
+                'full_audited_catalogue_candidates_complete')
             or resolution.get('checked_by') != source['owner']
             or not resolution.get('checked_at')
             or source['abstract_supplement_required'] != 0
-            or not (source['official_scope'] or (resolution.get('reason') == 'full_reference_catalogue_candidates_complete'
+            or not (source['official_scope'] or (resolution.get('reason') in ('full_reference_catalogue_candidates_complete',
+                    'full_audited_catalogue_candidates_complete')
                 and (source.get('reference_check') or {}).get('scope')))):
         return False
     links = resolution.get('evidence_urls')
@@ -345,6 +407,8 @@ def historical_abstract_gap_resolved(source, row, candidates, completed_reviews,
     if resolution['reason'] in ('full_catalogue_abstract_gap_candidates_complete', 'full_catalogue_no_candidates'):
         if (source['official_total'] != source['papers']
                 or any(reconciliation.get(k) != 0 for k in ('same_scope_missing','same_scope_extra','same_scope_duplicate'))): return False
+    elif resolution['reason'] == 'full_audited_catalogue_candidates_complete':
+        if not verified_audited_catalogue(root, year, source, row): return False
     elif resolution['reason'] == 'full_reference_catalogue_candidates_complete':
         if not verified_reference_catalogue(root, year, source, row): return False
     elif resolution['reason'] == 'full_catalogue_with_documented_normalization_candidates_complete':
