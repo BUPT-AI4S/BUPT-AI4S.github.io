@@ -4,11 +4,11 @@ import {loadMonitorSnapshot} from '../static/js/review-monitor-live.mjs';
 
 test('renders official-no-abstract records as not requiring supplementation', async () => {
   const ids = ['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
-  const elements = Object.fromEntries(ids.map(id => [id, {value:id==='year'?'2024':id==='status'?'all':'',style:{},addEventListener(){}}]));
+  const elements = Object.fromEntries(ids.map(id => [id, {value:id==='year'?'2025':id==='status'?'all':'',style:{},addEventListener(){}}]));
   const globals = {document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
   globalThis.document = {querySelector:selector=>elements[selector.slice(1)]};
   globalThis.setInterval = ()=>0;
-  globalThis.fetch = async ()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2024,sources:[{
+  globalThis.fetch = async ()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2025,sources:[{
     code:'nm',title:'Nature Medicine',owner:'A',issues:[],actions:[],files:[],evidence_urls:[],candidates:38,
     missing_abstract:1,abstract_not_required:1,abstract_supplement_required:0
   }]}]})});
@@ -26,11 +26,11 @@ test('renders official-no-abstract records as not requiring supplementation', as
 
 test('shows reviewed inclusions missing from the candidate file and their abstract gaps', async () => {
   const ids = ['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
-  const elements = Object.fromEntries(ids.map(id => [id, {value:id==='year'?'2024':id==='status'?'all':'',style:{},addEventListener(){}}]));
+  const elements = Object.fromEntries(ids.map(id => [id, {value:id==='year'?'2025':id==='status'?'all':'',style:{},addEventListener(){}}]));
   const globals = {document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
   globalThis.document = {querySelector:selector=>elements[selector.slice(1)]};
   globalThis.setInterval = ()=>0;
-  globalThis.fetch = async ()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2024,sources:[{
+  globalThis.fetch = async ()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2025,sources:[{
     code:'v',title:'Venue',owner:'A',issues:['存在待同步论文'],actions:[],files:[],evidence_urls:[],candidates:2,
     missing_abstract:0,abstract_supplement_required:0,unsynced_included:3,unsynced_missing_abstract:2
   }]}]})});
@@ -60,6 +60,21 @@ test('shows full catalogue and final inclusion counts in summary and source deta
     assert.match(elements.metrics.innerHTML,/<strong>1<\/strong><span>纳入缺摘要/);
     assert.match(elements.list.innerHTML,/全量采集 10 篇，缺摘要 3 篇/);
     assert.match(elements.list.innerHTML,/精筛纳入 2 篇，缺摘要 1 篇/);
+  } finally {Object.assign(globalThis,globals);}
+});
+
+test('hides historical unsynced metrics for 2024 even with an old cached summary', async () => {
+  const ids=['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
+  const elements=Object.fromEntries(ids.map(id=>[id,{value:id==='year'?'2024':id==='status'?'all':'',style:{},addEventListener(){}}]));
+  const globals={document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
+  globalThis.document={querySelector:s=>elements[s.slice(1)]}; globalThis.setInterval=()=>0;
+  globalThis.fetch=async()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2024,sources:[{
+    code:'v',title:'Venue',owner:'A',issues:[],actions:[],files:[],evidence_urls:[],candidates:1,unsynced_included:2,unsynced_missing_abstract:1
+  }]}]})});
+  try {
+    await import('../static/js/review-monitor.mjs?test=2024-closed');
+    assert.doesNotMatch(elements.metrics.innerHTML,/已纳入待同步|待同步缺摘要/);
+    assert.doesNotMatch(elements.list.innerHTML,/已纳入待同步/);
   } finally {Object.assign(globalThis,globals);}
 });
 
