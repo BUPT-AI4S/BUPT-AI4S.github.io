@@ -706,7 +706,7 @@ def build(root):
         for code, source in source_map.items():
             source['final_included'] = final_included[code] if code in final_review_sources else None
             source['final_missing_abstract'] = final_missing[code] if year != 2024 and code in final_review_sources else None
-            source['unsynced_included'] = unsynced_included[code] if year != 2024 and candidate_path.exists() else None
+            source['unsynced_included'] = unsynced_included[code] if candidate_path.exists() else None
             source['unsynced_missing_abstract'] = unsynced_missing[code] if year != 2024 and candidate_path.exists() else None
             source['abstract_recovered'] = recovered_abstracts[code] if candidate_path.exists() else None
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
@@ -799,7 +799,7 @@ def build(root):
             if s['official_total'] is None and not s['reference_check'] and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，或使用可靠替代来源完成同口径对账并记录证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
             if year != 2024 and s['abstract_supplement_required'] is not None and s['abstract_supplement_required'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['abstract_supplement_required'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
-            if s['unsynced_included']:
+            if year != 2024 and s['unsynced_included']:
                 s['issues'].append('个人审核已纳入但尚未同步候选总集：'+str(s['unsynced_included'])+' 篇，其中缺少原摘要：'+str(s['unsynced_missing_abstract'])+' 篇。')
                 s['actions'].append('核对已纳入论文身份和范围，补充缺失的原摘要后同步候选总集。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')

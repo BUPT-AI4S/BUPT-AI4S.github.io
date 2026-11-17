@@ -55,7 +55,7 @@ class MonitorTest(unittest.TestCase):
                 (md/'ai4s.json').write_text(json.dumps([{'year':year,'venue':'v','id':'existing','abstract':None}]),encoding='utf8')
                 (reviews/'a.json').write_text(json.dumps([{'year':year,'venue':'v','id':'extra','abstract':None,'ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}}]),encoding='utf8')
             rows={y['year']:y['sources'][0] for y in build(p)['years']}
-            self.assertIsNone(rows[2024]['unsynced_included'])
+            self.assertEqual(rows[2024]['unsynced_included'],1)
             self.assertIsNone(rows[2024]['final_missing_abstract'])
             self.assertFalse(any('摘要' in x or '尚未同步候选总集' in x for x in rows[2024]['issues']))
             for year in (2025,2026):
