@@ -33,6 +33,7 @@ jobs:
           sparse-checkout: |
             /metadata/*/snapshot.json
             /metadata/*/ai4s.json
+            /metadata/*/review-scope-baseline.json
             /reviews/venue-review.csv
             /reviews/owners.json
             /reviews/owner-activity.json

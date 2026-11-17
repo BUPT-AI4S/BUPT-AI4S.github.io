@@ -54,12 +54,15 @@ class MonitorTest(unittest.TestCase):
                 (p/'reviews'/f'source-assignments-{year}.json').write_text(json.dumps({'year':year,'sources':[{'code':'v','owner':'A'}]}),encoding='utf8')
                 (md/'ai4s.json').write_text(json.dumps([{'year':year,'venue':'v','id':'existing','abstract':None}]),encoding='utf8')
                 (reviews/'a.json').write_text(json.dumps([{'year':year,'venue':'v','id':'extra','abstract':None,'ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}}]),encoding='utf8')
+                records=json.loads((reviews/'a.json').read_text(encoding='utf8'))
+                records.append({'year':year,'venue':'v','id':'extra-with-abstract','abstract':'Complete abstract','ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}})
+                (reviews/'a.json').write_text(json.dumps(records),encoding='utf8')
             rows={y['year']:y['sources'][0] for y in build(p)['years']}
             self.assertEqual(rows[2024]['unsynced_included'],1)
             self.assertIsNone(rows[2024]['final_missing_abstract'])
             self.assertFalse(any('摘要' in x or '尚未同步候选总集' in x for x in rows[2024]['issues']))
             for year in (2025,2026):
-                self.assertEqual(rows[year]['unsynced_included'],1)
+                self.assertEqual(rows[year]['unsynced_included'],2)
                 self.assertEqual(rows[year]['unsynced_missing_abstract'],1)
                 self.assertEqual(rows[year]['final_missing_abstract'],1)
                 self.assertTrue(any('尚未同步候选总集' in x for x in rows[year]['issues']))
@@ -311,6 +314,18 @@ class HistoricalAbstractStateTest(unittest.TestCase):
         self.assertNotIn('collection_state_resolution',self.render(self.fixture(),'other')[0])
 
 class CurrentReviewScopeTest(unittest.TestCase):
+    def test_review_baseline_preserves_verified_scope_after_candidate_additions(self):
+        docs=self.fixture()
+        original=deepcopy(docs['metadata/2024/ai4s.json'])
+        docs['metadata/2024/review-scope-baseline.json']={'year':2024,'snapshot_at':'current','candidates':original}
+        docs['metadata/2024/ai4s.json'].append({'venue':'v','year':2024,'id':'new','abstract':'Original'})
+        docs['reviews/2024/a.json'].append({'venue':'v','year':2024,'id':'new','ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}})
+        row=self.render(docs)['v']
+        self.assertEqual(row.get('active_review_file'),'reviews/2024/a.json')
+        self.assertEqual(row['decisions']['include'],2)
+        self.assertEqual(row['candidates'],2)
+        docs['metadata/2024/review-scope-baseline.json']['snapshot_at']='old'
+        self.assertNotIn('active_review_file',self.render(docs)['v'])
     def fixture(self):
         import hashlib
         audit = 'metadata/2024/owner-scope.json'
