@@ -553,7 +553,21 @@ def build(root):
                 'official_total':None, 'official_scope':'', 'reference_check':None, 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
-        scopes = current_review_scopes(root, year, source_map, snapshot, candidate_records)
+        scope_candidates = candidate_records
+        baseline_path = year_dir / 'review-scope-baseline.json'
+        if baseline_path.exists():
+            baseline = read_json(baseline_path)
+            if (isinstance(baseline, dict) and baseline.get('year') == year
+                    and baseline.get('snapshot_at') == snapshot.get('captured_at')
+                    and isinstance(baseline.get('candidates'), list)):
+                baseline_records = baseline['candidates']
+                current_keys = {(r.get('venue'), r.get('id')) for r in candidate_records
+                                if isinstance(r, dict) and r.get('year') == year and r.get('id')}
+                baseline_keys = {(r.get('venue'), r.get('id')) for r in baseline_records
+                                 if isinstance(r, dict) and r.get('year') == year and r.get('venue') and r.get('id')}
+                if len(baseline_keys) == len(baseline_records) and baseline_keys <= current_keys:
+                    scope_candidates = baseline_records
+        scopes = current_review_scopes(root, year, source_map, snapshot, scope_candidates)
         for code, scope in scopes.items():
             source_map[code].update(active_review_file=scope['review_file'],
                                     catalogue_reference_records=0, historical_review_files=[])
@@ -677,6 +691,7 @@ def build(root):
                 if year != 2024 and not entry['has_abstract']: final_missing[code] += 1
         for (code, _), entry in unsynced_reviews.items():
             if entry['decisions'] != {'include'}: continue
+            if year == 2024 and not entry['has_abstract']: continue
             unsynced_included[code] += 1
             if not entry['has_abstract']: unsynced_missing[code] += 1
         # Keep physical missingness, but distinguish verified non-actionable records.
