@@ -7,8 +7,8 @@ class OfficialNoAbstractTest(unittest.TestCase):
     def test_verified_exclusion_is_not_actionable_but_raw_missingness_is_retained(self):
         requirement = {'status':'not_required','reason':'official_source_has_no_independent_abstract',
                        'checked_at':'2026-11-13','checked_by':'A','evidence_urls':['https://publisher.example/article']}
-        candidate = {'venue':'v','year':2024,'id':'1','abstract':None,'abstract_requirement':requirement}
-        review = {'venue':'v','year':2024,'id':'1','ai4s_review':{
+        candidate = {'venue':'v','year':2025,'id':'1','abstract':None,'abstract_requirement':requirement}
+        review = {'venue':'v','year':2025,'id':'1','ai4s_review':{
             'decision':'exclude','owner':'A','snapshot_at':'current','abstract_requirement':requirement}}
         cases = [('verified', candidate, review, None, 0)]
         for field in ('evidence_urls','reason','checked_at','checked_by'):
@@ -25,17 +25,17 @@ class OfficialNoAbstractTest(unittest.TestCase):
         r = deepcopy(review); r['ai4s_review']['decision'] = 'pending'
         cases.append(('conflicting review', candidate, review, r, 1))
         with tempfile.TemporaryDirectory() as d:
-            p = Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/feedback').mkdir(parents=True)
-            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'current',
+            p = Path(d); (p/'metadata/2025').mkdir(parents=True); (p/'reviews/2025/feedback').mkdir(parents=True)
+            (p/'metadata/2025/snapshot.json').write_text(json.dumps({'year':2025,'captured_at':'current',
                 'sources':[{'source':'v','state':'completed','papers':1}]}), encoding='utf8')
-            (p/'reviews/source-assignments-2024.json').write_text(json.dumps({'year':2024,
+            (p/'reviews/source-assignments-2025.json').write_text(json.dumps({'year':2025,
                 'sources':[{'code':'v','owner':'A'}]}), encoding='utf8')
-            (p/'reviews/2024/feedback/a.json').write_text(json.dumps({'year':2024,'source_code':'v',
+            (p/'reviews/2025/feedback/a.json').write_text(json.dumps({'year':2025,'source_code':'v',
                 'snapshot_at':'current','official_total':1,'official_scope':'all types'}), encoding='utf8')
             for name, c, r, extra, expected in cases:
                 with self.subTest(name=name):
-                    (p/'metadata/2024/ai4s.json').write_text(json.dumps([c]), encoding='utf8')
-                    (p/'reviews/2024/a.json').write_text(json.dumps([r]+([extra] if extra else [])), encoding='utf8')
+                    (p/'metadata/2025/ai4s.json').write_text(json.dumps([c]), encoding='utf8')
+                    (p/'reviews/2025/a.json').write_text(json.dumps([r]+([extra] if extra else [])), encoding='utf8')
                     s = build(p)['years'][0]['sources'][0]
                     self.assertEqual(s['missing_abstract'], 1)
                     self.assertEqual(s['abstract_supplement_required'], expected)
@@ -44,6 +44,57 @@ class OfficialNoAbstractTest(unittest.TestCase):
                     if name == 'verified': self.assertEqual(s['issues'], [])
 
 class MonitorTest(unittest.TestCase):
+    def test_2024_abstract_gaps_are_not_action_items_but_later_years_are(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            for year in (2024, 2025, 2026):
+                md=p/'metadata'/str(year); md.mkdir(parents=True)
+                reviews=p/'reviews'/str(year); reviews.mkdir(parents=True)
+                (md/'snapshot.json').write_text(json.dumps({'year':year,'captured_at':'current','sources':[{'source':'v','papers':2}]}),encoding='utf8')
+                (p/'reviews'/f'source-assignments-{year}.json').write_text(json.dumps({'year':year,'sources':[{'code':'v','owner':'A'}]}),encoding='utf8')
+                (md/'ai4s.json').write_text(json.dumps([{'year':year,'venue':'v','id':'existing','abstract':None}]),encoding='utf8')
+                (reviews/'a.json').write_text(json.dumps([{'year':year,'venue':'v','id':'extra','abstract':None,'ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}}]),encoding='utf8')
+            rows={y['year']:y['sources'][0] for y in build(p)['years']}
+            self.assertIsNone(rows[2024]['unsynced_included'])
+            self.assertFalse(any('摘要' in x or '尚未同步候选总集' in x for x in rows[2024]['issues']))
+            for year in (2025,2026):
+                self.assertEqual(rows[year]['unsynced_included'],1)
+                self.assertEqual(rows[year]['unsynced_missing_abstract'],1)
+                self.assertTrue(any('尚未同步候选总集' in x for x in rows[year]['issues']))
+                self.assertTrue(any('AI4S候选缺少摘要' in x for x in rows[year]['issues']))
+    def test_full_and_final_inclusion_abstract_counts(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'now','sources':[{'source':'v','papers':10,'with_abstract':7},{'source':'unknown','papers':3}]}),encoding='utf8')
+            (p/'reviews/source-assignments-2024.json').write_text(json.dumps({'year':2024,'sources':[{'code':'v','owner':'A'},{'code':'unknown','owner':'B'}]}),encoding='utf8')
+            (p/'metadata/2024/ai4s.json').write_text(json.dumps([{'year':2024,'venue':'v','id':'in','abstract':'complete'}]),encoding='utf8')
+            def rec(id, decision='include', abstract=None):
+                return {'year':2024,'venue':'v','id':id,'abstract':abstract,'ai4s_review':{'owner':'A','snapshot_at':'now','decision':decision}}
+            (p/'reviews/2024/a.json').write_text(json.dumps([rec('in'),rec('missing'),rec('missing'),rec('excluded','exclude'),rec('conflict'),rec('conflict','exclude')]),encoding='utf8')
+            rows={s['code']:s for s in build(p)['years'][0]['sources']}
+            self.assertEqual(rows['v']['papers_missing_abstract'],3)
+            self.assertEqual(rows['v']['final_included'],2)
+            self.assertEqual(rows['v']['final_missing_abstract'],1)
+            self.assertIsNone(rows['unknown']['papers_missing_abstract'])
+            self.assertIsNone(rows['unknown']['final_included'])
+
+    def test_reviewed_inclusions_outside_candidate_file_are_visible(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2025').mkdir(parents=True); (p/'reviews/2025').mkdir(parents=True)
+            (p/'metadata/2025/snapshot.json').write_text(json.dumps({'year':2025,'captured_at':'current','sources':[{'source':'v','state':'completed','papers':6}]}),encoding='utf8')
+            (p/'reviews/source-assignments-2025.json').write_text(json.dumps({'year':2025,'sources':[{'code':'v','owner':'A'}]}),encoding='utf8')
+            (p/'metadata/2025/ai4s.json').write_text(json.dumps([{'year':2025,'venue':'v','id':'in','abstract':'full'}]),encoding='utf8')
+            def rec(id,decision='include',owner='A',snapshot='current',abstract=None,verified=None):
+                return {'year':2025,'venue':'v','id':id,'abstract':abstract,'ai4s_review':{'owner':owner,'snapshot_at':snapshot,'decision':decision,'verified_metadata':{'abstract':verified}}}
+            records=[rec('in',abstract='full'),rec('missing'),rec('full',verified='publisher abstract'),rec('excluded',decision='exclude'),rec('other',owner='B'),rec('old',snapshot='old'),rec('missing'),rec('conflict'),rec('conflict',decision='exclude')]
+            (p/'reviews/2025/a.json').write_text(json.dumps(records),encoding='utf8')
+            s=build(p)['years'][0]['sources'][0]
+            self.assertEqual(s.get('unsynced_included'),2)
+            self.assertEqual(s.get('unsynced_missing_abstract'),1)
+            self.assertEqual(s['missing_abstract'],0)
+            self.assertTrue(any('尚未同步候选总集' in issue for issue in s['issues']))
+            self.assertTrue(any('补充' in action and '摘要' in action for action in s['actions']))
+
     def test_reference_check_can_complete_without_claiming_official_total(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024/feedback').mkdir(parents=True)

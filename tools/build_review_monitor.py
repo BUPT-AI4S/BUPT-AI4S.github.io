@@ -545,9 +545,11 @@ def build(root):
             info = venues.get(code, {})
             assignment = assignments.get(code, {}) if assignments is not None else {}
             papers = number(item.get('papers'))
+            with_abstract = number(item.get('with_abstract'))
+            papers_missing = papers - with_abstract if papers is not None and with_abstract is not None and 0 <= with_abstract <= papers else None
             source_map[code] = {'code':code, 'title':assignment.get('title') or info.get('title') or code, 'owner':assignment.get('owner') or ((info.get('owner') or '') if year == 2024 and assignments is None else ''),
                 'venue_decision':('清单保留' if assignments is not None else (info.get('是否建议纳入') or '') if year == 2024 else ''), 'state':item.get('state') or 'unknown',
-                'papers':papers, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
+                'papers':papers, 'papers_missing_abstract':papers_missing, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
                 'official_total':None, 'official_scope':'', 'reference_check':None, 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
@@ -556,6 +558,13 @@ def build(root):
             source_map[code].update(active_review_file=scope['review_file'],
                                     catalogue_reference_records=0, historical_review_files=[])
         counts, seen, conflicts = {}, {}, set()
+        candidate_keys = {(r.get('venue'), r.get('id')) for r in candidate_records
+                          if isinstance(r, dict) and r.get('year') == year and r.get('id')}
+        unsynced_reviews = {}
+        final_reviews, final_review_sources = {}, set()
+        candidate_abstracts = {(r.get('venue'), r.get('id')) for r in candidate_records
+                               if isinstance(r, dict) and r.get('year') == year and r.get('id')
+                               and isinstance(r.get('abstract'), str) and r['abstract'].strip()}
         abstract_exemption_reviews = set()
         full_text_exemption_reviews = {}
         owner_closed_reviews = {}
@@ -577,6 +586,25 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                if (snapshot.get('captured_at') and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']
+                        and decision in ('include','exclude','pending','unreviewed')):
+                    final_review_sources.add(code)
+                    entry = final_reviews.setdefault(key, {'decisions': set(), 'has_abstract': key in candidate_abstracts})
+                    entry['decisions'].add(decision)
+                    verified = review.get('verified_metadata')
+                    verified_abstract = verified.get('abstract') if isinstance(verified, dict) else None
+                    entry['has_abstract'] |= any(isinstance(a, str) and bool(a.strip()) for a in (record.get('abstract'), verified_abstract))
+                if (candidate_path.exists() and key not in candidate_keys and snapshot.get('captured_at')
+                        and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']
+                        and decision in ('include','exclude','pending','unreviewed')):
+                    entry = unsynced_reviews.setdefault(key, {'decisions': set(), 'has_abstract': False})
+                    entry['decisions'].add(decision)
+                    verified = review.get('verified_metadata')
+                    verified_abstract = verified.get('abstract') if isinstance(verified, dict) else None
+                    entry['has_abstract'] |= any(isinstance(a, str) and bool(a.strip())
+                                                 for a in (record.get('abstract'), verified_abstract))
                 metadata = review.get('verified_metadata')
                 if (decision in ('include', 'exclude', 'pending', 'unreviewed')
                         and snapshot.get('captured_at')
@@ -641,6 +669,16 @@ def build(root):
                     rel = path.relative_to(root).as_posix()
                     if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
+        unsynced_included, unsynced_missing = Counter(), Counter()
+        final_included, final_missing = Counter(), Counter()
+        for (code, _), entry in final_reviews.items():
+            if entry['decisions'] == {'include'}:
+                final_included[code] += 1
+                if not entry['has_abstract']: final_missing[code] += 1
+        for (code, _), entry in unsynced_reviews.items():
+            if entry['decisions'] != {'include'}: continue
+            unsynced_included[code] += 1
+            if not entry['has_abstract']: unsynced_missing[code] += 1
         # Keep physical missingness, but distinguish verified non-actionable records.
         no_abstract_required = Counter()
         full_text_reviewed = Counter()
@@ -666,6 +704,10 @@ def build(root):
                     and owner_closed_abstract(record, source_map[key[0]]['owner'])):
                 owner_closed[key[0]] += 1
         for code, source in source_map.items():
+            source['final_included'] = final_included[code] if code in final_review_sources else None
+            source['final_missing_abstract'] = final_missing[code] if code in final_review_sources else None
+            source['unsynced_included'] = unsynced_included[code] if year != 2024 and candidate_path.exists() else None
+            source['unsynced_missing_abstract'] = unsynced_missing[code] if year != 2024 and candidate_path.exists() else None
             source['abstract_recovered'] = recovered_abstracts[code] if candidate_path.exists() else None
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
             source['abstract_full_text_reviewed'] = full_text_reviewed[code] if candidate_path.exists() else None
@@ -756,7 +798,10 @@ def build(root):
             elif s['state'] not in ('completed','not_held') and not s.get('collection_state_resolution'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and not s['reference_check'] and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，或使用可靠替代来源完成同口径对账并记录证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
-            if s['abstract_supplement_required'] is not None and s['abstract_supplement_required'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['abstract_supplement_required'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
+            if year != 2024 and s['abstract_supplement_required'] is not None and s['abstract_supplement_required'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['abstract_supplement_required'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')
+            if s['unsynced_included']:
+                s['issues'].append('个人审核已纳入但尚未同步候选总集：'+str(s['unsynced_included'])+' 篇，其中缺少原摘要：'+str(s['unsynced_missing_abstract'])+' 篇。')
+                s['actions'].append('核对已纳入论文身份和范围，补充缺失的原摘要后同步候选总集。')
             if s['venue_decision'] in ('建议纳入', '清单保留') and s['candidates'] and s['decisions'] is None: s['issues'].append('尚未找到逐篇审核交付。'); s['actions'].append('提交逐篇审核结果或说明当前进度。')
             if s['decisions'] and (s['decisions']['pending'] or s['decisions']['unreviewed']): s['issues'].append('交付中存在待定或未审论文。'); s['actions'].append('按交付文件逐篇补证并处理待定、未审记录。')
         owner_rows = summarize_owners(source_map.values(), activity['owners'])
