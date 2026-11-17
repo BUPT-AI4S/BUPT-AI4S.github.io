@@ -44,6 +44,22 @@ class OfficialNoAbstractTest(unittest.TestCase):
                     if name == 'verified': self.assertEqual(s['issues'], [])
 
 class MonitorTest(unittest.TestCase):
+    def test_full_and_final_inclusion_abstract_counts(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024').mkdir(parents=True)
+            (p/'metadata/2024/snapshot.json').write_text(json.dumps({'year':2024,'captured_at':'now','sources':[{'source':'v','papers':10,'with_abstract':7},{'source':'unknown','papers':3}]}),encoding='utf8')
+            (p/'reviews/source-assignments-2024.json').write_text(json.dumps({'year':2024,'sources':[{'code':'v','owner':'A'},{'code':'unknown','owner':'B'}]}),encoding='utf8')
+            (p/'metadata/2024/ai4s.json').write_text(json.dumps([{'year':2024,'venue':'v','id':'in','abstract':'complete'}]),encoding='utf8')
+            def rec(id, decision='include', abstract=None):
+                return {'year':2024,'venue':'v','id':id,'abstract':abstract,'ai4s_review':{'owner':'A','snapshot_at':'now','decision':decision}}
+            (p/'reviews/2024/a.json').write_text(json.dumps([rec('in'),rec('missing'),rec('missing'),rec('excluded','exclude'),rec('conflict'),rec('conflict','exclude')]),encoding='utf8')
+            rows={s['code']:s for s in build(p)['years'][0]['sources']}
+            self.assertEqual(rows['v']['papers_missing_abstract'],3)
+            self.assertEqual(rows['v']['final_included'],2)
+            self.assertEqual(rows['v']['final_missing_abstract'],1)
+            self.assertIsNone(rows['unknown']['papers_missing_abstract'])
+            self.assertIsNone(rows['unknown']['final_included'])
+
     def test_reviewed_inclusions_outside_candidate_file_are_visible(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d); (p/'metadata/2024').mkdir(parents=True); (p/'reviews/2024').mkdir(parents=True)

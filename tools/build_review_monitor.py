@@ -545,9 +545,11 @@ def build(root):
             info = venues.get(code, {})
             assignment = assignments.get(code, {}) if assignments is not None else {}
             papers = number(item.get('papers'))
+            with_abstract = number(item.get('with_abstract'))
+            papers_missing = papers - with_abstract if papers is not None and with_abstract is not None and 0 <= with_abstract <= papers else None
             source_map[code] = {'code':code, 'title':assignment.get('title') or info.get('title') or code, 'owner':assignment.get('owner') or ((info.get('owner') or '') if year == 2024 and assignments is None else ''),
                 'venue_decision':('清单保留' if assignments is not None else (info.get('是否建议纳入') or '') if year == 2024 else ''), 'state':item.get('state') or 'unknown',
-                'papers':papers, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
+                'papers':papers, 'papers_missing_abstract':papers_missing, 'snapshot_candidates':number(item.get('ai4s')), 'candidates':candidate_counts[code] if candidate_path.exists() else number(item.get('ai4s')), 'missing_abstract':candidate_missing[code] if candidate_path.exists() else None,
                 'official_total':None, 'official_scope':'', 'reference_check':None, 'coverage_note':'', 'evidence_urls':[], 'decisions':None,
                 'issues':[], 'actions':[], 'files':[], 'snapshot_at':snapshot.get('captured_at')}
         review_dir = root / 'reviews' / str(year)
@@ -559,6 +561,10 @@ def build(root):
         candidate_keys = {(r.get('venue'), r.get('id')) for r in candidate_records
                           if isinstance(r, dict) and r.get('year') == year and r.get('id')}
         unsynced_reviews = {}
+        final_reviews, final_review_sources = {}, set()
+        candidate_abstracts = {(r.get('venue'), r.get('id')) for r in candidate_records
+                               if isinstance(r, dict) and r.get('year') == year and r.get('id')
+                               and isinstance(r.get('abstract'), str) and r['abstract'].strip()}
         abstract_exemption_reviews = set()
         full_text_exemption_reviews = {}
         owner_closed_reviews = {}
@@ -579,6 +585,15 @@ def build(root):
                 key = (code, record.get('id'))
                 if not key[1]: continue
                 decision = review.get('decision')
+                if (snapshot.get('captured_at') and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']
+                        and decision in ('include','exclude','pending','unreviewed')):
+                    final_review_sources.add(code)
+                    entry = final_reviews.setdefault(key, {'decisions': set(), 'has_abstract': key in candidate_abstracts})
+                    entry['decisions'].add(decision)
+                    verified = review.get('verified_metadata')
+                    verified_abstract = verified.get('abstract') if isinstance(verified, dict) else None
+                    entry['has_abstract'] |= any(isinstance(a, str) and bool(a.strip()) for a in (record.get('abstract'), verified_abstract))
                 if (candidate_path.exists() and key not in candidate_keys and snapshot.get('captured_at')
                         and review.get('snapshot_at') == snapshot.get('captured_at')
                         and review.get('owner') == source_map[code]['owner']
@@ -639,6 +654,11 @@ def build(root):
                     if rel not in source_map[code]['files']: source_map[code]['files'].append(rel)
         for code, count in counts.items(): source_map[code]['decisions'] = {k:count[k] for k in ('include','exclude','pending','unreviewed')}
         unsynced_included, unsynced_missing = Counter(), Counter()
+        final_included, final_missing = Counter(), Counter()
+        for (code, _), entry in final_reviews.items():
+            if entry['decisions'] == {'include'}:
+                final_included[code] += 1
+                if not entry['has_abstract']: final_missing[code] += 1
         for (code, _), entry in unsynced_reviews.items():
             if entry['decisions'] != {'include'}: continue
             unsynced_included[code] += 1
@@ -664,6 +684,8 @@ def build(root):
                     and owner_closed_abstract(record, source_map[key[0]]['owner'])):
                 owner_closed[key[0]] += 1
         for code, source in source_map.items():
+            source['final_included'] = final_included[code] if code in final_review_sources else None
+            source['final_missing_abstract'] = final_missing[code] if code in final_review_sources else None
             source['unsynced_included'] = unsynced_included[code] if candidate_path.exists() else None
             source['unsynced_missing_abstract'] = unsynced_missing[code] if candidate_path.exists() else None
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
