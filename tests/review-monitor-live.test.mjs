@@ -46,10 +46,10 @@ test('shows reviewed inclusions missing from the candidate file and their abstra
 
 test('shows full catalogue and final inclusion counts in summary and source detail', async () => {
   const ids=['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
-  const elements=Object.fromEntries(ids.map(id=>[id,{value:id==='year'?'2024':id==='status'?'all':'',style:{},addEventListener(){}}]));
+  const elements=Object.fromEntries(ids.map(id=>[id,{value:id==='year'?'2025':id==='status'?'all':'',style:{},addEventListener(){}}]));
   const globals={document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
   globalThis.document={querySelector:selector=>elements[selector.slice(1)]}; globalThis.setInterval=()=>0;
-  globalThis.fetch=async()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2024,sources:[{
+  globalThis.fetch=async()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2025,sources:[{
     code:'v',title:'Venue',owner:'A',issues:[],actions:[],files:[],evidence_urls:[],papers:10,papers_missing_abstract:3,
     candidates:5,final_included:2,final_missing_abstract:1,decisions:{include:2,exclude:3,pending:0,unreviewed:0}
   }]}]})});
@@ -69,12 +69,14 @@ test('hides historical unsynced metrics for 2024 even with an old cached summary
   const globals={document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
   globalThis.document={querySelector:s=>elements[s.slice(1)]}; globalThis.setInterval=()=>0;
   globalThis.fetch=async()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2024,sources:[{
-    code:'v',title:'Venue',owner:'A',issues:[],actions:[],files:[],evidence_urls:[],candidates:1,unsynced_included:2,unsynced_missing_abstract:1
+    code:'v',title:'Venue',owner:'A',issues:[],actions:[],files:[],evidence_urls:[],candidates:1,final_included:3,final_missing_abstract:7,unsynced_included:2,unsynced_missing_abstract:1
   }]}]})});
   try {
     await import('../static/js/review-monitor.mjs?test=2024-closed');
     assert.doesNotMatch(elements.metrics.innerHTML,/已纳入待同步|待同步缺摘要/);
     assert.doesNotMatch(elements.list.innerHTML,/已纳入待同步/);
+    assert.match(elements.metrics.innerHTML,/<strong>0<\/strong><span>纳入待补摘要/);
+    assert.match(elements.list.innerHTML,/精筛纳入 3 篇，待补摘要 0 篇/);
   } finally {Object.assign(globalThis,globals);}
 });
 

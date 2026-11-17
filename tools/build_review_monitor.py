@@ -674,7 +674,7 @@ def build(root):
         for (code, _), entry in final_reviews.items():
             if entry['decisions'] == {'include'}:
                 final_included[code] += 1
-                if not entry['has_abstract']: final_missing[code] += 1
+                if year != 2024 and not entry['has_abstract']: final_missing[code] += 1
         for (code, _), entry in unsynced_reviews.items():
             if entry['decisions'] != {'include'}: continue
             unsynced_included[code] += 1
@@ -705,7 +705,7 @@ def build(root):
                 owner_closed[key[0]] += 1
         for code, source in source_map.items():
             source['final_included'] = final_included[code] if code in final_review_sources else None
-            source['final_missing_abstract'] = final_missing[code] if code in final_review_sources else None
+            source['final_missing_abstract'] = final_missing[code] if year != 2024 and code in final_review_sources else None
             source['unsynced_included'] = unsynced_included[code] if year != 2024 and candidate_path.exists() else None
             source['unsynced_missing_abstract'] = unsynced_missing[code] if year != 2024 and candidate_path.exists() else None
             source['abstract_recovered'] = recovered_abstracts[code] if candidate_path.exists() else None

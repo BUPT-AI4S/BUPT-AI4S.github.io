@@ -56,10 +56,12 @@ class MonitorTest(unittest.TestCase):
                 (reviews/'a.json').write_text(json.dumps([{'year':year,'venue':'v','id':'extra','abstract':None,'ai4s_review':{'owner':'A','snapshot_at':'current','decision':'include'}}]),encoding='utf8')
             rows={y['year']:y['sources'][0] for y in build(p)['years']}
             self.assertIsNone(rows[2024]['unsynced_included'])
+            self.assertIsNone(rows[2024]['final_missing_abstract'])
             self.assertFalse(any('摘要' in x or '尚未同步候选总集' in x for x in rows[2024]['issues']))
             for year in (2025,2026):
                 self.assertEqual(rows[year]['unsynced_included'],1)
                 self.assertEqual(rows[year]['unsynced_missing_abstract'],1)
+                self.assertEqual(rows[year]['final_missing_abstract'],1)
                 self.assertTrue(any('尚未同步候选总集' in x for x in rows[year]['issues']))
                 self.assertTrue(any('AI4S候选缺少摘要' in x for x in rows[year]['issues']))
     def test_full_and_final_inclusion_abstract_counts(self):
@@ -74,7 +76,7 @@ class MonitorTest(unittest.TestCase):
             rows={s['code']:s for s in build(p)['years'][0]['sources']}
             self.assertEqual(rows['v']['papers_missing_abstract'],3)
             self.assertEqual(rows['v']['final_included'],2)
-            self.assertEqual(rows['v']['final_missing_abstract'],1)
+            self.assertIsNone(rows['v']['final_missing_abstract'])
             self.assertIsNone(rows['unknown']['papers_missing_abstract'])
             self.assertIsNone(rows['unknown']['final_included'])
 
