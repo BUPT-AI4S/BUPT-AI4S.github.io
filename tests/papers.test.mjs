@@ -117,7 +117,7 @@ test('returning from a paper retains date browsing and pagination', async () => 
 test('published catalog has bilingual Markdown sections and traceable full-paper ClimaX notes', async () => {
   const data=JSON.parse(await readFile(new URL('../data/papers-index.json',import.meta.url),'utf8'));
   assert.equal(data.schemaVersion,1);
-  const details=await Promise.all(data.papers.map(p=>readFile(new URL('../'+p.dataUrl,import.meta.url),'utf8').then(JSON.parse)));
+  const details=await Promise.all(data.papers.filter(p=>!p.imported).map(p=>readFile(new URL('../'+p.dataUrl,import.meta.url),'utf8').then(JSON.parse)));
   for(const p of details) {
     assert.equal(typeof p.content.zh.html,'string');
     assert.equal(typeof p.content.en.html,'string');
@@ -162,6 +162,15 @@ test('catalog uses abstracts only and never substitutes an AI overview', async (
   assert.deepEqual(cardAbstract(paper,'en'),{text:'Original abstract',isAbstract:true});
   assert.deepEqual(cardAbstract({summaryZh:'只有概述',summaryEn:'Only a summary'},'zh'),{text:'',isAbstract:false});
   assert.deepEqual(cardAbstract({...paper,abstractZh:'完整中文摘要'},'zh'),{text:'完整中文摘要',isAbstract:true});
+});
+
+test('lazy abstract search retains matches beyond the card display data', async () => {
+  const {filterPapers}=await import('../static/js/papers-core.mjs');
+  const papers=[{id:'a',title:'A paper',year:'2024',authors:['Alice'],hasAbstract:true}];
+  const abstracts=new Map([['a',['a full abstract about protein folding','蛋白质折叠']]]);
+  assert.equal(filterPapers(papers,{abstracts,query:'"protein folding" alice'}).length,1);
+  assert.equal(filterPapers(papers,{abstracts,query:'蛋白质折叠',searchField:'abstract'}).length,1);
+  assert.equal(filterPapers(papers,{abstracts,query:'folding',searchField:'title'}).length,0);
 });
 
 test('exact tags count papers once, search affiliations and preserve tag context', async () => {

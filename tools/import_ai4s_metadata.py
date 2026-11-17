@@ -4,6 +4,7 @@ from collections import Counter,defaultdict
 from copy import deepcopy
 from datetime import date
 import hashlib
+from html import unescape
 import json
 from pathlib import Path
 import re
@@ -19,23 +20,43 @@ CATEGORIES=dict(zip([
     'scientific-data','scientific-knowledge-models','scientific-foundation-models','scientific-agents','scientific-evaluation','autonomous-labs',
     'mathematical-sciences','life-sciences','matter-sciences','earth-space-sciences','information-sciences','social-sciences',
 ]))
+REVIEW_CATEGORIES={**CATEGORIES,**{t.replace('AI for ','AI 用于'):v for t,v in CATEGORIES.items() if t.startswith('AI for ')},
+                   'AI 用于工程科学':'engineering-sciences','AI for 工程科学':'engineering-sciences'}
 
 def title_key(p):
     return ''.join(c for c in unicodedata.normalize('NFKC',p['title']).casefold() if c.isalnum())
 
 def adapt_record(raw,source,as_of=None):
-    if not isinstance(raw.get('ai4s_tags'),list):raise ValueError('Missing supplied ai4s_tags: '+str(raw.get('title')))
+    review=raw.get('ai4s_review') or {}
+    decision=review.get('decision')
+    reviewed=decision in ('include','exclude')
+    categories=raw.get('ai4s_tags')
+    if reviewed:
+        verified=review.get('verified_metadata') or {}
+        for key in ('title','authors','abstract','url','pdf_url','code_url','project_url','doi','keywords'):
+            value=verified.get(key)
+            if isinstance(value,(str,list)) and value:
+                raw={**raw,key:value}
+        categories=[t['label'] for t in (review.get('tags') or [])
+                    if isinstance(t,dict) and isinstance(t.get('label'),str)]
+    if not isinstance(categories,list):raise ValueError('Missing supplied ai4s_tags: '+str(raw.get('title')))
     p=_merge([_normalized_record(raw,as_of=as_of or date.today())])
     p['id']=p['id'].replace('import-2026-',f"import-{p['year']}-",1)
-    p['disciplines']=list(dict.fromkeys(CATEGORIES[t] for t in raw['ai4s_tags'] if t in CATEGORIES))
+    mapping=REVIEW_CATEGORIES if reviewed else CATEGORIES
+    if reviewed:
+        p['tags']=[]
+        journal=raw.get('journal_title')
+        if raw.get('venue_type')=='journal' and isinstance(journal,str) and journal.strip():
+            p['venue']=unescape(journal).strip()
+    p['disciplines']=list(dict.fromkeys(mapping[t] for t in categories if t in mapping))
     p['classificationStatus']='source-provided' if p['disciplines'] else 'needs-review'
     p['recordFlags']=[f for f in p['recordFlags'] if f!='taxonomy-rule-derived']
     provenance=p['metadataProvenance']
-    provenance.update(source=source,classificationMethod='source-ai4s-tags',sourceAi4sTags=raw['ai4s_tags'],
-                      sourceAi4sTagging=raw.get('ai4s_tagging',{}),importedAt=str(as_of or date.today()))
+    provenance.update(source=source,classificationMethod='human-review' if reviewed else 'source-ai4s-tags',sourceAi4sTags=categories,
+                      sourceAi4sTagging={} if reviewed else raw.get('ai4s_tagging',{}),importedAt=str(as_of or date.today()))
     provenance.pop('classificationEvidence',None)
     if raw.get('doi'):provenance['dois']=[raw['doi']]
-    p['_excluded']=raw.get('ai4s_tagging',{}).get('status')=='out_of_scope' or '非AI4S（当前口径）' in raw['ai4s_tags']
+    p['_excluded']=decision=='exclude' if reviewed else (raw.get('ai4s_tagging') or {}).get('status')=='out_of_scope' or '非AI4S（当前口径）' in categories
     return p
 
 def formal(p):
@@ -97,7 +118,7 @@ def compatible_authors(a,b):
     return not aa or not bb or bool(aa&bb)
 
 def update_catalog(existing,incoming,authored=()):
-    papers=deepcopy(existing);original_ids={p['id'] for p in papers};authored=set(authored)
+    papers=deepcopy(existing);original_ids={p['id'] for p in papers};used_ids=set(original_ids);authored=set(authored)
     titles=defaultdict(set);identities=defaultdict(set);removed=set();updated=set();added=set();excluded=[];duplicates=0;seen=set()
     def index(i,p):
         titles[title_key(p)].add(i)
@@ -118,7 +139,8 @@ def update_catalog(existing,incoming,authored=()):
             excluded.append({'title':p['title'],'year':p['year'],'previousId':papers[i]['id'] if i is not None else None})
             continue
         if i is None:
-            if p['id'] in {x['id'] for x in papers}:raise ValueError('Generated ID collision: '+p['id'])
+            if p['id'] in used_ids:raise ValueError('Generated ID collision: '+p['id'])
+            used_ids.add(p['id'])
             papers.append(deepcopy(p));i=len(papers)-1;added.add(p['id'])
         else:
             papers[i]=merge_record(papers[i],p,papers[i]['id'] in authored)
@@ -154,7 +176,7 @@ def main():
     result=update_catalog(existing,incoming,authored)
     result['sources']=source_report;result['beforeCount']=len(existing);result['afterCount']=len(result['papers'])
     result['disciplines']=dict(Counter(d for p in result['papers'] for d in p.get('disciplines',[])))
-    result['unmappedSourceTags']=dict(Counter(t for p in incoming if not p['_excluded'] for t in p['metadataProvenance']['sourceAi4sTags'] if t not in CATEGORIES))
+    result['unmappedSourceTags']=dict(Counter(t for p in incoming if not p['_excluded'] for t in p['metadataProvenance']['sourceAi4sTags'] if t not in REVIEW_CATEGORIES))
     result['unclassifiedCount']=sum(not p.get('disciplines') for p in result['papers'])
     by_year=defaultdict(list)
     for p in result['papers']:
@@ -169,7 +191,14 @@ def main():
     if args.apply:
         for year,rows in by_year.items():
             dest=root/f'data/imported/ai4s-{year}.json'
-            dest.write_text(json.dumps({'schemaVersion':1,'source':', '.join(x['file'] for x in source_report),'papers':rows},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+            if rows!=[p for p in existing if p['id'] not in authored and p.get('year','unknown')==year]:
+                payload={'schemaVersion':1,'source':', '.join(x['file'] for x in source_report),'papers':rows}
+                if any(p.get('metadataProvenance',{}).get('classificationMethod')=='human-review' for p in rows):
+                    header=json.dumps({k:v for k,v in payload.items() if k!='papers'},ensure_ascii=False)
+                    entries=',\n'.join(json.dumps(p,ensure_ascii=False,separators=(',',':')) for p in rows)
+                    dest.write_text(header[:-1]+',"papers":[\n'+entries+'\n]}\n',encoding='utf-8')
+                else:
+                    dest.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         report={k:v for k,v in result.items() if k!='papers'}
         (root/f'docs/ai4s-upload-{date.today()}.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in result.items() if k not in ('papers','addedIds','updatedIds','excluded')},ensure_ascii=True,indent=2))

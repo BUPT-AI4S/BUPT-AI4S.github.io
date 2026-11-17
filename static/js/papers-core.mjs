@@ -10,6 +10,7 @@ export const DISCIPLINES = {
   'matter-sciences':['AI for 物质科学','AI for Matter Sciences'],
   'earth-space-sciences':['AI for 地球宇宙科学','AI for Earth & Space Sciences'],
   'information-sciences':['AI for 信息科学','AI for Information Sciences'],
+  'engineering-sciences':['AI for 工程科学','AI for Engineering Sciences'],
   'social-sciences':['AI for 社会科学','AI for Social Sciences'],
 };
 export const resolveDiscipline=id=>({mathematics:'mathematical-sciences',physics:'mathematical-sciences',chemistry:'matter-sciences',materials:'matter-sciences',biology:'life-sciences',medicine:'life-sciences',weather:'earth-space-sciences',earth:'earth-space-sciences',communications:'information-sciences',chips:'information-sciences',general:'scientific-agents'}[id]||id);
@@ -81,15 +82,27 @@ export function paginatePapers(papers,page=1,size=48) {
   page=Math.min(pages,Math.max(1,Math.trunc(Number(page))||1));
   return {page,pages,items:papers.slice((page-1)*size,page*size)};
 }
+const arxivLinks=new WeakMap(),githubLinks=new WeakMap();
 export function arxivLink(paper) {
+  if(arxivLinks.has(paper))return arxivLinks.get(paper);
   for(const candidate of [paper.arxivUrl,paper.paperUrl,paper.pdfUrl,paper.abstractSource]) {
-    try {const url=new URL(candidate);if(url.protocol==='https:'&&['arxiv.org','export.arxiv.org'].includes(url.hostname)&&/^\/(abs|pdf)\/.+/.test(url.pathname))return url.href;}catch{}
+    if(!candidate)continue;
+    try {
+      const url=new URL(candidate);
+      if(url.protocol==='https:'&&['arxiv.org','export.arxiv.org'].includes(url.hostname)&&/^\/(abs|pdf)\/.+/.test(url.pathname)){
+        arxivLinks.set(paper,url.href);return url.href;
+      }
+    }catch{}
   }
+  arxivLinks.set(paper,'');
   return '';
 }
 export function githubLink(paper) {
-  try {const url=new URL(paper.codeUrl);if(url.protocol==='https:'&&url.hostname==='github.com'&&url.pathname.split('/').filter(Boolean).length>=2)return url.href;}catch{}
-  return '';
+  if(githubLinks.has(paper))return githubLinks.get(paper);
+  let link='';
+  if(paper.codeUrl)try {const url=new URL(paper.codeUrl);if(url.protocol==='https:'&&url.hostname==='github.com'&&url.pathname.split('/').filter(Boolean).length>=2)link=url.href;}catch{}
+  githubLinks.set(paper,link);
+  return link;
 }
 function resourceMatches(paper,group,value) {
   if(!value||value==='all')return true;
@@ -104,10 +117,14 @@ function resourceMatches(paper,group,value) {
   return value==='yes'?linked:value==='page'?linked&&paper.githubSource==='page':value==='unknown'?unknown:value==='no'?!linked&&!unknown:false;
 }
 export function facetCounts(papers,filters,group,values) {
-  const base={...filters,[group]:['sessions','rooms'].includes(group)?[]:'all'};
-  return values.map(value=>[value,filterPapers(papers,{...base,[group]:['sessions','rooms'].includes(group)?[value]:value}).length]);
+  const field={sessions:'session',rooms:'room'}[group];
+  const pool=filterPapers(papers,{...filters,[group]:field?[]:'all',ordered:false});
+  if(!field)return values.map(value=>[value,pool.filter(p=>resourceMatches(p,group,value)).length]);
+  const counts=new Map();
+  for(const p of pool){const key=p[field]||'__unlisted__';counts.set(key,(counts.get(key)||0)+1);}
+  return values.map(value=>[value,counts.get(value)||0]);
 }
-export function filterPapers(papers, { query = '', tag = '', topic = '', discipline = '', disciplines: selectedDisciplines = [], matchMode = 'any', primaryOnly = false, searchField = 'all', subfield = '', venue = '', year = '', decision = '', savedOnly = false, saved = [], period = 'all', date = '', arxiv = 'all', github = 'all', sessions = [], rooms = [] } = {}) {
+export function filterPapers(papers, { query = '', abstracts, ordered = true, tag = '', topic = '', discipline = '', disciplines: selectedDisciplines = [], matchMode = 'any', primaryOnly = false, searchField = 'all', subfield = '', venue = '', year = '', decision = '', savedOnly = false, saved = [], period = 'all', date = '', arxiv = 'all', github = 'all', sessions = [], rooms = [] } = {}) {
   const terms = Array.from(query.trim().toLocaleLowerCase().matchAll(/"([^"]+)"|(\S+)/g),m=>m[1]||m[2]);
   let start = '', end = '';
   if (['day','week','month'].includes(period) && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -121,20 +138,26 @@ export function filterPapers(papers, { query = '', tag = '', topic = '', discipl
       end=anchor.toISOString().slice(0,10);
     }
   }
-  return papers.filter(p => {
-    const values = searchField==='title'?[p.title,p.titleZh]:searchField==='authors'?p.authors||[]:searchField==='abstract'?[p.abstract,p.abstractZh]:searchField==='id'?[p.id]:[p.title, p.titleZh, p.summaryZh, p.summaryEn, p.abstract, p.abstractZh, p.id, p.subfield, p.venue, ...(p.authors || []), ...(p.affiliations || []), ...(p.keywords || []), ...paperTags(p)];
-    const text = values.join(' ').toLocaleLowerCase();
+  const matchesQuery=p=>{
+    if(!terms.length)return true;
+    const pair=abstracts?.get(p.id)||[p.abstract,p.abstractZh];
+    const values = searchField==='title'?[p.title,p.titleZh]:searchField==='authors'?p.authors||[]:searchField==='abstract'?pair:searchField==='id'?[p.id]:[p.title, p.titleZh, p.summaryZh, p.summaryEn, ...pair, p.id, p.subfield, p.venue, ...(p.authors || []), ...(p.affiliations || []), ...(p.keywords || []), ...paperTags(p)];
+    const text=values.join(' ').toLocaleLowerCase();
+    return terms.every(term=>text.includes(term));
+  };
+  const results=papers.filter(p => {
     const disciplines = p.disciplines || [];
     const matches=id=>id==='unclassified'?!disciplines.length:(primaryOnly?disciplines[0]===id:disciplines.includes(id));
-    return terms.every(term => text.includes(term)) && (!topic || (p.topics || []).includes(topic))
+    return (!year || String(p.year || '') === year) && (!topic || (p.topics || []).includes(topic))
       && (!selectedDisciplines.length || (matchMode==='all'?selectedDisciplines.every(matches):selectedDisciplines.some(matches)))
       && (!tag || paperTags(p).includes(tag))
       && (!discipline || (discipline === 'unclassified' ? !disciplines.length : disciplines.includes(discipline)))
       && (!subfield || p.subfield === subfield) && (!venue || p.venue === venue)
-      && (!year || String(p.year || '') === year) && (!decision || (p.decision || 'unknown') === decision)
+      && (!decision || (p.decision || 'unknown') === decision)
       && resourceMatches(p,'arxiv',arxiv) && resourceMatches(p,'github',github)
       && (!sessions.length || sessions.includes(p.session||'__unlisted__'))
       && (!rooms.length || rooms.includes(p.room||'__unlisted__'))
-      && (!savedOnly || saved.includes(p.id));
-  }).filter(p=>!start || (p.published >= start && p.published < end)).sort((a, b) => (b.published || '').localeCompare(a.published || '') || a.title.localeCompare(b.title));
+      && (!savedOnly || saved.includes(p.id)) && (!start || (p.published >= start && p.published < end)) && matchesQuery(p);
+  });
+  return ordered?results.sort((a, b) => (b.published || '').localeCompare(a.published || '') || a.title.localeCompare(b.title)):results;
 }

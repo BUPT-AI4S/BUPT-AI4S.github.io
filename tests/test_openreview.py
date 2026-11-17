@@ -100,6 +100,8 @@ class CollectorTests(unittest.TestCase):
             self.assertEqual(len(list(folder.glob('*.md'))),1)
             self.assertEqual(len(list(folder.glob('*.json'))),0)
             self.assertTrue((temp/'papers-index.json').exists())
+            index=json.loads((temp/'papers-index.json').read_text(encoding='utf-8'))
+            self.assertEqual([p['id'] for p in index['papers']],['a'])
 
     def test_refresh_legacy_json_does_not_create_duplicate_markdown(self):
         with tempfile.TemporaryDirectory() as tmp:

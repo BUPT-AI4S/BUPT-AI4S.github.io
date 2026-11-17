@@ -30,8 +30,14 @@ class ImportedCatalogTests(unittest.TestCase):
             entry=data['papers'][0]
             self.assertFalse(entry['hasNotes']);self.assertTrue(entry['imported'])
             self.assertEqual(entry['codeAvailability'],'unknown')
+            self.assertNotIn('abstract',entry)
+            self.assertTrue(entry['hasAbstract'])
+            abstracts=json.loads((root/data['abstractsByYear']['2026']).read_text(encoding='utf-8'))
+            self.assertEqual(abstracts[entry['id']],['Original abstract',''])
             detail=json.loads((root/entry['dataUrl']).read_text(encoding='utf-8'))
             self.assertEqual(detail['metadataProvenance']['originalIds'],['one'])
+            self.assertEqual(detail['pdfAvailability'],'unresolved')
+            self.assertNotIn('pdfAvailability',entry)
             self.assertEqual(detail['content']['zh']['html'],'')
             self.assertNotIn('notesMeta',detail)
 

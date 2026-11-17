@@ -193,7 +193,7 @@ def main():
         schema=read_json(ROOT/'data/papers.schema.json')
         config_path=args.output.parent/'papers-config.json'
         config=read_json(config_path) if config_path.exists() else {}
-        from build_paper_index import validate
+        from build_paper_index import validate, write_index
         validate(config.get('tagTranslations',{}),schema['properties']['tagTranslations'],schema,'tagTranslations')
         used={paper_key(args.output/name,args.output).lower() for name in filenames.values()}
         vocabulary=load_tag_vocabulary(site_root)
@@ -214,6 +214,10 @@ def main():
             output.parent.mkdir(parents=True,exist_ok=True)
             text=markdown_source(paper,bodies.get(paper['id'],'')) if output.suffix=='.md' else json.dumps(paper,ensure_ascii=False,indent=2)+'\n'
             temp.write_text(text,encoding='utf-8');temp.replace(output)
+        if args.output.resolve()==(site_root/'data/papers').resolve():
+            write_index(site_root,schema_path=ROOT/'data/papers.schema.json')
+            print(f'Collected {len(incoming)} public submissions; catalog now has {len(papers)} authored papers: {args.output}')
+            return
         details={}
         index=build_index(args.output,ROOT/'data/papers.schema.json',config,site_root,details)
         built=args.output.parent/'papers-built';built.mkdir(exist_ok=True)
