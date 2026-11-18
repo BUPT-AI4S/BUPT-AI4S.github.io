@@ -60,6 +60,10 @@ test('shows full catalogue and final inclusion counts in summary and source deta
     assert.match(elements.metrics.innerHTML,/<strong>1<\/strong><span>纳入缺摘要/);
     assert.match(elements.list.innerHTML,/全量采集 10 篇，缺摘要 3 篇/);
     assert.match(elements.list.innerHTML,/精筛纳入 2 篇，缺摘要 1 篇/);
+    assert.match(elements.metrics.innerHTML,/<strong>20\.0%<\/strong><span>AI4S占比/);
+    assert.match(elements.list.innerHTML,/采集 <strong>10/);
+    assert.match(elements.list.innerHTML,/纳入 <strong>2/);
+    assert.match(elements.list.innerHTML,/占比 <strong>20\.0%/);
   } finally {Object.assign(globalThis,globals);}
 });
 
@@ -80,6 +84,26 @@ test('shows consistent 2024 metrics with zero abstract gaps for an old cached su
     assert.match(elements.metrics.innerHTML,/<strong>0<\/strong><span>候选待补摘要/);
     assert.match(elements.list.innerHTML,/全量采集 10 篇，缺摘要 0 篇/);
     assert.match(elements.list.innerHTML,/精筛纳入 3 篇，缺摘要 0 篇/);
+  } finally {Object.assign(globalThis,globals);}
+});
+
+test('weights overall share and sorts known sources while keeping unknowns last', async () => {
+  const ids=['year','owner','search','status','sort','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
+  const elements=Object.fromEntries(ids.map(id=>[id,{value:id==='year'?'2025':id==='status'?'all':id==='sort'?'default':'',style:{},addEventListener(type,fn){this.onchange=fn;}}]));
+  const globals={document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
+  globalThis.document={querySelector:s=>elements[s.slice(1)]};globalThis.setInterval=()=>0;
+  const source=(code,papers,final_included)=>({code,title:code,owner:'A',issues:[],actions:[],files:[],evidence_urls:[],candidates:0,papers,final_included});
+  globalThis.fetch=async()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2025,sources:[source('Alpha',10,2),source('Beta',90,45),source('Unknown',10,null),source('NoTotal',null,1)]}]})});
+  try {
+    await import('../static/js/review-monitor.mjs?test=sorting');
+    assert.match(elements.metrics.innerHTML,/<strong>47\.0%<\/strong><span>AI4S占比（部分来源）/);
+    assert.match(elements.list.innerHTML,/占比 <strong>未知/);
+    elements.sort.value='included';elements.sort.onchange();
+    assert.ok(elements.list.innerHTML.indexOf('Beta') < elements.list.innerHTML.indexOf('Alpha'));
+    assert.ok(elements.list.innerHTML.indexOf('NoTotal') < elements.list.innerHTML.indexOf('Unknown'));
+    elements.sort.value='ratio';elements.sort.onchange();
+    assert.ok(elements.list.innerHTML.indexOf('Beta') < elements.list.innerHTML.indexOf('Alpha'));
+    assert.ok(elements.list.innerHTML.indexOf('Alpha') < elements.list.innerHTML.indexOf('Unknown'));
   } finally {Object.assign(globalThis,globals);}
 });
 
