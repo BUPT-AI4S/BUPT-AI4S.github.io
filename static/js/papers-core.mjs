@@ -63,6 +63,7 @@ export function detailReturnUrl(search = '') {
     if(current.get(key))context.set(key,current.get(key));
     else context.delete(key);
   }
+  if(context.get('q'))context.set('resume','1');
   return 'papers.html'+(context.size?'?'+context.toString():'');
 }
 

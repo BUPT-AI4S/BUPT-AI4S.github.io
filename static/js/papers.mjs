@@ -1,4 +1,4 @@
-import { DISCIPLINES, filterPapers, sortPapers, paginatePapers, readingUrl, paperTags, tagCounts, topicOptions, tagLabel, resolveTag, resolveDiscipline, facetCounts, arxivLink, githubLink } from './papers-core.mjs?v=20261117-catalog';
+import { DISCIPLINES, filterPapers, sortPapers, paginatePapers, readingUrl, paperTags, tagCounts, topicOptions, tagLabel, resolveTag, resolveDiscipline, facetCounts, arxivLink, githubLink } from './papers-core.mjs?v=20261118-search';
 const root=document.documentElement, $=id=>document.getElementById(id);
 const tr=(zh,en)=>root.lang==='en'?en:zh;
 const fields={q:$('paper-search'),venue:$('venue-filter'),year:$('year-filter')};
@@ -53,15 +53,16 @@ function icon(name){
   const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',paths[name]||paths.external);svg.append(path);return svg;
 }
 function button(text,cls,action){const b=node('button',text,cls);b.type='button';b.addEventListener('click',action);return b;}
-function paperLink(id,text){const a=node('a',text);a.href=readingUrl(id,location.search);a.target='_blank';a.rel='noopener noreferrer';return a;}
+function paperLink(id,text){const a=node('a',text),context=new URLSearchParams(location.search);if(fields.q.value.trim())context.set('q',fields.q.value.trim());a.href=readingUrl(id,'?'+context);a.target='_blank';a.rel='noopener noreferrer';return a;}
 function resource(label,url,name='external'){
   try{const parsed=new URL(url);if(parsed.protocol!=='https:')return null;const a=node('a');a.href=parsed.href;a.target='_blank';a.rel='noopener noreferrer';a.append(icon(name),document.createTextNode(label));return a;}catch{return null;}
 }
 function disciplineLabel(id,lang=root.lang){if(id==='unclassified')return lang==='en'?'Unclassified':'待分类';const value=DISCIPLINES[id];return value?value[lang==='en'?1:0]:id;}
 function colorClass(p){const id=p.disciplines?.[0]||'general';return ['matter-sciences','life-sciences'].includes(id)?'area-green':['earth-space-sciences','mathematical-sciences'].includes(id)?'area-teal':'area-blue';}
-function readUrl(){
+function readUrl(restore=false){
   const params=new URLSearchParams(location.search);
   for(const [key,el] of Object.entries(fields))el.value=params.get(key)||'';
+  fields.q.value=params.get('resume')==='1'?params.get('q')||'':restore?history.state?.paperSearch||'':'';
   selected=(params.get('discipline')||'').split(',').map(resolveDiscipline).filter(id=>DISCIPLINES[id]);
   selectedTag=resolveTag(params.get('tag')||'',vocabulary);savedOnly.checked=params.get('saved')==='1';primary.checked=params.get('primary')==='1';
   page=Math.max(1,parseInt(params.get('page'),10)||1);
@@ -73,10 +74,10 @@ function readUrl(){
 }
 function syncUrl(){
   const url=new URL(location.href),values={discipline:selected.join(','),tag:selectedTag,saved:savedOnly.checked?'1':'',primary:primary.checked?'1':'',match:matchMode==='all'?'all':'',view:view==='cards'?'':view,field:searchField.value==='all'?'':searchField.value,sort:sort.value==='default'?'':sort.value,arxiv:arxiv==='all'?'':arxiv,github:github==='all'?'':github,sessions:sessions.join('|'),rooms:rooms.join('|'),page:page>1?String(page):''};
-  for(const [key,el] of Object.entries(fields))values[key]=el.value.trim();
-  for(const key of ['period','date','paper','decision','subfield'])url.searchParams.delete(key);
+  for(const [key,el] of Object.entries(fields))if(key!=='q')values[key]=el.value.trim();
+  for(const key of ['period','date','paper','decision','subfield','q','resume'])url.searchParams.delete(key);
   for(const [key,value] of Object.entries(values))value?url.searchParams.set(key,value):url.searchParams.delete(key);
-  history.replaceState({},'',url);
+  history.replaceState({...history.state,paperSearch:fields.q.value.trim()},'',url);
 }
 function readSaved(){try{const values=JSON.parse(localStorage.getItem(storageKey)||'[]');saved=Array.isArray(values)?values.filter(id=>typeof id==='string'):[];}catch{storageAvailable=false;}}
 function toggleSave(id){
@@ -295,7 +296,7 @@ for(const b of $('view-mode').children)b.addEventListener('click',()=>{view=b.da
 $('clear-filters').addEventListener('click',()=>{for(const el of Object.values(fields))el.value='';topicSearch.value='';selected=[];selectedTag='';savedOnly.checked=false;primary.checked=false;matchMode='any';arxiv='all';github='all';sessions=[];rooms=[];searchField.value='all';refresh();fields.q.focus();});
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target.closest('input,select,textarea,[contenteditable="true"]')){e.preventDefault();fields.q.focus();}});
 new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['lang','data-theme']});
-window.addEventListener('popstate',()=>{readUrl();render();});window.addEventListener('pageshow',()=>{readSaved();render();});
+window.addEventListener('popstate',()=>{readUrl(true);render();});window.addEventListener('pageshow',()=>{readSaved();render();});
 window.addEventListener('storage',e=>{if(e.key===storageKey){readSaved();render();}});
 const narrow=matchMedia('(max-width: 760px)');function adaptSidebar(){document.querySelector('.sidebar-disclosure').open=!narrow.matches;}narrow.addEventListener('change',adaptSidebar);adaptSidebar();
 function setLabels(data){

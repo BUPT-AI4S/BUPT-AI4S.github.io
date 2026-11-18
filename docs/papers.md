@@ -8,10 +8,6 @@
 
 ```text
 data/papers/
-├── climax/
-│   ├── paper.md
-│   └── images/
-│       └── workflow.svg
 └── my-paper/
     ├── paper.md
     └── images/
@@ -19,7 +15,7 @@ data/papers/
         └── results.png
 ```
 
-目录名使用英文字母、数字、点、连字符、下划线，以字母或数字开头，不能以 `.local` 结尾。每个目录根部只有一份 Markdown 正文，文件名固定为 `paper.md`；没有图片时无需创建 `images/`。完整示例：[ClimaX](../data/papers/climax/paper.md)。
+目录名使用英文字母、数字、点、连字符、下划线，以字母或数字开头，不能以 `.local` 结尾。每个目录根部只有一份 Markdown 正文，文件名固定为 `paper.md`；没有图片时无需创建 `images/`。字段和正文结构见[论文模板](../data/paper.template.md)。
 
 ## 2. 填写 YAML
 
@@ -233,7 +229,7 @@ GitHub 网页：进入仓库 `data/papers/`，选择 **Add file → Upload files
 
 更新论文时修改原目录并提交。删除论文时删除其完整目录，下次发布会移除对应卡片。
 
-完整入库测试案例见 [C-FREE 添加记录](c-free-ingestion-test.md)，包括查词表、新建标签、论文目录、原图和校验结果。
+
 
 
 ### PDF 阅读器
