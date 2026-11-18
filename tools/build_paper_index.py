@@ -1,5 +1,6 @@
 """Compile YAML-front-matter Markdown papers and generate a static catalog."""
 import argparse
+from collections import Counter, defaultdict
 from datetime import datetime, timezone, timedelta
 import json
 from html import unescape
@@ -405,7 +406,38 @@ def write_index(root=ROOT,schema_path=None):
         data['abstractsByYear'][year]=relative
     output=root/'data/papers-index.json';temp=output.with_suffix('.json.tmp')
     temp.write_text(json.dumps(data,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8');temp.replace(output)
+    write_catalog_preview(root,data)
     return data
+
+def write_catalog_preview(root,data):
+    """Keep the first screen independent of the full catalog download."""
+    papers=data['papers']
+    groups=defaultdict(list)
+    groups['']=list(enumerate(papers,1))
+    for number,paper in groups['']:
+        if paper.get('year'):groups[paper['year']].append((number,paper))
+    views={};label_ids=set()
+    for year,rows in groups.items():
+        disciplines=Counter(d for _,p in rows for d in set(p.get('disciplines',[])))
+        topics=Counter(t for _,p in rows for t in set(p.get('tags',[])+p.get('topics',[])))
+        ranked=sorted(topics.items(),key=lambda entry:(-entry[1],entry[0]))[:60]
+        first=[{**p,'catalogNumber':number} for number,p in rows[:48]]
+        label_ids.update(t for t,_ in ranked)
+        label_ids.update(t for p in first for t in p.get('tags',[])+p.get('topics',[]))
+        views[year]={'total':len(rows),'papers':first,'disciplines':dict(disciplines),
+                     'topics':ranked,'topicTotal':len(topics)}
+    options={key:sorted({p[key] for p in papers if p.get(key)}) for key in ('venue','year','session','room')}
+    for key in ('session','room'):
+        if any(not p.get(key) for p in papers):options[key].append('__unlisted__')
+    preview={'updated':data['updated'],'options':options,'views':views,
+             'tagTranslations':{key:value for key,value in data['tagTranslations'].items() if key in label_ids},
+             'tagLabelsEn':{key:value for key,value in data['tagLabelsEn'].items() if key in label_ids},
+             'scope':next((kind for kind,exists in (
+                 ('source',any(p.get('classificationStatus')=='source-provided' for p in papers)),
+                 ('imported',any(p.get('imported') for p in papers)),
+                 ('sample',any(p.get('sample') for p in papers))) if exists),'')}
+    output=root/'data/papers-preview.json';temp=output.with_suffix('.json.tmp')
+    temp.write_text(json.dumps(preview,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8');temp.replace(output)
 
 def stage_site(root=ROOT):
     root=Path(root).resolve();destination=root/'_site'

@@ -51,6 +51,21 @@ class ImportedCatalogTests(unittest.TestCase):
             self.assertEqual([p['id'] for p in data['papers']],['curated'])
             self.assertEqual(data['papers'][0]['abstract'],'Reviewed abstract')
 
+    def test_directory_preview_contains_only_first_page_and_full_counts_per_year(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=self.setup_root(tmp)
+            rows=[{'id':f'p{i}','title':f'Paper {i}','authors':[],'year':'2024' if i<50 else '2025',
+                   'abstract':'Full text stays off the preview','keywords':['graph']} for i in range(52)]
+            self.write_import(root,rows)
+            full=self.builder().write_index(root,ROOT/'data/papers.schema.json')
+            preview=json.loads((root/'data/papers-preview.json').read_text(encoding='utf-8'))
+            self.assertEqual(preview['views']['']['total'],52)
+            year=preview['views']['2024']
+            self.assertEqual(year['total'],50)
+            self.assertEqual([p['id'] for p in year['papers']],[p['id'] for p in full['papers'][:48]])
+            self.assertTrue(all('abstract' not in p for p in year['papers']))
+            self.assertEqual(year['topics'][0][1],50)
+
     def test_unsafe_ids_and_generated_html_in_bulk_data_are_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=self.setup_root(tmp)
