@@ -67,7 +67,7 @@ test('shows full catalogue and final inclusion counts in summary and source deta
   } finally {Object.assign(globalThis,globals);}
 });
 
-test('shows consistent 2024 metrics with zero abstract gaps for an old cached summary', async () => {
+test('shows actual 2024 catalogue gaps without reopening candidate abstract work', async () => {
   const ids=['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
   const elements=Object.fromEntries(ids.map(id=>[id,{value:id==='year'?'2024':id==='status'?'all':'',style:{},addEventListener(){}}]));
   const globals={document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
@@ -79,10 +79,11 @@ test('shows consistent 2024 metrics with zero abstract gaps for an old cached su
     await import('../static/js/review-monitor.mjs?test=2024-closed');
     assert.match(elements.metrics.innerHTML,/<strong>2<\/strong><span>已纳入待同步/);
     assert.match(elements.metrics.innerHTML,/<strong>0<\/strong><span>待同步缺摘要/);
-    assert.match(elements.metrics.innerHTML,/<strong>0<\/strong><span>全量缺摘要/);
+    assert.match(elements.metrics.innerHTML,/<strong>7<\/strong><span>全量缺摘要/);
+    assert.match(elements.list.innerHTML,/全量缺摘要 <strong>7<\/strong>/);
     assert.match(elements.metrics.innerHTML,/<strong>0<\/strong><span>纳入缺摘要/);
     assert.match(elements.metrics.innerHTML,/<strong>0<\/strong><span>候选待补摘要/);
-    assert.match(elements.list.innerHTML,/全量采集 10 篇，缺摘要 0 篇/);
+    assert.match(elements.list.innerHTML,/全量采集 10 篇，缺摘要 7 篇/);
     assert.match(elements.list.innerHTML,/精筛纳入 3 篇，缺摘要 0 篇/);
   } finally {Object.assign(globalThis,globals);}
 });
