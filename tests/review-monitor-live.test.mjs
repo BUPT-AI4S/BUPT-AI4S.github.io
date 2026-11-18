@@ -96,7 +96,8 @@ test('weights overall share and sorts known sources while keeping unknowns last'
   globalThis.fetch=async()=>({ok:true,json:async()=>({generated_at:'now',commit:'test',repository:'https://example.org/',years:[{year:2025,sources:[source('Alpha',10,2),source('Beta',90,45),source('Unknown',10,null),source('NoTotal',null,1)]}]})});
   try {
     await import('../static/js/review-monitor.mjs?test=sorting');
-    assert.match(elements.metrics.innerHTML,/<strong>47\.0%<\/strong><span>AI4S占比（部分来源）/);
+    assert.match(elements.metrics.innerHTML,/<strong>47\.0%<\/strong><span>AI4S占比<\/span>/);
+    assert.doesNotMatch(elements.metrics.innerHTML,/部分来源/);
     assert.match(elements.list.innerHTML,/占比 <strong>未知/);
     elements.sort.value='included';elements.sort.onchange();
     assert.ok(elements.list.innerHTML.indexOf('Beta') < elements.list.innerHTML.indexOf('Alpha'));

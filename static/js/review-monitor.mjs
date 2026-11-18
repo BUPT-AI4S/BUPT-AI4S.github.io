@@ -21,10 +21,10 @@ function render() {
   $('#view-title').textContent = owner.value ? `${owner.value} · 工作分屏` : '工作总览';
   $('#scope').textContent = `统计当前筛选的 ${selected.length} 个来源；采集快照 ${y.captured_at || '未提供'}。${lastUpdateText(y)}`;
   const sum = key => selected.reduce((n,s)=>n+(s[key] ?? 0),0);
-  const knownMetric = (name,key) => [name + (selected.some(s=>s[key]==null) && selected.some(s=>s[key]!=null) ? '（部分来源）' : ''), selected.some(s=>s[key]!=null)?sum(key):null];
+  const knownMetric = (name,key) => [name, selected.some(s=>s[key]!=null)?sum(key):null];
   const ratioSources = selected.filter(s=>ratio(s) != null);
   const overallRatio = ratioSources.length ? ratioSources.reduce((n,s)=>n+s.final_included,0) / ratioSources.reduce((n,s)=>n+s.papers,0) : null;
-  const ratioLabel = 'AI4S占比' + (ratioSources.length && ratioSources.length < selected.length ? '（部分来源）' : '');
+  const ratioLabel = 'AI4S占比';
   const metrics = [['来源条目',selected.length],['快照采集论文',selected.some(s=>s.papers!=null)?sum('papers'):null],knownMetric('全量缺摘要','papers_missing_abstract'),['初筛候选',sum('candidates')],knownMetric('精筛纳入','final_included'),[ratioLabel,percent(overallRatio)],knownMetric('纳入缺摘要','final_missing_abstract'),['候选待补摘要',selected.some(s=>requiredAbstracts(s)!=null)?selected.reduce((n,s)=>n+(requiredAbstracts(s) ?? 0),0):null],['已纳入待同步',selected.some(s=>s.unsynced_included!=null)?sum('unsynced_included'):null],['待同步缺摘要',selected.some(s=>s.unsynced_missing_abstract!=null)?sum('unsynced_missing_abstract'):null],['总量待核对',selected.filter(s=>s.official_total==null && !s.reference_check).length]];
   $('#metrics').innerHTML=metrics.map(([name,value])=>`<div class="metric"><strong>${fmt(value)}</strong><span>${name}</span></div>`).join('');
   $('#count').textContent=`${selected.length} 个来源`; const empty=$('#empty'); if (empty) empty.hidden=selected.length>0;
