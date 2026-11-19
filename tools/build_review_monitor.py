@@ -874,6 +874,21 @@ def build(root):
                 s['coverage_note'] = str(row.get('coverage_note') or s['coverage_note'])
                 if isinstance(row.get('evidence_urls'), list): s['evidence_urls'].extend(x for x in row['evidence_urls'] if isinstance(x,str))
         for s in source_map.values():
+            # Li Xueting explicitly authorized original-body review when the
+            # publisher provides no standalone abstract. The count above only
+            # accepts matching current-owner, current-snapshot candidate/review
+            # proofs through full_text_abstract_exemption; physical nulls remain.
+            body_reviewed = full_text_reviewed[s['code']]
+            if s['owner'] == '李雪婷' and year in (2025, 2026) and body_reviewed:
+                physical = s['final_missing_abstract']
+                if type(physical) is not int or body_reviewed > physical:
+                    raise ValueError('Full-text proof does not reconcile with included abstracts: ' + s['code'])
+                s['final_originally_missing_abstract'] = physical
+                s['final_no_abstract_full_text_reviewed'] = body_reviewed
+                s['final_missing_abstract'] = physical - body_reviewed
+                s['final_abstract_metric_basis'] = 'Unresolved included abstracts; validated publisher-no-abstract body reviews are reported separately.'
+                note = f'原文无独立摘要{body_reviewed}篇，已依据原始正文核实AI4S并保留纳入；原始空值保留，不再计作纳入缺摘要待办。'
+                s['coverage_note'] = s.get('coverage_note', '') + '\n' + note
             resolution_row = resolution_rows.get(s['code'], {})
             if historical_abstract_gap_resolved(s, resolution_row, [r for r in candidate_records
                     if isinstance(r, dict) and r.get('year') == year], completed_reviews, root, year):
