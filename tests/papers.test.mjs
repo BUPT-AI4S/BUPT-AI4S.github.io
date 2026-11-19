@@ -73,6 +73,14 @@ test('catalog search supports exact phrases and a selected search field', async 
   assert.equal(filterPapers(entries,{query:'Alice',searchField:'title'}).length,0);
 });
 
+test('venue search excludes papers that only mention nature in an abstract', async () => {
+  const {filterPapers}=await import('../static/js/papers-core.mjs');
+  const entries=[{id:'nature',title:'Molecular models',venue:'Nature Machine Intelligence'},
+    {id:'aaai',title:'Gene incremental learning',venue:'AAAI',abstract:'The holistic nature of tokens.'}];
+  assert.deepEqual(filterPapers(entries,{query:'nature',searchField:'venue'}).map(p=>p.id),['nature']);
+  assert.equal(filterPapers(entries,{query:'nature',searchField:'all'}).length,2);
+});
+
 test('multiple disciplines support any, all, and primary-category matching', async () => {
   const {filterPapers}=await import('../static/js/papers-core.mjs');
   const entries=[{id:'a',title:'A',disciplines:['weather','physics']},{id:'b',title:'B',disciplines:['physics']},{id:'c',title:'C',disciplines:['biology']}];

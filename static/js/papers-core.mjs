@@ -142,7 +142,7 @@ export function filterPapers(papers, { query = '', abstracts, ordered = true, ta
   const matchesQuery=p=>{
     if(!terms.length)return true;
     const pair=abstracts?.get(p.id)||[p.abstract,p.abstractZh];
-    const values = searchField==='title'?[p.title,p.titleZh]:searchField==='authors'?p.authors||[]:searchField==='abstract'?pair:searchField==='id'?[p.id]:[p.title, p.titleZh, p.summaryZh, p.summaryEn, ...pair, p.id, p.subfield, p.venue, ...(p.authors || []), ...(p.affiliations || []), ...(p.keywords || []), ...paperTags(p)];
+    const values = searchField==='title'?[p.title,p.titleZh]:searchField==='authors'?p.authors||[]:searchField==='abstract'?pair:searchField==='id'?[p.id]:searchField==='venue'?[p.venue]:[p.title, p.titleZh, p.summaryZh, p.summaryEn, ...pair, p.id, p.subfield, p.venue, ...(p.authors || []), ...(p.affiliations || []), ...(p.keywords || []), ...paperTags(p)];
     const text=values.join(' ').toLocaleLowerCase();
     return terms.every(term=>text.includes(term));
   };

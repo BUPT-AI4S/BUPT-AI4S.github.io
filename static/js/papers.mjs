@@ -1,4 +1,4 @@
-import { DISCIPLINES, filterPapers, sortPapers, paginatePapers, readingUrl, paperTags, tagCounts, topicOptions, tagLabel, resolveTag, resolveDiscipline, facetCounts, arxivLink, githubLink } from './papers-core.mjs?v=20261118-search';
+import { DISCIPLINES, filterPapers, sortPapers, paginatePapers, readingUrl, paperTags, tagCounts, topicOptions, tagLabel, resolveTag, resolveDiscipline, facetCounts, arxivLink, githubLink } from './papers-core.mjs?v=20261119-venue';
 const root=document.documentElement, $=id=>document.getElementById(id);
 const tr=(zh,en)=>root.lang==='en'?en:zh;
 const fields={q:$('paper-search'),venue:$('venue-filter'),year:$('year-filter')};
@@ -69,7 +69,7 @@ function readUrl(restore=false){
   matchMode=params.get('match')==='all'?'all':'any';view=['list','table'].includes(params.get('view'))?params.get('view'):'cards';
   arxiv=arxivOptions.some(([value])=>value===params.get('arxiv'))?params.get('arxiv'):'all';github=githubOptions.some(([value])=>value===params.get('github'))?params.get('github'):'all';
   sessions=(params.get('sessions')||'').split('|').filter(value=>facetValues('session').includes(value));rooms=(params.get('rooms')||'').split('|').filter(value=>facetValues('room').includes(value));
-  searchField.value=['title','authors','abstract','id'].includes(params.get('field'))?params.get('field'):'all';
+  searchField.value=['title','authors','abstract','id','venue'].includes(params.get('field'))?params.get('field'):'all';
   sort.value=['newest','oldest','title'].includes(params.get('sort'))?params.get('sort'):'default';return params.get('paper');
 }
 function syncUrl(){
@@ -277,7 +277,8 @@ function renderResults(snapshot){
   renderPagination(pagination,total);
   for(const b of $('view-mode').children)b.setAttribute('aria-pressed',String(b.dataset.view===view));
   const en=root.lang==='en';fields.q.placeholder=tr('搜索标题、作者、摘要、论文 ID… 支持 "精确短语"，按 / 聚焦','Search title, author, abstract, paper ID… Use "exact phrases", press / to focus');
-  const fieldLabels=en?['All fields','Title','Authors','Abstract','Paper ID']:['全部字段','标题','作者','摘要','论文 ID'];[...searchField.options].forEach((o,i)=>o.textContent=fieldLabels[i]);
+  const fieldLabels=en?['All fields','Title','Venue / Source','Authors','Abstract','Paper ID']:['全部字段','标题','会议 / 刊源','作者','摘要','论文 ID'];[...searchField.options].forEach((o,i)=>o.textContent=fieldLabels[i]);
+  if(searchField.value==='venue')fields.q.placeholder=tr('搜索会议或刊源名称，如 Nature、AAAI…','Search venue or source, e.g. Nature, AAAI…');
   const sortLabels=en?['Default (catalog order)','Published: newest first','Published: oldest first','Title A–Z']:['默认（收录顺序）','发表日期：最新优先','发表日期：最早优先','标题 A–Z'];[...sort.options].forEach((o,i)=>o.textContent=sortLabels[i]);
   const scope=snapshot?preview.scope:papers.some(p=>p.classificationStatus==='source-provided')?'source':papers.some(p=>p.imported)?'imported':papers.some(p=>p.sample)?'sample':'';
   $('collection-scope').textContent=scope==='source'?tr('研究方向沿用来源分类，未映射至现有类别的论文仍保留；来源日期不等同于发表日期。','Research areas follow source classifications; papers without a matching category are retained. Source dates are not necessarily publication dates.'):scope==='imported'?tr('批量导入数据的研究方向为规则初分，尚未逐篇人工复核；来源日期不等同于发表日期。','Imported research areas are rule-based and not individually reviewed; source dates are not necessarily publication dates.'):scope==='sample'?tr('包含测试样例；收录数仅代表本站文献库。','Includes test entries; counts reflect this collection only.'):tr('收录数仅代表本站文献库。','Counts reflect this collection only.');
