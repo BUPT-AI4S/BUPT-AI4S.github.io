@@ -1,4 +1,4 @@
-"""The explicitly authorized 2026 owner audit closes history, never live gaps."""
+"""Exact assigned-owner catalogue audits close history, never live gaps."""
 import json
 import tempfile
 import unittest
@@ -70,11 +70,13 @@ class NydiiiAuditedCatalogueTest(unittest.TestCase):
                     self.assertEqual(s['papers'],2 if excluded else 1)
                     self.assertEqual(s['official_total'],2 if official else None)
 
-    def test_other_owners_and_years_are_not_enabled(self):
-        for year,owner in [(2026,'陈晨'),(2025,'南耀笛'),(2024,'南耀笛')]:
+    def test_assigned_owners_and_years_use_the_same_proof_checks(self):
+        for year,owner in [(2026,'李雪婷'),(2026,'陈晨'),(2025,'南耀笛'),(2024,'南耀笛')]:
             with self.subTest(year=year,owner=owner),tempfile.TemporaryDirectory() as d:
                 p=Path(d);self.fixture(p,year=year,owner=owner)
-                self.assertTrue(any('采集状态尚未完成' in i for i in self.source(p)['issues']))
+                source=self.source(p)
+                self.assertEqual(source['issues'],[])
+                self.assertEqual(source['state'],'abstract_incomplete')
 
     def test_pending_missing_abstract_and_conflicting_review_still_warn(self):
         for case in ('pending','abstract','conflict'):
@@ -109,3 +111,4 @@ class NydiiiAuditedCatalogueTest(unittest.TestCase):
                 with self.subTest(case=i):
                     bad=deepcopy(row);mutate(bad['catalogue_audit'])
                     self.assertFalse(verified_audited_catalogue(p,2026,s,bad))
+
