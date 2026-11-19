@@ -316,8 +316,9 @@ def verified_reference_catalogue(root, year, source, row):
 
 
 def verified_audited_catalogue(root, year, source, row):
-    """Close authorized Nydiii 2026 history only after exact per-record audits."""
-    if root is None or type(year) is not int or year != 2026 or source.get('owner') != '南耀笛': return False
+    """Close assigned-owner history only after exact per-record audits."""
+    if (root is None or type(year) is not int or not isinstance(source.get('owner'), str)
+            or not source['owner'].strip()): return False
     try:
         raw, additions, report = catalogue_audit_inputs(root, year, source, row)
     except (OSError, ValueError, TypeError): return False
@@ -847,3 +848,4 @@ def main():
     print('Built',args.output, 'years:', ', '.join(str(y['year']) for y in result['years']))
 
 if __name__ == '__main__': main()
+
