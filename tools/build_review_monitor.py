@@ -99,6 +99,44 @@ def owner_closed_abstract(record, owner):
             and evidence)
 
 
+def aware_timestamp(value):
+    """An explicit policy/proof timestamp must identify an actual instant."""
+    if not isinstance(value, str) or not value.strip(): return False
+    try:
+        return datetime.fromisoformat(value.replace('Z', '+00:00')).utcoffset() is not None
+    except ValueError:
+        return False
+
+
+def verified_nonresearch_abstract_exclusion(record, review, owner):
+    """Retain a physical gap when primary evidence already establishes exclusion."""
+    proof = review.get('abstract_requirement')
+    metadata = review.get('verified_metadata')
+    if not isinstance(proof, dict) or not isinstance(metadata, dict): return False
+    kind = proof.get('document_type')
+    if (review.get('decision') != 'exclude' or review.get('owner') != owner
+            or kind not in ('Editorial', 'Conference abstract', 'Erratum', 'Corrigendum', 'Correction')
+            or metadata.get('article_type') != kind
+            or proof.get('status') != 'not_required'
+            or proof.get('reason') != 'verified_nonresearch_document_type_exclusion'
+            or proof.get('verification_basis') != 'publisher_or_primary_index_document_type'
+            or proof.get('checked_by') != owner
+            or not aware_timestamp(proof.get('checked_at'))
+            or proof.get('paper_id') != record.get('id') or not record.get('id')
+            or proof.get('source_code') != record.get('venue') or not record.get('venue')
+            or type(proof.get('year')) is not int or proof['year'] != record.get('year')):
+        return False
+    links, primary, verified = (proof.get('evidence_urls'), proof.get('primary_source_url'),
+                                metadata.get('evidence_urls'))
+    try:
+        return (isinstance(links, list) and bool(links) and isinstance(verified, list)
+                and all(isinstance(u, str) and urlparse(u).scheme == 'https' and urlparse(u).netloc
+                        and u in verified for u in links)
+                and isinstance(primary, str) and primary in links)
+    except ValueError:
+        return False
+
+
 def full_text_abstract_exemption(review, owner):
     """Close an unavailable publisher abstract only with a completed full-text review."""
     proof = review.get('abstract_requirement') or {}
@@ -316,8 +354,9 @@ def verified_reference_catalogue(root, year, source, row):
 
 
 def verified_audited_catalogue(root, year, source, row):
-    """Close authorized Nydiii 2026 history only after exact per-record audits."""
-    if root is None or type(year) is not int or year != 2026 or source.get('owner') != '南耀笛': return False
+    """Close assigned-owner history only after exact per-record audits."""
+    if (root is None or type(year) is not int or not isinstance(source.get('owner'), str)
+            or not source['owner'].strip()): return False
     try:
         raw, additions, report = catalogue_audit_inputs(root, year, source, row)
     except (OSError, ValueError, TypeError): return False
@@ -368,6 +407,23 @@ def verified_audited_catalogue(root, year, source, row):
             if type(verified) is not int or verified == year or not z.get('verified_volume'): return False
         elif status == 'unassigned_formal_volume':
             if verified is not None or z.get('verified_volume') is not None: return False
+        elif status == 'publication_time_unproven_before_cutoff':
+            policy = row.get('cutoff_policy')
+            primary_metadata = z.get('source_evidence')
+            if (not isinstance(policy, dict) or policy != report.get('cutoff_policy')
+                    or policy.get('status') != 'authorized_conservative_exclusion'
+                    or policy.get('checked_by') != source['owner']
+                    or not aware_timestamp(policy.get('checked_at'))
+                    or not isinstance(policy.get('user_instruction'), str) or not policy['user_instruction'].strip()
+                    or type(verified) is not int or verified != year
+                    or not isinstance(z.get('verified_volume'), str) or not z['verified_volume'].strip()
+                    or not isinstance(primary_metadata, dict)
+                    or primary_metadata.get('volume') != z['verified_volume']
+                    or not aware_timestamp(z.get('checked_at'))
+                    or z.get('cutoff_at') != policy.get('cutoff_at')
+                    or report.get('cutoff_at') != policy.get('cutoff_at')
+                    or z.get('owner_instruction') != policy['user_instruction']): return False
+            if not aware_timestamp(policy.get('cutoff_at')): return False
         else: return False
     rec = row.get('catalogue_reconciliation')
     return (isinstance(rec,dict) and rec.get('normalized_count') == total
@@ -582,6 +638,7 @@ def build(root):
         abstract_exemption_reviews = set()
         full_text_exemption_reviews = {}
         owner_closed_reviews = {}
+        nonresearch_exclusion_reviews = {}
         completed_reviews = set()
         recovered_abstract_reviews = {}
         for path in sorted(review_dir.glob('*.json')):
@@ -654,6 +711,11 @@ def build(root):
                         and snapshot.get('captured_at') and review.get('owner') == source_map[code]['owner']
                         and owner_closed_abstract(review, source_map[code]['owner'])):
                     owner_closed_reviews[key] = review['abstract_requirement']
+                if (decision == 'exclude' and snapshot.get('captured_at')
+                        and review.get('snapshot_at') == snapshot.get('captured_at')
+                        and review.get('owner') == source_map[code]['owner']
+                        and verified_nonresearch_abstract_exclusion(record, review, source_map[code]['owner'])):
+                    nonresearch_exclusion_reviews[key] = review
                 if (decision in ('include', 'exclude') and snapshot.get('captured_at')
                         and review.get('snapshot_at') == snapshot.get('captured_at')
                         and review.get('owner') == source_map[code]['owner']):
@@ -699,6 +761,7 @@ def build(root):
         full_text_reviewed = Counter()
         recovered_abstracts = Counter()
         owner_closed = Counter()
+        nonresearch_excluded = Counter()
         for record in candidate_records:
             if not isinstance(record, dict) or record.get('year') != year: continue
             key = (record.get('venue'), record.get('id'))
@@ -718,6 +781,12 @@ def build(root):
                     and record.get('abstract_requirement') == owner_closed_reviews[key]
                     and owner_closed_abstract(record, source_map[key[0]]['owner'])):
                 owner_closed[key[0]] += 1
+            elif (key in nonresearch_exclusion_reviews and key not in conflicts and seen.get(key) == 'exclude'
+                    and (not isinstance(abstract, str) or not abstract.strip())
+                    and record.get('abstract_requirement') == nonresearch_exclusion_reviews[key]['abstract_requirement']
+                    and verified_nonresearch_abstract_exclusion(record, nonresearch_exclusion_reviews[key],
+                                                               source_map[key[0]]['owner'])):
+                nonresearch_excluded[key[0]] += 1
         for code, source in source_map.items():
             source['final_included'] = final_included[code] if code in final_review_sources else None
             source['final_missing_abstract'] = final_missing[code] if year != 2024 and code in final_review_sources else None
@@ -727,8 +796,9 @@ def build(root):
             source['abstract_not_required'] = no_abstract_required[code] if candidate_path.exists() else None
             source['abstract_full_text_reviewed'] = full_text_reviewed[code] if candidate_path.exists() else None
             source['abstract_closed_by_owner'] = owner_closed[code] if candidate_path.exists() else None
+            source['abstract_nonresearch_excluded'] = nonresearch_excluded[code] if candidate_path.exists() else None
             missing = source['missing_abstract']
-            source['abstract_supplement_required'] = max(0, missing - recovered_abstracts[code] - no_abstract_required[code] - full_text_reviewed[code] - owner_closed[code]) if missing is not None else None
+            source['abstract_supplement_required'] = max(0, missing - recovered_abstracts[code] - no_abstract_required[code] - full_text_reviewed[code] - owner_closed[code] - nonresearch_excluded[code]) if missing is not None else None
         # Explicit coverage adapters: only recognized fields, never guess totals from prose.
         for path in sorted(review_dir.glob('*/coverage.json')):
             obj = read_json(path)
@@ -804,6 +874,21 @@ def build(root):
                 s['coverage_note'] = str(row.get('coverage_note') or s['coverage_note'])
                 if isinstance(row.get('evidence_urls'), list): s['evidence_urls'].extend(x for x in row['evidence_urls'] if isinstance(x,str))
         for s in source_map.values():
+            # Li Xueting explicitly authorized original-body review when the
+            # publisher provides no standalone abstract. The count above only
+            # accepts matching current-owner, current-snapshot candidate/review
+            # proofs through full_text_abstract_exemption; physical nulls remain.
+            body_reviewed = full_text_reviewed[s['code']]
+            if s['owner'] == '李雪婷' and year in (2025, 2026) and body_reviewed:
+                physical = s['final_missing_abstract']
+                if type(physical) is not int or body_reviewed > physical:
+                    raise ValueError('Full-text proof does not reconcile with included abstracts: ' + s['code'])
+                s['final_originally_missing_abstract'] = physical
+                s['final_no_abstract_full_text_reviewed'] = body_reviewed
+                s['final_missing_abstract'] = physical - body_reviewed
+                s['final_abstract_metric_basis'] = 'Unresolved included abstracts; validated publisher-no-abstract body reviews are reported separately.'
+                note = f'原文无独立摘要{body_reviewed}篇，已依据原始正文核实AI4S并保留纳入；原始空值保留，不再计作纳入缺摘要待办。'
+                s['coverage_note'] = s.get('coverage_note', '') + '\n' + note
             resolution_row = resolution_rows.get(s['code'], {})
             if historical_abstract_gap_resolved(s, resolution_row, [r for r in candidate_records
                     if isinstance(r, dict) and r.get('year') == year], completed_reviews, root, year):
@@ -847,3 +932,4 @@ def main():
     print('Built',args.output, 'years:', ', '.join(str(y['year']) for y in result['years']))
 
 if __name__ == '__main__': main()
+
