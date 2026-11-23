@@ -7,6 +7,13 @@ from tools.build_review_monitor import build
 
 
 class AbstractStatePolicyTest(unittest.TestCase):
+    def test_external_audit_can_check_timezone_aware_timestamps(self):
+        from tools.build_review_monitor import aware_timestamp
+        self.assertTrue(aware_timestamp('2026-11-23T10:00:00+08:00'))
+        self.assertTrue(aware_timestamp('2026-11-23T02:00:00Z'))
+        self.assertFalse(aware_timestamp('2026-11-23T10:00:00'))
+        self.assertFalse(aware_timestamp('invalid'))
+
     def test_full_catalogue_gap_is_not_collection_failure_but_candidate_gap_remains(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

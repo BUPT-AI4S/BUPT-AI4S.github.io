@@ -12,6 +12,15 @@ from pathlib import Path
 REPO = 'https://github.com/BUPT-AI4S/ai4s-crawler/blob/'
 
 
+def aware_timestamp(value):
+    """Return whether a timestamp identifies an instant with a timezone."""
+    if not isinstance(value, str) or not value.strip(): return False
+    try:
+        return datetime.fromisoformat(value.replace('Z', '+00:00')).utcoffset() is not None
+    except ValueError:
+        return False
+
+
 def read_json(path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
