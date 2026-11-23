@@ -86,8 +86,8 @@ class PaperTagTests(unittest.TestCase):
             self.assertIn('climate',first['tags'])
             self.assertEqual(set(first['tags'])-{'climate'},set(second['tags']))
             self.assertEqual(empty.get('tags',[]),[])
-            self.assertEqual(first['tagIds'],first['tags'])
             detail=json.loads((root/first['dataUrl']).read_text(encoding='utf-8'))
+            self.assertEqual(detail['tagIds'],first['tags'])
             self.assertEqual(detail['tags'],first['tags'])
             self.assertEqual(detail['keywords'],rows[0]['keywords'])
             names={t['nameEn'] for t in index['tagVocabulary']}

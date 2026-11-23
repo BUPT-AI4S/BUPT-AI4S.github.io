@@ -21,6 +21,22 @@ class MetadataUpdateTests(unittest.TestCase):
         self.assertEqual(p['metadataProvenance']['sourceAi4sTags'],raw['ai4s_tags'])
         self.assertEqual(p['classificationStatus'],'needs-review')
 
+    def test_human_review_overrides_old_screening_and_preserves_keyword_provenance(self):
+        raw=self.raw(abstract='Old abstract',keywords=['Author keyword'],ai4s_keywords=['Model-generated term'],
+                     ai4s_tagging={'status':'out_of_scope'},venue_type='journal',journal_title='Materials &amp; Design')
+        del raw['ai4s_tags']
+        raw['ai4s_review']={'decision':'include','verified_metadata':{
+            'abstract':'Verified original abstract','url':'https://example.org/official','keywords':['Verified keyword']},
+            'tags':[{'axis':'domain','label':'AI 用于工程科学'},{'axis':'method','label':'深度学习'}]}
+        p=adapt_record(raw,'ai4s.json')
+        self.assertFalse(p['_excluded'])
+        self.assertEqual(p['abstract'],'Verified original abstract')
+        self.assertEqual(p['paperUrl'],'https://example.org/official')
+        self.assertEqual(p['keywords'],['Verified keyword'])
+        self.assertEqual(p['disciplines'],['engineering-sciences'])
+        self.assertEqual(p['venue'],'Materials & Design')
+        self.assertNotIn('深度学习',p['keywords'])
+
     def test_published_version_replaces_preprint_across_years_without_changing_id(self):
         old={'id':'stable','title':'Science Paper!','authors':['Alice Smith'],'venue':'arXiv','year':'2025','paperUrl':'https://arxiv.org/abs/2501.01234','pdfUrl':'https://arxiv.org/pdf/2501.01234','notes':[{'id':'summary'}]}
         new=adapt_record(self.raw(pdf_url='https://example.org/paper.pdf'),'new.json')

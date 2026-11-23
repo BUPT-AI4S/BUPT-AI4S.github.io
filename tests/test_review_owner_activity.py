@@ -1,5 +1,6 @@
 import json, os, subprocess, tempfile, unittest
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
+from unittest.mock import patch
 from pathlib import Path
 
 from tools.build_review_monitor import build
@@ -112,7 +113,9 @@ class ActivityFromGitHistoryTest(unittest.TestCase):
             self._commit(p, 'setup owners', 'Roman', 'r@qq.com', '2026-11-09T09:00:00+08:00')
             (p / 'reviews/2024/zch66883-haozhuodi.json').write_text('[]', encoding='utf8')
             self._commit(p, '别人的文件', 'zch66883', 'z@qq.com', '2026-11-09T18:00:00+08:00')
-            data = build_activity(p, 50)
+            with patch('tools.build_owner_activity.datetime', wraps=datetime) as clock:
+                clock.now.return_value = datetime(2026, 11, 10, tzinfo=timezone.utc)
+                data = build_activity(p, 50)
             self.assertTrue(data['history_available'])
             self.assertEqual(data['owners']['郝卓迪']['last']['author'], 'zch66883')
             self.assertEqual(data['owners']['郝卓迪']['last']['area'], 'reviews')

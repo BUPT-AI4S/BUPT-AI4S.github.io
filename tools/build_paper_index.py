@@ -1,5 +1,6 @@
 """Compile YAML-front-matter Markdown papers and generate a static catalog."""
 import argparse
+from collections import Counter, defaultdict
 from datetime import datetime, timezone, timedelta
 import json
 from html import unescape
@@ -293,13 +294,15 @@ def build_index(folder,schema_path,config,root,details=None):
     vocabulary=load_tag_vocabulary(root)
     translated_keywords=load_keyword_vocabulary(root,vocabulary)
     imported_sources=[]
-    for source in sorted((root/'data/imported').glob('ai4s-*.json')):
+    sources=(root/'data/imported').glob('ai4s-*.json') if folder.resolve()==(root/'data/papers').resolve() else ()
+    for source in sorted(sources):
         if source.is_symlink():raise ValueError('Symlink not allowed for imported metadata')
         imported=read_json(source)
         if imported.get('schemaVersion')!=1 or not isinstance(imported.get('papers'),list):raise ValueError('Invalid imported catalog')
         for paper in imported['papers']:validate_paper(paper,schema,root,str(paper.get('id','')))
         imported_sources.append((source,imported['papers']))
-    keyword_tags=register_keyword_tags(vocabulary,[p for _,rows in imported_sources for p in rows],translated_keywords)
+    keyword_tags=register_keyword_tags(vocabulary,[p for _,rows in imported_sources for p in rows
+        if p.get('metadataProvenance',{}).get('classificationMethod')!='human-review'],translated_keywords)
     papers=[]; ids=set(); filenames=set()
     for file in paper_files(folder):
         if file.name.endswith(('.local.json','.local.md')): raise ValueError(f'Paper filename uses reserved local suffix: {file.name}')
@@ -340,7 +343,13 @@ def build_index(folder,schema_path,config,root,details=None):
             if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*',str(paper.get('id',''))):raise ValueError('Unsafe imported paper id')
             if any(key in paper for key in ('content','notes','notesMeta')):raise ValueError('Imported metadata cannot supply generated HTML or notes')
             validate_paper(paper,schema,root,paper['id'])
-            paper=normalize_paper_tags(paper,vocabulary,source.name,keyword_tags)
+            reviewed=paper.get('metadataProvenance',{}).get('classificationMethod')=='human-review'
+            if reviewed:
+                paper['tags']=list(dict.fromkeys(paper.get('tags',[])+[
+                    vocabulary[1][tag_key(label)]['id']
+                    for label in paper['metadataProvenance'].get('sourceAi4sTags',[])
+                    if tag_key(label) in vocabulary[1]]))
+            paper=normalize_paper_tags(paper,vocabulary,source.name,None if reviewed else keyword_tags)
             if title_key(paper) in authored:continue
             if paper['id'] in ids:raise ValueError('Duplicate imported paper id: '+paper['id'])
             if paper['id'].casefold() in filenames:raise ValueError('Duplicate imported detail filename: '+paper['id'])
@@ -375,9 +384,60 @@ def write_index(root=ROOT,schema_path=None):
         temp.write_text(json.dumps(paper,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');temp.replace(output)
     for file in built.glob('*.json'):
         if file.name not in details:file.unlink()
+    abstracts={}
+    for entry in data['papers']:
+        if not entry.get('imported'):continue
+        pair=[entry.pop(field,'') for field in ('abstract','abstractZh')]
+        if any(pair):
+            year=entry.get('year','')
+            year=year if re.fullmatch(r'[0-9]{4}',year) else 'unknown'
+            abstracts.setdefault(year,{})[entry['id']]=pair
+            entry['hasAbstract']=True
+        # Detail-only provenance and duplicate identifiers are not needed by the catalog.
+        for key in ('sourceUrl','tagIds','sourceDate','datePrecision','dateType','projectUrl','pdfAvailability'):
+            entry.pop(key,None)
+        for key in ('paperUrl','pdfUrl','codeUrl','published','dateRaw','keywords','tags','topics'):
+            if not entry.get(key):entry.pop(key,None)
+    data['abstractsByYear']={}
+    for year,entries in abstracts.items():
+        relative=f'data/papers-abstracts-{year}.json'
+        output=root/relative;temp=output.with_suffix('.json.tmp')
+        temp.write_text(json.dumps(entries,ensure_ascii=False,separators=(',',':')),encoding='utf-8');temp.replace(output)
+        data['abstractsByYear'][year]=relative
     output=root/'data/papers-index.json';temp=output.with_suffix('.json.tmp')
-    temp.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');temp.replace(output)
+    temp.write_text(json.dumps(data,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8');temp.replace(output)
+    write_catalog_preview(root,data)
     return data
+
+def write_catalog_preview(root,data):
+    """Keep the first screen independent of the full catalog download."""
+    papers=data['papers']
+    groups=defaultdict(list)
+    groups['']=list(enumerate(papers,1))
+    for number,paper in groups['']:
+        if paper.get('year'):groups[paper['year']].append((number,paper))
+    views={};label_ids=set()
+    for year,rows in groups.items():
+        disciplines=Counter(d for _,p in rows for d in set(p.get('disciplines',[])))
+        topics=Counter(t for _,p in rows for t in set(p.get('tags',[])+p.get('topics',[])))
+        ranked=sorted(topics.items(),key=lambda entry:(-entry[1],entry[0]))[:60]
+        first=[{**p,'catalogNumber':number} for number,p in rows[:48]]
+        label_ids.update(t for t,_ in ranked)
+        label_ids.update(t for p in first for t in p.get('tags',[])+p.get('topics',[]))
+        views[year]={'total':len(rows),'papers':first,'disciplines':dict(disciplines),
+                     'topics':ranked,'topicTotal':len(topics)}
+    options={key:sorted({p[key] for p in papers if p.get(key)}) for key in ('venue','year','session','room')}
+    for key in ('session','room'):
+        if any(not p.get(key) for p in papers):options[key].append('__unlisted__')
+    preview={'updated':data['updated'],'options':options,'views':views,
+             'tagTranslations':{key:value for key,value in data['tagTranslations'].items() if key in label_ids},
+             'tagLabelsEn':{key:value for key,value in data['tagLabelsEn'].items() if key in label_ids},
+             'scope':next((kind for kind,exists in (
+                 ('source',any(p.get('classificationStatus')=='source-provided' for p in papers)),
+                 ('imported',any(p.get('imported') for p in papers)),
+                 ('sample',any(p.get('sample') for p in papers))) if exists),'')}
+    output=root/'data/papers-preview.json';temp=output.with_suffix('.json.tmp')
+    temp.write_text(json.dumps(preview,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8');temp.replace(output)
 
 def stage_site(root=ROOT):
     root=Path(root).resolve();destination=root/'_site'

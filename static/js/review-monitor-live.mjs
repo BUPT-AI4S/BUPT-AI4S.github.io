@@ -16,6 +16,17 @@ async function readSnapshot(fetcher, url) {
 }
 
 export async function loadMonitorSnapshot(fetcher, now = Date.now()) {
-  try { return {data:await readSnapshot(fetcher, `${LIVE_URL}?v=${now}`), live:true}; }
-  catch { return {data:await readSnapshot(fetcher, 'data/review-monitor.json'), live:false}; }
+  const [live, published] = await Promise.allSettled([
+    readSnapshot(fetcher, `${LIVE_URL}?v=${now}`),
+    readSnapshot(fetcher, `data/review-monitor.json?v=${now}`)
+  ]);
+  if (live.status === 'fulfilled') {
+    if (published.status === 'fulfilled' &&
+        Date.parse(published.value.generated_at) > Date.parse(live.value.generated_at)) {
+      return {data:published.value, live:false, staleLive:true};
+    }
+    return {data:live.value, live:true};
+  }
+  if (published.status === 'fulfilled') return {data:published.value, live:false};
+  throw live.reason;
 }

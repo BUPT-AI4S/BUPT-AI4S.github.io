@@ -14,3 +14,5 @@ _site/
 .textbook-source/
 textbook-source/
 data/papers-built/
+data/papers-abstracts-*.json
+data/papers-preview.json

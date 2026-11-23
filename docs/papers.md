@@ -8,10 +8,6 @@
 
 ```text
 data/papers/
-├── climax/
-│   ├── paper.md
-│   └── images/
-│       └── workflow.svg
 └── my-paper/
     ├── paper.md
     └── images/
@@ -19,7 +15,7 @@ data/papers/
         └── results.png
 ```
 
-目录名使用英文字母、数字、点、连字符、下划线，以字母或数字开头，不能以 `.local` 结尾。每个目录根部只有一份 Markdown 正文，文件名固定为 `paper.md`；没有图片时无需创建 `images/`。完整示例：[ClimaX](../data/papers/climax/paper.md)。
+目录名使用英文字母、数字、点、连字符、下划线，以字母或数字开头，不能以 `.local` 结尾。每个目录根部只有一份 Markdown 正文，文件名固定为 `paper.md`；没有图片时无需创建 `images/`。字段和正文结构见[论文模板](../data/paper.template.md)。
 
 ## 2. 填写 YAML
 
@@ -233,7 +229,7 @@ GitHub 网页：进入仓库 `data/papers/`，选择 **Add file → Upload files
 
 更新论文时修改原目录并提交。删除论文时删除其完整目录，下次发布会移除对应卡片。
 
-完整入库测试案例见 [C-FREE 添加记录](c-free-ingestion-test.md)，包括查词表、新建标签、论文目录、原图和校验结果。
+
 
 
 ### PDF 阅读器
@@ -241,6 +237,10 @@ GitHub 网页：进入仓库 `data/papers/`，选择 **Add file → Upload files
 `pdf-reader.html?id=<论文ID>` 使用本地打包的 PDF.js 6.4.299（Apache-2.0）解析论文 PDF，不依赖浏览器原生 PDF 插件或响应的 MIME 类型。支持连续滚动、文本选择、翻页、缩放；下载是显式操作。远程 PDF 需要允许 CORS；加载失败时阅读器显示重试入口。库代码和所需字体资源在 `static/vendor/pdfjs/`，许可文件保留在该目录。
 
 ### 批量 AI4S 元数据
+
+2024 年目录使用 2026-11-17 提供的人工复核快照，共纳入 16,017 篇。导入器优先使用复核确认的元信息和分类，不将复核标签或机器提词视为论文原关键词。未映射到站点分类的记录仍可检索。2024 原始快照 SHA-256：`29518e426723d8ce5cd807d994c708d18bf753a162515e4ccbdf3a75cd88c145`，网站使用 `data/imported/ai4s-2024.json`。
+
+目录每页显示 48 篇。默认页和各年份的第一页使用构建生成的 `data/papers-preview.json`，只返回首屏卡片与筛选统计；首次翻页、搜索或使用进阶筛选时，才载入并在当前页面复用完整目录索引。批量导入论文的完整摘要在展开单篇时获取；搜索「摘要」或「全部字段」时，按所选年份加载完整摘要索引，未选择年份则搜索所有年份。首屏、摘要索引和详情文件均由构建器生成，无需提交。
 
 原始数据保留在 `metadata/metadata/`。只读取年度 `2026/ai4s.json`，不要同时导入全量会议文件，以免重复。清洗后的可发布数据独立放在 `data/imported/ai4s-2026.json`，构建器会合并它与手写论文；相同标题、年份的手写内容优先，不覆盖原有精读。
 

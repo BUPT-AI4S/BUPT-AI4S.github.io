@@ -1,4 +1,4 @@
-import { DISCIPLINES, detailReturnUrl, paperTags, tagLabel, cardAbstract, readingUrl, relatedPapers } from './papers-core.mjs?v=20261015-import1';
+import { DISCIPLINES, detailReturnUrl, paperTags, tagLabel, cardAbstract, readingUrl, relatedPapers } from './papers-core.mjs?v=20261119-venue';
 
 const root = document.documentElement, $ = id => document.getElementById(id);
 const tr = (zh, en) => root.lang === 'en' ? en : zh;

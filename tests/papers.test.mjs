@@ -73,6 +73,14 @@ test('catalog search supports exact phrases and a selected search field', async 
   assert.equal(filterPapers(entries,{query:'Alice',searchField:'title'}).length,0);
 });
 
+test('venue search excludes papers that only mention nature in an abstract', async () => {
+  const {filterPapers}=await import('../static/js/papers-core.mjs');
+  const entries=[{id:'nature',title:'Molecular models',venue:'Nature Machine Intelligence'},
+    {id:'aaai',title:'Gene incremental learning',venue:'AAAI',abstract:'The holistic nature of tokens.'}];
+  assert.deepEqual(filterPapers(entries,{query:'nature',searchField:'venue'}).map(p=>p.id),['nature']);
+  assert.equal(filterPapers(entries,{query:'nature',searchField:'all'}).length,2);
+});
+
 test('multiple disciplines support any, all, and primary-category matching', async () => {
   const {filterPapers}=await import('../static/js/papers-core.mjs');
   const entries=[{id:'a',title:'A',disciplines:['weather','physics']},{id:'b',title:'B',disciplines:['physics']},{id:'c',title:'C',disciplines:['biology']}];
@@ -114,25 +122,20 @@ test('returning from a paper retains date browsing and pagination', async () => 
   assert.equal(back.searchParams.get('page'),'2');
 });
 
-test('published catalog has bilingual Markdown sections and traceable full-paper ClimaX notes', async () => {
+test('published catalog excludes retired test entries', async () => {
   const data=JSON.parse(await readFile(new URL('../data/papers-index.json',import.meta.url),'utf8'));
   assert.equal(data.schemaVersion,1);
-  const details=await Promise.all(data.papers.map(p=>readFile(new URL('../'+p.dataUrl,import.meta.url),'utf8').then(JSON.parse)));
-  for(const p of details) {
-    assert.equal(typeof p.content.zh.html,'string');
-    assert.equal(typeof p.content.en.html,'string');
-    for(const content of Object.values(p.content)) {
-      assert.equal(new Set(content.toc.map(n=>n.id)).size,content.toc.length);
-      for(const heading of content.toc) assert.ok(content.html.includes(`id="${heading.id}"`));
-    }
-  }
-  const climax=details.find(p=>p.id==='5CZyPMgjUu');
-  assert.equal(climax.content.zh.toc.length,8);
-  assert.equal(climax.content.en.toc.length,8);
-  assert.ok(climax.notesMeta.sources.some(s=>s.url==='https://proceedings.mlr.press/v202/nguyen23a/nguyen23a.pdf'));
-  assert.match(climax.content.zh.html,/1\.70/);
-  assert.match(climax.content.zh.html,/1\.79/);
-  assert.match(climax.content.zh.html,/<img[^>]+src="data\/papers\/climax\/images\/workflow.svg"/);
+  assert.ok(data.papers.length>0);
+  for(const id of ['2303.11366','5CZyPMgjUu','Vbj1jSaqTo']) assert.equal(data.papers.some(p=>p.id===id),false);
+});
+
+test('detail return restores a search explicitly without persisting it on other links', async () => {
+  const {detailReturnUrl,readingUrl}=await import('../static/js/papers-core.mjs');
+  const link=new URL(readingUrl('paper','?q=a+survey&field=title'),'https://example.org/');
+  const back=new URL(detailReturnUrl(link.search),'https://example.org/');
+  assert.equal(back.searchParams.get('q'),'a survey');
+  assert.equal(back.searchParams.get('resume'),'1');
+  assert.equal(new URL(detailReturnUrl('?from=%3Fyear%3D2024'),'https://example.org/').searchParams.has('resume'),false);
 });
 
 test('tag translations change labels while preserving stable tag identifiers', async () => {
@@ -162,6 +165,15 @@ test('catalog uses abstracts only and never substitutes an AI overview', async (
   assert.deepEqual(cardAbstract(paper,'en'),{text:'Original abstract',isAbstract:true});
   assert.deepEqual(cardAbstract({summaryZh:'只有概述',summaryEn:'Only a summary'},'zh'),{text:'',isAbstract:false});
   assert.deepEqual(cardAbstract({...paper,abstractZh:'完整中文摘要'},'zh'),{text:'完整中文摘要',isAbstract:true});
+});
+
+test('lazy abstract search retains matches beyond the card display data', async () => {
+  const {filterPapers}=await import('../static/js/papers-core.mjs');
+  const papers=[{id:'a',title:'A paper',year:'2024',authors:['Alice'],hasAbstract:true}];
+  const abstracts=new Map([['a',['a full abstract about protein folding','蛋白质折叠']]]);
+  assert.equal(filterPapers(papers,{abstracts,query:'"protein folding" alice'}).length,1);
+  assert.equal(filterPapers(papers,{abstracts,query:'蛋白质折叠',searchField:'abstract'}).length,1);
+  assert.equal(filterPapers(papers,{abstracts,query:'folding',searchField:'title'}).length,0);
 });
 
 test('exact tags count papers once, search affiliations and preserve tag context', async () => {
