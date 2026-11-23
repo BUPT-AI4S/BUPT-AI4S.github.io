@@ -36,6 +36,8 @@ python tools/build_paper_index.py --site
 
 首页浏览器检查：构建站点后运行 `node tools/check_home_news_ui.cjs`，验证最新提要、详情跳转、中英文、主题和手机布局，并模拟新动态发布、连接故障及空目录。可通过 `NEWS_URL` 指向线上站点。
 
+首页讲座预告卡片与“最新动态”提要独立维护。新增讲座预告时，需同时更新 `index.html` 中的 `lecture-announcement` 卡片和 `lecture-poster-dialog` 海报弹窗（中英文标题、讲者、单位、报告时间、图片及详情链接），并同步 `static/js/lecture-poster.mjs` 的双语辅助标签和脚本版本。当前卡片为李晖 2026 年 11 月 24 日的专家报告，链接至 `lecture-preview-hui-li`；动态发布日期为 11 月 21 日。运行 `tools/check_lecture_poster_ui.cjs` 核对卡片与预告正文一致。
+
 CNCC 文章开头照片使用作者另行提供的高清原图 `cncc-report-photo.jpg`（4160 × 1920），不再使用 Word 中的低清照片。其余六张图保持 Word 原图。两张二维码的 `caption` 分别为“书籍在线阅读二维码”和“课程主页二维码”，同时用于正文图注、放大窗口说明及图片辅助文字；重新导入文档时需保留这些修正。
 
 动态列表使用单独的 `cncc-report-cover.webp`（960 × 443），由高清原图以 Lanczos 重采样、WebP 质量 90 生成，避免浏览器直接将 4160 像素宽图片缩到卡片尺寸产生文字锯齿与断线。文章内照片和点击放大继续使用未改动的高清原图；视频封面独立使用报告视频开头的 PPT 标题页。
