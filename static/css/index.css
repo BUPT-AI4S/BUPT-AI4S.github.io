@@ -1331,6 +1331,9 @@ html[lang="en"] .hero h1 {
 
 .registration-note { color: var(--muted); }
 .registration-card .btn { white-space: nowrap; }
+#registration[data-state="closed"] .registration-instructions { display: none; }
+#registration[data-state="closed"] .registration-card { padding-block: 16px; }
+#registration[data-state="closed"] .registration-dates { font-size: 18px; margin-top: 10px; }
 .registration-card .btn[aria-disabled="true"] {
   background: var(--btn-surface);
   border-color: var(--stroke);
@@ -1468,6 +1471,13 @@ html[data-theme="dark"] .home-news { --news-ink: var(--cyan); }
 .lecture-poster-open, .lecture-preview-link { padding: 8px 13px; border: 1px solid var(--stroke); border-radius: 8px; color: var(--blue); background: var(--blue-dim); font: inherit; font-weight: 600; cursor: pointer; }
 .lecture-poster-open:hover, .lecture-preview-link:hover, .lecture-poster-thumbnail:hover { border-color: var(--blue); }
 .lecture-announcement button:focus-visible, .lecture-preview-link:focus-visible, #lecture-poster-close:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+/* Past lecture: keep the record but stop competing with current content. */
+.lecture-announcement.is-past { grid-template-columns: minmax(0, 1fr); border-left-color: var(--stroke); box-shadow: none; padding-block: 14px; }
+.lecture-announcement.is-past .lecture-poster-thumbnail { display: none; }
+.lecture-announcement.is-past .lecture-announcement-label { color: var(--muted); }
+.lecture-announcement.is-past h2 { font-size: clamp(16px, 1.8vw, 20px); }
+.lecture-announcement.is-past .lecture-announcement-speaker { font-size: 14px; margin-top: 4px; }
+.lecture-announcement.is-past .lecture-announcement-role { display: inline; margin: 0 8px 0 0; }
 .lecture-poster-dialog {
   width: min(860px, calc(100vw - 32px));
   max-width: none;

@@ -30,3 +30,21 @@ dialog.addEventListener('keydown', event => {
 });
 document.addEventListener('ai4s-language-change', updateLabels);
 updateLabels();
+
+// After the lecture ends, mark the announcement as past so it stops reading like an upcoming event.
+const announcement = document.getElementById('lecture-announcement');
+const endsAt = Date.parse(announcement?.dataset.endsAt ?? '');
+if (announcement && Number.isFinite(endsAt)) {
+  const setText = (element, zh, en) => {
+    element.querySelector('.lang-zh').textContent = zh;
+    element.querySelector('.lang-en').textContent = en;
+  };
+  const markPast = () => {
+    if (Date.now() < endsAt || announcement.classList.contains('is-past')) return;
+    announcement.classList.add('is-past');
+    setText(announcement.querySelector('.lecture-announcement-label'), '往期大师讲堂', 'Past distinguished lecture');
+    setText(announcement.querySelector('.lecture-preview-link'), '查看详情 ↗', 'Read details ↗');
+  };
+  markPast();
+  document.addEventListener('visibilitychange', markPast);
+}
