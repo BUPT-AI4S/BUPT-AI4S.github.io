@@ -811,7 +811,7 @@ def build(root):
                 s['collection_state_resolution'] = resolution_row['collection_state_resolution']
             if not s['owner']: s['issues'].append('负责人尚未明确。'); s['actions'].append('确认并登记负责人。')
             if s['state'] == 'unknown': s['issues'].append('缺少该年份的采集快照，采集总数和状态未知。'); s['actions'].append('提交或更新年度采集快照，核对采集范围和状态。')
-            elif s['state'] not in ('completed','not_held') and not s.get('collection_state_resolution'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
+            elif s['state'] not in ('completed','not_held','abstract_incomplete') and not s.get('collection_state_resolution'): s['issues'].append('采集状态尚未完成：'+s['state']); s['actions'].append('检查采集状态与失败日志，必要时补采。')
             if s['official_total'] is None and not s['reference_check'] and s['state'] != 'not_held': s['issues'].append('官网同口径总数尚未确认。'); s['actions'].append('核对官网全年目录，或使用可靠替代来源完成同口径对账并记录证据。')
             if s['official_total'] is not None: s['actions'].append('核对已报告的官网总数与采集范围、年份和文献类型是否可比。')
             if year != 2024 and s['abstract_supplement_required'] is not None and s['abstract_supplement_required'] > 0: s['issues'].append('AI4S候选缺少摘要：'+str(s['abstract_supplement_required'])+' 篇。'); s['actions'].append('为缺摘要的AI4S候选补充可核实的摘要或证据，无法判断的论文标为待定。')

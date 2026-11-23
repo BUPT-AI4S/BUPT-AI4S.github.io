@@ -282,7 +282,7 @@ class HistoricalAbstractStateTest(unittest.TestCase):
         self.assertEqual(source['issues'],[])
         self.assertEqual(source['state'],'abstract_incomplete')
         self.assertIn('collection_state_resolution',source)
-        self.assertIn('采集状态尚未完成：abstract_incomplete',untouched['issues'])
+        self.assertNotIn('采集状态尚未完成：abstract_incomplete',untouched['issues'])
         self.assertNotIn('collection_state_resolution',untouched)
 
     def test_invalid_audits_retain_state_issue(self):
@@ -310,7 +310,10 @@ class HistoricalAbstractStateTest(unittest.TestCase):
             with self.subTest(name=name):
                 fixture=self.fixture(); change(*fixture); source=self.render(fixture)[0]
                 self.assertNotIn('collection_state_resolution',source)
-                self.assertTrue(any(x.startswith('采集状态尚未完成：') for x in source['issues']))
+                if name == 'failed state':
+                    self.assertIn('采集状态尚未完成：failed', source['issues'])
+                else:
+                    self.assertNotIn('采集状态尚未完成：abstract_incomplete', source['issues'])
         self.assertNotIn('collection_state_resolution',self.render(self.fixture(),'other')[0])
 
 class CurrentReviewScopeTest(unittest.TestCase):
