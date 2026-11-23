@@ -316,8 +316,9 @@ def verified_reference_catalogue(root, year, source, row):
 
 
 def verified_audited_catalogue(root, year, source, row):
-    """Close authorized Nydiii 2026 history only after exact per-record audits."""
-    if root is None or type(year) is not int or year != 2026 or source.get('owner') != '南耀笛': return False
+    """Close authorized 2026 history only after exact per-record audits."""
+    if root is None or type(year) is not int or year != 2026: return False
+    if source.get('owner') not in ('南耀笛', '王梦冉'): return False
     try:
         raw, additions, report = catalogue_audit_inputs(root, year, source, row)
     except (OSError, ValueError, TypeError): return False
