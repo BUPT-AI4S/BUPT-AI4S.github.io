@@ -1,0 +1,83 @@
+{
+  "id": "lecture-preview-kai-chen",
+  "title": "专家报告预告｜陈恺：人工智能在安全领域的应用与挑战",
+  "source": "BUPT Reasoning",
+  "subtitle": "科学智能原理与实践 · AI4S 专家报告",
+  "date": "2026-11-13",
+  "sourceSha256": "a0b2db85237b6b8f1d0a304477e954ac1df0bb037c4890ba70d96d4905897050",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "11 月 17 日，《科学智能原理与实践》课程邀请陈恺教授作“人工智能在安全领域的应用与挑战”专题报告，围绕 AI 赋能安全研究，以及模型自身面临的风险与隐私挑战展开交流。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/lecture-preview-kai-chen/poster.png",
+      "caption": "陈恺专家报告预告海报（点击查看原图）"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "课程安排",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "报告主题：人工智能在安全领域的应用与挑战"
+    },
+    {
+      "type": "paragraph",
+      "text": "主讲嘉宾：陈恺，中国科学院大学教授、博士生导师，中国科学院信工所研究员"
+    },
+    {
+      "type": "paragraph",
+      "text": "时间：2026 年 11 月 17 日，第 10—11 节（16:35—18:10）"
+    },
+    {
+      "type": "paragraph",
+      "text": "地点：西土城路校区，教三 239"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "主讲嘉宾",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "陈恺为中国科学院信工所研究员、前沿创新与科教融合中心主任、网络空间安全防御全国重点实验室副主任。入选国家高层次人才计划，获得过世界互联网大会全球青年领军者、中国科学院青年科学家奖、CCF-IEEE CS 青年科学家奖等多项荣誉。承担国家重要项目，获得国家与省部级奖励多项。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "讲座看点",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "智能攻防：AI 赋能传统攻防，提升智能化与效率。"
+    },
+    {
+      "type": "paragraph",
+      "text": "软件安全：利用人工智能推动软件安全研究。"
+    },
+    {
+      "type": "paragraph",
+      "text": "模型风险：关注对抗样本、后门、大模型越狱与幻觉。"
+    },
+    {
+      "type": "paragraph",
+      "text": "隐私挑战：从软件对抗视角审视 AI 安全与隐私风险。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "欢迎同学们参加",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎对 AI 与安全研究感兴趣的同学参加，从软件对抗出发，探索人工智能安全前沿。"
+    }
+  ]
+}

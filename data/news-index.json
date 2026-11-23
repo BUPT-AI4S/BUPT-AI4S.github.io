@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "articles": [
     {
+      "id": "lecture-preview-hui-li",
+      "title": "专家报告预告｜李晖：AI赋能安全协议分析：从设计到实现",
+      "titleEn": "Expert Talk Preview | Hui Li: AI-Empowered Security Protocol Analysis, from Design to Implementation",
+      "summary": "11 月 24 日，北京邮电大学网络空间安全学院李晖教授将介绍 AI 赋能安全协议分析，连接形式化方法、协议安全性分析与标准和代码实现的一致性验证。",
+      "summaryEn": "On November 24, Professor Hui Li of BUPT’s School of Cyberspace Security will discuss AI-empowered security protocol analysis, connecting formal methods, security analysis and consistency checks between protocol standards and code implementations.",
+      "source": "BUPT Reasoning · 专家报告",
+      "sourceEn": "BUPT Reasoning · Expert talks",
+      "date": "2026-11-21",
+      "cover": "data/news/assets/lecture-preview-hui-li/cover.jpg"
+    },
+    {
       "id": "caet-2026-haihong-e",
       "title": "鄂海红：教育科技双向赋能，探索科学智能创新人才培养 | 第九届中国教育技术创新发展与应用成果大会",
       "titleEn": "Haihong E: Connecting Education and Technology to Cultivate AI for Science Talent | CAET 2026",
@@ -11,6 +22,17 @@
       "sourceEn": "BUPT Reasoning · Research events",
       "date": "2026-11-14",
       "cover": "data/news/assets/caet-2026-haihong-e/cover.webp"
+    },
+    {
+      "id": "lecture-preview-kai-chen",
+      "title": "专家报告预告｜陈恺：人工智能在安全领域的应用与挑战",
+      "titleEn": "Expert Talk Preview | Kai Chen: Applications and Challenges of AI in Security",
+      "summary": "11 月 17 日，陈恺教授将带来人工智能与安全专题，围绕智能攻防、软件安全、模型风险与隐私挑战，从软件对抗视角审视 AI 安全与隐私风险。",
+      "summaryEn": "On November 17, Professor Kai Chen will discuss AI in security, covering intelligent attack and defense, software security, model risks and privacy challenges from a software-adversarial perspective.",
+      "source": "BUPT Reasoning · 专家报告",
+      "sourceEn": "BUPT Reasoning · Expert talks",
+      "date": "2026-11-13",
+      "cover": "data/news/assets/lecture-preview-kai-chen/cover.jpg"
     },
     {
       "id": "lecture-preview-zaiwen-wen",

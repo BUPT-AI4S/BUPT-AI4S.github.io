@@ -1,0 +1,79 @@
+{
+  "id": "lecture-preview-hui-li",
+  "title": "专家报告预告｜李晖：AI赋能安全协议分析：从设计到实现",
+  "source": "BUPT Reasoning",
+  "subtitle": "科学智能原理与实践 · AI4S 专家报告",
+  "date": "2026-11-21",
+  "sourceSha256": "adb22025e024df0299e249b1938679d473fc6a30d79118da0a5204d681f49bb0",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "11 月 24 日，《科学智能原理与实践》课程邀请北京邮电大学网络空间安全学院李晖教授作“AI赋能安全协议分析：从设计到实现”专题报告，介绍如何结合形式化方法与人工智能，分析协议安全性，并验证协议标准与代码实现的一致性。"
+    },
+    {
+      "type": "image",
+      "src": "data/news/assets/lecture-preview-hui-li/poster.png",
+      "caption": "李晖专家报告预告海报（点击查看原图）"
+    },
+    {
+      "type": "heading",
+      "number": "01",
+      "text": "课程安排",
+      "id": "section-01"
+    },
+    {
+      "type": "paragraph",
+      "text": "报告主题：AI赋能安全协议分析：从设计到实现"
+    },
+    {
+      "type": "paragraph",
+      "text": "主讲嘉宾：李晖，北京邮电大学网络空间安全学院教授、博士生导师"
+    },
+    {
+      "type": "paragraph",
+      "text": "时间：2026 年 11 月 24 日，第 10—11 节（16:35—18:10）"
+    },
+    {
+      "type": "paragraph",
+      "text": "地点：西土城路校区，教三 239"
+    },
+    {
+      "type": "heading",
+      "number": "02",
+      "text": "主讲嘉宾",
+      "id": "section-02"
+    },
+    {
+      "type": "paragraph",
+      "text": "李晖为北京邮电大学网络空间安全学院教授、博士生导师，主要研究安全协议、形式化方法、AI 辅助安全和密码算法及其应用，相关成果发表在 NDSS、ACM CCS、ACM ASE、INFOCOM、TDSC 等会议及期刊上。"
+    },
+    {
+      "type": "heading",
+      "number": "03",
+      "text": "讲座看点",
+      "id": "section-03"
+    },
+    {
+      "type": "paragraph",
+      "text": "安全协议：基于形式化方法，自动化分析协议安全性。"
+    },
+    {
+      "type": "paragraph",
+      "text": "安全分析：AI 赋能协议安全分析，提升智能化与效率。"
+    },
+    {
+      "type": "paragraph",
+      "text": "实现验证：AI 辅助验证协议标准与代码实现的一致性。"
+    },
+    {
+      "type": "heading",
+      "number": "04",
+      "text": "欢迎同学们参加",
+      "id": "section-04"
+    },
+    {
+      "type": "paragraph",
+      "text": "欢迎对 AI 与网络安全感兴趣的同学参加，从协议设计到代码实现，走近智能化安全分析。"
+    }
+  ]
+}
