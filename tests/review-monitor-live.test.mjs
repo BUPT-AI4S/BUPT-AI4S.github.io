@@ -151,3 +151,31 @@ test('prefers live when newer and survives a failed published request', async ()
 test('fails visibly if neither snapshot can be read', async () => {
   await assert.rejects(loadMonitorSnapshot(async()=>{throw new Error('both offline');},123),/both offline/);
 });
+
+test('counts actionable included abstract gaps once and preserves unknown counts', async () => {
+  const ids = ['year','owner','search','status','owner-actions','view-title','scope','metrics','count','empty','list','download','error','provenance','content'];
+  const elements = Object.fromEntries(ids.map(id => [id, {value:id==='year'?'2025':id==='status'?'all':'',style:{},addEventListener(){}}]));
+  const globals = {document:globalThis.document,fetch:globalThis.fetch,setInterval:globalThis.setInterval};
+  const source = {owner:'A',issues:[],actions:[],files:[],evidence_urls:[]};
+  globalThis.document = {querySelector:s=>elements[s.slice(1)]};
+  globalThis.setInterval = ()=>0;
+  globalThis.fetch = async ()=>({ok:true,json:async()=>({
+    generated_at:'now',commit:'test',repository:'https://example.org/',
+    years:[{year:2025,sources:[
+      {...source,code:'full',title:'Fully verified',final_included:4,final_missing_abstract:2,abstract_full_text_reviewed:2},
+      {...source,code:'partial',title:'Partly adjusted',final_included:6,final_missing_abstract:3,
+        final_originally_missing_abstract:4,final_no_abstract_full_text_reviewed:1,abstract_full_text_reviewed:3},
+      {...source,code:'unknown',title:'Unknown',final_missing_abstract:null},
+    ]}],
+  })});
+  try {
+    await import('../static/js/review-monitor.mjs?test=actionable-included-abstracts');
+    assert.match(elements.metrics.innerHTML,/<strong>1<\/strong><span>纳入缺摘要/);
+    assert.match(elements.list.innerHTML,/精筛纳入 4 篇，缺摘要 0 篇/);
+    assert.match(elements.list.innerHTML,/精筛纳入 6 篇，缺摘要 1 篇/);
+    assert.match(elements.list.innerHTML,/精筛纳入 未知 篇，缺摘要 未知 篇/);
+    assert.match(elements.list.innerHTML,/已完成全文审核 2 篇（原始空值保留）/);
+  } finally {
+    Object.assign(globalThis,globals);
+  }
+});
