@@ -65,7 +65,7 @@
 - `verified_metadata.abstract_status: "not_provided_by_publisher"`、全文证据 URL、`full_text_evidence_location` 与独立标明的 `full_text_summary_zh`；
 - `abstract_resolution.status: "publisher_no_text_abstract_full_text_reviewed"`、`requires_abstract_backfill: false`、`original_abstract_preserved: true`。
 
-仅当前负责人、当前快照、无判定冲突且上述证据齐全的 `include` 记录适用。页面单列“官方无独立摘要、已完成全文审核”，保留原始缺摘要数，不再提示补写一个出版方不存在的摘要。其他待定、访问受限但未结案、缺少全文证据的记录继续保留真实待办。
+仅当前负责人、当前快照、无判定冲突且上述证据齐全的 `include` 记录适用。页面单列“官方无独立摘要、已完成全文审核”，并保留原始摘要空值。已完成全文审核的纳入记录无需计入“纳入缺摘要”或“候选待补摘要”。其他待定、访问受限但未结案、缺少全文证据的记录继续保留真实待办。
 
 ## 当前负责人的候选批次与目录备查
 
